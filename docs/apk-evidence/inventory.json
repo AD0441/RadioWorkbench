@@ -1,0 +1,92 @@
+[
+  {
+    "name": "assets/public/cordova.js",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "assets/public/cordova_plugins.js",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "assets/public/css/style.css",
+    "bytes": 10941,
+    "sha256": "88dcb6b534aef26aaa53ec548306b1970f6969a1f0a090cbc6692c5160294ec4"
+  },
+  {
+    "name": "assets/public/icons/icon-192.png",
+    "bytes": 6319,
+    "sha256": "193bd7340785fdbc12d12c2cc65a40f4c942fcd3603c7973d498fd6c8fbc1008"
+  },
+  {
+    "name": "assets/public/icons/icon-512.png",
+    "bytes": 20470,
+    "sha256": "7dc6bf76defab04cf129ee291b5f920ac6555d4c279690a4bf212e3d3d9e0794"
+  },
+  {
+    "name": "assets/public/index.html",
+    "bytes": 11866,
+    "sha256": "a1be4cc03ec8a18bd1a438e4284370e5016d5320b4dddf09c11a1c2ac6a7ee26"
+  },
+  {
+    "name": "assets/public/js/app.js",
+    "bytes": 31332,
+    "sha256": "d59396aac08136862558f1733650b0fe28590adb4d5623bb66c9dddb492a89a1"
+  },
+  {
+    "name": "assets/public/js/codes.js",
+    "bytes": 11403,
+    "sha256": "4436479037c28aa56098ab0e5d33e7419b1254e312de8cf67e84bd8c5a261b29"
+  },
+  {
+    "name": "assets/public/js/curiosities.js",
+    "bytes": 6714,
+    "sha256": "1c23ecb06cdc171bbaf95bb8da6a3347d815a725e9f2153499d8d4709a52128a"
+  },
+  {
+    "name": "assets/public/js/db.js",
+    "bytes": 1479,
+    "sha256": "72465fef581db13e4537878f23e60b6dd7c1ba31f2c500cc088c39a9ca287b57"
+  },
+  {
+    "name": "assets/public/js/favorites.js",
+    "bytes": 2620,
+    "sha256": "2d49ba75261ce0bdb8fa714b0363ecfe94eb3f265de50a0d0256193c14387a85"
+  },
+  {
+    "name": "assets/public/js/geo.js",
+    "bytes": 2578,
+    "sha256": "9dd50d563150d0b169536a6cc3e63376cf0c3ee0e5cd2f96296eb8e1c73a26c6"
+  },
+  {
+    "name": "assets/public/js/parser.js",
+    "bytes": 8781,
+    "sha256": "7ff5d617f3d49b8d90dba37c38d90f9d30b4854fe7300bb038f35abbe90d8cea"
+  },
+  {
+    "name": "assets/public/js/propagation.js",
+    "bytes": 3917,
+    "sha256": "58c4e086d04ac24b3eb1d33e455d1367e93062e26a75c2988166703b430bc19b"
+  },
+  {
+    "name": "assets/public/js/transmitters.js",
+    "bytes": 7082,
+    "sha256": "e457ab5703346fb84a95fa30499d3aff1f59faa0e72fb317a075181b7ea80ae0"
+  },
+  {
+    "name": "assets/public/js/websdr.js",
+    "bytes": 2206,
+    "sha256": "510343f400297e4c3e8c0a027ae1906d07bf1dccdb98f5658d39454c9b6a9fb8"
+  },
+  {
+    "name": "assets/public/manifest.json",
+    "bytes": 664,
+    "sha256": "c8e7659f3ad09df0cc803b7db4377814ee37b51d51c528647bd73c91e85fdc83"
+  },
+  {
+    "name": "assets/public/sw.js",
+    "bytes": 1775,
+    "sha256": "a4b495c923354c2b2ec9d0c1942dacd5b3756e98a3398748a04639a1a1ec4a82"
+  }
+]

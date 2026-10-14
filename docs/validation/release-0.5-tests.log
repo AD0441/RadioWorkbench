@@ -1,0 +1,297 @@
+[0/1] Planning build
+Building for production...
+[0/9] Write sources
+[3/9] Copying Fixtures
+[4/9] Write swift-version--1AB21518FC5DEDBE.txt
+[6/10] Compiling RadioCore APTDecoder.swift
+[7/12] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[7/12] Write Objects.LinkFileList
+[9/12] Compiling RadioCoreTests BroadcastServiceTests.swift
+[9/13] Linking RadioWorkbench
+[11/13] Compiling RadioWorkbenchPackageTests runner.swift
+[11/13] Write Objects.LinkFileList
+[12/13] Linking RadioWorkbenchPackageTests
+Build complete! (11.16s)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test selectiveEngineIntegrationDecodesTheBundledDemo() started.
+◇ Test independentSSTV(_:) started.
+◇ Test broadcastUTCDays(test:) started.
+◇ Test selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test broadcastCSVRejectsMalformedAndDeduplicates() started.
+◇ Test broadcastMalformedResponseCannotReplaceCache() started.
+◇ Test publishedCCIR476Interleave(_:) started.
+◇ Test packetPayloadControlBytesAreVisible() started.
+◇ Test selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test selectiveToneReleaseAndChangeAreHysteretic() started.
+◇ Test selectiveWeakToneCanUseTheExplicitThreshold() started.
+◇ Test packetIndependentHDLCBitVectors(_:) started.
+◇ Test independentAPT(_:) started.
+◇ Test silenceAndSettings() started.
+◇ Test navtexAudioFixture(_:) started.
+◇ Test packetKnownCRCCheckValue() started.
+◇ Test packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test multiChannelRingMixAndSingleChannel() started.
+◇ Test packetNoiseAndMissingClosingFlagProduceNoMessage() started.
+◇ Test packetMalformedAddressAndControlAreRejected() started.
+◇ Test broadcastReferenceSitesAndGeography() started.
+◇ Test stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test packetMonitorRetainsBoundedRecentFrames() started.
+◇ Test broadcastSeasonBoundaries(test:) started.
+◇ Test selectiveToneCanChangeWithoutSilence() started.
+◇ Test independentWEFAX() started.
+◇ Test packetFramesAreBoundedAndAbortIsRecoverable() started.
+◇ Test imageAudioMustPreserveVideoAndHeaderBand() started.
+◇ Test packetEngineRejectsAliasedToneSettings() started.
+◇ Test selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+◇ Test packetIndependentAudioFixtures(_:) started.
+◇ Test broadcastDownloadPersistsSourceAndOfflineCopy() started.
+◇ Test mmsstvPublishedModes(_:) started.
+◇ Test broadcastSourceHTTPFallbackWorks() started.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument test → ("2300-0100", "1", "2026-10-13T00:30:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument variant → "silence" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument variant → "voice" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument test → ("2300-0100", "2", "2026-10-13T00:30:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument variant → "voice_model" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test packetEngineIntegrationUsesTheNativeDecoder() started.
+◇ Test case passing 1 argument test → ("2300-0100", "1", "2026-10-13T01:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test broadcastPartialSeasonAndInactive() started.
+◇ Test case passing 1 argument variant → "noise" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument variant → "off_table" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1245", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test broadcastRedirectOutsideSourceIsRejected() started.
+◇ Test case passing 1 argument variant → "alias" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument variant → "midpoint" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1245", "2026-10-14T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test spectrumResolvesTone() started.
+◇ Test case passing 1 argument variant → "weak" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument variant → "brief" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument frequency → 67.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "Fr-Mo", "2026-10-12T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument variant → "clean" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "two_tones" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument frequency → 69.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "Fr-Mo", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument frequency → 71.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument variant → "first_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "changing_pitch" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test absentChannelIsAnExplicitError() started.
+◇ Test case passing 1 argument frequency → 74.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument variant → "second_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "irr", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.uncertain) to broadcastUTCDays(test:) started.
+◇ Test ringOverflowAndWrapPreserveOrder() started.
+◇ Test case passing 1 argument frequency → 77.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument variant → "both_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument frequency → 79.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1.Sa", "2026-10-03T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument variant → "disagree" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument frequency → 82.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1.Sa", "2026-10-10T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument frequency → 85.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 88.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 91.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "Last7", "2026-10-25T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument frequency → 94.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 97.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_clean" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test case passing 1 argument frequency → 100.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "MF-15", "2026-10-16T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_crc_bad" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test case passing 1 argument frequency → 103.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_resync" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "24Oct", "2026-10-24T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument frequency → 107.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 110.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 114.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 118.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 123.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 127.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_16640_mono_24lines" to independentAPT(_:) started.
+◇ Test case passing 1 argument frequency → 131.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 136.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 141.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument channel → .mix to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument frequency → 146.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 150.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 151.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 156.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 159.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_48000_mono_24lines" to independentAPT(_:) started.
+◇ Test case passing 1 argument frequency → 162.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 165.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument channel → .mix to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument frequency → 167.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 171.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 173.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 177.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_offset" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 179.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_noisy" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 183.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_repaired" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 186.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_lost" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 189.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("2026-03-28T23:59:00Z", "b25") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_disagree" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 192.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_inverted" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument test → ("2026-03-29T00:00:00Z", "a26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument frequency → 196.6 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_drift" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 199.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("2026-10-24T23:59:00Z", "a26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument frequency → 203.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_resync" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 206.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("2026-10-25T00:00:00Z", "b26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "navtex_44100_stereo_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument frequency → 210.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument test → ("2027-01-01T00:00:00Z", "b26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument frequency → 218.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 225.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 229.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 233.6 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 241.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_clean" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument frequency → 250.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument rate → 44100.0 to selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+◇ Test case passing 1 argument frequency → 254.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_noisy" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument rate → 48000.0 to selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_offset" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_drift" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_crc_bad" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_44100_stereo_clean" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_resync" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr90_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml180_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml240_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml280_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml320_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc180_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_manual" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_vis2_8000_unsupported" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_m1_8000_badparity" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument channel → .channel(0) to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument channel → .channel(1) to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument channel → .channel(0) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument channel → .channel(1) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+✔ Test selectiveRejectsUnqualifiedAudio(_:) with 11 test cases passed after 1.051 seconds.
+✔ Test broadcastUTCDays(test:) with 13 test cases passed after 1.051 seconds.
+◇ Test case passing 1 argument name → "sstv_martin_m2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_dx_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd90_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd120_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd160_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd240_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd290_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot72_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p5_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p7_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_wraasesc2_180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_noisy" to independentAudioFixture(_:) started.
+✔ Test broadcastMalformedResponseCannotReplaceCache() passed after 1.679 seconds.
+✔ Test broadcastCSVRejectsMalformedAndDeduplicates() passed after 1.679 seconds.
+✔ Test selectiveEngineIntegrationDecodesTheBundledDemo() passed after 1.679 seconds.
+✔warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+ Test packetPayloadControlBytesAreVisible() passed after 1.680 seconds.
+✔ Test independentSSTV(_:) with 8 test cases passed after 1.680 seconds.
+✔ Test publishedCCIR476Interleave(_:) with 5 test cases passed after 1.681 seconds.
+✔ Test selectiveNeighborAndBoundaryTones(_:) with 51 test cases passed after 1.681 seconds.
+✔ Test packetIndependentHDLCBitVectors(_:) with 3 test cases passed after 1.681 seconds.
+✔ Test selectiveWeakToneCanUseTheExplicitThreshold() passed after 1.681 seconds.
+✔ Test silenceAndSettings() passed after 1.681 seconds.
+✔ Test selectiveToneReleaseAndChangeAreHysteretic() passed after 1.681 seconds.
+✔ Test packetKnownCRCCheckValue() passed after 1.681 seconds.
+✔ Test multiChannelRingMixAndSingleChannel() passed after 1.681 seconds.
+✔ Test packetOppositeStereoNeedsExplicitChannel(_:) with 3 test cases passed after 1.681 seconds.
+✔ Test packetNoiseAndMissingClosingFlagProduceNoMessage() passed after 1.681 seconds.
+✔ Test broadcastReferenceSitesAndGeography() passed after 1.681 seconds.
+✔ Test packetMalformedAddressAndControlAreRejected() passed after 1.681 seconds.
+✔ Test packetMonitorRetainsBoundedRecentFrames() passed after 1.681 seconds.
+✔ Test navtexAudioFixture(_:) with 10 test cases passed after 1.681 seconds.
+✔ Test independentAPT(_:) with 2 test cases passed after 1.681 seconds.
+✔ Test broadcastSeasonBoundaries(test:) with 5 test cases passed after 1.681 seconds.
+✔ Test packetFramesAreBoundedAndAbortIsRecoverable() passed after 1.681 seconds.
+✔ Test selectiveToneCanChangeWithoutSilence() passed after 1.681 seconds.
+✔ Test imageAudioMustPreserveVideoAndHeaderBand() passed after 1.681 seconds.
+✔ Test packetEngineRejectsAliasedToneSettings() passed after 1.681 seconds.
+✔ Test packetIndependentAudioFixtures(_:) with 7 test cases passed after 1.681 seconds.
+✔ Test selectiveFractionalResamplingWithVoiceAndNoise(_:) with 2 test cases passed after 1.681 seconds.
+✔ Test broadcastDownloadPersistsSourceAndOfflineCopy() passed after 1.681 seconds.
+✔ Test broadcastSourceHTTPFallbackWorks() passed after 1.681 seconds.
+✔ Test independentWEFAX() passed after 1.681 seconds.
+✔ Test stereoSelectionPreservesOppositePhaseAudio(_:) with 3 test cases passed after 1.681 seconds.
+✔ Test mmsstvPublishedModes(_:) with 27 test cases passed after 1.681 seconds.
+✔ Test independentAudioFixture(_:) with 24 test cases passed after 1.663 seconds.
+✔ Test packetEngineIntegrationUsesTheNativeDecoder() passed after 1.660 seconds.
+✔ Test broadcastPartialSeasonAndInactive() passed after 1.624 seconds.
+✔ Test broadcastRedirectOutsideSourceIsRejected() passed after 1.537 seconds.
+✔ Test absentChannelIsAnExplicitError() passed after 1.520 seconds.
+✔ Test ringOverflowAndWrapPreserveOrder() passed after 1.519 seconds.
+✔ Test spectrumResolvesTone() passed after 1.534 seconds.
+✔ Test publishedSSTVFamilyFixture(_:) with 20 test cases passed after 1.850 seconds.
+✔ Test run with 42 tests in 0 suites passed after 1.864 seconds.

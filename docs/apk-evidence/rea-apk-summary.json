@@ -1,0 +1,31 @@
+{
+  "evidence_id": "ev_5bde37fb9fab9779db4b82b8b6dc2024c098cd78d637aee6168fa1b07ec28c6c",
+  "subject": {
+    "name": "rb_swl_1.5.1.apk",
+    "digest": {
+      "sha256": "6118bec924d855c6f4a234c0c6956bcc55ad47fcfcc0d339372f4e1927449783"
+    },
+    "format": "apk",
+    "architecture": null,
+    "local_path": "/Users/sebastian/Downloads/rb_swl_1.5.1.apk"
+  },
+  "operation": "inspect_artifact",
+  "confidence": "observed",
+  "authority": "shipped-artifact",
+  "limitations": [
+    "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.",
+    "ZIP inventory lists central-directory entries only. Bytes after the central directory, including an APK Signing Block or a ZIP comment, are not occurrences."
+  ],
+  "coverage": {
+    "status": "complete-within-substeps",
+    "substeps_completed": 1,
+    "observations_retained": 1,
+    "observations_omitted": 0,
+    "hypotheses_retained": 0,
+    "hypotheses_omitted": 0,
+    "unexplored_branches_retained": 0,
+    "unexplored_branches_omitted": 0,
+    "next_probes_retained": 0,
+    "next_probes_omitted": 0
+  }
+}

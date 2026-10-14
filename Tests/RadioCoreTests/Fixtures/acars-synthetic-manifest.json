@@ -1,0 +1,38 @@
+[
+  {
+    "file": "acars_synthetic_12000.wav",
+    "sha256": "33d943209a6cb92f89163f1db9858b14c734310cf3a7acd652f146965045600d",
+    "expected_messages": 1,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d3548371cb7fffff"
+  },
+  {
+    "file": "acars_synthetic_44100.wav",
+    "sha256": "3e29a67ae0d6fe05955e2b702ffed421014eb3a6247022b4a191416df0150270",
+    "expected_messages": 1,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d3548371cb7fffff"
+  },
+  {
+    "file": "acars_synthetic_48000.wav",
+    "sha256": "ff75132e24c5c39fb4e91ceec249ee9fddb2fe81fba498eb978b1d15a3d0c501",
+    "expected_messages": 1,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d3548371cb7fffff"
+  },
+  {
+    "file": "acars_synthetic_bad_parity.wav",
+    "sha256": "e96a51499793050d0d50839013c57422d18ff91633522f1fdcc204b3099df13e",
+    "expected_messages": 0,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132aed4c553d4b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d3548371cb7fffff"
+  },
+  {
+    "file": "acars_synthetic_repaired.wav",
+    "sha256": "c32dc40d1add836ee8aebdf57041354f3af88326e744c7f2f15d0c5881352391",
+    "expected_messages": 1,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132aed445d354b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d3548371cb7fffff"
+  },
+  {
+    "file": "acars_synthetic_bad_crc.wav",
+    "sha256": "cc0ed5ac54981158ef31b42cddd8fb429ce18598abbea54685c54c709dabea20",
+    "expected_messages": 0,
+    "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b0b03154d354b0b03152c1c4494f574f52cbc245ce43c820c143c152d3205445d354838e347fffff"
+  }
+]

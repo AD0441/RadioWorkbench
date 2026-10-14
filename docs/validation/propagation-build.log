@@ -1,0 +1,16 @@
+[0/1] Planning build
+Building for production...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[2/4] Compiling RadioCore ACARSAudioResampler.swift
+[3/5] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[3/5] Write Objects.LinkFileList
+[4/5] Linking RadioWorkbench
+Build complete! (15.96s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.dEAoPe/RadioWorkbench.app/Contents/MacOS/acars-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.dEAoPe/RadioWorkbench.app/Contents/MacOS/libp372.dylib: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.dEAoPe/RadioWorkbench.app/Contents/MacOS/libp533.dylib: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.dEAoPe/RadioWorkbench.app/Contents/MacOS/propagation-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.dEAoPe/RadioWorkbench.app: replacing existing signature
+/Users/sebastian/Desktop/Mis Documentos/CODEX/Aplicaciones_mias/RadioWorkbench/dist/RadioWorkbench.app

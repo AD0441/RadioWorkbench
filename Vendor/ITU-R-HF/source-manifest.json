@@ -1,0 +1,360 @@
+{
+  "repository": "https://github.com/ITU-R-Study-Group-3/ITU-R-HF",
+  "revision": "82017594a1c6cacfaa7e86954c4ae7b3a5825a3d",
+  "files": [
+    {
+      "path": "ITURHFProp/Bin/1-5-85.in",
+      "size": 1039,
+      "sha": "dfb62811d89f999ab5751e7dbc12411dd31ebef2",
+      "sha256": "90677a693f7cd78a4b6a5e2370058817aa0dace650988e3b520c1a7337554e7d"
+    },
+    {
+      "path": "ITURHFProp/Bin/1-5-85.out",
+      "size": 3250,
+      "sha": "e17465b9efcab75c6e050d777ad4725c1990a862",
+      "sha256": "e2f70ee819f77b4eb8d1f13c12a2b9d037b3cc6e776a840145934e00b6cdd39d"
+    },
+    {
+      "path": "ITURHFProp/Bin/164-1-78.in",
+      "size": 952,
+      "sha": "0766e4e5c831295e2c20a862120bc76c7e13f49e",
+      "sha256": "980e562ffd11da06a160637c99bae20de13aec644f0367ae82e983b2c8dd94be"
+    },
+    {
+      "path": "ITURHFProp/Bin/164-1-78.out",
+      "size": 3252,
+      "sha": "436aef1901e6ba7a8d57ec320bb3ab3957951e79",
+      "sha256": "41c397fb62e6ddd67ec0dca33be0800baa010ea50e4c0162932e003e19ab671a"
+    },
+    {
+      "path": "P372/Data/COEFF01W.txt",
+      "size": 235276,
+      "sha": "8e61b4b32f66126cf18ef08caefe5dc4cde4913f",
+      "sha256": "535ed4f03a0f35d4061f1878b06397cc9e46610cf599a6930696a8adb2836c24"
+    },
+    {
+      "path": "P372/Data/COEFF02W.txt",
+      "size": 235275,
+      "sha": "8cd821ded5fdbce5b47edb3b505ffa6883b4ac4b",
+      "sha256": "2f38315584d249a3437bc32112acf1a0d995ef312f7257befa1a3284e120e50c"
+    },
+    {
+      "path": "P372/Data/COEFF03W.txt",
+      "size": 235275,
+      "sha": "cfcc0d89dab2e5c974a46d5df9152a7c368cc6d3",
+      "sha256": "ec7557912e3cf0fb74c0dc5ac7dc66bac8fa52d765993f560ba16ff1004b0ceb"
+    },
+    {
+      "path": "P372/Data/COEFF04W.txt",
+      "size": 235275,
+      "sha": "813872f50b03856c3fd2f114fa0d3408d6fbdd94",
+      "sha256": "61cac0db7f4de48241d4ee4aed2943a8498bb1dc44fe41895f13a937775b3f84"
+    },
+    {
+      "path": "P372/Data/COEFF05W.txt",
+      "size": 235275,
+      "sha": "b8873cb0039323e9db77f853f71ae7951f8e23c0",
+      "sha256": "95c7363f1605ab4ab85190ab6cad4f7218e39b480adee2ddcf19e6a20b57d105"
+    },
+    {
+      "path": "P372/Data/COEFF06W.txt",
+      "size": 235275,
+      "sha": "4778493bda8b9a402bc59762ef955726d779dac5",
+      "sha256": "1935e05fc16d8476c071b3a9aa7b46f5b458fcaf12aca99131cf151f0bcd583a"
+    },
+    {
+      "path": "P372/Data/COEFF07W.txt",
+      "size": 235275,
+      "sha": "35e61722662865c70f868cf87754ea14452c3a74",
+      "sha256": "f70793c6f8718b73a3c40984d55815091a660a9a29acc6f6b06e49a5429df5fb"
+    },
+    {
+      "path": "P372/Data/COEFF08W.txt",
+      "size": 235275,
+      "sha": "8d0b67563c3547a2e3610286825d23b07b122248",
+      "sha256": "548ece698b3337bac73c83479f5f2670cc01aceccd676ecead870342490a2983"
+    },
+    {
+      "path": "P372/Data/COEFF09W.txt",
+      "size": 235275,
+      "sha": "2675e5d374c958ad248a0fe3789eceb42c187fab",
+      "sha256": "9b954efdaafd00cee24fdf91da9b794ebe1bab2d124cba1d5c944f76d8e4ec67"
+    },
+    {
+      "path": "P372/Data/COEFF10W.txt",
+      "size": 235275,
+      "sha": "1f4b8dcd437fc419c3f983796b102e1daf95c05b",
+      "sha256": "5eb812b10eac52a6b8b95c128b44bf223ad673120df4e6f82656686ba84063f2"
+    },
+    {
+      "path": "P372/Data/COEFF11W.txt",
+      "size": 235275,
+      "sha": "b1199372611b1817aed73608ba8b9f137711aaad",
+      "sha256": "f2cd45593a65e76c5502921dc7d51f8e02457021a36e4a8e4a6092326425cd25"
+    },
+    {
+      "path": "P372/Data/COEFF12W.txt",
+      "size": 235275,
+      "sha": "4dfe989468ad86116bc198a2db4046cb78059712",
+      "sha256": "9ca240655c28afd09aef6cfebae2ce7d02fd3a16ae3dcebc5c733c42aec5a9e0"
+    },
+    {
+      "path": "P372/Src/P372/Common.h",
+      "size": 1527,
+      "sha": "d89696a6b69f230a0589f28f684c7b264c1ec2a6",
+      "sha256": "556f5ef59dd15f8f942590808a1cb506bbdb0f837fd453d6de6f0f2ba56375ba"
+    },
+    {
+      "path": "P372/Src/P372/InitializeNoise.c",
+      "size": 514,
+      "sha": "6ef5ce87c434cbc8052c7a315ab4004a8580b15e",
+      "sha256": "592beffbaba5252fa7d86ed65b1adbb83245d1d8cd85cac0010fb135157da29c"
+    },
+    {
+      "path": "P372/Src/P372/MakeNoise.c",
+      "size": 6571,
+      "sha": "c7d8f62b084700a8169c19464916f30068a7065f",
+      "sha256": "a4dd22736cb0e824d540f9d274ec4d4e445bdc51d8735f3165438b6d828b2c28"
+    },
+    {
+      "path": "P372/Src/P372/Noise.c",
+      "size": 33331,
+      "sha": "1d3d8bb9fd62d0acd961c103955297d3edf2cb46",
+      "sha256": "e41452975befc1c83def94ce8e0ca08b81d35efbe4864de4679b48dbd871e6d5"
+    },
+    {
+      "path": "P372/Src/P372/Noise.h",
+      "size": 8031,
+      "sha": "abcf62f53be01537658349ce6d7feb8d4b9ac967",
+      "sha256": "3f9e939ad366f8f7ecc6f7a79b3a7e8f11420c6040f774cd87141af31829c8e7"
+    },
+    {
+      "path": "P372/Src/P372/NoiseDriver.c",
+      "size": 3945,
+      "sha": "caff2345e4d519888a28f4e92888d3c79e63d1b7",
+      "sha256": "cdac8550126da7be772f5b72576b746cab7fd67bfb9d9dc7d1d6a765b7cec32e"
+    },
+    {
+      "path": "P372/Src/P372/NoiseMemory.c",
+      "size": 2967,
+      "sha": "dafde7a6fdec383db0dfd5618f296fc0121590b1",
+      "sha256": "a79001d71fbf377e044b91ad0d48328c38511774183abcfa733452733e67c5ba"
+    },
+    {
+      "path": "P533/Data/P1239-3 Decile Factors.txt",
+      "size": 73427,
+      "sha": "ccb85bcac9b076202c2d62abfd215f033929e87e",
+      "sha256": "1ca1a014e11b2f33a7f8c7c47b824e5fd53dd3a9ff89f07bb257e02d33b20aa9"
+    },
+    {
+      "path": "P533/Data/ionos01.bin",
+      "size": 11197844,
+      "sha": "2d7b0a0641e782fd501f2978b170f5dd436ee8d0",
+      "sha256": "bc85f60176ab6c3ba87786991144746d5136b1b0d8c2954dac6e4c1d9ed73f29"
+    },
+    {
+      "path": "P533/Data/ionos02.bin",
+      "size": 11197844,
+      "sha": "d83852a70ea3c85bf1b18b8d37313b284c278fd4",
+      "sha256": "8968d0d7f89488d2fda5ca5449e2625f1830b08652a628b4540c87cce4665395"
+    },
+    {
+      "path": "P533/Data/ionos03.bin",
+      "size": 11197844,
+      "sha": "58a3283ee32ad3844fe3bad40e110502806b898b",
+      "sha256": "b4f4505adce4be843a56914b9d1031e0fbb4b48d4f401d47aedaf77d66f25eb2"
+    },
+    {
+      "path": "P533/Data/ionos04.bin",
+      "size": 11197844,
+      "sha": "245170d99378fe8f130c06e798c20fd6b921497e",
+      "sha256": "f5e00cdf933924737eb58440e75cf8aff6fad6c1c1ee8f1b46d7088f275a9293"
+    },
+    {
+      "path": "P533/Data/ionos05.bin",
+      "size": 11197844,
+      "sha": "f22ea9c3d43c0aa14a35e32fae1f5aa5fd785ad1",
+      "sha256": "5e9fac4ddda38730747ac3a8d621a1817f86d5cd18457d180c469e216cb11fcc"
+    },
+    {
+      "path": "P533/Data/ionos06.bin",
+      "size": 11197844,
+      "sha": "6102ee0bf09d23d9bd88e2a5ecb4dd6cea61bb8e",
+      "sha256": "d9e565e5fabbd6c45e9b7832aa05765edcc21f94d79e4a01ca1b012acd29b46a"
+    },
+    {
+      "path": "P533/Data/ionos07.bin",
+      "size": 11197844,
+      "sha": "84bd226539951f7aba2b9f81fd412a249787cfba",
+      "sha256": "ef44f7dbbf5fce17b115fbb8ae4252959c90a462b96334ce722910ee94b5b422"
+    },
+    {
+      "path": "P533/Data/ionos08.bin",
+      "size": 11197844,
+      "sha": "ef1b033cbd3afb018ebf8bdca43975da7ad1d5e2",
+      "sha256": "c3fc2104df2e2b9608bc5c4c693d2a2e8a4b622a97152da10b4318b1c92f574e"
+    },
+    {
+      "path": "P533/Data/ionos09.bin",
+      "size": 11197844,
+      "sha": "22f02f8e30e09428c1a75f73c8400baa3c263229",
+      "sha256": "0e1326da42f9cfd3b11d4540f14ba8870c0d88f8aa034d84e9f89f5138b74796"
+    },
+    {
+      "path": "P533/Data/ionos10.bin",
+      "size": 11197844,
+      "sha": "a99bf9ca95a1564a892913824b839d683398145f",
+      "sha256": "2a32b327d7fcc12bfa53e4668dcbf66a8b686bc6f0022de7617ca2802237b50a"
+    },
+    {
+      "path": "P533/Data/ionos11.bin",
+      "size": 11197844,
+      "sha": "e989ed5efc5814d39045326bd0cbe58f88977771",
+      "sha256": "81a9165f356a4b860278b05279f1b716501d40652c5b52a9f8e27815f30250d6"
+    },
+    {
+      "path": "P533/Data/ionos12.bin",
+      "size": 11197844,
+      "sha": "631dd7fc034988cb9d5742e08ddfbd4aa790847d",
+      "sha256": "44e2ea84b3d2d169a3749d0e058319b739528e516b1a5e7fcffa09cdda89f29f"
+    },
+    {
+      "path": "P533/Src/P533/Between7000kmand9000km.c",
+      "size": 1736,
+      "sha": "bce427b02f94e7dcbf96e77882bade361bafde6a",
+      "sha256": "8b6dff26ae7fb92bc4294716c22aea8775fe1c437032f08ca81f8cbe82195c2e"
+    },
+    {
+      "path": "P533/Src/P533/CalculateCPParameters.c",
+      "size": 21256,
+      "sha": "cac976c8b63e1928fcc4dc0edd7452f5b2948108",
+      "sha256": "6673ebdc370f684b15c3f4cf239fe3ce7655d283b74e19b6afd8340ce0fb941c"
+    },
+    {
+      "path": "P533/Src/P533/CircuitReliability.c",
+      "size": 33895,
+      "sha": "b55d2e5b2bea257398029307aaad3da8fddb8c3d",
+      "sha256": "011b532d6a2ef9a54990f24d67f749e7e10cdbeefaff66aae25c366627c919b3"
+    },
+    {
+      "path": "P533/Src/P533/Common.h",
+      "size": 1527,
+      "sha": "d89696a6b69f230a0589f28f684c7b264c1ec2a6",
+      "sha256": "556f5ef59dd15f8f942590808a1cb506bbdb0f837fd453d6de6f0f2ba56375ba"
+    },
+    {
+      "path": "P533/Src/P533/ELayerScreeningFrequency.c",
+      "size": 5830,
+      "sha": "771c9f958c99b74aba7ab686c9f5353bde69c4bd",
+      "sha256": "2f7a9a2da591ad7f04c4e551208d0542041b305cf079b515e0cbd33e692d914e"
+    },
+    {
+      "path": "P533/Src/P533/Geometry.c",
+      "size": 3832,
+      "sha": "8718a654627e4b2573cda7ff6bcf90cfa282c26e",
+      "sha256": "6b96165f68ded2e3bb29630dbcdbe3d5ae61ce81b36361b4d31d79ccf050897d"
+    },
+    {
+      "path": "P533/Src/P533/InitializePath.c",
+      "size": 9152,
+      "sha": "afc65a7bdef2e38eb7de73a942424cedd50cc493",
+      "sha256": "97ad09003ede6d70dc637cbc8705cefb20b3c4d474df26f6fb737b7afe9d6f5b"
+    },
+    {
+      "path": "P533/Src/P533/InputDump.c",
+      "size": 11652,
+      "sha": "0f2af7692fe1a54ccf0c23f89cda062957743f93",
+      "sha256": "96d9776434e97b66d76286cdaaec043b643759c6222862422726e6eca5cfc30f"
+    },
+    {
+      "path": "P533/Src/P533/MUFBasic.c",
+      "size": 14733,
+      "sha": "47d2f8bbb6b9cd07a31a94f6556026cb02839def",
+      "sha256": "dd2a7232f9e9584e8750d1c2adf161c4343adbe9eb18c00515a4f4fdb364cba6"
+    },
+    {
+      "path": "P533/Src/P533/MUFOperational.c",
+      "size": 4475,
+      "sha": "7eafd6517dafaed9c945b5c2e3e8953ff995606a",
+      "sha256": "d11ec1c54096e5a99955f076b4ff7a5458ef5731e1472762b04c96e2f92d917c"
+    },
+    {
+      "path": "P533/Src/P533/MUFVariability.c",
+      "size": 7749,
+      "sha": "8aec3c30b81f08570b47a7dee5ee62a3667d1b9e",
+      "sha256": "d378a01051f805bc56aaeb55a61d8e69595c10692ae890ce6ed53abe08f25a06"
+    },
+    {
+      "path": "P533/Src/P533/Magfit.c",
+      "size": 5839,
+      "sha": "7c37a48531f2abeeec5e9e0422edb34b55b1e13c",
+      "sha256": "742cb71bef7f12a9df67630f0cddcb9a6f23243c19ee65e99ef7c572176121fb"
+    },
+    {
+      "path": "P533/Src/P533/MedianAvailableReceiverPower.c",
+      "size": 6237,
+      "sha": "2a1eee5ca7af43a17e1d11de95333b72e65eed67",
+      "sha256": "9a0ecb4e5ef5cbc36baab316a5baec672203a2f57afed5753c76cd4f33d4e59a"
+    },
+    {
+      "path": "P533/Src/P533/MedianSkywaveFieldStrengthLong.c",
+      "size": 30551,
+      "sha": "a0119d4b5aeb1f8adc3cdfda0ff28fdb94fe06ea",
+      "sha256": "d34dd02e02115afaa08bd4931a414326e03750a0a7976f15fafba4007983484f"
+    },
+    {
+      "path": "P533/Src/P533/MedianSkywaveFieldStrengthShort.c",
+      "size": 46750,
+      "sha": "3389053ce02b2fd141739c28a030fb2237eda80d",
+      "sha256": "b3f2abd2964432ea90c7faca354dfbe582a04fbbfb88b0046469126d5a75e322"
+    },
+    {
+      "path": "P533/Src/P533/Noise.h",
+      "size": 8031,
+      "sha": "abcf62f53be01537658349ce6d7feb8d4b9ac967",
+      "sha256": "3f9e939ad366f8f7ecc6f7a79b3a7e8f11420c6040f774cd87141af31829c8e7"
+    },
+    {
+      "path": "P533/Src/P533/P533.c",
+      "size": 15510,
+      "sha": "fdc86e446c0067c352a950f754bf6822875f6ae3",
+      "sha256": "4f1c56ac302ebfe308d36194ce6672e7b6bf1210587b0de6518350d7d2590571"
+    },
+    {
+      "path": "P533/Src/P533/P533.h",
+      "size": 23720,
+      "sha": "5bb1ef6d36731512c5ebaacdf836c9e183b9b546",
+      "sha256": "8dc3cd242e53bd342fc4b6ef80da40e9ccd8d494cadf2a271d046b00d71d5603"
+    },
+    {
+      "path": "P533/Src/P533/PathMemory.c",
+      "size": 7586,
+      "sha": "bd7036cabe335a5d827a8855142de8dbd755af01",
+      "sha256": "3873c476f2a9a916acaf3c0acf5de4c6d2ab2b0a14b0a0073568b143ae7d1dbd"
+    },
+    {
+      "path": "P533/Src/P533/ReadIonParameters.c",
+      "size": 11744,
+      "sha": "36c755ed009b040fdcaed2d6b2bba88feaa02ddd",
+      "sha256": "65aff903a97bc0bae7e053537fc3e9d9471af44262a03e74ca7075924ae21bcd"
+    },
+    {
+      "path": "P533/Src/P533/ReadP1239.c",
+      "size": 3202,
+      "sha": "363f6f8d9eb28d29b249234daf15b2a4a8c82513",
+      "sha256": "c3b94b7ba482203bf82bb1650ab5cc03d244ba9d39a7b51268263a96c25c14b5"
+    },
+    {
+      "path": "P533/Src/P533/ReadType13.c",
+      "size": 14331,
+      "sha": "10489c52574d7840845eafc74efd73102f05313c",
+      "sha256": "6ff4c60f884452aee8de7f0e0d3f03f0727be52592c8b4499f35a29efca337fb"
+    },
+    {
+      "path": "P533/Src/P533/ValidatePath.c",
+      "size": 3009,
+      "sha": "70d9ee43485a14b08b92ea8ed6f3bb9996fc2d31",
+      "sha256": "5bc798ff7871dc3ce2f720d23b5f7863533f69592ab8863684f6201e82484026"
+    }
+  ]
+}

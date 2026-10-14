@@ -1,0 +1,42 @@
+{
+  "version": "0.7.3",
+  "source": "Envíos acústicos del celular indicados como Robot36C; WAV local, fuera del repositorio",
+  "recording": {
+    "sampleRate": 96000,
+    "channels": 1,
+    "durationSeconds": 84.8,
+    "samples": 8140800,
+    "format": "Float32"
+  },
+  "firstHeader": {
+    "vis": 8,
+    "observedParity": 0,
+    "expectedEvenParity": 1,
+    "scope": "La paridad se observó en esta grabación; no identifica una app ni establece comportamiento general"
+  },
+  "lineMeasurement": {
+    "nominalSeconds": 0.15,
+    "measuredApproximateSeconds": 0.15276,
+    "method": "Correlación temporal del tono de sincronía de 1200 Hz; búsqueda fina de periodo"
+  },
+  "experimentalCalibration": {
+    "clockPPM": -18068,
+    "audioCenterHz": 1865,
+    "scope": "Solo esta grabación; no es el preset normal"
+  },
+  "offlineDecode": {
+    "automaticHeader": true,
+    "explicitRobot36Compatibility": true,
+    "width": 320,
+    "height": 240,
+    "completionApproximateSeconds": 42.581,
+    "visualResult": "Raster más alineado, pero fotografía muy ruidosa; no se considera una recepción de buena calidad"
+  },
+  "independentClockRegression": {
+    "clockPPM": [
+      -18068,
+      25000
+    ],
+    "checks": "VIS, 320x240, final y barras al comienzo/centro/final"
+  }
+}

@@ -1,0 +1,41 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/6] Compiling RadioCore ACARSAudioResampler.swift
+[4/9] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[4/9] Write Objects.LinkFileList
+[6/9] Compiling RadioCoreTests ACARSTests.swift
+[6/9] Linking RadioWorkbench
+[8/10] Compiling RadioWorkbenchPackageTests runner.swift
+[8/10] Write Objects.LinkFileList
+[9/10] Linking RadioWorkbenchPackageTests
+Build complete! (16.46s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test acarsParityDamageIsRejected() started.
+◇ Test acarsSilenceAndRestartProduceNoFalseMessages() started.
+◇ Test acarsMissingMotorAndInvalidMessageAreExplicitErrors() started.
+◇ Test acarsIndependentTransmission(_:) started.
+◇ Test acarsJSONExportRoundTripPreservesMessageFields() started.
+◇ Test acarsStopTerminatesItsOwnedHelper() started.
+◇ Test acarsRepairsSingleParityErrorAndRejectsInvalidCRC() started.
+◇ Test acarsPublishedSampleAndFinalBlockAreRetained() started.
+◇ Test acarsResamplerPreservesDurationAndBlockContinuity() started.
+◇ Test acarsPCMStreamContinuesAcrossMessages() started.
+◇ Test case passing 1 argument name → "acars_synthetic_44100" to acarsIndependentTransmission(_:) started.
+◇ Test case passing 1 argument name → "acars_synthetic_48000" to acarsIndependentTransmission(_:) started.
+◇ Test case passing 1 argument name → "acars_synthetic_12000" to acarsIndependentTransmission(_:) started.
+✔ Test acarsMissingMotorAndInvalidMessageAreExplicitErrors() passed after 0.703 seconds.
+✔ Test acarsResamplerPreservesDurationAndBlockContinuity() passed after 0.703 seconds.
+✔ Test acarsParityDamageIsRejected() passed after 0.703 seconds.
+✔ Test acarsStopTerminatesItsOwnedHelper() passed after 0.703 seconds.
+✔ Test acarsIndependentTransmission(_:) with 3 test cases passed after 0.703 seconds.
+✔ Test acarsPCMStreamContinuesAcrossMessages() passed after 0.703 seconds.
+✔ Test acarsPublishedSampleAndFinalBlockAreRetained() passed after 0.704 seconds.
+✔ Test acarsJSONExportRoundTripPreservesMessageFields() passed after 0.705 seconds.
+✔ Test acarsRepairsSingleParityErrorAndRejectsInvalidCRC() passed after 0.714 seconds.
+✔ Test acarsSilenceAndRestartProduceNoFalseMessages() passed after 0.715 seconds.
+✔ Test run with 10 tests in 0 suites passed after 0.715 seconds.

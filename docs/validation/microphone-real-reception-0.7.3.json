@@ -1,0 +1,33 @@
+{
+  "version": "0.7.3",
+  "sourceReport": "microphone-live-0.7.3-retry.json",
+  "userConfirmedReception": true,
+  "source": "Micrófono de MacBook Pro",
+  "sampleRate": 96000,
+  "channels": 1,
+  "firstCompleteImage": {
+    "audioCenterHz": 1865,
+    "channels": 1,
+    "clipped": false,
+    "clockPPM": -18068,
+    "decoderStatus": "Robot 36 · imagen completa 320 × 240 · paridad VIS no estándar",
+    "dropped": 0,
+    "elapsed": 51.15860833332408,
+    "imageCaption": "Robot 36 · imagen completa 320 × 240 · paridad VIS no estándar",
+    "imageHeight": 240,
+    "imageWidth": 320,
+    "levelDBFS": -50.97430764663194,
+    "live": true,
+    "permission": "authorized",
+    "robot36Compatibility": true,
+    "sampleRate": 96000,
+    "samples": 4550400,
+    "source": "Micrófono de MacBook Pro",
+    "status": "96000 Hz · Mezclar canales · recepción en vivo"
+  },
+  "maximumSamplesReceived": 5040000,
+  "maximumDroppedSamples": 0,
+  "errors": [],
+  "assessment": "Imagen acústica reconocible en la interfaz y confirmada por el usuario. Contiene ruido y líneas de interferencia; no representa validación RF ni calidad de todos los modos SSTV.",
+  "imagePublished": false
+}

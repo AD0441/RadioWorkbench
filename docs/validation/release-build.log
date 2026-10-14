@@ -1,0 +1,11 @@
+Building for production...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/5] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[3/5] Write Objects.LinkFileList
+[4/5] Linking RadioWorkbench
+Build complete! (6.78s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.iosaXf/RadioWorkbench.app/Contents/MacOS/acars-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.iosaXf/RadioWorkbench.app: replacing existing signature

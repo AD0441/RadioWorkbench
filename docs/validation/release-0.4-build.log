@@ -1,0 +1,12 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[2/5] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Compiling RadioCore APTDecoder.swift
+[5/7] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[5/7] Write Objects.LinkFileList
+[6/7] Linking RadioWorkbench
+Build complete! (7.64s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.WwEssb/RadioWorkbench.app: replacing existing signature

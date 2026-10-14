@@ -1,0 +1,10 @@
+{
+  "upstream": "f00b4r0/acarsdec",
+  "revision": "cbaa28c4173fc1529a01ab50708e29d12d09a644",
+  "sha256": {
+    "Vendor/acarsdec/acars.c": "55a54339547f5f1c7a47a46464ef75f6d1d4b9d287088e31ba38f02f33dcf97c",
+    "Vendor/acarsdec/msk.c": "b9baf291a98b8d6dbc43f319367e6b5030d335daa334d47c0d88548ad151ee15",
+    "script/acars-helper.c": "224a717ca393a89c1c17685b91c011f2baa54d740be8ef64e67d84cca8629fd9",
+    "script/build_acars.sh": "f19ae397385475c436ba95dcf52c2ff7376fbf427ead466d95c968ac1167bfcf"
+  }
+}

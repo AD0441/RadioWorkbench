@@ -1,0 +1,2667 @@
+{
+  "schema_version": 1,
+  "provenance": "Independent mathematical fixture generator using public protocol specifications and Python standard library only",
+  "no_decoder_code_used": true,
+  "no_playback_or_hardware": true,
+  "wav_encoding": "Little-endian signed PCM16",
+  "source_verification_date": "2026-10-12",
+  "generator": "/private/tmp/generate_radio_fixtures.py",
+  "sources": {
+    "morse": [
+      {
+        "title": "ITU-R M.1677-1: International Morse code",
+        "url": "https://www.itu.int/rec/R-REC-M.1677-1-200910-I/en",
+        "role": "International alphabet and element/gap timing ratios"
+      }
+    ],
+    "rtty": [
+      {
+        "title": "ITU-T S.1: International Telegraph Alphabet No. 2",
+        "url": "https://www.itu.int/rec/T-REC-S.1/en",
+        "role": "Public ITA2 alphabet; selected amateur framing and tones are explicit fixture parameters"
+      }
+    ],
+    "bpsk31": [
+      {
+        "title": "ARRL PSK31 Spec, Steven L Karty N5SK, citing Peter Martinez G3PLX",
+        "url": "https://www.arrl.org/psk31-spec",
+        "role": "31.25 baud, differential mapping, cosine shaping, idle and needed G3PLX varicode entries"
+      },
+      {
+        "title": "Peter Martinez G3PLX: PSK31: A New Radio-Teletype Mode",
+        "url": "https://www.arrl.org/files/file/Technology/tis/info/pdf/x9907003.pdf",
+        "role": "Original author G3PLX's RadCom article, reprinted in QEX July/August 1999; Table 1 also directly checked for all needed codewords"
+      },
+      {
+        "title": "ITU-R M.2034: Telegraphic alphabet for data communication by phase shift keying at 31 baud",
+        "url": "https://www.itu.int/rec/R-REC-M.2034/en",
+        "role": "Primary standard locator for the published alphabet; not used as an unverified table transcription"
+      }
+    ],
+    "dtmf": [
+      {
+        "title": "ITU-T Q.23: Technical features of push-button telephone sets",
+        "url": "https://www.itu.int/rec/T-REC-Q.23/en",
+        "role": "DTMF 4 by 4 frequency matrix"
+      }
+    ]
+  },
+  "limitations": [
+    "Synthetic laboratory signals; do not establish real-radio or fading-channel interoperability",
+    "Stereo fixtures have identical channels; channel selection and antiphase cancellation are not exercised",
+    "Carrier-frequency offsets, speed drift, multipath and adjacent-channel interference are not included",
+    "Nominal protocol settings are chosen explicitly; this is not a reproduction of proprietary application audio"
+  ],
+  "fixtures": [
+    {
+      "file": "morse_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_8000_mono_clean.wav",
+      "mode": "morse",
+      "variant": "clean",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 66240,
+      "duration_seconds": 8.28,
+      "signal_start_frame": 4000,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.29377156608213223,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "95e0c3b0e42dd5e43fcf9d3594660da025f49d05ae3843714b5d9516ea91e90f",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "morse_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_8000_mono_offset.wav",
+      "mode": "morse",
+      "variant": "offset",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 65226,
+      "duration_seconds": 8.15325,
+      "signal_start_frame": 2986,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.2937715660821328,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "8e47588405af294d1d60c4456f23723bf1570ed454186de2be4f2687e83d0b2e",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "morse_8000_mono_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_8000_mono_noisy.wav",
+      "mode": "morse",
+      "variant": "noisy",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 63979,
+      "duration_seconds": 7.997375,
+      "signal_start_frame": 1739,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.217375,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.2937715660821298,
+      "noise_standard_deviation": 0.05861513350130636,
+      "random_seed": 20269014,
+      "clipped_sample_count": 0,
+      "sha256": "f266feba0862ff0820ea629c8c150cc923828411f00f02bfb94c29847b7c5a30",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "morse_44100_stereo_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_44100_stereo_clean.wav",
+      "mode": "morse",
+      "variant": "clean",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 365148,
+      "duration_seconds": 8.28,
+      "signal_start_frame": 22050,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.2937715660821374,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "6349b11e0b4d3042f45e67beeb1f8d8379b9f7439bf48c22f083102c8fb8630b",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "morse_44100_stereo_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_44100_stereo_offset.wav",
+      "mode": "morse",
+      "variant": "offset",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 359556,
+      "duration_seconds": 8.153197278911565,
+      "signal_start_frame": 16458,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.3731972789115646,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.2937715660821402,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "54490ff9ff991945c04577cc45377524eb10a11cb3a8f79328b2d809c8cdc27e",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "morse_44100_stereo_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/morse_44100_stereo_noisy.wav",
+      "mode": "morse",
+      "variant": "noisy",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 352684,
+      "duration_seconds": 7.997369614512472,
+      "signal_start_frame": 9586,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.21736961451247166,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.29377156608214444,
+      "noise_standard_deviation": 0.05861513350130928,
+      "random_seed": 20305114,
+      "clipped_sample_count": 0,
+      "sha256": "61bd9ba457b534607ab128bd5a0574e51df633ec367913c33e2f5551c94fb82d",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "tone_hz": 700.0,
+        "wpm": 20.0,
+        "wpm_convention": "PARIS 50 units",
+        "dot_seconds": 0.06,
+        "dash_units": 3,
+        "intra_element_gap_units": 1,
+        "character_gap_units": 3,
+        "word_gap_units": 7,
+        "keying_edge_seconds": 0.005,
+        "morse_codewords": {
+          "C": "-.-.",
+          "Q": "--.-",
+          "T": "-",
+          "E": ".",
+          "S": "...",
+          "1": ".----",
+          "2": "..---",
+          "3": "...--"
+        },
+        "key_down_intervals_seconds_relative_to_signal_start": [
+          [
+            0.0,
+            0.18
+          ],
+          [
+            0.24,
+            0.3
+          ],
+          [
+            0.36,
+            0.54
+          ],
+          [
+            0.6000000000000001,
+            0.6600000000000001
+          ],
+          [
+            0.8400000000000001,
+            1.02
+          ],
+          [
+            1.08,
+            1.26
+          ],
+          [
+            1.32,
+            1.3800000000000001
+          ],
+          [
+            1.4400000000000002,
+            1.62
+          ],
+          [
+            2.04,
+            2.22
+          ],
+          [
+            2.4000000000000004,
+            2.4600000000000004
+          ],
+          [
+            2.6400000000000006,
+            2.7000000000000006
+          ],
+          [
+            2.7600000000000007,
+            2.8200000000000007
+          ],
+          [
+            2.880000000000001,
+            2.940000000000001
+          ],
+          [
+            3.120000000000001,
+            3.300000000000001
+          ],
+          [
+            3.720000000000001,
+            3.780000000000001
+          ],
+          [
+            3.840000000000001,
+            4.020000000000001
+          ],
+          [
+            4.080000000000001,
+            4.260000000000001
+          ],
+          [
+            4.32,
+            4.5
+          ],
+          [
+            4.56,
+            4.739999999999999
+          ],
+          [
+            4.919999999999999,
+            4.979999999999999
+          ],
+          [
+            5.039999999999998,
+            5.099999999999998
+          ],
+          [
+            5.1599999999999975,
+            5.339999999999997
+          ],
+          [
+            5.399999999999997,
+            5.5799999999999965
+          ],
+          [
+            5.639999999999996,
+            5.819999999999996
+          ],
+          [
+            5.999999999999996,
+            6.059999999999995
+          ],
+          [
+            6.119999999999995,
+            6.179999999999994
+          ],
+          [
+            6.239999999999994,
+            6.299999999999994
+          ],
+          [
+            6.359999999999993,
+            6.539999999999993
+          ],
+          [
+            6.5999999999999925,
+            6.779999999999992
+          ]
+        ]
+      }
+    },
+    {
+      "file": "rtty_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_8000_mono_clean.wav",
+      "mode": "rtty",
+      "variant": "clean",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 37682,
+      "duration_seconds": 4.71025,
+      "signal_start_frame": 4000,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.40971767959303346,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "41feabca82e21d111d8ceb237101ba75014ea422efe75dfa481deafeba63b92b",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "rtty_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_8000_mono_offset.wav",
+      "mode": "rtty",
+      "variant": "offset",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 36668,
+      "duration_seconds": 4.5835,
+      "signal_start_frame": 2986,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.4097234051111787,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "d63636dc23ffecdd40360545d8c0eb6d72b69460b11e6c5b4fc368eb2f23f017",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "rtty_8000_mono_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_8000_mono_noisy.wav",
+      "mode": "rtty",
+      "variant": "noisy",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 35421,
+      "duration_seconds": 4.427625,
+      "signal_start_frame": 1739,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.217375,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.40972365986812564,
+      "noise_standard_deviation": 0.08175061780859984,
+      "random_seed": 20270014,
+      "clipped_sample_count": 0,
+      "sha256": "b71b0f168dcd2a6a17591bf34cf65fe6e24530dbc482f064cfb8628fae6d92c3",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "rtty_44100_stereo_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_44100_stereo_clean.wav",
+      "mode": "rtty",
+      "variant": "clean",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 207721,
+      "duration_seconds": 4.710226757369615,
+      "signal_start_frame": 22050,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.409720858840157,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "1812659d325490ff62f39322464ec5f671c3875e4a8257e91798bbf90bf04328",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "rtty_44100_stereo_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_44100_stereo_offset.wav",
+      "mode": "rtty",
+      "variant": "offset",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 202129,
+      "duration_seconds": 4.583424036281179,
+      "signal_start_frame": 16458,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.3731972789115646,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.40972415847642457,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "17660b2d879c6888f5660b34b4512c887d27a28ea7c4f2c367205c93370290c3",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "rtty_44100_stereo_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/rtty_44100_stereo_noisy.wav",
+      "mode": "rtty",
+      "variant": "noisy",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 195257,
+      "duration_seconds": 4.427596371882086,
+      "signal_start_frame": 9586,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.21736961451247166,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.40972364163712355,
+      "noise_standard_deviation": 0.08175061417103668,
+      "random_seed": 20306114,
+      "clipped_sample_count": 0,
+      "sha256": "70529a72c4954895dadc6939d06ef516d757e1657f4a4bd01fafc00df434a835",
+      "protocol": {
+        "expected_message": "CQ TEST 123",
+        "baud": 45.45,
+        "center_hz": 1500.0,
+        "shift_hz": 170.0,
+        "mark_hz": 1585.0,
+        "space_hz": 1415.0,
+        "mark_logical_bit": 1,
+        "space_logical_bit": 0,
+        "alphabet": "ITA2",
+        "data_bits": 5,
+        "data_bit_order": "LSB first",
+        "start_bits": 1,
+        "start_bit_value": 0,
+        "stop_bits": 1.5,
+        "stop_bit_value": 1,
+        "initial_mark_seconds": 0.5,
+        "final_mark_seconds": 0.4,
+        "ita2_codes_decimal": [
+          31,
+          14,
+          23,
+          4,
+          16,
+          1,
+          5,
+          16,
+          4,
+          27,
+          23,
+          19,
+          1,
+          31
+        ],
+        "letters_shift": 31,
+        "figures_shift": 27,
+        "frequency_switching": "Continuous oscillator phase; no clock quantization drift"
+      }
+    },
+    {
+      "file": "bpsk31_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_8000_mono_clean.wav",
+      "mode": "bpsk31",
+      "variant": "clean",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 60640,
+      "duration_seconds": 7.58,
+      "signal_start_frame": 4000,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.34288534653269087,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "2b9997b52c38286305adcc4989262b771056878b8bd11707864326c85f248f05",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "bpsk31_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_8000_mono_offset.wav",
+      "mode": "bpsk31",
+      "variant": "offset",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 59626,
+      "duration_seconds": 7.45325,
+      "signal_start_frame": 2986,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.34288534667402876,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "bf2e751c4bd996eda863d2c01d940f8214f6f11fd347ebfd71e7101e9ad0db37",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "bpsk31_8000_mono_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_8000_mono_noisy.wav",
+      "mode": "bpsk31",
+      "variant": "noisy",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 58379,
+      "duration_seconds": 7.297375,
+      "signal_start_frame": 1739,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.217375,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.34288534617816613,
+      "noise_standard_deviation": 0.06841462095843535,
+      "random_seed": 20271014,
+      "clipped_sample_count": 0,
+      "sha256": "6f78a1da100e204c3b655172e1c66a88a61eee6751f61ffc9618418cbcb798eb",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "bpsk31_44100_stereo_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_44100_stereo_clean.wav",
+      "mode": "bpsk31",
+      "variant": "clean",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 334278,
+      "duration_seconds": 7.58,
+      "signal_start_frame": 22050,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.3428853465296972,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "6b9d9628e63c89b8bb2f1c9a28bbf74debb2d6b50e9d6557d0ae8f442598b283",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "bpsk31_44100_stereo_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_44100_stereo_offset.wav",
+      "mode": "bpsk31",
+      "variant": "offset",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 328686,
+      "duration_seconds": 7.453197278911564,
+      "signal_start_frame": 16458,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.3731972789115646,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.34288534673102244,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "7eebf7eca44e712b5de007194286267698ee9fce267ccd72875cc5d5e24803f3",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "bpsk31_44100_stereo_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/bpsk31_44100_stereo_noisy.wav",
+      "mode": "bpsk31",
+      "variant": "noisy",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 321814,
+      "duration_seconds": 7.297369614512472,
+      "signal_start_frame": 9586,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.21736961451247166,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.34288534610082094,
+      "noise_standard_deviation": 0.06841462094300296,
+      "random_seed": 20307114,
+      "clipped_sample_count": 0,
+      "sha256": "165fb8120a47ca92e34973fa7ed22488b4224201ae095c0311eb83698744b464",
+      "protocol": {
+        "expected_message": "CQ test 123",
+        "baud": 31.25,
+        "carrier_hz": 1500.0,
+        "modulation": "Differential BPSK",
+        "zero_bit": "180 degree phase reversal",
+        "one_bit": "No phase reversal",
+        "character_separator_bits": "00",
+        "varicode_codewords": {
+          "C": "10101101",
+          "Q": "111011101",
+          " ": "1",
+          "t": "101",
+          "e": "11",
+          "s": "10111",
+          "1": "10111101",
+          "2": "11101101",
+          "3": "11111111"
+        },
+        "payload_bits": "101011010011101110100100101001100101110010100100101111010011101101001111111100",
+        "idle_preamble_zero_bits": 64,
+        "idle_after_payload_zero_bits": 16,
+        "unmodulated_postamble_one_bits": 32,
+        "waveform_shape": "Cosine interpolation of consecutive signed carrier states across each symbol; zero at reversal midpoint",
+        "phase_state_reference": "At integer multiples of 1/31.25 seconds relative to signal start"
+      }
+    },
+    {
+      "file": "dtmf_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_8000_mono_clean.wav",
+      "mode": "dtmf",
+      "variant": "clean",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 41920,
+      "duration_seconds": 5.24,
+      "signal_start_frame": 4000,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.21935327730375329,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "51c57c08e7eb485fe70f54055a312f096d6dac7e789259105e201cd761e9c845",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    },
+    {
+      "file": "dtmf_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_8000_mono_offset.wav",
+      "mode": "dtmf",
+      "variant": "offset",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 40906,
+      "duration_seconds": 5.11325,
+      "signal_start_frame": 2986,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.21935308742459178,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "44d35cb0a68bae2cc14386443c788d4ce7540bebc0f1ae042c32339f318eea9e",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    },
+    {
+      "file": "dtmf_8000_mono_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_8000_mono_noisy.wav",
+      "mode": "dtmf",
+      "variant": "noisy",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "channel_layout": "mono",
+      "frames": 39659,
+      "duration_seconds": 4.957375,
+      "signal_start_frame": 1739,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.217375,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.21935307487752057,
+      "noise_standard_deviation": 0.04376669239756637,
+      "random_seed": 20272014,
+      "clipped_sample_count": 0,
+      "sha256": "ba795f1d62ab18466035b70a7b5e959cb8f94a06c56e9b8540ae86efed043f5a",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    },
+    {
+      "file": "dtmf_44100_stereo_clean.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_44100_stereo_clean.wav",
+      "mode": "dtmf",
+      "variant": "clean",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 231084,
+      "duration_seconds": 5.24,
+      "signal_start_frame": 22050,
+      "initial_silence_requested_seconds": 0.5,
+      "initial_silence_actual_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 0.0,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.21935327693625148,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "e5412a4c30d652ec1e72596295cf697b225a8f0c4c40146f6d3dc47e4ed49ee0",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    },
+    {
+      "file": "dtmf_44100_stereo_offset.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_44100_stereo_offset.wav",
+      "mode": "dtmf",
+      "variant": "offset",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 225492,
+      "duration_seconds": 5.1131972789115645,
+      "signal_start_frame": 16458,
+      "initial_silence_requested_seconds": 0.37319,
+      "initial_silence_actual_seconds": 0.3731972789115646,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 1.23456789,
+      "noise_model": "none",
+      "snr_db_relative_to_body_rms": null,
+      "signal_body_rms": 0.21935308703623296,
+      "noise_standard_deviation": 0.0,
+      "random_seed": null,
+      "clipped_sample_count": 0,
+      "sha256": "5390531f04093c905e65f7deaa0895743fd49386a58223e6cf1b69c659095ba5",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    },
+    {
+      "file": "dtmf_44100_stereo_noisy.wav",
+      "absolute_path": "/private/tmp/radio-fixtures/dtmf_44100_stereo_noisy.wav",
+      "mode": "dtmf",
+      "variant": "noisy",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "channel_layout": "identical left and right",
+      "frames": 218620,
+      "duration_seconds": 4.957369614512472,
+      "signal_start_frame": 9586,
+      "initial_silence_requested_seconds": 0.21737,
+      "initial_silence_actual_seconds": 0.21736961451247166,
+      "final_silence_seconds": 1.0,
+      "carrier_phase_radians": 2.173913,
+      "noise_model": "deterministic zero-mean Gaussian white noise across whole file",
+      "snr_db_relative_to_body_rms": 14.0,
+      "signal_body_rms": 0.21935307345958205,
+      "noise_standard_deviation": 0.043766692114650445,
+      "random_seed": 20308114,
+      "clipped_sample_count": 0,
+      "sha256": "317bf793e478b8f7f9a4747c5f3d283d4c8790558e01cfd8ac55f07252478c54",
+      "protocol": {
+        "expected_message": "123A456B789C*0#D",
+        "tone_seconds": 0.14,
+        "interdigit_gap_seconds": 0.1,
+        "keying_edge_seconds": 0.005,
+        "rows_hz": [
+          697.0,
+          770.0,
+          852.0,
+          941.0
+        ],
+        "columns_hz": [
+          1209.0,
+          1336.0,
+          1477.0,
+          1633.0
+        ],
+        "key_matrix": [
+          "123A",
+          "456B",
+          "789C",
+          "*0#D"
+        ],
+        "twist_db": 0.0,
+        "digit_intervals_seconds_relative_to_signal_start": [
+          {
+            "key": "1",
+            "start_seconds": 0.0,
+            "end_seconds": 0.14,
+            "low_hz": 697.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "2",
+            "start_seconds": 0.24000000000000002,
+            "end_seconds": 0.38,
+            "low_hz": 697.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "3",
+            "start_seconds": 0.48000000000000004,
+            "end_seconds": 0.6200000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "A",
+            "start_seconds": 0.7200000000000001,
+            "end_seconds": 0.8600000000000001,
+            "low_hz": 697.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "4",
+            "start_seconds": 0.9600000000000001,
+            "end_seconds": 1.1,
+            "low_hz": 770.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "5",
+            "start_seconds": 1.2000000000000002,
+            "end_seconds": 1.3400000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "6",
+            "start_seconds": 1.4400000000000002,
+            "end_seconds": 1.58,
+            "low_hz": 770.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "B",
+            "start_seconds": 1.6800000000000002,
+            "end_seconds": 1.8200000000000003,
+            "low_hz": 770.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "7",
+            "start_seconds": 1.9200000000000002,
+            "end_seconds": 2.06,
+            "low_hz": 852.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "8",
+            "start_seconds": 2.16,
+            "end_seconds": 2.3000000000000003,
+            "low_hz": 852.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "9",
+            "start_seconds": 2.4000000000000004,
+            "end_seconds": 2.5400000000000005,
+            "low_hz": 852.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "C",
+            "start_seconds": 2.64,
+            "end_seconds": 2.7800000000000002,
+            "low_hz": 852.0,
+            "high_hz": 1633.0
+          },
+          {
+            "key": "*",
+            "start_seconds": 2.8800000000000003,
+            "end_seconds": 3.0200000000000005,
+            "low_hz": 941.0,
+            "high_hz": 1209.0
+          },
+          {
+            "key": "0",
+            "start_seconds": 3.12,
+            "end_seconds": 3.2600000000000002,
+            "low_hz": 941.0,
+            "high_hz": 1336.0
+          },
+          {
+            "key": "#",
+            "start_seconds": 3.3600000000000003,
+            "end_seconds": 3.5000000000000004,
+            "low_hz": 941.0,
+            "high_hz": 1477.0
+          },
+          {
+            "key": "D",
+            "start_seconds": 3.6,
+            "end_seconds": 3.74,
+            "low_hz": 941.0,
+            "high_hz": 1633.0
+          }
+        ]
+      }
+    }
+  ]
+}

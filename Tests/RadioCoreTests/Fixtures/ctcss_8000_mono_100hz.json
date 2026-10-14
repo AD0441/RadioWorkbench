@@ -1,0 +1,7 @@
+{
+  "purpose": "Independent mathematical CTCSS demonstration",
+  "frequency_hz": 100,
+  "tone_start_seconds": 0.5,
+  "tone_end_seconds": 5.5,
+  "sha256": "3cc4dba0c9a9590ac17fdf2fafb2b50c2a448e730c9dad89254ef3b5d3c58743"
+}

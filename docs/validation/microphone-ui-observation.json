@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-13",
+  "timezone": "America/Santiago",
+  "version": "0.7.1",
+  "build": "9",
+  "evidence": "cua_repl getAXState of the running packaged app",
+  "source": "Micrófono de MacBook Pro",
+  "sampleRate": 96000,
+  "channels": 1,
+  "sstvFormat": "Auto VIS",
+  "autoVIS": true,
+  "threshold": 0.01,
+  "snapshots": [
+    {"samplesReceived": 1344000, "dropped": 0, "levelDBFS": -63.8, "status": "Buscando cabecera VIS…"},
+    {"samplesReceived": 6835200, "dropped": 0, "levelDBFS": -76.6, "status": "Buscando cabecera VIS…"}
+  ],
+  "imageReceived": false,
+  "limitation": "Ambient input and stable physical capture verified; cellphone SSTV image still pending. No microphone PCM recorded."
+}

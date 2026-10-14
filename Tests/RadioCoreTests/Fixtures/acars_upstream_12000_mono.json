@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/f00b4r0/acarsdec/blob/cbaa28c4173fc1529a01ab50708e29d12d09a644/test.wav",
+  "original_channels": 4,
+  "selected_channel": 0,
+  "sha256": "326cefd2bad074de51ef33b951b0f2db1cd6bb6bb5dbdff471fc5469103016ba",
+  "expected_registration": ".F-GTAE",
+  "expected_flight": "AF7728",
+  "expected_label": "H1"
+}

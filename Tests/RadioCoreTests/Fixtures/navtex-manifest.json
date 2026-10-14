@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "generator": "script/generate_navtex_fixtures.py",
+  "provenance": "Independent transmitter using emitted B/Y codeword strings from ITU Table 1, not decoder bytes/output",
+  "limitations": [
+    "Synthetic audio, not off-air reception",
+    "No validation of national figures alphabets or selective B mode"
+  ],
+  "fixtures": [
+    {
+      "file": "navtex_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "695ae84b22fb7b34981e36f677a465aa999572e471444a330cb2a7e057c369fd",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_offset.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.27325,
+      "sha256": "9ff51ae3d4136a075ec4ebfef07531da9b53199c69cd71669bd4880ad78d1056",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_noisy.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "2cad801118795a53ce66805f568bae850be9d12f2d9155edd265edd631874ab1",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": 18.0,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_repaired.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "0488bed8b8cd2f2e66b97ebbc05f06198dad4eea54495bed012ebb2e43a07156",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 1,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_lost.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "7ca1248098fc58947df016266484481303237fb47f7d48f3793f5d7a77d5da86",
+      "protocol": {
+        "expected_text": "\n�CZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 1,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_disagree.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "751c3a625f23f59bf302e32c9392504e1011ec9a44b58489e2ee55d3e4b30285",
+      "protocol": {
+        "expected_text": "\n�CZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 1,
+        "disagreement_characters": 1,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_inverted.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.4,
+      "sha256": "9a96260d152e02a146b90f8734cbecfd0317c43222487be487c92c2545d9bf3e",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1615,
+        "space_hz": 1785,
+        "inverted": true,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_drift.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 20.254375,
+      "sha256": "04c3611877c7609b55e2186b222d10a78b965de90364e8f721837c5ef42da7ac",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.1,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_8000_mono_resync.wav",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "duration_seconds": 41.3,
+      "sha256": "a9f27346036c8c506f6d87540b6e169b04e456e823bda0a44d00b75e4d64e517",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_44100_stereo_clean.wav",
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "duration_seconds": 20.4,
+      "sha256": "17243e78cf75ef2b43f96fe9a99efeffdd41ca1c42c1bd09aeca2f967b1a844b",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    },
+    {
+      "file": "navtex_48000_stereo_opposite.wav",
+      "sample_rate_hz": 48000,
+      "channels": 2,
+      "duration_seconds": 20.4,
+      "sha256": "8299ab950544c1433d2f8a3be61ee6fb368c8c32848d42645a1ece0e39e4b3f5",
+      "protocol": {
+        "expected_text": "\nZCZC SA01\nTEST MESSAGE ONLY\nWIND 12 KT. SEA 2 M.\nTEST NUMBERS 0123456789 -?:'/+=().,\nNNNN\n",
+        "baud": 100.0,
+        "nominal_baud": 100,
+        "center_hz": 1700,
+        "shift_hz": 170,
+        "mark_hz": 1785,
+        "space_hz": 1615,
+        "inverted": false,
+        "snr_db": null,
+        "preamble_pairs": 16,
+        "first_copy_slot": "REP/even",
+        "second_copy_slot": "ALPHA/odd",
+        "fec_separation_slots": 5,
+        "fec_start_to_start_ms": 350,
+        "fec_intervening_gap_ms": 280,
+        "corrected_characters": 0,
+        "erased_characters": 0,
+        "disagreement_characters": 0,
+        "sources": [
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.625-4-201203-I!!PDF-E.pdf"
+        ]
+      }
+    }
+  ]
+}

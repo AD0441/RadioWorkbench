@@ -1,0 +1,40 @@
+import Foundation
+
+public enum RFModulation: String, CaseIterable, Identifiable, Codable, Sendable {
+    case am = "AM", fm = "FM / NFM", usb = "USB", lsb = "LSB", cw = "CW", iq = "I/Q directo"
+    public var id: String { rawValue }
+}
+
+public struct ReceptionProfile: Sendable {
+    public let modulation: RFModulation
+    public let rfBandwidth: Double
+    public let audioBand: String
+    public let center: Double
+    public let note: String
+}
+
+public extension RadioMode {
+    var receptionProfile: ReceptionProfile {
+        switch self {
+        case .morse: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "Tono CW alrededor de 700 Hz", center: 700, note: "USB o CW; filtro estrecho solo si conserva el tono seleccionado.")
+        case .rtty, .bitAnalysis: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "1415–1585 Hz para shift 170 y centro 1500", center: 1500, note: "LSB invierte la polaridad: activa Invertir si corresponde.")
+        case .psk31: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "BPSK31 alrededor de 1500 Hz", center: 1500, note: "Desactiva supresión de ruido; sintonía precisa y sin deriva.")
+        case .sstv: .init(modulation: .usb, rfBandwidth: 3000, audioBand: "1100–2300 Hz, conservar VIS y sincronía", center: 1900, note: "HF normalmente USB; en VHF puede usarse FM con filtro RF 12,5–25 kHz.")
+        case .wefax: .init(modulation: .usb, rfBandwidth: 2800, audioBand: "1500 negro · 1900 gris · 2300 blanco", center: 1900, note: "Dial USB = portadora asignada − 1,9 kHz. Inicio manual; ajusta fase y reloj.")
+        case .satelliteAPT: .init(modulation: .fm, rfBandwidth: 50000, audioBand: "Subportadora AM 2400 Hz; preservar audio hasta unos 4,5 kHz", center: 2400, note: "En SDR++ usa FM, 50 kHz RF, De-emphasis None, Low Pass off y Squelch off. NOAA APT: grabaciones históricas.")
+        case .dtmf: .init(modulation: .fm, rfBandwidth: 12500, audioBand: "697–1633 Hz para DTMF", center: 1500, note: "Conserva ambas componentes del teclado; evita que el squelch corte los tonos.")
+        case .selectiveTones: .init(modulation: .fm, rfBandwidth: 12500, audioBand: "50–300 Hz; CTCSS 67–254,1 Hz", center: 100, note: "NFM con audio que conserve subaudio. Desactiva el filtro pasa-altos de voz (300 Hz), squelch y reducción de ruido. Umbral inicial 2 %. Confirmación en unos 2,5 s; no incluye DCS ni cinco tonos.")
+        case .navtex: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "1615/1785 Hz; centro 1700 Hz y shift 170 Hz", center: 1700, note: "100 baud síncronos. Conserva ambos tonos; LSB requiere Invertir. Espera phasing al comienzo. Ajusta centro si tu audio usa otros tonos.")
+        case .sitorA: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "Dos tonos separados 170 Hz", center: 1700, note: "SITOR-A: bloques ARQ a 100 baud. Motor aún pendiente.")
+        case .acars: .init(modulation: .am, rfBandwidth: 12500, audioBand: "Audio AM 300–3500 Hz; MSK 1200/2400 Hz", center: 1800, note: "VHF ACARS 2400 baud. RF inicial 10–12,5 kHz; salida 48 kHz, sin squelch ni reducción de ruido. La app remuestrea a 12 kHz. ACARS no es VDL2 ni ADS-B.")
+        case .packet: .init(modulation: .fm, rfBandwidth: 12500, audioBand: "300–3000 Hz; AFSK 1200/2200 Hz, 1200 baud", center: 1700, note: "VHF/APRS: NFM 12–15 kHz, squelch abierto. Centro de audio 1700 Hz. Este motor recibe AFSK 1200; HF 300 y 9600 requieren otros demoduladores.")
+        case .ale: .init(modulation: .usb, rfBandwidth: 3000, audioBand: "750–2500 Hz para ALE 2G", center: 1625, note: "Evita filtros que recorten tonos. ALE 3G requiere otro motor.")
+        case .hell: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "Tono elegido; Feld Hell aproximadamente 350 Hz ocupado", center: 1500, note: "Variantes de Hell tienen otros anchos. Motor pendiente.")
+        case .mt63: .init(modulation: .usb, rfBandwidth: 3000, audioBand: "500/1000/2000 Hz según variante", center: 1500, note: "El filtro RF debe conservar todo el bloque multicarrier.")
+        case .gmdss: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "DSC MF/HF: 170 Hz de shift; VHF: tonos 1300/2100 Hz", center: 1700, note: "Para DSC VHF selecciona FM y filtro RF 25 kHz. GMDSS abarca más que DSC.")
+        case .dgps: .init(modulation: .usb, rfBandwidth: 1500, audioBand: "MSK trasladada a audio; centro 800 Hz inicial", center: 800, note: "Preset inicial; validar 100/200 baud y sintonía con el motor DGPS.")
+        case .loran: .init(modulation: .iq, rfBandwidth: 20000, audioBand: "Pulsos RF; audio convencional no conserva toda la información", center: 1000, note: "El monitor de pulsos requiere captura adecuada, no una salida FM de voz.")
+        case .globeWireless: .init(modulation: .usb, rfBandwidth: 3000, audioBand: "Depende de variante; sin motor verificado", center: 1500, note: "Parámetros iniciales de exploración, no soporte de protocolo confirmado.")
+        }
+    }
+}

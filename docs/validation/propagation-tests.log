@@ -1,0 +1,45 @@
+[0/1] Planning build
+Building for production...
+[0/8] Write sources
+[3/8] Copying Fixtures
+[4/8] Write swift-version--1AB21518FC5DEDBE.txt
+[6/9] Compiling RadioCore ACARSAudioResampler.swift
+[7/11] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[7/12] Write Objects.LinkFileList
+[8/12] Linking RadioWorkbench
+[10/12] Compiling RadioCoreTests ACARSTests.swift
+[11/13] Compiling RadioWorkbenchPackageTests runner.swift
+[11/13] Write Objects.LinkFileList
+[12/13] Linking RadioWorkbenchPackageTests
+Build complete! (21.37s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test bandInformationHourlyCadenceIncludesManualRefreshAndRestarts() started.
+◇ Test bandInformationRejectsEntitiesMalformedAndFutureData() started.
+◇ Test propagationParsesOfficialSpaceWeatherFixtures() started.
+◇ Test propagationRejectsMalformedAndFutureData() started.
+◇ Test propagationPowerAndBandwidthHavePhysicalScaling() started.
+◇ Test propagationMatchesPublishedITURReferenceNoise() started.
+◇ Test bandContactDistanceAndInternationalAreIndependent() started.
+◇ Test propagationDrapUsesActualGridAndWrapsDateLine() started.
+◇ Test propagationInvalidInputAndCancelledCalculation() started.
+◇ Test propagationOfflineKeepsObservationDateAndPartialSources() started.
+◇ Test propagationGeometryAndPowerBudget() started.
+◇ Test bandInformationParsesProviderAndPreservesRegions() started.
+◇ Test bandInformationChangeAlertsDoNotRepeatOldDates() started.
+✔ Test propagationGeometryAndPowerBudget() passed after 0.014 seconds.
+✔ Test bandContactDistanceAndInternationalAreIndependent() passed after 0.014 seconds.
+✔ Test propagationDrapUsesActualGridAndWrapsDateLine() passed after 0.015 seconds.
+✔ Test bandInformationChangeAlertsDoNotRepeatOldDates() passed after 0.015 seconds.
+✔ Test bandInformationRejectsEntitiesMalformedAndFutureData() passed after 0.015 seconds.
+✔ Test propagationRejectsMalformedAndFutureData() passed after 0.015 seconds.
+✔ Test bandInformationParsesProviderAndPreservesRegions() passed after 0.015 seconds.
+✔ Test propagationInvalidInputAndCancelledCalculation() passed after 0.018 seconds.
+✔ Test bandInformationHourlyCadenceIncludesManualRefreshAndRestarts() passed after 0.020 seconds.
+✔ Test propagationOfflineKeepsObservationDateAndPartialSources() passed after 0.056 seconds.
+✔ Test propagationParsesOfficialSpaceWeatherFixtures() passed after 0.132 seconds.
+✔ Test propagationMatchesPublishedITURReferenceNoise() passed after 1.234 seconds.
+✔ Test propagationPowerAndBandwidthHavePhysicalScaling() passed after 1.499 seconds.
+✔ Test run with 13 tests in 0 suites passed after 1.500 seconds.

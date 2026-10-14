@@ -1,0 +1,913 @@
+{
+  "schema_version": 1,
+  "source_verification_date": "2026-10-13",
+  "generator": "script/generate_sstv_family_fixtures.py",
+  "provenance": "Independent mathematical transmitter using researched primary protocol tables, not application decoder output/code",
+  "limitations": [
+    "Synthetic PCM, no RF reception, fading, noise or clock drift",
+    "Historical family extensions still require independent transmitter interoperability"
+  ],
+  "fixtures": [
+    {
+      "file": "sstv_martin_m2_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_martin_m2_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 482748,
+      "duration_seconds": 60.3435,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "4cbf6cbbc724867040278c09c51f244b9202f75d86b4375b13684ad0149d2387",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Martin M2",
+        "vis_code": 40,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "vis_even_parity": 0,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 4.862,
+          "porch": 0.572,
+          "separator": 0.572,
+          "scan": 73.216,
+          "line": 226.79799999999997
+        },
+        "image_payload_seconds": 58.060288,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_martin_m3_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_martin_m3_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 475427,
+      "duration_seconds": 59.428375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "fbd72e99de4a97ddac9d9d8867c16378b94d15892905eadba4ce8251ad302467",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Martin M3",
+        "vis_code": 36,
+        "width": 320,
+        "height": 128,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "vis_even_parity": 0,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 4.862,
+          "porch": 0.572,
+          "separator": 0.572,
+          "scan": 146.432,
+          "line": 446.4459999999999
+        },
+        "image_payload_seconds": 57.145088,
+        "source_urls": [
+          "https://www.sstv-handbook.com/download/sstv_04.pdf",
+          "https://www.sstv-handbook.com/download/sstv_05.pdf"
+        ],
+        "timing_evidence": "family-extension-needs-interoperability-test",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_martin_m4_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_martin_m4_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 250507,
+      "duration_seconds": 31.313375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "950cff0d4d20d5ed4847a10c236271ca9323f3dcd53a8f029b620a51440f40d9",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Martin M4",
+        "vis_code": 32,
+        "width": 320,
+        "height": 128,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 4.862,
+          "porch": 0.572,
+          "separator": 0.572,
+          "scan": 73.216,
+          "line": 226.79799999999997
+        },
+        "image_payload_seconds": 29.030144,
+        "source_urls": [
+          "https://www.sstv-handbook.com/download/sstv_04.pdf",
+          "https://www.sstv-handbook.com/download/sstv_05.pdf"
+        ],
+        "timing_evidence": "family-extension-needs-interoperability-test",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_scottie_s2_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_scottie_s2_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 587051,
+      "duration_seconds": 73.381375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "066a63f594fca0b271b74b19926926cc6c7bb026834419ccec466c28698873ff",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Scottie S2",
+        "vis_code": 56,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 1.5,
+          "separator": 1.5,
+          "scan": 88.064,
+          "line": 277.692,
+          "initial_extra_sync": 9
+        },
+        "image_payload_seconds": 71.098152,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_scottie_s3_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_scottie_s3_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 456835,
+      "duration_seconds": 57.104375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "15219c913e00328249774d22b2c42a04b686ab11e1fd3dd053784f28ddeb6428",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Scottie S3",
+        "vis_code": 52,
+        "width": 320,
+        "height": 128,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 1.5,
+          "separator": 1.5,
+          "scan": 138.24,
+          "line": 428.22,
+          "initial_extra_sync": 9
+        },
+        "image_payload_seconds": 54.82116,
+        "source_urls": [
+          "https://www.sstv-handbook.com/download/sstv_04.pdf",
+          "https://www.sstv-handbook.com/download/sstv_05.pdf"
+        ],
+        "timing_evidence": "family-extension-needs-interoperability-test",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_scottie_s4_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_scottie_s4_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 302695,
+      "duration_seconds": 37.836875,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "13c02b69015d225cf6fe11244fd63cec297049c39461077a9a0eaabd38cc7f6d",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Scottie S4",
+        "vis_code": 48,
+        "width": 320,
+        "height": 128,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity": 0,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 1.5,
+          "separator": 1.5,
+          "scan": 88.064,
+          "line": 277.692,
+          "initial_extra_sync": 9
+        },
+        "image_payload_seconds": 35.553576,
+        "source_urls": [
+          "https://www.sstv-handbook.com/download/sstv_04.pdf",
+          "https://www.sstv-handbook.com/download/sstv_05.pdf"
+        ],
+        "timing_evidence": "family-extension-needs-interoperability-test",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_scottie_dx_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_scottie_dx_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 2169352,
+      "duration_seconds": 271.169,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "463636f8e059363e0b6bfbdedc828155030a0f1541fe7a6589aa61f79c2be983",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Scottie DX",
+        "vis_code": 76,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 1.5,
+          "separator": 1.5,
+          "scan": 345.6,
+          "line": 1050.3000000000002,
+          "initial_extra_sync": 9
+        },
+        "image_payload_seconds": 268.8858,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd90_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd90_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 738179,
+      "duration_seconds": 92.272375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "210718becee4aed8ae0e3d0acdf1810702ce25043cb2e57bea7237753c42dc25",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD90",
+        "vis_code": 99,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "vis_even_parity": 0,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 170.24,
+          "line_pair": 703.0400000000001
+        },
+        "image_payload_seconds": 89.98912,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd120_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd120_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 1027090,
+      "duration_seconds": 128.38625,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "85f76921920a319dcdc45e82eda3f7b2a350f0e67f2f5eed42f5905e68ff4fa6",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD120",
+        "vis_code": 95,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "vis_even_parity": 0,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 121.6,
+          "line_pair": 508.47999999999996
+        },
+        "image_payload_seconds": 126.10304,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd160_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd160_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 1305332,
+      "duration_seconds": 163.1665,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "a8d777525f05e93ba43307a636c153396ccc4f0ffeb6f1d38062e7bb7b09076a",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD160",
+        "vis_code": 98,
+        "width": 512,
+        "height": 400,
+        "vis_bits_lsb_first": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 195.584,
+          "line_pair": 804.416
+        },
+        "image_payload_seconds": 160.8832,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd180_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd180_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 1514678,
+      "duration_seconds": 189.33475,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "3f0b70d47b43dcf2641b72fd27a362a158cb3f9d57a4f5ab853f1d2b620292cb",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD180",
+        "vis_code": 96,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "vis_even_parity": 0,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 183.04,
+          "line_pair": 754.24
+        },
+        "image_payload_seconds": 187.05152,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd240_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd240_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 2002266,
+      "duration_seconds": 250.28325,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "3c9b3533de0a23aa517f04cce9c65c251c5d3e7956ceeccdb283df9b790ccfee",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD240",
+        "vis_code": 97,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 244.48,
+          "line_pair": 1000.0
+        },
+        "image_payload_seconds": 248.0,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd290_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd290_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 2327724,
+      "duration_seconds": 290.9655,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "6a33efa265d52b6992c8b2651b8fb5be85490e288eaf7f42e3fe75b9bebedb9c",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD290",
+        "vis_code": 94,
+        "width": 800,
+        "height": 616,
+        "vis_bits_lsb_first": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 228.8,
+          "line_pair": 937.2800000000001
+        },
+        "image_payload_seconds": 288.68224,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_robot72_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_robot72_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 594266,
+      "duration_seconds": 74.28325,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "48f770d2958b70e4cbc939d176c71953893d7e1446c3dd366dc7b4fb7645cd70",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Robot72",
+        "vis_code": 12,
+        "width": 320,
+        "height": 240,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "vis_even_parity": 0,
+        "color_range": "bt601-limited",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 3,
+          "Y": 138,
+          "C": 69,
+          "separator": 4.5,
+          "chroma_porch": 1.5,
+          "line": 300
+        },
+        "image_payload_seconds": 72.0,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pasokon_p3_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pasokon_p3_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 1642666,
+      "duration_seconds": 205.33325,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "4239ff97cb262c68f2451fd9d558b6c985742a418a79ed453ec0200964895e67",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Pasokon P3",
+        "vis_code": 113,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "vis_even_parity": 0,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 5.208,
+          "porch": 1.042,
+          "scan": 133.333,
+          "line": 409.375
+        },
+        "image_payload_seconds": 203.05,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pasokon_p5_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pasokon_p5_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 2454876,
+      "duration_seconds": 306.8595,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "fbadf5c92112f3367f0a6d71e796d1ad0bb9d267b6ee3c6d365fae1892327a9f",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Pasokon P5",
+        "vis_code": 114,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "vis_even_parity": 0,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 7.813,
+          "porch": 1.563,
+          "scan": 200,
+          "line": 614.065
+        },
+        "image_payload_seconds": 304.57624,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pasokon_p7_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pasokon_p7_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 3267054,
+      "duration_seconds": 408.38175,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "36fa8a3eba0e7f4fa9f65c42e11c85c287d3a79248f759f092114821fdeda851",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Pasokon P7",
+        "vis_code": 115,
+        "width": 640,
+        "height": 496,
+        "vis_bits_lsb_first": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 10.417,
+          "porch": 2.083,
+          "scan": 266.666,
+          "line": 818.7470000000001
+        },
+        "image_payload_seconds": 406.098512,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_wraasesc2_180_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_wraasesc2_180_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 1474440,
+      "duration_seconds": 184.305,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "ec99f31c585e974391a9ae44080c7e3a044276e2969a8269c1ec7fa99e34c427",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "WraaseSC2-180",
+        "vis_code": 55,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity": 1,
+        "color_range": "rgb",
+        "timing_ms": {
+          "sync": 5.5225,
+          "porch": 0.5,
+          "scan": 235,
+          "line": 710.5225
+        },
+        "image_payload_seconds": 182.02176,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_pd50_8000_mono_fullrange.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_pd50_8000_mono_fullrange.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 415742,
+      "duration_seconds": 51.96775,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "c8f53a9bafd09c76783a9eaa00b0308e11bf2358335b443ad90089ec04831f5f",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "PD50",
+        "vis_code": 93,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "vis_even_parity": 1,
+        "color_range": "full",
+        "timing_ms": {
+          "sync": 20,
+          "porch": 2.08,
+          "scan": 91.52,
+          "line_pair": 388.15999999999997
+        },
+        "image_payload_seconds": 49.68448,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    },
+    {
+      "file": "sstv_robot36_8000_mono_fullrange.wav",
+      "absolute_path": "/private/tmp/radio-sstv-families/sstv_robot36_8000_mono_fullrange.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 306266,
+      "duration_seconds": 38.28325,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "8e1cccf1d5885ea8b843b5e43f6f6050de03ab02fd5cf414fd201fd1c4ae16a8",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "Robot36",
+        "vis_code": 8,
+        "width": 320,
+        "height": 240,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "vis_even_parity": 1,
+        "color_range": "full",
+        "timing_ms": {
+          "sync": 9,
+          "porch": 3,
+          "Y": 88,
+          "C": 44,
+          "separator": 4.5,
+          "chroma_porch": 1.5,
+          "line": 150
+        },
+        "image_payload_seconds": 36.0,
+        "source_urls": [
+          "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+        ],
+        "timing_evidence": "primary-protocol",
+        "pattern": "Eight vertical color bars, first16 grayscale rows, last16 reversed bars"
+      }
+    }
+  ]
+}

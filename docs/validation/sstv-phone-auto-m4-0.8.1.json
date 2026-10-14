@@ -1,0 +1,16 @@
+{
+  "automatic" : true,
+  "calibration" : {
+    "centerHz" : 1899.9640815020387,
+    "clockPPM" : -18150.835278613053,
+    "jitterMilliseconds" : 0.2876102691890997,
+    "syncLines" : 192
+  },
+  "caption" : "Robot 36 · imagen completa 320 × 240 · paridad VIS no estándar · reloj auto -18151 ppm · centro 1900 Hz · 192 sincronías",
+  "height" : 240,
+  "manualClockPPM" : 0,
+  "reduction" : "Equilibrada",
+  "source" : "robot36c-0.7.3.wav",
+  "version" : "0.8.1",
+  "width" : 320
+}

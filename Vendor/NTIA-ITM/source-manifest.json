@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/NTIA/itm",
+  "revision": "183ad95bd813a8be11009df396e1c631356864b2",
+  "retrieved": "2026-10-14",
+  "purpose": "Point-to-point irregular-terrain propagation estimates in RadioWorkbench.",
+  "upstreamFiles": "include/*.h and src/*.cpp",
+  "buildAdaptation": "The macOS build changes Windows-style include separators in a temporary staging directory and defines the Windows export annotation as empty.",
+  "license": "See LICENSE.md. NTIA attribution is retained; software is provided as-is."
+}

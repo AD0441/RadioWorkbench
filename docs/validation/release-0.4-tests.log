@@ -1,0 +1,148 @@
+[0/1] Planning build
+Building for production...
+[0/7] Write sources
+[3/7] Copying Fixtures
+[4/7] Write swift-version--1AB21518FC5DEDBE.txt
+[6/8] Compiling RadioCore APTDecoder.swift
+[7/12] Compiling RadioCoreTests DecoderTests.swift
+[8/13] Compiling RadioWorkbenchPackageTests runner.swift
+[8/13] Write Objects.LinkFileList
+[10/13] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[10/13] Write Objects.LinkFileList
+[11/13] Linking RadioWorkbenchPackageTests
+[12/13] Linking RadioWorkbench
+Build complete! (8.67s)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test imageAudioMustPreserveVideoAndHeaderBand() started.
+◇ Test multiChannelRingMixAndSingleChannel() started.
+◇ Test independentSSTV(_:) started.
+◇ Test absentChannelIsAnExplicitError() started.
+◇ Test stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test publishedSSTVFamilyFixture(_:) started.
+◇ Test independentWEFAX() started.
+◇ Test spectrumResolvesTone() started.
+◇ Test publishedCCIR476Interleave(_:) started.
+◇ Test mmsstvPublishedModes(_:) started.
+◇ Test independentAudioFixture(_:) started.
+◇ Test independentAPT(_:) started.
+◇ Test navtexAudioFixture(_:) started.
+◇ Test silenceAndSettings() started.
+◇ Test ringOverflowAndWrapPreserveOrder() started.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument channel → .mix to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_dx_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument variant → "clean" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "first_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd90_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → "second_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd120_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument variant → "both_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd160_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_offset" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument variant → "disagree" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_noisy" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd240_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr90_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_repaired" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd290_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot72_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_lost" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_disagree" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_inverted" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_16640_mono_24lines" to independentAPT(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml180_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p5_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_drift" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p7_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml240_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml280_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_resync" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml320_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "navtex_44100_stereo_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc180_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_wraasesc2_180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_manual" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_vis2_8000_unsupported" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_m1_8000_badparity" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_48000_mono_24lines" to independentAPT(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument channel → .channel(0) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument channel → .channel(1) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+✔ Test multiChannelRingMixAndSingleChannel() passed after 1.776 seconds.
+✔ Test imageAudioMustPreserveVideoAndHeaderBand() passed after 1.776 seconds.
+✔ Test absentChannelIsAnExplicitError() passed after 1.776 seconds.
+✔ Test independentSSTV(_:) with 8 test cases passed after 1.776 seconds.
+✔ Test independentWEFAX() passed after 1.776 seconds.
+✔ Test publishedCCIR476Interleave(_:) with 5 test cases passed after 1.776 seconds.
+✔ Test spectrumResolvesTone() passed after 1.777 seconds.
+✔ Test navwarning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+texAudioFixture(_:) with 10 test cases passed after 1.777 seconds.
+✔ Test independentAudioFixture(_:) with 24 test cases passed after 1.777 seconds.
+✔ Test silenceAndSettings() passed after 1.776 seconds.
+✔ Test ringOverflowAndWrapPreserveOrder() passed after 1.776 seconds.
+✔ Test independentAPT(_:) with 2 test cases passed after 1.840 seconds.
+✔ Test mmsstvPublishedModes(_:) with 27 test cases passed after 1.842 seconds.
+✔ Test publishedSSTVFamilyFixture(_:) with 20 test cases passed after 1.875 seconds.
+✔ Test stereoSelectionPreservesOppositePhaseAudio(_:) with 3 test cases passed after 1.907 seconds.
+✔ Test run with 15 tests in 0 suites passed after 1.907 seconds.

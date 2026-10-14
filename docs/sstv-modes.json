@@ -1,0 +1,2715 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-10-13",
+  "not_a_claim_of_exhaustive_universal_standard": true,
+  "scope": "Broad analog SSTV families and historical compatibility profiles; digital images handled as separate protocols.",
+  "definition_of_verified": "Source data verified; does not imply RadioWorkbench implementation or interoperable runtime decode.",
+  "sources": {
+    "dayton": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+    "mmsstv_author": "https://github.com/n5ac/mmsstv/blob/master/mode.txt",
+    "qsstv_author_parameters": "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp",
+    "historical_catalog": "https://www.sstv-handbook.com/download/sstv_05.pdf",
+    "historical_formats": "https://www.sstv-handbook.com/download/sstv_04.pdf"
+  },
+  "modes": [
+    {
+      "name": "Martin M1",
+      "family": "Martin",
+      "identification": "VIS-7-even",
+      "vis_code": 44,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,G,separator,B,separator,R,separator",
+      "timing_ms": {
+        "sync": 4.862,
+        "porch": 0.572,
+        "separator": 0.572,
+        "scan": 146.432,
+        "line": 446.4459999999999
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Martin M2",
+      "family": "Martin",
+      "identification": "VIS-7-even",
+      "vis_code": 40,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,G,separator,B,separator,R,separator",
+      "timing_ms": {
+        "sync": 4.862,
+        "porch": 0.572,
+        "separator": 0.572,
+        "scan": 73.216,
+        "line": 226.79799999999997
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "M2/M4 nominal historical horizontal sampling160; software raster320 selected."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Martin M3",
+      "family": "Martin",
+      "identification": "VIS-7-even",
+      "vis_code": 36,
+      "width": 320,
+      "height": 128,
+      "color_model": "RGB",
+      "sequence": "sync,porch,G,separator,B,separator,R,separator",
+      "timing_ms": {
+        "sync": 4.862,
+        "porch": 0.572,
+        "separator": 0.572,
+        "scan": 146.432,
+        "line": 446.4459999999999
+      },
+      "evidence_status": "family-extension-needs-interoperability-test",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf",
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Martin M4",
+      "family": "Martin",
+      "identification": "VIS-7-even",
+      "vis_code": 32,
+      "width": 320,
+      "height": 128,
+      "color_model": "RGB",
+      "sequence": "sync,porch,G,separator,B,separator,R,separator",
+      "timing_ms": {
+        "sync": 4.862,
+        "porch": 0.572,
+        "separator": 0.572,
+        "scan": 73.216,
+        "line": 226.79799999999997
+      },
+      "evidence_status": "family-extension-needs-interoperability-test",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf",
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "M2/M4 nominal historical horizontal sampling160; software raster320 selected."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Scottie S1",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 60,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "separator,G,separator,B,sync,porch,R",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1.5,
+        "separator": 1.5,
+        "scan": 138.24,
+        "line": 428.22,
+        "initial_extra_sync": 9
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Extra9ms sync before first line only."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Scottie S2",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 56,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "separator,G,separator,B,sync,porch,R",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1.5,
+        "separator": 1.5,
+        "scan": 88.064,
+        "line": 277.692,
+        "initial_extra_sync": 9
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Extra9ms sync before first line only."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Scottie S3",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 52,
+      "width": 320,
+      "height": 128,
+      "color_model": "RGB",
+      "sequence": "separator,G,separator,B,sync,porch,R",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1.5,
+        "separator": 1.5,
+        "scan": 138.24,
+        "line": 428.22,
+        "initial_extra_sync": 9
+      },
+      "evidence_status": "family-extension-needs-interoperability-test",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf",
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Extra9ms sync before first line only."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Scottie S4",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 48,
+      "width": 320,
+      "height": 128,
+      "color_model": "RGB",
+      "sequence": "separator,G,separator,B,sync,porch,R",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1.5,
+        "separator": 1.5,
+        "scan": 88.064,
+        "line": 277.692,
+        "initial_extra_sync": 9
+      },
+      "evidence_status": "family-extension-needs-interoperability-test",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf",
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Extra9ms sync before first line only."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Scottie DX",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 76,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "separator,G,separator,B,sync,porch,R",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1.5,
+        "separator": 1.5,
+        "scan": 345.6,
+        "line": 1050.3000000000002,
+        "initial_extra_sync": 9
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Extra9ms sync before first line only.",
+        "VIS76 conflicts with AVT188; framing determines family."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD50",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 93,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 91.52,
+        "line_pair": 388.15999999999997
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD90",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 99,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 170.24,
+        "line_pair": 703.0400000000001
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD120",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 95,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 121.6,
+        "line_pair": 508.47999999999996
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD160",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 98,
+      "width": 512,
+      "height": 400,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 195.584,
+        "line_pair": 804.416
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD180",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 96,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 183.04,
+        "line_pair": 754.24
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD240",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 97,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 244.48,
+        "line_pair": 1000.0
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "PD290",
+      "family": "PD",
+      "identification": "VIS-7-even",
+      "vis_code": 94,
+      "width": 800,
+      "height": 616,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 20,
+        "porch": 2.08,
+        "scan": 228.8,
+        "line_pair": 937.2800000000001
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Chroma shared vertically across two rows; four equal component scans."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Robot36",
+      "family": "Robot",
+      "identification": "VIS-7-even",
+      "vis_code": 8,
+      "width": 320,
+      "height": 240,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,separatorCr,chromaPorch,Cr; sync,porch,Y1,separatorCb,chromaPorch,Cb",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 3,
+        "Y": 88,
+        "C": 44,
+        "separator": 4.5,
+        "chroma_porch": 1.5,
+        "line": 150
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Cr on first row, Cb on second; shared chroma across two rows."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Robot72",
+      "family": "Robot",
+      "identification": "VIS-7-even",
+      "vis_code": 12,
+      "width": 320,
+      "height": 240,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,separatorCr,chromaPorchCr,Cr,separatorCb,chromaPorchCb,Cb",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 3,
+        "Y": 138,
+        "C": 69,
+        "separator": 4.5,
+        "chroma_porch": 1.5,
+        "line": 300
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "N7CXI specifies Cr porch1900Hz and Cb porch1500Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Pasokon P3",
+      "family": "Pasokon",
+      "identification": "VIS-7-even",
+      "vis_code": 113,
+      "width": 640,
+      "height": 496,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,porch,G,porch,B,porch",
+      "timing_ms": {
+        "sync": 5.208,
+        "porch": 1.042,
+        "scan": 133.333,
+        "line": 409.375
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Published timings rounded0.001ms; exact implementation may use RS232 clock divisors."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Pasokon P5",
+      "family": "Pasokon",
+      "identification": "VIS-7-even",
+      "vis_code": 114,
+      "width": 640,
+      "height": 496,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,porch,G,porch,B,porch",
+      "timing_ms": {
+        "sync": 7.813,
+        "porch": 1.563,
+        "scan": 200,
+        "line": 614.065
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Published timings rounded0.001ms; exact implementation may use RS232 clock divisors."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Pasokon P7",
+      "family": "Pasokon",
+      "identification": "VIS-7-even",
+      "vis_code": 115,
+      "width": 640,
+      "height": 496,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,porch,G,porch,B,porch",
+      "timing_ms": {
+        "sync": 10.417,
+        "porch": 2.083,
+        "scan": 266.666,
+        "line": 818.7470000000001
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Published timings rounded0.001ms; exact implementation may use RS232 clock divisors."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "WraaseSC2-180",
+      "family": "WraaseSC2",
+      "identification": "VIS-7-even",
+      "vis_code": 55,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,G,B",
+      "timing_ms": {
+        "sync": 5.5225,
+        "porch": 0.5,
+        "scan": 235,
+        "line": 710.5225
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "FAX480",
+      "family": "FAX",
+      "identification": "FAX-start-no-VIS",
+      "vis_code": null,
+      "width": 512,
+      "height": 480,
+      "color_model": "BW",
+      "sequence": "start,20 phasing rows,480 picture rows",
+      "timing_ms": {
+        "sync": 5.12,
+        "scan": 262.144,
+        "line": 267.264,
+        "start_half_period": 2.05
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://www.classicsstv.com/downloads/daytonpaper.pdf"
+      ],
+      "notes": [
+        "Original Dayton profile has no VIS.20phasing rows additional to480image rows. Some implementations treat500rows as picture. Later VIS85 wrapper must be explicit alternative profile."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200,
+      "framing": {
+        "start_cycles": 1220,
+        "phasing_rows": 20,
+        "picture_rows": 480
+      }
+    },
+    {
+      "name": "MP73",
+      "family": "MMSSTV-MP",
+      "identification": "VIS-16-LSB",
+      "vis_code": 9507,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 140,
+        "line_pair": 570
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MP115",
+      "family": "MMSSTV-MP",
+      "identification": "VIS-16-LSB",
+      "vis_code": 10531,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 223,
+        "line_pair": 902
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MP140",
+      "family": "MMSSTV-MP",
+      "identification": "VIS-16-LSB",
+      "vis_code": 10787,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 270,
+        "line_pair": 1090
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MP175",
+      "family": "MMSSTV-MP",
+      "identification": "VIS-16-LSB",
+      "vis_code": 11299,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 340,
+        "line_pair": 1370
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MR73",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 17699,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 138,
+        "C": 69.0,
+        "last_pixel_hold": 0.1,
+        "line": 286.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MR90",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 17955,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 171,
+        "C": 85.5,
+        "last_pixel_hold": 0.1,
+        "line": 352.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MR115",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 18723,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 220,
+        "C": 110.0,
+        "last_pixel_hold": 0.1,
+        "line": 450.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MR140",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 18979,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 269,
+        "C": 134.5,
+        "last_pixel_hold": 0.1,
+        "line": 548.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MR175",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 19491,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 337,
+        "C": 168.5,
+        "last_pixel_hold": 0.1,
+        "line": 684.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [
+        "MR175 originalVIS0x4c23 corrects duplicate0x4a23 in QSSTV table."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ML180",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 34083,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 176.5,
+        "C": 88.25,
+        "last_pixel_hold": 0.1,
+        "line": 363.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ML240",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 34339,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 236.5,
+        "C": 118.25,
+        "last_pixel_hold": 0.1,
+        "line": 483.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ML280",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 35107,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 277.5,
+        "C": 138.75,
+        "last_pixel_hold": 0.1,
+        "line": 565.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ML320",
+      "family": "MMSSTV-MRML",
+      "identification": "VIS-16-LSB",
+      "vis_code": 35363,
+      "width": 640,
+      "height": 496,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y,LP,Cr,LP,Cb,LP",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "Y": 317.5,
+        "C": 158.75,
+        "last_pixel_hold": 0.1,
+        "line": 645.3
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MP73-N",
+      "family": "MMSSTV-MPN",
+      "identification": "N-VIS-24",
+      "vis_code": 2,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 140,
+        "line_pair": 570
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "MP110-N",
+      "family": "MMSSTV-MPN",
+      "identification": "N-VIS-24",
+      "vis_code": 4,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 212,
+        "line_pair": 858
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "MP140-N",
+      "family": "MMSSTV-MPN",
+      "identification": "N-VIS-24",
+      "vis_code": 5,
+      "width": 320,
+      "height": 256,
+      "color_model": "YCrCb",
+      "sequence": "sync,porch,Y0,CrAverage,CbAverage,Y1",
+      "timing_ms": {
+        "sync": 9,
+        "porch": 1,
+        "TW": 270,
+        "line_pair": 1090
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "MC110-N",
+      "family": "MMSSTV-MCN",
+      "identification": "N-VIS-24",
+      "vis_code": 20,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,G,B",
+      "timing_ms": {
+        "sync": 8,
+        "porch": 0.5,
+        "TW": 143,
+        "line": 437.5
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "MC140-N",
+      "family": "MMSSTV-MCN",
+      "identification": "N-VIS-24",
+      "vis_code": 21,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,G,B",
+      "timing_ms": {
+        "sync": 8,
+        "porch": 0.5,
+        "TW": 180,
+        "line": 548.5
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "MC180-N",
+      "family": "MMSSTV-MCN",
+      "identification": "N-VIS-24",
+      "vis_code": 22,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": "sync,porch,R,G,B",
+      "timing_ms": {
+        "sync": 8,
+        "porch": 0.5,
+        "TW": 232,
+        "line": 704.5
+      },
+      "evidence_status": "primary-protocol",
+      "source_urls": [
+        "https://github.com/n5ac/mmsstv/blob/master/mode.txt"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        2044,
+        2300
+      ],
+      "audio_sync_hz": 1900
+    },
+    {
+      "name": "RobotBW8",
+      "family": "RobotBW",
+      "identification": "VIS-7-even",
+      "vis_code": 2,
+      "width": 160,
+      "height": 120,
+      "color_model": "BW",
+      "sequence": "QSSTV-RX-profile",
+      "timing_ms": {
+        "payload_seconds": 8.028,
+        "sync": 6,
+        "front": 0.5,
+        "back": 0.5,
+        "line": 66.9,
+        "scan": 59.900000000000006
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "VIS aliases1/2/3 for8s;5/6/7 for12s indicate R/G/B monochrome component. Historical timings differ."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "RobotBW12",
+      "family": "RobotBW",
+      "identification": "VIS-7-even",
+      "vis_code": 6,
+      "width": 160,
+      "height": 120,
+      "color_model": "BW",
+      "sequence": "QSSTV-RX-profile",
+      "timing_ms": {
+        "payload_seconds": 12.001,
+        "sync": 6,
+        "front": 0.5,
+        "back": 1.5,
+        "line": 100.00833333333333,
+        "scan": 92.00833333333333
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "VIS aliases1/2/3 for8s;5/6/7 for12s indicate R/G/B monochrome component. Historical timings differ."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Robot24",
+      "family": "Robot",
+      "identification": "VIS-7-even",
+      "vis_code": 4,
+      "width": 160,
+      "height": 120,
+      "color_model": "YCrCb",
+      "sequence": null,
+      "timing_ms": {
+        "payload_seconds": 24.0015
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "Precise component timing requires matching transmitter validation; do not assume equal RGB durations for all SC2 variants."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "WraaseSC2-60",
+      "family": "WraaseSC2",
+      "identification": "VIS-7-even",
+      "vis_code": 59,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": null,
+      "timing_ms": {
+        "payload_seconds": 61.5435
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "Precise component timing requires matching transmitter validation; do not assume equal RGB durations for all SC2 variants."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "WraaseSC2-120",
+      "family": "WraaseSC2",
+      "identification": "VIS-7-even",
+      "vis_code": 63,
+      "width": 320,
+      "height": 256,
+      "color_model": "RGB",
+      "sequence": null,
+      "timing_ms": {
+        "payload_seconds": 121.7425
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "Precise component timing requires matching transmitter validation; do not assume equal RGB durations for all SC2 variants."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT24",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 64,
+      "width": 128,
+      "height": 120,
+      "color_model": "RGB",
+      "sequence": "R,G,B-no-horizontal-sync",
+      "timing_ms": {
+        "payload_seconds": 22.5016
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "VIS followed by AVT frame timing header, not ordinary line sync."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT90",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 68,
+      "width": 320,
+      "height": 240,
+      "color_model": "RGB",
+      "sequence": "R,G,B-no-horizontal-sync",
+      "timing_ms": {
+        "payload_seconds": 90.0045
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "VIS followed by AVT frame timing header, not ordinary line sync."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT94",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 72,
+      "width": 320,
+      "height": 200,
+      "color_model": "RGB",
+      "sequence": "R,G,B-no-horizontal-sync",
+      "timing_ms": {
+        "payload_seconds": 93.75
+      },
+      "evidence_status": "implementation-profile-needs-interoperability-test",
+      "source_urls": [
+        "https://github.com/ON4QZ/QSSTV/blob/main/src/sstv/sstvparam.cpp"
+      ],
+      "notes": [
+        "VIS followed by AVT frame timing header, not ordinary line sync."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "Robot12",
+      "family": "Robot",
+      "identification": "VIS-7-even",
+      "vis_code": 0,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "RobotBW24",
+      "family": "RobotBW",
+      "identification": "VIS-7-even",
+      "vis_code": 10,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "RobotBW36",
+      "family": "RobotBW",
+      "identification": "VIS-7-even",
+      "vis_code": 14,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ScottieDX2",
+      "family": "Scottie",
+      "identification": "VIS-7-even",
+      "vis_code": 80,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MartinHQ1",
+      "family": "MartinHQ",
+      "identification": "VIS-7-even",
+      "vis_code": 41,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MartinHQ2",
+      "family": "MartinHQ",
+      "identification": "VIS-7-even",
+      "vis_code": 42,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MartinHQ3",
+      "family": "MartinHQ",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MartinHQ4",
+      "family": "MartinHQ",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "WraaseSC2-30",
+      "family": "WraaseSC2",
+      "identification": "VIS-7-even",
+      "vis_code": 51,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MSCAN-TV1",
+      "family": "MSCAN",
+      "identification": "VIS-7-even",
+      "vis_code": 104,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "MSCAN-TV2",
+      "family": "MSCAN",
+      "identification": "VIS-7-even",
+      "vis_code": 105,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "ProskanJ120",
+      "family": "Proskan",
+      "identification": "VIS-7-even",
+      "vis_code": 100,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "VesterColorFAX",
+      "family": "Vester",
+      "identification": "VIS-7-even",
+      "vis_code": 86,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "KenwoodFAST-FM",
+      "family": "Kenwood",
+      "identification": "VIS-7-even",
+      "vis_code": 90,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SP17BW",
+      "family": "Monochrome",
+      "identification": "VIS-7-even",
+      "vis_code": 125,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Name identified in historical catalog; obtain original author/device specification and independent audio before enabling decode."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1BW8",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 18,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1BW16",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 22,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1BW24",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 26,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1BW32",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 30,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1Color24",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 16,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1Color48",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 20,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1Color48Q",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 24,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "SC1Color96",
+      "family": "WraaseSC1",
+      "identification": "VIS-7-even",
+      "vis_code": 28,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT188",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 76,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "AVT188 conflicts with ScottieDXVIS76."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT125BW",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 80,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "AVT125BW is monochrome, not RGB."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT24-Narrow",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 65,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT24-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 66,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT24-Narrow-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 67,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT90-Narrow",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 69,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT90-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 70,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT90-Narrow-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 71,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT94-Narrow",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 73,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT94-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 74,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT94-Narrow-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 75,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT188-Narrow",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 77,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT188-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 78,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT188-Narrow-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 79,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT125BW-Narrow",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 81,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT125BW-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 82,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT125BW-Narrow-QRM",
+      "family": "AVT",
+      "identification": "AVT-digital-header",
+      "vis_code": 83,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-option-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_05.pdf"
+      ],
+      "notes": [
+        "Variant requires framing and interlace validation; VIS number alone insufficient. Narrow image range1700-2100Hz."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT8",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT16h",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT16w",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT32",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT48h",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT48w",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT96",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "AVT128",
+      "family": "AVT-legacy",
+      "identification": "VIS-7-even",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "discovery-name-only",
+      "source_urls": [
+        "https://sstv.org.uk/docs/modes/avt/"
+      ],
+      "notes": [
+        "Discovery lead only. Original manufacturer documentation unresolved; no verifiedVIS, dimensions or timing."
+      ],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "HistoricalBW7.2s",
+      "family": "HistoricalBW",
+      "identification": "historical-framing-unresolved",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "HistoricalBW8s",
+      "family": "HistoricalBW",
+      "identification": "historical-framing-unresolved",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "HistoricalBW16s",
+      "family": "HistoricalBW",
+      "identification": "historical-framing-unresolved",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "HistoricalBW32s",
+      "family": "HistoricalBW",
+      "identification": "historical-framing-unresolved",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    },
+    {
+      "name": "HistoricalBW64s",
+      "family": "HistoricalBW",
+      "identification": "historical-framing-unresolved",
+      "vis_code": null,
+      "width": null,
+      "height": null,
+      "color_model": null,
+      "sequence": null,
+      "timing_ms": null,
+      "evidence_status": "historical-name-parameters-unverified",
+      "source_urls": [
+        "https://www.sstv-handbook.com/download/sstv_04.pdf"
+      ],
+      "notes": [],
+      "decoder_test_status": "not-established-by-this-catalog",
+      "audio_video_hz": [
+        1500,
+        2300
+      ],
+      "audio_sync_hz": 1200
+    }
+  ],
+  "separate_digital_protocols": [
+    "HAMDRM/EasyPal",
+    "SSDV",
+    "MFSK pictures"
+  ],
+  "unknown_policy": "Null values and discovery-only profiles must not enable decoders or automaticVIS matching.",
+  "validation": {
+    "unique_entries": 103,
+    "unknowns_remain_null": true,
+    "no_decoder_implementation_included": true
+  }
+}

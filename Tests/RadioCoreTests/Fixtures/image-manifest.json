@@ -1,0 +1,834 @@
+{
+  "schema_version": 1,
+  "source_verification_date": "2026-10-12",
+  "generator": "/private/tmp/generate_image_fixtures.py",
+  "provenance": "Independent mathematics from public primary protocol documents; no project decoder code consulted",
+  "no_decoder_code_used": true,
+  "no_playback_or_hardware": true,
+  "limitations": [
+    "Synthetic laboratory fixture, not a proprietary or recorded radio transmission",
+    "No fading, adjacent-channel interference, sample-clock drift or noise in this image suite",
+    "APT spans24 lines, shorter than a full128line telemetry frame",
+    "SSTV/FAX published timings mapped to cumulative sample boundaries, avoiding persegment rounding drift"
+  ],
+  "fixtures": [
+    {
+      "file": "sstv_martin_m1_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/sstv_martin_m1_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 933601,
+      "duration_seconds": 116.700125,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "df67d7cff839f4b3724101a9b6c756017a366ae158852a3f245504d7c288535e",
+      "carrier_phase_radians": 0.0,
+      "variant": "clean",
+      "protocol": {
+        "mode": "martin_m1",
+        "vis_code": 44,
+        "vis_data_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "vis_even_parity_bit": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "width": 320,
+        "height": 256,
+        "color_scan_order": "G, B, R",
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "sync_hz": 1200,
+        "intensity_to_frequency": "1500 + 800 * unsigned_rgb_byte / 255",
+        "scan_seconds_per_component": 0.146432,
+        "pixel_seconds": 0.0004576,
+        "line_seconds": 0.446446,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "extra_initial_scottie_sync_seconds": 0.0,
+        "image_scan_duration_seconds": 114.290176,
+        "pattern": "Rows0-15 grayscale bars; rows16-239 eight color bars white,yellow,cyan,green,magenta,red,blue,black; rows240-255 reverse colors",
+        "color_bar_rgb": [
+          [
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            0
+          ],
+          [
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            255,
+            0
+          ],
+          [
+            255,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "sstv_expected_320x256.png",
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "2-4,12 (one-based)",
+          "title": "JL Barber N7CXI: Proposal for SSTV Mode Specifications, Dayton 2000, timing derived from Robot1200C firmware"
+        },
+        "timing_note": "Exact published decimal timings are used, not rounded display durations of114/110 seconds"
+      },
+      "picture_start_seconds_absolute": 1.4100000000000001
+    },
+    {
+      "file": "sstv_martin_m1_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/sstv_martin_m1_8000_mono_offset.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 932587,
+      "duration_seconds": 116.573375,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "d4aea5a2cc15e498d68ef135bbc019443c5c6c1242e6eede7fc1296768210876",
+      "carrier_phase_radians": 1.23456789,
+      "variant": "offset",
+      "protocol": {
+        "mode": "martin_m1",
+        "vis_code": 44,
+        "vis_data_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "vis_even_parity_bit": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "width": 320,
+        "height": 256,
+        "color_scan_order": "G, B, R",
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "sync_hz": 1200,
+        "intensity_to_frequency": "1500 + 800 * unsigned_rgb_byte / 255",
+        "scan_seconds_per_component": 0.146432,
+        "pixel_seconds": 0.0004576,
+        "line_seconds": 0.446446,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "extra_initial_scottie_sync_seconds": 0.0,
+        "image_scan_duration_seconds": 114.290176,
+        "pattern": "Rows0-15 grayscale bars; rows16-239 eight color bars white,yellow,cyan,green,magenta,red,blue,black; rows240-255 reverse colors",
+        "color_bar_rgb": [
+          [
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            0
+          ],
+          [
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            255,
+            0
+          ],
+          [
+            255,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "sstv_expected_320x256.png",
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "2-4,12 (one-based)",
+          "title": "JL Barber N7CXI: Proposal for SSTV Mode Specifications, Dayton 2000, timing derived from Robot1200C firmware"
+        },
+        "timing_note": "Exact published decimal timings are used, not rounded display durations of114/110 seconds"
+      },
+      "picture_start_seconds_absolute": 1.28325
+    },
+    {
+      "file": "sstv_scottie_s1_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/sstv_scottie_s1_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 896347,
+      "duration_seconds": 112.043375,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "3541d11f44babb4b2659cf0d058079861ba1a8e7f319a9766b1cc99a1ec9b243",
+      "carrier_phase_radians": 0.0,
+      "variant": "clean",
+      "protocol": {
+        "mode": "scottie_s1",
+        "vis_code": 60,
+        "vis_data_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity_bit": 0,
+        "calibration_and_vis_seconds": 0.91,
+        "width": 320,
+        "height": 256,
+        "color_scan_order": "G, B, R",
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "sync_hz": 1200,
+        "intensity_to_frequency": "1500 + 800 * unsigned_rgb_byte / 255",
+        "scan_seconds_per_component": 0.13824,
+        "pixel_seconds": 0.000432,
+        "line_seconds": 0.42822,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "extra_initial_scottie_sync_seconds": 0.009,
+        "image_scan_duration_seconds": 109.63332,
+        "pattern": "Rows0-15 grayscale bars; rows16-239 eight color bars white,yellow,cyan,green,magenta,red,blue,black; rows240-255 reverse colors",
+        "color_bar_rgb": [
+          [
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            0
+          ],
+          [
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            255,
+            0
+          ],
+          [
+            255,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "sstv_expected_320x256.png",
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "2-4,12 (one-based)",
+          "title": "JL Barber N7CXI: Proposal for SSTV Mode Specifications, Dayton 2000, timing derived from Robot1200C firmware"
+        },
+        "timing_note": "Exact published decimal timings are used, not rounded display durations of114/110 seconds"
+      },
+      "picture_start_seconds_absolute": 1.4100000000000001
+    },
+    {
+      "file": "sstv_scottie_s1_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/sstv_scottie_s1_8000_mono_offset.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 895333,
+      "duration_seconds": 111.916625,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "b7cfc2f0eb687554c6a97f261af44684549b18a13276337b57c84b2e4a383126",
+      "carrier_phase_radians": 1.23456789,
+      "variant": "offset",
+      "protocol": {
+        "mode": "scottie_s1",
+        "vis_code": 60,
+        "vis_data_bits_lsb_first": [
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "vis_even_parity_bit": 0,
+        "calibration_and_vis_seconds": 0.91,
+        "width": 320,
+        "height": 256,
+        "color_scan_order": "G, B, R",
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "sync_hz": 1200,
+        "intensity_to_frequency": "1500 + 800 * unsigned_rgb_byte / 255",
+        "scan_seconds_per_component": 0.13824,
+        "pixel_seconds": 0.000432,
+        "line_seconds": 0.42822,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "extra_initial_scottie_sync_seconds": 0.009,
+        "image_scan_duration_seconds": 109.63332,
+        "pattern": "Rows0-15 grayscale bars; rows16-239 eight color bars white,yellow,cyan,green,magenta,red,blue,black; rows240-255 reverse colors",
+        "color_bar_rgb": [
+          [
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            0
+          ],
+          [
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            255,
+            0
+          ],
+          [
+            255,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "sstv_expected_320x256.png",
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "2-4,12 (one-based)",
+          "title": "JL Barber N7CXI: Proposal for SSTV Mode Specifications, Dayton 2000, timing derived from Robot1200C firmware"
+        },
+        "timing_note": "Exact published decimal timings are used, not rounded display durations of114/110 seconds"
+      },
+      "picture_start_seconds_absolute": 1.28325
+    },
+    {
+      "file": "wefax_hf120_ioc576_8000_mono_manual.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/wefax_hf120_ioc576_8000_mono_manual.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 268000,
+      "duration_seconds": 33.5,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "e67a6b856564d9b30035b58204f776f8a7d27ebf0c3447a6082d1d878ccdfd56",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "wefax_hf120_ioc576",
+        "capture_type": "unsynchronized_manual_start_image_only",
+        "width": 1810,
+        "height": 64,
+        "ioc": 576,
+        "width_convention": "round(pi * IOC)",
+        "lines_per_minute": 120,
+        "line_seconds": 0.5,
+        "center_hz": 1900,
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "picture_start_seconds_relative_to_signal": 0.0,
+        "picture_duration_seconds": 32,
+        "start_alternation_hz": null,
+        "start_duration_seconds": 0,
+        "phasing_duration_seconds": 0,
+        "phasing_hz": null,
+        "phasing_white_fraction": null,
+        "stop_alternation_hz": null,
+        "stop_duration_seconds": 0,
+        "final_black_duration_seconds": 0,
+        "pattern": "Eight ascending grayscale bars; last8 rows reverse. Full capture includes a5% white dead-sector margin.",
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "wefax_manual_expected_1810x64.png",
+        "source": {
+          "url": "https://www.weather.gov/media/marine/WMO_386_Vol_I_2009_en.pdf",
+          "pages": "289-290 (one-based)",
+          "title": "WMO-No386 VolumeI2009, PartIII sections5.2 and5.3"
+        },
+        "start_stop_note": "300/450Hz are black/white alternation rates of1500/2300Hz FM fax audio"
+      },
+      "picture_start_seconds_absolute": 0.5
+    },
+    {
+      "file": "wefax_hf120_ioc576_8000_mono_complete.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/wefax_hf120_ioc576_8000_mono_complete.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 668000,
+      "duration_seconds": 83.5,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "cd284992563dfc57cea467295c5021efa98d150e6bc03f067ae4a3e2d241a086",
+      "carrier_phase_radians": 0.731234,
+      "protocol": {
+        "mode": "wefax_hf120_ioc576",
+        "capture_type": "complete_start_phasing_image_stop",
+        "width": 1810,
+        "height": 64,
+        "ioc": 576,
+        "width_convention": "round(pi * IOC)",
+        "lines_per_minute": 120,
+        "line_seconds": 0.5,
+        "center_hz": 1900,
+        "black_hz": 1500,
+        "white_hz": 2300,
+        "picture_start_seconds_relative_to_signal": 35.0,
+        "picture_duration_seconds": 32,
+        "start_alternation_hz": 300,
+        "start_duration_seconds": 5,
+        "phasing_duration_seconds": 30,
+        "phasing_hz": 2,
+        "phasing_white_fraction": 0.05,
+        "stop_alternation_hz": 450,
+        "stop_duration_seconds": 5,
+        "final_black_duration_seconds": 10,
+        "pattern": "Eight ascending grayscale bars; last8 rows reverse. Full capture includes a5% white dead-sector margin.",
+        "grayscale_bar_bytes": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ],
+        "expected_png": "wefax_complete_expected_1810x64.png",
+        "source": {
+          "url": "https://www.weather.gov/media/marine/WMO_386_Vol_I_2009_en.pdf",
+          "pages": "289-290 (one-based)",
+          "title": "WMO-No386 VolumeI2009, PartIII sections5.2 and5.3"
+        },
+        "start_stop_note": "300/450Hz are black/white alternation rates of1500/2300Hz FM fax audio"
+      },
+      "picture_start_seconds_absolute": 35.5
+    },
+    {
+      "file": "noaa_apt_2400am_16640_mono_24lines.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/noaa_apt_2400am_16640_mono_24lines.wav",
+      "sample_rate_hz": 16640,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 222530,
+      "duration_seconds": 13.373197115384615,
+      "initial_silence_frames": 6210,
+      "initial_silence_seconds": 0.37319711538461536,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "030f2e547c25f5ffe6d207d367949e4b02b6f680bc92f145a3d0a7511e570d9e",
+      "carrier_phase_radians": 1.973512,
+      "protocol": {
+        "mode": "noaa_apt_demodulated_audio",
+        "subcarrier_hz": 2400,
+        "audio_modulation": "AM envelope proportional to unsigned8bit image word",
+        "word_rate_per_second": 4160,
+        "words_per_line": 2080,
+        "lines_per_second": 2,
+        "lines": 24,
+        "signal_duration_seconds": 12.0,
+        "channels": [
+          "A",
+          "B"
+        ],
+        "words_per_channel": 1040,
+        "fields_per_channel": {
+          "sync": 39,
+          "space_and_minute_marker": 47,
+          "image": 909,
+          "telemetry": 45
+        },
+        "sync_a_words": [
+          11,
+          11,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11
+        ],
+        "sync_b_words": [
+          11,
+          11,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11
+        ],
+        "sync_a": "4 low +7 cycles of2 high,2 low +7 low;1040Hz50% duty",
+        "sync_b": "4 low +7 cycles of3 high,2 low;832Hz60% duty",
+        "sync_low_byte": 11,
+        "sync_high_byte": 244,
+        "space_minute_marker": "First2 rows high,next2 low; afterwards A low,B high",
+        "telemetry_fixture": "8 lines each of gray32,64,96;24line partial frame, not a complete128line calibration frame",
+        "pattern": "ChannelA ascending eight grayscale bars, B descending; last8 rows reverse both",
+        "expected_png": "apt_expected_full_2080x24.png",
+        "expected_channel_a_png": "apt_expected_channel_a_909x24.png",
+        "expected_channel_b_png": "apt_expected_channel_b_909x24.png",
+        "source": [
+          {
+            "url": "https://repository.library.noaa.gov/view/noaa/1354/noaa_1354_DS1.pdf",
+            "pages": "17-22 (one-based)",
+            "title": "NOAA Technical Report NESS107: Data extraction and calibration of TIROS-N/NOAA radiometers"
+          },
+          {
+            "url": "https://www.ncei.noaa.gov/pub/data/cdo/documentation/podguides/N-15%20thru%20N-19/pdf/0.0%20NOAA%20KLM%20Users%20Guide.pdf",
+            "section": "4.2.3, Figure4.2.3-3",
+            "title": "NOAA KLM Users Guide, APT synchronization numerical levels"
+          }
+        ],
+        "audio_boundary": "Mathematical post-FM-demodulator AM subcarrier audio only; no RF/FM signal or hardware",
+        "filtering_limit": "Ideal zero-order-held word amplitude; does not model spacecraft analog reconstruction filters"
+      }
+    },
+    {
+      "file": "noaa_apt_2400am_48000_mono_24lines.wav",
+      "absolute_path": "/private/tmp/radio-image-fixtures/noaa_apt_2400am_48000_mono_24lines.wav",
+      "sample_rate_hz": 48000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 641913,
+      "duration_seconds": 13.3731875,
+      "initial_silence_frames": 17913,
+      "initial_silence_seconds": 0.3731875,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "fd649db648019c4d624111df4b745f944deac063640ff8e808933f3f472c2123",
+      "carrier_phase_radians": 1.973512,
+      "protocol": {
+        "mode": "noaa_apt_demodulated_audio",
+        "subcarrier_hz": 2400,
+        "audio_modulation": "AM envelope proportional to unsigned8bit image word",
+        "word_rate_per_second": 4160,
+        "words_per_line": 2080,
+        "lines_per_second": 2,
+        "lines": 24,
+        "signal_duration_seconds": 12.0,
+        "channels": [
+          "A",
+          "B"
+        ],
+        "words_per_channel": 1040,
+        "fields_per_channel": {
+          "sync": 39,
+          "space_and_minute_marker": 47,
+          "image": 909,
+          "telemetry": 45
+        },
+        "sync_a_words": [
+          11,
+          11,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11
+        ],
+        "sync_b_words": [
+          11,
+          11,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11,
+          244,
+          244,
+          244,
+          11,
+          11
+        ],
+        "sync_a": "4 low +7 cycles of2 high,2 low +7 low;1040Hz50% duty",
+        "sync_b": "4 low +7 cycles of3 high,2 low;832Hz60% duty",
+        "sync_low_byte": 11,
+        "sync_high_byte": 244,
+        "space_minute_marker": "First2 rows high,next2 low; afterwards A low,B high",
+        "telemetry_fixture": "8 lines each of gray32,64,96;24line partial frame, not a complete128line calibration frame",
+        "pattern": "ChannelA ascending eight grayscale bars, B descending; last8 rows reverse both",
+        "expected_png": "apt_expected_full_2080x24.png",
+        "expected_channel_a_png": "apt_expected_channel_a_909x24.png",
+        "expected_channel_b_png": "apt_expected_channel_b_909x24.png",
+        "source": [
+          {
+            "url": "https://repository.library.noaa.gov/view/noaa/1354/noaa_1354_DS1.pdf",
+            "pages": "17-22 (one-based)",
+            "title": "NOAA Technical Report NESS107: Data extraction and calibration of TIROS-N/NOAA radiometers"
+          },
+          {
+            "url": "https://www.ncei.noaa.gov/pub/data/cdo/documentation/podguides/N-15%20thru%20N-19/pdf/0.0%20NOAA%20KLM%20Users%20Guide.pdf",
+            "section": "4.2.3, Figure4.2.3-3",
+            "title": "NOAA KLM Users Guide, APT synchronization numerical levels"
+          }
+        ],
+        "audio_boundary": "Mathematical post-FM-demodulator AM subcarrier audio only; no RF/FM signal or hardware",
+        "filtering_limit": "Ideal zero-order-held word amplitude; does not model spacecraft analog reconstruction filters"
+      }
+    }
+  ]
+}

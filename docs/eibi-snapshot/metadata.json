@@ -1,0 +1,10 @@
+{
+  "season": "a26",
+  "sourceURL": "http://www.eibispace.de/dx/sked-a26.csv",
+  "fetchedAt": "2026-10-13T06:08:21Z",
+  "sourceModifiedAt": "2026-10-04T12:53:56Z",
+  "sha256": {
+    "sked-a26.csv": "87c6f88759e5c1d6710d375796dcef65264e529002d9c25237458e71ec011a01",
+    "README.TXT": "7f588d45496e6187239da1e7d45ef3e46ef489f1f2c16d33b532142f38aadfec"
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "source_verification_date": "2026-10-13",
+  "generator": "/private/tmp/generate_sstv_extra.py",
+  "provenance": "Independent public protocol mathematics. No RadioWorkbench code consulted.",
+  "no_decoder_code_used": true,
+  "no_playback_or_hardware": true,
+  "fixtures": [
+    {
+      "file": "sstv_pd50_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-image-extra/sstv_pd50_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 416756,
+      "duration_seconds": 52.0945,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "7867c88923f096fb605bd29712d43a3920aec007f03183dd5dca4bf7813a951f",
+      "carrier_phase_radians": 0.123,
+      "variant": "clean",
+      "protocol": {
+        "mode": "pd50",
+        "vis_code": 93,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "vis_even_parity": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "sync_hz": 1200,
+        "video_hz": [
+          1500,
+          2300
+        ],
+        "color_model": "BT.601 limited-range Y, R-Y, B-Y from N7CXI AppendixB",
+        "pair_sequence": "Y0,CrAverage,CbAverage,Y1",
+        "sync_ms": 20,
+        "porch_ms": 2.08,
+        "scan_ms": 91.52,
+        "image_payload_seconds": 49.68448,
+        "row_pair_count": 128,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "5,9-10,14 (one-based)",
+          "title": "JL Barber N7CXI Proposal for SSTV Mode Specifications, Dayton2000"
+        },
+        "pattern": "Eight RGB bars, sixteen grayscale rows at start, sixteen reversed-color rows at end; each pair shares identical chroma",
+        "expected_png": "sstv_pd50_expected_320x256.png",
+        "expected_tolerance_note": "PNG is original RGB. Published rounded BT.601 coefficients introduce small differences after inverse conversion; compare patch medians within5 bytes per channel, excluding edges."
+      },
+      "picture_start_seconds_absolute": 1.4100000000000001
+    },
+    {
+      "file": "sstv_pd50_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-image-extra/sstv_pd50_8000_mono_offset.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 415742,
+      "duration_seconds": 51.96775,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "8f86a2b9da12b0e8c86e35c534c822bd375ef6681dde2858b3c6df156444800e",
+      "carrier_phase_radians": 1.23456789,
+      "variant": "offset",
+      "protocol": {
+        "mode": "pd50",
+        "vis_code": 93,
+        "width": 320,
+        "height": 256,
+        "vis_bits_lsb_first": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "vis_even_parity": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "sync_hz": 1200,
+        "video_hz": [
+          1500,
+          2300
+        ],
+        "color_model": "BT.601 limited-range Y, R-Y, B-Y from N7CXI AppendixB",
+        "pair_sequence": "Y0,CrAverage,CbAverage,Y1",
+        "sync_ms": 20,
+        "porch_ms": 2.08,
+        "scan_ms": 91.52,
+        "image_payload_seconds": 49.68448,
+        "row_pair_count": 128,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "5,9-10,14 (one-based)",
+          "title": "JL Barber N7CXI Proposal for SSTV Mode Specifications, Dayton2000"
+        },
+        "pattern": "Eight RGB bars, sixteen grayscale rows at start, sixteen reversed-color rows at end; each pair shares identical chroma",
+        "expected_png": "sstv_pd50_expected_320x256.png",
+        "expected_tolerance_note": "PNG is original RGB. Published rounded BT.601 coefficients introduce small differences after inverse conversion; compare patch medians within5 bytes per channel, excluding edges."
+      },
+      "picture_start_seconds_absolute": 1.28325
+    },
+    {
+      "file": "sstv_robot36_8000_mono_clean.wav",
+      "absolute_path": "/private/tmp/radio-image-extra/sstv_robot36_8000_mono_clean.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 307280,
+      "duration_seconds": 38.41,
+      "initial_silence_frames": 4000,
+      "initial_silence_seconds": 0.5,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "1af334aad5ae407436f3f9b6e0842abf69f200696ca93f44ba89a6494c578b11",
+      "carrier_phase_radians": 0.123,
+      "variant": "clean",
+      "protocol": {
+        "mode": "robot36",
+        "vis_code": 8,
+        "width": 320,
+        "height": 240,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "vis_even_parity": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "sync_hz": 1200,
+        "video_hz": [
+          1500,
+          2300
+        ],
+        "color_model": "BT.601 limited-range Y, R-Y, B-Y from N7CXI AppendixB",
+        "pair_sequence": "Y0,CrAverage; Y1,CbAverage",
+        "sync_ms": 9,
+        "porch_ms": 3,
+        "scan_ms": {
+          "Y": 88,
+          "C": 44
+        },
+        "image_payload_seconds": 36.0,
+        "row_pair_count": 120,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "5,9-10,14 (one-based)",
+          "title": "JL Barber N7CXI Proposal for SSTV Mode Specifications, Dayton2000"
+        },
+        "pattern": "Eight RGB bars, sixteen grayscale rows at start, sixteen reversed-color rows at end; each pair shares identical chroma",
+        "expected_png": "sstv_robot36_expected_320x240.png",
+        "expected_tolerance_note": "PNG is original RGB. Published rounded BT.601 coefficients introduce small differences after inverse conversion; compare patch medians within5 bytes per channel, excluding edges."
+      },
+      "picture_start_seconds_absolute": 1.4100000000000001
+    },
+    {
+      "file": "sstv_robot36_8000_mono_offset.wav",
+      "absolute_path": "/private/tmp/radio-image-extra/sstv_robot36_8000_mono_offset.wav",
+      "sample_rate_hz": 8000,
+      "wav_channels": 1,
+      "pcm_bits": 16,
+      "frames": 306266,
+      "duration_seconds": 38.28325,
+      "initial_silence_frames": 2986,
+      "initial_silence_seconds": 0.37325,
+      "final_silence_seconds": 1.0,
+      "clipped_sample_count": 0,
+      "sha256": "ecec96a1e8425a9517efed773f0b9aa1a097f3d8157f80b31f15317460cef19e",
+      "carrier_phase_radians": 1.23456789,
+      "variant": "offset",
+      "protocol": {
+        "mode": "robot36",
+        "vis_code": 8,
+        "width": 320,
+        "height": 240,
+        "vis_bits_lsb_first": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "vis_even_parity": 1,
+        "calibration_and_vis_seconds": 0.91,
+        "sync_hz": 1200,
+        "video_hz": [
+          1500,
+          2300
+        ],
+        "color_model": "BT.601 limited-range Y, R-Y, B-Y from N7CXI AppendixB",
+        "pair_sequence": "Y0,CrAverage; Y1,CbAverage",
+        "sync_ms": 9,
+        "porch_ms": 3,
+        "scan_ms": {
+          "Y": 88,
+          "C": 44
+        },
+        "image_payload_seconds": 36.0,
+        "row_pair_count": 120,
+        "image_start_seconds_relative_to_signal": 0.91,
+        "source": {
+          "url": "https://www.classicsstv.com/downloads/daytonpaper.pdf",
+          "pages": "5,9-10,14 (one-based)",
+          "title": "JL Barber N7CXI Proposal for SSTV Mode Specifications, Dayton2000"
+        },
+        "pattern": "Eight RGB bars, sixteen grayscale rows at start, sixteen reversed-color rows at end; each pair shares identical chroma",
+        "expected_png": "sstv_robot36_expected_320x240.png",
+        "expected_tolerance_note": "PNG is original RGB. Published rounded BT.601 coefficients introduce small differences after inverse conversion; compare patch medians within5 bytes per channel, excluding edges."
+      },
+      "picture_start_seconds_absolute": 1.28325
+    }
+  ]
+}
