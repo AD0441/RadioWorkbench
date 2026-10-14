@@ -28,6 +28,10 @@ mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
 cp "$BUILD_BINARY" "$APP_BINARY"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
+bash "$ROOT_DIR/script/build_multimon.sh" "$APP_MACOS/multimon-helper"
+codesign --force --sign - "$APP_MACOS/multimon-helper"
+cp "$ROOT_DIR/Vendor/MultimonNG/COPYING" "$APP_BUNDLE/Contents/Resources/MultimonNG-License.txt"
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/MultimonNG-Sources.tar.gz" -C "$ROOT_DIR" Vendor/MultimonNG script/build_multimon.sh
 bash "$ROOT_DIR/script/build_propagation.sh" "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Propagation"
 bash "$ROOT_DIR/script/build_itm.sh" "$APP_MACOS"
 for component in libp372.dylib libp533.dylib propagation-helper itm-helper libitm.dylib; do
@@ -48,6 +52,11 @@ for mode in morse rtty bpsk31 dtmf navtex packet; do
 done
 cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/ctcss_8000_mono_100hz.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/acars_upstream_12000_mono.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+for example in pocsag_512_22050_discriminator_clean pocsag_1200_22050_discriminator_clean pocsag_2400_22050_discriminator_clean \
+  selcall_zvei1_22050_12345 rtty_ascii7_8000_75baud rtty_ascii8_8000_110baud hell_feld_8000_cq_clean \
+  hell_slow14_8000_cq_clean hell_slow_fldigi_8000_cq_clean hell_x5_8000_cq_clean hell_x9_8000_cq_clean; do
+  cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/$example.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+done
 cp "$ROOT_DIR/Vendor/acarsdec/LICENSE.md" "$APP_BUNDLE/Contents/Resources/ACARS-License.txt"
 COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ACARS-Sources.tar.gz" -C "$ROOT_DIR" Vendor/acarsdec script/acars-helper.c script/build_acars.sh
 mkdir -p "$APP_BUNDLE/Contents/Resources/EiBi"
@@ -67,8 +76,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.8.9</string>
-<key>CFBundleVersion</key><string>21</string>
+<key>CFBundleShortVersionString</key><string>0.8.10</string>
+<key>CFBundleVersion</key><string>22</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

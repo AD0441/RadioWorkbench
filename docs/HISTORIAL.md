@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.8.10: mapas, satélites y nuevos decodificadores.** Añade un mapa pequeño de repetidoras con ubicación manual para ITM y mapas de pases de satélite con azimut/elevación. Corrige las épocas GP UTC sin sufijo Z y el campo de fecha AMSAT; separa las actualizaciones y conserva cada caché. Incorpora alternativa orbital AMSAT TLE y descarga de frecuencias por la API oficial de GitHub. Añade POCSAG 512/1200/2400 y ocho familias Selcall mediante multimon-ng arm64, Hell nativo en cinco variantes por pulsos y RTTY ASCII 7/8 sin paridad. Incluye 19 WAV sintéticos nuevos y exportación de mensajes JSON/imágenes PNG. [Alcance de los modos](DECODIFICADORES-0.8.10.md) · [Consultas](CONSULTAS.md).
+
 **0.8.9: cobertura topográfica por celda.** Reemplaza la envolvente de 32 rumbos por una malla de enlaces ITM independientes con DEM Mapzen; conserva sombras detrás de montañas y recuperaciones aisladas. Unifica el relieve de enlace exacto y área, corrige el horizonte AGL, conserva avisos NTIA y permite explorar destinos sin borrar la malla. Añade progreso, cancelación, caché DEM y validación contra cinco perfiles NTIA y geografía real de Santiago. [Método y evidencia](TERRAIN-COVERAGE.md).
 
 **0.8.8: cierre al escribir indicativo corregido.** El campo APRS ahora normaliza y persiste el indicativo sin reasignarse dentro de su propio observador; escribirlo carácter por carácter ya no causa recursión ni agota la pila. Se añadió una prueba de regresión sobre el almacén enlazado a SwiftUI.

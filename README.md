@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.8.9
+# RadioWorkbench · 0.8.10
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -17,15 +17,15 @@ Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones 
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-El código 0.8.9 reemplaza la envolvente radial por una malla topográfica independiente. [Revisión del terreno](docs/TERRAIN-COVERAGE.md). La descarga pública indicada arriba es 0.8.8, que corrige el cierre al escribir el indicativo APRS: la normalización a mayúsculas ya no reasigna la propiedad desde su propio observador. [Notas de la versión](docs/RELEASE-0.8.8.md) · [Historial](docs/HISTORIAL.md).
+El código 0.8.10 añade mapas de repetidoras y pases, corrige la actualización de satélites e incorpora POCSAG, ocho familias Selcall, Hell por pulsos y RTTY ASCII. Mantiene la malla topográfica independiente de 0.8.9. La descarga pública indicada arriba sigue siendo 0.8.8. [Notas actuales](docs/RELEASE-0.8.10.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
 | Área | Funciones disponibles |
 |---|---|
-| Texto y tonos | Morse/CW, RTTY ITA2, BPSK31, DTMF, CTCSS de 51 tonos y análisis FSK |
-| Mensajes | NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF por audio AM |
-| Imágenes | 41 variantes SSTV, WEFAX HF y APT desde audio/archivos |
+| Texto y tonos | Morse/CW, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
+| Mensajes | POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF por audio AM |
+| Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
 | Entrada | Micrófono, dispositivo USB o virtual seleccionable, canales individuales/mezcla y perfiles persistentes |
 | Guía de radios | Horarios EiBi, cruce técnico HFCC, favoritas y avisos de inicio |
 | Condiciones HF | NOAA, D-RAP, Band Info, ionosondas y pronóstico NOAA de tres días |
@@ -48,6 +48,9 @@ Para un cable virtual como VB-Cable, selecciona su salida en el módulo Audio/Ne
 | NAVTEX/SITOR-B | USB; LSB con inversión | 2,4 kHz | 1615/1785 Hz; centro 1700 Hz, 100 baud, shift 170 Hz |
 | AX.25/APRS 1200 | FM/NFM | 12–15 kHz | 1200/2200 Hz; conservar el paquete completo |
 | CTCSS | FM/NFM | 12,5 kHz | 50–300 Hz; desactivar el pasa-altos de voz |
+| POCSAG | FM/NFM, salida de discriminador | 12,5–25 kHz según canal | Baseband continuo; desactivar de-emphasis, squelch y filtros de voz |
+| Cinco tonos/Selcall | FM/NFM | 12,5–25 kHz según canal | Aproximadamente 300–3500 Hz; conservar la secuencia completa |
+| Hell por pulsos | USB en HF | 2,4 kHz inicial; ampliar para X9 | Centro y ancho por variante: 40–3150 Hz, mostrados en la app |
 | ACARS VHF | AM | 10–12,5 kHz | 300–3500 Hz; tonos 1200/2400 Hz |
 | SSTV HF | USB | 3 kHz | Cabecera y vídeo alrededor de 1100–2300 Hz |
 | SSTV VHF/FM | FM/NFM según emisión | 12,5–25 kHz | Los mismos tonos del formato SSTV |
@@ -58,8 +61,10 @@ Son ajustes iniciales, no anchos universales de todos los servicios. Desactiva e
 
 ## Decodificadores y alcance actual
 
-- **CW, RTTY, BPSK31:** Morse con velocidad manual, RTTY ITA2 con letras/cifras e inversión, y BPSK31 con Varicode ASCII. RTTY ASCII/CHU, alfabetos nacionales y QPSK31 siguen pendientes.
+- **CW, RTTY, BPSK31:** Morse con velocidad manual, RTTY ITA2 con letras/cifras e inversión, ASCII de 7/8 bits sin paridad y BPSK31 con Varicode ASCII. El modo ASCII 8 conserva el subconjunto ASCII imprimible, no implementa Latin-1. CHU, alfabetos nacionales y QPSK31 siguen pendientes.
 - **DTMF y CTCSS:** detección de pares DTMF y 51 tonos CTCSS con confirmación temporal. [Tonos](docs/TONOS.md).
+- **POCSAG y Selcall:** helper multimon-ng arm64 incluido; POCSAG 512/1200/2400 automático o fijo, BCH de 0–2 bits, capcode/función/texto y JSON. Selcall reconoce ZVEI1/2/3, PZVEI, DZVEI, EEA, EIA y CCIR, conservando los códigos especiales originales. FLEX y DCS siguen pendientes. [Implementación y audio requerido](docs/DECODIFICADORES-0.8.10.md).
+- **Hellschreiber:** raster nativo para Feld, Slow 14 baud, Slow compatible con la tasa fldigi /8, X5 y X9; doble traza, reloj, umbral e inversión, con exportación PNG. No incluye OCR, FSK Hell ni Hell 80. [Variantes y validación](docs/DECODIFICADORES-0.8.10.md).
 - **NAVTEX/SITOR-B:** adquisición por phasing CCIR 476 y corrección FEC mediante dos copias. Es el modo colectivo; no incluye SITOR-A/ARQ ni adquisición de una captura que empieza a mitad del tráfico. [NAVTEX](docs/NAVTEX.md).
 - **AX.25/APRS AFSK1200:** decodificador nativo de paquetes por audio, con CRC y monitor acotado. La consulta APRS-IS de Internet es un servicio separado. [Packet/APRS](docs/PACKET.md).
 - **ACARS VHF:** helper acarsdec arm64, audio AM, remuestreo continuo a 12 kHz, mensajes y exportación JSON. No incluye VDL2 ni HFDL. [ACARS](docs/ACARS.md).
@@ -87,10 +92,10 @@ El catálogo de investigación contiene 103 entradas con fuentes y estado de dis
 ## Consultas de radio
 
 1. **Frecuencia y bandas:** asignaciones de radioaficionado SUBTEL para Chile; modulación, filtro RF y banda de audio del perfil elegido. Una frecuencia ausente de esa tabla no se clasifica como libre.
-2. **Repetidoras:** listados oficiales SUBTEL, búsqueda por indicativo/región/comuna y paso al destino ITM con coordenadas publicadas o ingresadas manualmente. Un permiso de operación no demuestra actividad actual.
+2. **Repetidoras:** listados oficiales SUBTEL, búsqueda por indicativo/región/comuna, pequeño mapa Apple Maps y paso al destino ITM con coordenadas publicadas o ingresadas manualmente/con clic. Un permiso de operación no demuestra actividad actual.
 3. **Indicativos:** consulta las listas SUBTEL conservando indicativo, categoría, zona y vencimiento; descarta nombres y números de licencia.
 4. **APRS cercano:** flujo de solo recepción APRS-IS, filtro geográfico y selección de una estación como destino del análisis de terreno. Los paquetes llegan a través de gateways y no confirman cobertura RF local.
-5. **Satélites:** frecuencias AMSAT/SatNOGS, elementos GP de CelesTrak, reportes de estado AMSAT y pases aproximados de 48 horas. El cálculo usa Kepler con corrección secular J2; no implementa SGP4 ni corrección Doppler.
+5. **Satélites:** frecuencias AMSAT/SatNOGS por API de GitHub, elementos GP de CelesTrak con alternativa TLE de AMSAT, reportes AMSAT y pases aproximados de 48 horas. Seleccionar un pase muestra su trayectoria terrestre y un gráfico polar de azimut/elevación. Cada fuente conserva caché y fecha independientes. El cálculo usa Kepler con corrección secular J2; no implementa SGP4 ni corrección Doppler.
 
 SUBTEL y satélites actualizan datos y mantienen caché local; APRS conecta únicamente al solicitarlo. [Fuentes, actualización y límites](docs/CONSULTAS.md).
 
@@ -114,7 +119,7 @@ open dist/RadioWorkbench.app
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La suite actual aprobó **109 funciones de prueba**, algunas parametrizadas, incluidos los fixtures SSTV, la regresión APRS y las nuevas pruebas del DEM, ITM y renderizador. El benchmark opcional con terreno real de Santiago también pasó por separado. El bundle Release arm64 y el ZIP extraído pasaron la verificación estricta de firma. [Evidencia y alcance](docs/VALIDACION.md).
+La suite actual tiene **128 funciones registradas: 126 ejecutadas y aprobadas, dos opcionales omitidas**. Incluye todos los modos previos y los fixtures nuevos de POCSAG, Selcall, RTTY ASCII y Hell. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
 
 | Carpeta | Contenido |
 |---|---|
@@ -131,6 +136,7 @@ El callback de audio copia/mezcla al ring; los decodificadores y archivos se pro
 ## Componentes y avisos
 
 - **acarsdec:** helper separado bajo [GPL v2](Vendor/acarsdec/LICENSE.md), con fuentes y wrapper incluidos en el bundle.
+- **multimon-ng:** helper separado bajo [GPL v2 o posterior](Vendor/MultimonNG/COPYING), fijado a un commit y compilado para PCM por stdin, con fuentes, script y licencia incluidos en el bundle.
 - **ITU-R HF:** modelos P.533/P.372 y sus datos, con el [aviso upstream preservado](Vendor/ITU-R-HF/NOTICE.md).
 - **NTIA ITM:** fuentes originales y [licencia/avisos NTIA](Vendor/NTIA-ITM/LICENSE.md), con manifiesto de procedencia.
 - **DEM Mapzen Terrain Tiles:** datos consultados bajo demanda, con [fuentes y atribuciones regionales](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).

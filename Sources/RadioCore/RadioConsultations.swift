@@ -316,14 +316,44 @@ public struct TLEOrbit: Codable, Hashable, Sendable {
         self.argumentOfPerigeeDegrees = argumentOfPerigeeDegrees; self.meanAnomalyDegrees = meanAnomalyDegrees
     }
 
-    /// Approximate elevation from a ground station. This uses Keplerian motion with a secular J2 correction;
-    /// it is not SGP4 and must be treated as a pass-planning aid, not a precision orbit solution.
+    public var isValid: Bool {
+        let values = [meanMotionRevolutionsPerDay, eccentricity, inclinationDegrees, raanDegrees, argumentOfPerigeeDegrees, meanAnomalyDegrees]
+        return catalogNumber > 0 && epoch.timeIntervalSince1970.isFinite && values.allSatisfy(\.isFinite)
+            && meanMotionRevolutionsPerDay > 0 && meanMotionRevolutionsPerDay <= 20
+            && (0..<1).contains(eccentricity) && (0...180).contains(inclinationDegrees)
+            && (0...360).contains(raanDegrees) && (0...360).contains(argumentOfPerigeeDegrees) && (0...360).contains(meanAnomalyDegrees)
+    }
+
+    /// Kepler + secular J2, not SGP4. The geographic subpoint and look angles share this approximate solution.
+    public func position(at date: Date) -> SatellitePosition? {
+        guard let p = earthFixedPosition(at: date) else { return nil }
+        return SatellitePosition(latitude: atan2(p.z, hypot(p.x, p.y)) * 180 / .pi,
+            longitude: atan2(p.y, p.x) * 180 / .pi, altitudeKm: sqrt(p.x * p.x + p.y * p.y + p.z * p.z) - 6378.137)
+    }
+
+    public func observation(at date: Date, latitude: Double, longitude: Double) -> SatelliteObservation? {
+        guard RadioLocation(latitude: latitude, longitude: longitude) != nil, let p = earthFixedPosition(at: date) else { return nil }
+        let lat = latitude * .pi / 180, lon = longitude * .pi / 180, earthRadius = 6378.137
+        let sinLat = sin(lat), cosLat = cos(lat)
+        let dx = p.x - earthRadius * cosLat * cos(lon), dy = p.y - earthRadius * cosLat * sin(lon), dz = p.z - earthRadius * sinLat
+        let east = -sin(lon) * dx + cos(lon) * dy
+        let north = -sinLat * cos(lon) * dx - sinLat * sin(lon) * dy + cosLat * dz
+        let up = cosLat * cos(lon) * dx + cosLat * sin(lon) * dy + sinLat * dz
+        let azimuth = (atan2(east, north) * 180 / .pi + 360).truncatingRemainder(dividingBy: 360)
+        return SatelliteObservation(azimuthDegrees: azimuth, elevationDegrees: atan2(up, hypot(east, north)) * 180 / .pi,
+            rangeKm: sqrt(dx * dx + dy * dy + dz * dz))
+    }
+
     public func elevationDegrees(at date: Date, latitude: Double, longitude: Double) -> Double? {
+        observation(at: date, latitude: latitude, longitude: longitude)?.elevationDegrees
+    }
+
+    private func earthFixedPosition(at date: Date) -> (x: Double, y: Double, z: Double)? {
         let mu = 398_600.4418 // km^3 / s^2
         let earthRadius = 6378.137 // km
         let j2 = 1.08262668e-3
         let n = meanMotionRevolutionsPerDay * 2 * .pi / 86_400
-        guard n.isFinite, n > 0, (0..<1).contains(eccentricity) else { return nil }
+        guard isValid, date.timeIntervalSince1970.isFinite, n.isFinite, n > 0 else { return nil }
         let a = pow(mu / (n * n), 1.0 / 3.0)
         let p = a * (1 - eccentricity * eccentricity)
         let inclination = inclinationDegrees * .pi / 180
@@ -348,14 +378,7 @@ public struct TLEOrbit: Codable, Hashable, Sendable {
         let x = cos(theta) * xEci + sin(theta) * yEci
         let y = -sin(theta) * xEci + cos(theta) * yEci
         let z = zEci
-        let lat = latitude * .pi / 180, lon = longitude * .pi / 180
-        let sinLat = sin(lat), cosLat = cos(lat)
-        let stationX = earthRadius * cosLat * cos(lon), stationY = earthRadius * cosLat * sin(lon), stationZ = earthRadius * sinLat
-        let dx = x - stationX, dy = y - stationY, dz = z - stationZ
-        let east = -sin(lon) * dx + cos(lon) * dy
-        let north = -sinLat * cos(lon) * dx - sinLat * sin(lon) * dy + cosLat * dz
-        let up = cosLat * cos(lon) * dx + cosLat * sin(lon) * dy + sinLat * dz
-        return atan2(up, hypot(east, north)) * 180 / .pi
+        return (x, y, z)
     }
 
     private static func greenwichSiderealAngle(at date: Date) -> Double {

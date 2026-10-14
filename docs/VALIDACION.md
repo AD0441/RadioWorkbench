@@ -1,3 +1,15 @@
+# Validación de RadioWorkbench 0.8.10
+
+Release arm64/macOS 14+, build 22. La suite ordinaria registró **128 funciones: 126 ejecutadas y aprobadas; dos opcionales omitidas**, en 5,502 s una vez compilada. Las nuevas pruebas cubren tres tasas POCSAG, ambas polaridades, BCH con errores, ocho familias Selcall, ASCII 7/8, cinco variantes Hell, datos malformados, cancelación, perfiles anteriores y el pipeline WAV→worker→helper. Se inspeccionaron los cinco PNG «CQ» generados por el decodificador Hell nativo; el error medio contra patrones del transmisor fue aproximadamente 17–18 niveles de 255.
+
+Los tests satelitales verifican épocas GP UTC sin Z, fracciones de segundo, checksum TLE, NORAD, fechas AMSAT, actualización parcial, error de certificado sin pérdida de órbitas, persistencia precisa de épocas y consistencia entre trayectoria terrestre/azimut/elevación. Una prueba separada con URLSession real descargó **97 satélites, 402 registros de frecuencias y 500 reportes**. CelesTrak agotó su espera en el primer intento; AMSAT TLE completó las órbitas. Una actualización posterior con AMSAT preferido pasó en 1,431 s, sin errores por fuente y sin desactivar TLS.
+
+El ZIP final extraído pasó integridad y `codesign --verify --deep --strict`. Todos sus ejecutables y bibliotecas son arm64, incluido multimon-helper. Contiene las fuentes, script y licencia de multimon-ng. Versión 0.8.10/build 22; firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.10-macos-arm64.zip`: `4794f84c8c0e1973cd49b9f9fad7e7a0f9b0a2377ad78c29fd5983a4713ba966`.
+
+La app abrió y se pudo inspeccionar su árbol de accesibilidad: nuevos modos disponibles y selector de entrada/canal presentes. El control CUA volvió a desconectar el canal nativo al entrar a Consultas, incluso después de reconectarse; la revisión visual interactiva de los mapas queda pendiente. No se hizo una prueba SDR++ → VB-Cable ni recepción RF de los nuevos modos. Los cálculos y las descargas se comprobaron independientemente de ese bloqueo de la herramienta.
+
+[Pruebas](validation/release-0.8.10-tests.txt) · [Resumen](validation/tests-0.8.10-summary.json) · [Descarga real](validation/satellites-live-0.8.10.json) · [Paquete](validation/package-0.8.10.json) · [Modos y parámetros](DECODIFICADORES-0.8.10.md) · [Consultas](CONSULTAS.md).
+
 # Validación de RadioWorkbench 0.8.9
 
 Release arm64/macOS 14+, build 21. La cobertura VHF/UHF pasa de una envolvente radial a enlaces ITM independientes por celda, con DEM Mapzen/Terrarium, alturas AGL y terreno AMSL, cancelación, caché y avisos válidos del modelo. El horizonte de Tierra lisa es opcional y usa AGL; elegir RX conserva el área.

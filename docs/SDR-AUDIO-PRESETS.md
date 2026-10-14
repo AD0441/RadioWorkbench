@@ -1,5 +1,7 @@
 # Audio desde SDR++ y parámetros de imagen
 
+> En 0.8.10 se añaden presets para POCSAG, ocho familias Selcall y Hell por pulsos. POCSAG requiere salida de discriminador FM sin filtros de voz; Hell muestra el ancho por variante, hasta 3150 Hz para X9. [Tabla actual, parámetros y límites](DECODIFICADORES-0.8.10.md#entrada-desde-sdr).
+
 En 0.6, **ACARS VHF** ya recibe audio AM con acarsdec: filtro RF inicial 10–12,5 kHz, audio útil 300–3500 Hz, salida del cable virtual 48 kHz y squelch/reducción de ruido desactivados. La app convierte la entrada a 12 kHz conservando continuidad entre bloques. [ACARS.md](ACARS.md) incluye muestra, contrato del motor y límites; no equivale a VDL2 ni HFDL.
 
 Actualización 0.5: **Packet/APRS AFSK1200** y **CTCSS** ya se reciben en el motor nativo. Para APRS utiliza NFM, ancho RF inicial 12–15 kHz y audio 300–3000 Hz que conserve 1200/2200 Hz; centro 1700 Hz. Para CTCSS utiliza NFM, ancho RF 12,5 kHz y audio que conserve **50–300 Hz**; desactiva el pasa-altos de voz de 300 Hz. El detector busca automáticamente 51 tonos y confirma aproximadamente en 2,5 s. El selector de dispositivo y canal se aplica a ambos modos. [PACKET.md](PACKET.md) y [TONOS.md](TONOS.md) documentan fuentes, pruebas y límites. SSTV ya está integrado; el catálogo detalla las 41 variantes implementadas.

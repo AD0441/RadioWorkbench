@@ -1,0 +1,18 @@
+{
+  "verifiedAtUTC": "2026-10-14T18:53:20.551597+00:00",
+  "version": "0.8.10",
+  "transport": "native URLSession, HTTPS with certificate validation",
+  "satellites": 97,
+  "frequencyRecords": 402,
+  "statusReports": 500,
+  "orbitSource": "AMSAT TLE",
+  "sourceErrors": {},
+  "sourceDates": {
+    "orbitsFetchedAt": "2026-10-14T18:46:50.013412+00:00",
+    "frequenciesFetchedAt": "2026-10-14T18:46:50.013412+00:00",
+    "reportsFetchedAt": "2026-10-14T18:46:50.013412+00:00"
+  },
+  "firstFallbackTestDurationSeconds": 16.246,
+  "preferredAMSATRefreshTestDurationSeconds": 1.431,
+  "privateReportContributorFieldsRetained": false
+}

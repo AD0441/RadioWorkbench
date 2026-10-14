@@ -103,7 +103,7 @@ import RadioCore
             if !loginSent {
                 let lat = String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"), latitude)
                 let lon = String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"), longitude)
-                let login = "user \(callsign) pass -1 vers RadioWorkbench 0.8.9 filter r/\(lat)/\(lon)/\(Int(radius))\r\n"
+                let login = "user \(callsign) pass -1 vers RadioWorkbench 0.8.10 filter r/\(lat)/\(lon)/\(Int(radius))\r\n"
                 connection.send(content: login.data(using: .utf8), completion: .contentProcessed { [weak self] error in
                     if let error { Task { @MainActor in self?.onStatus?("No se pudo enviar el filtro APRS: \(error.localizedDescription)") } }
                 })

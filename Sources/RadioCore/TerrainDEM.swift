@@ -181,7 +181,7 @@ public actor TerrainDEMService {
                             try Task.checkCancellation()
                             let url = Self.endpoint.appendingPathComponent(key.path)
                             var request = URLRequest(url: url, timeoutInterval: 20)
-                            request.setValue("RadioWorkbench/0.8.9 (optional terrain coverage)", forHTTPHeaderField: "User-Agent")
+                            request.setValue("RadioWorkbench/0.8.10 (optional terrain coverage)", forHTTPHeaderField: "User-Agent")
                             let (data, response) = try await loader(request)
                             guard response.statusCode == 200, response.url?.host == Self.endpoint.host,
                                   response.url?.scheme == "https", data.count <= 2_000_000 else { throw TerrainDEMError.invalidTile }

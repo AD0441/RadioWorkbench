@@ -16,6 +16,8 @@ fi
 cd "$ROOT_DIR"
 bash "$ROOT_DIR/script/build_acars.sh" "$BUILD_PATH/acars-helper"
 export ACARS_HELPER_PATH="$BUILD_PATH/acars-helper"
+bash "$ROOT_DIR/script/build_multimon.sh" "$BUILD_PATH/multimon-helper"
+export MULTIMON_HELPER_PATH="$BUILD_PATH/multimon-helper"
 bash "$ROOT_DIR/script/build_propagation.sh" "$BUILD_PATH/propagation"
 export PROPAGATION_HELPER_PATH="$BUILD_PATH/propagation/propagation-helper"
 export PROPAGATION_DATA_PATH="$BUILD_PATH/propagation/PropagationData"
