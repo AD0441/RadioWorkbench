@@ -114,11 +114,11 @@ private actor SatelliteCatalogService {
 
     func refresh(now: Date = Date()) async throws -> SatelliteCatalogSnapshot {
         var tleRequest = URLRequest(url: Self.celestrakURL, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 25)
-        tleRequest.setValue("RadioWorkbench/0.8.8 (amateur satellite pass lookup)", forHTTPHeaderField: "User-Agent")
+        tleRequest.setValue("RadioWorkbench/0.8.9 (amateur satellite pass lookup)", forHTTPHeaderField: "User-Agent")
         var frequenciesRequest = URLRequest(url: Self.frequenciesURL, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 25)
-        frequenciesRequest.setValue("RadioWorkbench/0.8.8 (amateur satellite receive catalog)", forHTTPHeaderField: "User-Agent")
+        frequenciesRequest.setValue("RadioWorkbench/0.8.9 (amateur satellite receive catalog)", forHTTPHeaderField: "User-Agent")
         var statusesRequest = URLRequest(url: Self.statusesURL, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 20)
-        statusesRequest.setValue("RadioWorkbench/0.8.8 (amateur satellite status lookup)", forHTTPHeaderField: "User-Agent")
+        statusesRequest.setValue("RadioWorkbench/0.8.9 (amateur satellite status lookup)", forHTTPHeaderField: "User-Agent")
         async let tleResponse = transport(tleRequest)
         async let frequenciesResponse = transport(frequenciesRequest)
         async let statusesResponse = try? transport(statusesRequest)

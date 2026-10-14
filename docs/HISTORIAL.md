@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.8.9: cobertura topográfica por celda.** Reemplaza la envolvente de 32 rumbos por una malla de enlaces ITM independientes con DEM Mapzen; conserva sombras detrás de montañas y recuperaciones aisladas. Unifica el relieve de enlace exacto y área, corrige el horizonte AGL, conserva avisos NTIA y permite explorar destinos sin borrar la malla. Añade progreso, cancelación, caché DEM y validación contra cinco perfiles NTIA y geografía real de Santiago. [Método y evidencia](TERRAIN-COVERAGE.md).
+
 **0.8.8: cierre al escribir indicativo corregido.** El campo APRS ahora normaliza y persiste el indicativo sin reasignarse dentro de su propio observador; escribirlo carácter por carácter ya no causa recursión ni agota la pila. Se añadió una prueba de regresión sobre el almacén enlazado a SwiftUI.
 
 **0.8.7: consultas de radio.** La nueva pantalla integra cinco consultas: asignaciones de radioaficionado SUBTEL y perfiles de recepción, repetidoras oficiales con paso directo al análisis ITM, búsqueda de indicativos sin guardar nombres, APRS-IS de solo recepción y satélites con frecuencias, reportes de estado y pases orbitales aproximados. SUBTEL y satélites actualizan datos en línea y conservan una copia local; APRS solo conecta cuando el usuario lo solicita. [CONSULTAS.md](CONSULTAS.md) explica fuentes, privacidad y límites.

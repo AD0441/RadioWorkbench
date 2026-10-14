@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.8.8
+# RadioWorkbench · 0.8.9
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -17,7 +17,7 @@ Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones 
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-La versión 0.8.8 corrige el cierre al escribir el indicativo APRS: la normalización a mayúsculas ya no reasigna la propiedad desde su propio observador. [Notas de la versión](docs/RELEASE-0.8.8.md) · [Historial](docs/HISTORIAL.md).
+El código 0.8.9 reemplaza la envolvente radial por una malla topográfica independiente. [Revisión del terreno](docs/TERRAIN-COVERAGE.md). La descarga pública indicada arriba es 0.8.8, que corrige el cierre al escribir el indicativo APRS: la normalización a mayúsculas ya no reasigna la propiedad desde su propio observador. [Notas de la versión](docs/RELEASE-0.8.8.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
@@ -80,7 +80,7 @@ El catálogo de investigación contiene 103 entradas con fuentes y estado de dis
 
 **Planificador HF:** ITU-R P.533/P.372 estima enlaces y contactos para ubicación, banda, potencia y rumbo. El cálculo describe condiciones mensuales y presupuesto de radio; se presenta separado de las observaciones solares y los spots recientes. Cambiar potencia no garantiza un contacto: ruido, antenas, modo y condiciones del trayecto influyen en el resultado.
 
-**VHF/UHF con terreno:** origen y destino editables o seleccionables en Apple Maps, alturas AGL de ambas antenas, frecuencia, potencia, ganancias y umbral RX. El perfil DEM Copernicus suma elevación topográfica AMSL y altura de antena AGL; identifica crestas que cruzan la línea directa y muestra el corredor Fresnel. NTIA ITM calcula pérdida y potencia recibida. El alcance sobre el mapa usa 32 rumbos, perfiles alrededor de cada 500 m y evaluación hasta 200 km; la envolvente entre rumbos es aproximada. El relieve visible de Apple Maps sirve de contexto: las alturas del cálculo provienen del perfil DEM, no del dibujo del mapa.
+**VHF/UHF con terreno:** origen y destino editables o seleccionables en Apple Maps, alturas AGL, frecuencia, potencia, ganancias y umbral RX. NTIA ITM calcula cada celda de una malla 65 × 65 o 129 × 129 con el perfil DEM completo TX→celda; conserva sombras detrás de crestas y recuperaciones en cumbres. Las elevaciones AMSL y alturas AGL se combinan dentro del modelo. El enlace exacto reutiliza el DEM de la malla o descarga su corredor de teselas. El horizonte de Tierra lisa es una referencia opcional apagada inicialmente. Apple Maps aporta contexto visual y las alturas proceden de Mapzen Terrain Tiles; se muestran resolución y avisos. [Método y validación geográfica](docs/TERRAIN-COVERAGE.md).
 
 **Actividad:** PSK Reporter y Reverse Beacon Network muestran recepciones publicadas. La interfaz distingue estas observaciones de los enlaces modelados; un spot remoto no prueba recepción en el propio Mac. [Propagación y fuentes](docs/PROPAGACION.md) · [Actividad y terreno](docs/ACTIVIDAD-Y-TERRENO.md).
 
@@ -98,7 +98,7 @@ SUBTEL y satélites actualizan datos y mantienen caché local; APRS conecta úni
 
 El audio se procesa en el Mac. La captura diagnóstica a WAV requiere una opción explícita; no se envía a terceros. Los perfiles y las copias de datos se almacenan localmente en Application Support.
 
-Los servicios en línea consultan a sus proveedores: EiBi, HFCC, NOAA, HamQSL, ionosondas, SUBTEL, CelesTrak y AMSAT/SatNOGS. PSK Reporter comparte una cuadrícula Maidenhead de cuatro caracteres tras activarlo; APRS-IS envía indicativo y ubicación redondeada a dos decimales para filtrar. El análisis topográfico comparte las coordenadas del perfil con Open-Meteo solo al solicitar terreno. Estos servicios tienen su propia cobertura y disponibilidad.
+Los servicios en línea consultan a sus proveedores: EiBi, HFCC, NOAA, HamQSL, ionosondas, SUBTEL, CelesTrak y AMSAT/SatNOGS. PSK Reporter comparte una cuadrícula Maidenhead de cuatro caracteres tras activarlo; APRS-IS envía indicativo y ubicación redondeada a dos decimales para filtrar. El análisis topográfico solicita índices de teselas DEM a AWS solo al pedir terreno; esos índices permiten inferir la región consultada. Apple Maps mantiene sus propias consultas de mapa. Estos servicios tienen su propia cobertura y disponibilidad.
 
 ## Compilar y probar
 
@@ -114,7 +114,7 @@ open dist/RadioWorkbench.app
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La suite actual aprobó **99 funciones de prueba**, algunas parametrizadas, incluidos todos los fixtures SSTV y la regresión del indicativo APRS. El bundle Release arm64 y el ZIP extraído pasaron la verificación estricta de firma. [Evidencia y alcance](docs/VALIDACION.md).
+La suite actual aprobó **109 funciones de prueba**, algunas parametrizadas, incluidos los fixtures SSTV, la regresión APRS y las nuevas pruebas del DEM, ITM y renderizador. El benchmark opcional con terreno real de Santiago también pasó por separado. El bundle Release arm64 y el ZIP extraído pasaron la verificación estricta de firma. [Evidencia y alcance](docs/VALIDACION.md).
 
 | Carpeta | Contenido |
 |---|---|
@@ -133,6 +133,7 @@ El callback de audio copia/mezcla al ring; los decodificadores y archivos se pro
 - **acarsdec:** helper separado bajo [GPL v2](Vendor/acarsdec/LICENSE.md), con fuentes y wrapper incluidos en el bundle.
 - **ITU-R HF:** modelos P.533/P.372 y sus datos, con el [aviso upstream preservado](Vendor/ITU-R-HF/NOTICE.md).
 - **NTIA ITM:** fuentes originales y [licencia/avisos NTIA](Vendor/NTIA-ITM/LICENSE.md), con manifiesto de procedencia.
+- **DEM Mapzen Terrain Tiles:** datos consultados bajo demanda, con [fuentes y atribuciones regionales](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).
 - **Datos de frecuencia de satélites:** atribución AMSAT/SatNOGS y CC BY-SA 4.0 documentadas en [Consultas](docs/CONSULTAS.md).
 - **MultiMode Cocoa:** [revisión funcional y límites de la evidencia](docs/REVISION-MULTIMODE.md); los archivos originales permanecen fuera del producto.
 

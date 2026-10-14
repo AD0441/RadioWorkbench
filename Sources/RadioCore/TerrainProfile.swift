@@ -101,21 +101,6 @@ public enum TerrainLinkGeometry {
     }
 }
 
-public enum TerrainCoverageGeometry {
-    public static let bearingCount = 32
-
-    /// Converts sampled directional ITM ranges into a map envelope. Zero ranges close back to the transmitter.
-    public static func boundary(from origin: RadioLocation, reachByBearingKm: [Double]) -> [RadioLocation] {
-        guard reachByBearingKm.count == bearingCount,
-              reachByBearingKm.allSatisfy({ $0.isFinite && (0...TerrainProfileGeometry.maximumDistanceKm).contains($0) }) else { return [] }
-        let endpoints = reachByBearingKm.enumerated().compactMap { index, distance -> RadioLocation? in
-            origin.destination(km: distance, bearing: Double(index) * 360 / Double(bearingCount))
-        }
-        guard endpoints.count == bearingCount, reachByBearingKm.contains(where: { $0 > 0 }) else { return [] }
-        return [origin] + endpoints
-    }
-}
-
 public struct TerrainLineOfSightResult: Sendable, Equatable {
     public let txAntennaAltitudeAMSL: Double
     public let rxAntennaAltitudeAMSL: Double

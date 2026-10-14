@@ -27,7 +27,7 @@ int main() {
     IntermediateValues intermediate{};
     const int status = ITM_P2P_CR_Ex(htx, hrx, pfl.data(), climate, n0, frequency, pol, epsilon, sigma,
                                      1, confidence, reliability, &loss, &warnings, &intermediate);
-    if (status != 0 || !std::isfinite(loss)) {
+    if ((status != 0 && status != 1) || !std::isfinite(loss)) {
         std::cerr << "NTIA ITM error " << status << "\n";
         return 3;
     }

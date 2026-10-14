@@ -14,7 +14,7 @@ struct TerrainLinkPanel: View {
     var body: some View {
         GroupBox("VHF/UHF · enlace punto a punto con relieve") {
             VStack(alignment: .leading, spacing: 12) {
-                endpointFields
+                endpointFields.disabled(store.terrainBusy || store.terrainCoverageBusy)
 
                 HStack(spacing: 12) {
                     Button { store.copyLocationToTerrainOrigin(defaultOrigin) } label: {
@@ -23,11 +23,10 @@ struct TerrainLinkPanel: View {
                     Button { store.copyHFEndpointToTerrainTarget() } label: {
                         Label("Copiar destino del planificador HF", systemImage: "arrow.down.to.line")
                     }.disabled(defaultDestination == nil)
-                    Spacer()
-                    if let km = store.terrainHorizon {
-                        Label("Radiohorizonte ideal: \(km, specifier: "%.1f") km", systemImage: "circle.dashed")
-                            .font(.callout.monospacedDigit())
-                    }
+                }
+                if let km = store.terrainHorizon {
+                    Label("Referencia de Tierra lisa (AGL): \(km, specifier: "%.1f") km · el relieve se calcula debajo", systemImage: "circle.dashed")
+                        .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
                 }
 
                 TerrainLinkMapPanel(store: store)
@@ -45,7 +44,7 @@ struct TerrainLinkPanel: View {
                         Text("Vertical").tag(true); Text("Horizontal").tag(false)
                     }.frame(width: 145)
                     Link("NTIA ITM / Longley–Rice", destination: URL(string: "https://github.com/NTIA/itm")!)
-                }
+                }.disabled(store.terrainBusy || store.terrainCoverageBusy)
 
                 HStack(spacing: 12) {
                     Button {
@@ -53,25 +52,30 @@ struct TerrainLinkPanel: View {
                     } label: {
                         if store.terrainBusy { ProgressView().controlSize(.small) }
                         else { Label("Calcular relieve y enlace", systemImage: "mountain.2") }
-                    }.buttonStyle(.borderedProminent).disabled(store.terrainBusy)
+                    }.buttonStyle(.borderedProminent).disabled(store.terrainBusy || store.terrainCoverageBusy)
                     Text(store.terrainStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
 
                 HStack(spacing: 10) {
-                    field("Radio máximo · km", text: $store.terrainCoverageMaximumKm, hint: "100", width: 145)
+                    field("Radio de análisis · km", text: $store.terrainCoverageMaximumKm, hint: "100", width: 145)
+                        .disabled(store.terrainCoverageBusy || store.terrainBusy)
+                    Picker("Malla", selection: $store.terrainCoverageQuality) {
+                        ForEach(TerrainCoverageQuality.allCases) { quality in Text(quality.title).tag(quality) }
+                    }.frame(width: 230).disabled(store.terrainCoverageBusy || store.terrainBusy)
                     Button {
                         Task { await store.calculateTerrainCoverage() }
                     } label: {
                         if store.terrainCoverageBusy { ProgressView().controlSize(.small) }
-                        else { Label("Calcular zona orientativa", systemImage: "map") }
+                        else { Label("Calcular malla con terreno", systemImage: "map") }
                     }.buttonStyle(.bordered).disabled(store.terrainCoverageBusy || store.terrainBusy)
                     if store.terrainCoverageBusy {
-                        ProgressView(value: Double(store.terrainCoverageCompletedBearings), total: Double(TerrainCoverageGeometry.bearingCount))
+                        ProgressView(value: store.terrainCoverageProgress)
                             .frame(width: 120)
+                        Button("Cancelar") { store.cancelTerrainCoverage() }
                     }
-                    Text(store.terrainCoverageStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
-                Text("La zona evalúa 32 rumbos, perfiles de relieve cada ~500 m y alcances cada 5 km con NTIA ITM. Suma elevación del terreno y AGL en los extremos y estima difracción sobre crestas. Radio: 20–200 km.")
+                Text(store.terrainCoverageStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text("Cada celda evalúa su propio enlace ITM con el relieve completo; se conservan sombras y recuperaciones en cumbres. La malla cubre un área de análisis de 5–200 km, con paso visible y DEM de teselas Mapzen/SRTM. No se rellena hasta el punto más lejano.")
                     .font(.caption2).foregroundStyle(.secondary)
 
                 if let result = store.terrainResult {
@@ -85,18 +89,22 @@ struct TerrainLinkPanel: View {
                         Text("Irregularidad del terreno: \(result.terrainIrregularityMeters, specifier: "%.0f") m · avisos ITM: \(result.warningFlags)")
                             .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
                     }.font(.callout).textSelection(.enabled)
+                    if result.warningFlags != 0 {
+                        Text("Avisos del modelo: " + TerrainITMWarning.descriptions(flags: result.warningFlags).joined(separator: "; "))
+                            .font(.caption).foregroundStyle(.orange).textSelection(.enabled)
+                    }
                 }
 
-                Text("Las alturas TX/RX se ingresan sobre el suelo (AGL); NTIA ITM las combina con las elevaciones del terreno AMSL y modela difracción en montañas. El corte muestra el terreno y la línea directa: una obstrucción no significa silencio total. La zona radial sigue siendo una aproximación, no una probabilidad ni garantía; no incluye edificios, vegetación, patrón de antena, pérdidas de cable, interferencia, ductos o esporádica E. Open-Meteo consulta Copernicus GLO-90 solo al pulsar Calcular.")
+                Text("Las alturas TX/RX se ingresan sobre el suelo (AGL); NTIA ITM las combina con las elevaciones del terreno AMSL y modela difracción en montañas. El corte muestra el terreno y la línea directa: una obstrucción no significa silencio total. La malla es una estimación al umbral RX, no una probabilidad ni garantía; no incluye edificios, vegetación, patrón de antena, pérdidas de cable, interferencia, ductos o esporádica E. La malla descarga DEM solo al solicitarla y conserva teselas en caché; las celdas sin datos quedan transparentes. Las alturas negativas de batimetría se aproximan a nivel del mar.")
                     .font(.caption).foregroundStyle(.secondary)
                 HStack {
-                    Link("Open-Meteo · elevación y licencia", destination: URL(string: "https://open-meteo.com/en/docs/elevation-api")!)
                     Link("NTIA · código y licencia", destination: URL(string: "https://github.com/NTIA/itm")!)
-                    Text("Relieve DEM: Open-Meteo · Copernicus GLO-90").foregroundStyle(.secondary)
+                    Link("Mapzen · DEM y atribuciones", destination: URL(string: "https://github.com/tilezen/joerd/blob/master/docs/attribution.md")!)
                 }.font(.caption)
+                Text("DEM global · Mapzen, USGS SRTM/GMTED y NOAA ETOPO1; otras atribuciones regionales en el enlace.")
+                    .font(.caption).foregroundStyle(.secondary)
             }.padding(8)
         }
-        .disabled(store.terrainBusy || store.terrainCoverageBusy)
         .onAppear { store.seedTerrainCoordinates(origin: defaultOrigin, destination: defaultDestination) }
     }
 
@@ -115,8 +123,8 @@ struct TerrainLinkPanel: View {
             HStack(spacing: 10) {
                 field("Latitud · °", text: latitude, hint: "−33,45", width: 140)
                 field("Longitud · °", text: longitude, hint: "−70,67", width: 140)
-                field("Altura antena · m AGL", text: height, hint: "10", width: 150)
             }
+            field("Altura antena · m AGL", text: height, hint: "10", width: 150)
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
 

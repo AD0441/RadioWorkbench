@@ -1,3 +1,15 @@
+# Validación de RadioWorkbench 0.8.9
+
+Release arm64/macOS 14+, build 21. La cobertura VHF/UHF pasa de una envolvente radial a enlaces ITM independientes por celda, con DEM Mapzen/Terrarium, alturas AGL y terreno AMSL, cancelación, caché y avisos válidos del modelo. El horizonte de Tierra lisa es opcional y usa AGL; elegir RX conserva el área.
+
+`bash script/test.sh --configuration release` terminó con 110 funciones registradas: **109 aprobaron** y el benchmark geográfico quedó omitido por defecto. Ese benchmark pasó por separado con 36 teselas reales de Santiago: 13.098 celdas modeladas, 4.841 sobre −110 dBm y 7.498 con avisos NTIA, en 6,35 s incluyendo descarga/cálculo en esta ejecución. Los cinco perfiles oficiales NTIA coinciden a menos de 0,01 dB. La prueba de cresta sintética arroja 48,37 dB de diferencia frente al lado despejado. El renderizador MapKit se verifica fuera de pantalla: norte arriba y huecos transparentes.
+
+El ZIP extraído pasó verificación estricta de firma e integridad y todos los ejecutables/bibliotecas son arm64, incluida `libitm.dylib`. Versión 0.8.9/build 21; firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.9-macos-arm64.zip`: `fcaa8f9a34f6cbf0dd7bcb5a30a6eaec2d5483ead85e7c0c083a9042fbc22dc5`.
+
+La app abrió y permaneció activa sin un nuevo informe de cierre. CUA desconectó su canal nativo antes de inspeccionar el mapa, también después de reconectarse: la revisión visual interactiva queda pendiente. La figura científica es una simulación con coordenadas públicas, no una captura de Apple Maps ni una recepción RF medida. No se hizo la prueba SDR++ → VB-Cable.
+
+[Pruebas](validation/release-0.8.9-tests.txt) · [Paquete](validation/package-0.8.9.json) · [Método, fuentes y figura](TERRAIN-COVERAGE.md).
+
 # Validación de RadioWorkbench 0.8.8
 
 Release arm64/macOS 14+, build 20. Se corrigió el cierre reportado al editar el indicativo en APRS: el `didSet` de 0.8.7 volvía a escribir la propiedad `@Observable` en cada cambio y causaba recursión hasta agotar la pila. La propiedad ahora enlaza con almacenamiento separado y normaliza una sola vez. Una regresión asigna fragmentos sucesivos como lo hace el campo SwiftUI y confirma persistencia en mayúsculas sin reentrancia. `bash script/test.sh` aprobó **99 pruebas**. `bash script/build_and_run.sh --build-only` compiló Release; el ZIP extraído en `/private/tmp` pasó `codesign --verify --deep --strict`, contiene un ejecutable Mach-O arm64 e identifica versión 0.8.8/build 20. El archivo pasó `unzip -t`. SHA-256 de `RadioWorkbench-arm64.zip`: `d01d190fa4595f7cb26a4797f8e3fba980f14e0b9ccd407ed64c822d22c71cb8`.

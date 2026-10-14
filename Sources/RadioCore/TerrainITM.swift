@@ -30,16 +30,18 @@ public struct TerrainITMInput: Sendable, Equatable {
     public let transmitWatts: Double
     public let txGainDBi: Double
     public let rxGainDBi: Double
+    public let variabilityMode: Int
 
     public init(frequencyMHz: Double, txHeightMeters: Double, rxHeightMeters: Double, climate: ITMClimate = .continentalTemperate,
                 refractivityN0: Double = 301, verticalPolarization: Bool = true, relativePermittivity: Double = 15,
                 conductivity: Double = 0.005, confidencePercent: Double = 50, reliabilityPercent: Double = 50,
-                transmitWatts: Double = 10, txGainDBi: Double = 0, rxGainDBi: Double = 0) {
+                transmitWatts: Double = 10, txGainDBi: Double = 0, rxGainDBi: Double = 0, variabilityMode: Int = 1) {
         self.frequencyMHz = frequencyMHz; self.txHeightMeters = txHeightMeters; self.rxHeightMeters = rxHeightMeters
         self.climate = climate; self.refractivityN0 = refractivityN0; self.verticalPolarization = verticalPolarization
         self.relativePermittivity = relativePermittivity; self.conductivity = conductivity
         self.confidencePercent = confidencePercent; self.reliabilityPercent = reliabilityPercent
         self.transmitWatts = transmitWatts; self.txGainDBi = txGainDBi; self.rxGainDBi = rxGainDBi
+        self.variabilityMode = variabilityMode
     }
 
     public var isValid: Bool {
@@ -47,10 +49,11 @@ public struct TerrainITMInput: Sendable, Equatable {
                       conductivity, confidencePercent, reliabilityPercent, transmitWatts, txGainDBi, rxGainDBi]
         return values.allSatisfy(\.isFinite) && (20...20_000).contains(frequencyMHz)
             && (0.5...3_000).contains(txHeightMeters) && (0.5...3_000).contains(rxHeightMeters)
-            && (150...400).contains(refractivityN0) && (1...100).contains(relativePermittivity)
+            && (250...400).contains(refractivityN0) && relativePermittivity > 1 && relativePermittivity <= 100
             && (0.0001...10).contains(conductivity) && (1...99).contains(confidencePercent)
             && (1...99).contains(reliabilityPercent) && (0.001...1_000_000).contains(transmitWatts)
             && (-40...60).contains(txGainDBi) && (-40...60).contains(rxGainDBi)
+            && [0, 1, 2, 3, 10, 11, 12, 13, 20, 21, 22, 23, 30, 31, 32, 33].contains(variabilityMode)
     }
 }
 
@@ -61,6 +64,32 @@ public struct TerrainITMResult: Codable, Sendable, Equatable {
     public let distanceKm: Double
     public let warningFlags: Int
     public let propagationMode: String
+}
+
+/// Public bit flags from the pinned NTIA include/Warnings.h; success-with-warnings is a valid prediction.
+public enum TerrainITMWarning {
+    public static func descriptions(flags: Int) -> [String] {
+        let meanings: [(Int, String)] = [
+            (0x0001, "altura TX cerca de los límites del modelo"),
+            (0x0002, "altura RX cerca de los límites del modelo"),
+            (0x0004, "frecuencia cerca de los límites del modelo"),
+            (0x0008, "distancia cerca del límite superior"),
+            (0x0010, "trayecto largo: interpretar con cautela"),
+            (0x0020, "distancia cerca del límite inferior"),
+            (0x0040, "trayecto corto: interpretar con cautela"),
+            (0x0080, "ángulo del horizonte TX elevado: aproximación angular limitada"),
+            (0x0100, "ángulo del horizonte RX elevado: aproximación angular limitada"),
+            (0x0200, "horizonte TX muy próximo frente a Tierra lisa"),
+            (0x0400, "horizonte RX muy próximo frente a Tierra lisa"),
+            (0x0800, "horizonte TX muy lejano frente a Tierra lisa"),
+            (0x1000, "horizonte RX muy lejano frente a Tierra lisa"),
+            (0x2000, "percentil de variabilidad extremo"),
+            (0x4000, "refractividad superficial calculada baja")
+        ]
+        var result = meanings.filter { flags & $0.0 != 0 }.map(\.1)
+        if flags & ~0x7fff != 0 { result.append("banderas NTIA adicionales: \(flags & ~0x7fff)") }
+        return result
+    }
 }
 
 public enum TerrainITMError: LocalizedError {
@@ -81,6 +110,11 @@ public actor TerrainITMEngine {
     }
 
     public func predict(input: TerrainITMInput, profile: TerrainProfile) throws -> TerrainITMResult {
+        if let native = try? TerrainITMNative() {
+            return try native.predict(input: input, elevations: profile.elevationsMeters,
+                                      spacingMeters: profile.distanceKm * 1_000 / Double(profile.points.count - 1))
+        }
+        guard input.variabilityMode == 1 else { throw TerrainITMError.helperUnavailable }
         guard input.isValid, profile.points.count >= 3, profile.points.count <= TerrainProfileGeometry.maximumPoints,
               profile.distanceKm.isFinite, (1...TerrainProfileGeometry.maximumDistanceKm).contains(profile.distanceKm),
               profile.elevationsMeters.allSatisfy({ $0.isFinite && (-12_000...12_000).contains($0) }) else { throw TerrainITMError.invalidInput }

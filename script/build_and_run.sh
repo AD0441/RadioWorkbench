@@ -30,7 +30,7 @@ bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
 bash "$ROOT_DIR/script/build_propagation.sh" "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Propagation"
 bash "$ROOT_DIR/script/build_itm.sh" "$APP_MACOS"
-for component in libp372.dylib libp533.dylib propagation-helper itm-helper; do
+for component in libp372.dylib libp533.dylib propagation-helper itm-helper libitm.dylib; do
   codesign --force --sign - "$APP_MACOS/$component"
 done
 cp "$ROOT_DIR/Vendor/ITU-R-HF/NOTICE.md" "$APP_BUNDLE/Contents/Resources/Propagation-Notice.md"
@@ -41,7 +41,7 @@ COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/Propagation-Sources.
 cp "$ROOT_DIR/Vendor/NTIA-ITM/LICENSE.md" "$APP_BUNDLE/Contents/Resources/NTIA-ITM-License.txt"
 COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/NTIA-ITM-Sources.tar.gz" -C "$ROOT_DIR" \
   Vendor/NTIA-ITM/include Vendor/NTIA-ITM/src Vendor/NTIA-ITM/LICENSE.md Vendor/NTIA-ITM/README.md \
-  Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/build_itm.sh
+  Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/itm-bridge.cpp script/build_itm.sh
 chmod +x "$APP_BINARY"
 for mode in morse rtty bpsk31 dtmf navtex packet; do
   cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_8000_mono_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
@@ -67,8 +67,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.8.8</string>
-<key>CFBundleVersion</key><string>20</string>
+<key>CFBundleShortVersionString</key><string>0.8.9</string>
+<key>CFBundleVersion</key><string>21</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

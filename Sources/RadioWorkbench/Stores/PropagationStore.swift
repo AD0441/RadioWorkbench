@@ -48,10 +48,10 @@ import RadioCore
         didSet { UserDefaults.standard.set(terrainOriginLongitude, forKey: "terrainOriginLongitude"); invalidateTerrainLocation() }
     }
     var terrainTargetLatitude = UserDefaults.standard.string(forKey: "terrainTargetLatitude") ?? "" {
-        didSet { UserDefaults.standard.set(terrainTargetLatitude, forKey: "terrainTargetLatitude"); invalidateTerrainLocation() }
+        didSet { UserDefaults.standard.set(terrainTargetLatitude, forKey: "terrainTargetLatitude"); invalidateTerrainDestination() }
     }
     var terrainTargetLongitude = UserDefaults.standard.string(forKey: "terrainTargetLongitude") ?? "" {
-        didSet { UserDefaults.standard.set(terrainTargetLongitude, forKey: "terrainTargetLongitude"); invalidateTerrainLocation() }
+        didSet { UserDefaults.standard.set(terrainTargetLongitude, forKey: "terrainTargetLongitude"); invalidateTerrainDestination() }
     }
     var txHeight = UserDefaults.standard.string(forKey: "terrainTxHeight") ?? "10" {
         didSet { UserDefaults.standard.set(txHeight, forKey: "terrainTxHeight"); invalidateTerrainResult() }
@@ -77,9 +77,7 @@ import RadioCore
     var terrainCoverageMaximumKm = UserDefaults.standard.string(forKey: "terrainCoverageMaximumKm") ?? "100" {
         didSet {
             UserDefaults.standard.set(terrainCoverageMaximumKm, forKey: "terrainCoverageMaximumKm")
-            terrainCoverageBoundary = []; terrainCoverageReachByBearing = []
-            terrainCoverageOriginElevationMeters = nil
-            terrainCoverageStatus = "El alcance de cobertura se calcula solo al pulsar Calcular zona."
+            invalidateTerrainCoverage()
         }
     }
     var terrainMapSelection = "destination"
@@ -94,12 +92,17 @@ import RadioCore
     var terrainResult: TerrainITMResult?
     var terrainBusy = false
     var terrainStatus = "El perfil se consulta solo al pulsar Calcular con terreno."
-    var terrainCoverageBoundary: [RadioLocation] = []
-    var terrainCoverageReachByBearing: [Double] = []
+    var terrainCoverageReport: TerrainCoverageReport?
     var terrainCoverageOriginElevationMeters: Double?
     var terrainCoverageBusy = false
-    var terrainCoverageCompletedBearings = 0
-    var terrainCoverageStatus = "El alcance de cobertura se calcula solo al pulsar Calcular zona."
+    var terrainCoverageProgress = 0.0
+    var terrainCoverageStatus = "Calcula una malla de recepción con el relieve de cada trayecto."
+    var terrainCoverageQuality: TerrainCoverageQuality = .detailed {
+        didSet { invalidateTerrainCoverage() }
+    }
+    var terrainCoverageShowShadows = false
+    var terrainMapShowingHorizon = false
+    var terrainProfileSource = "Mapzen Terrain Tiles · DEM"
     var terrainOrigin: RadioLocation? { RadioLocation(latitude: terrainOriginLatitude, longitude: terrainOriginLongitude) }
     var terrainTarget: RadioLocation? { RadioLocation(latitude: terrainTargetLatitude, longitude: terrainTargetLongitude) }
     private let service = SpaceWeatherService()
@@ -107,8 +110,11 @@ import RadioCore
     private let noaaForecastService = NoaaThreeDayForecastService()
     private let pskReporterService = PSKReporterService()
     private let engine = HFPropagationEngine()
-    private let terrainService = TerrainElevationService()
     private let terrainEngine = TerrainITMEngine()
+    private let terrainDEMService = TerrainDEMService()
+    private var terrainCoverageTask: Task<TerrainCoverageReport, Error>?
+    private var terrainCoverageGeneration = UUID()
+    private var terrainLinkGeneration = UUID()
     private var activated = false
     private var lastAttempt: Date?
     private var calculationTask: Task<Void, Never>?
@@ -141,13 +147,27 @@ import RadioCore
         terrainProfile = nil
         invalidateTerrainResult()
     }
+    private func invalidateTerrainDestination() {
+        terrainLinkGeneration = UUID()
+        terrainProfile = nil; terrainResult = nil
+        terrainStatus = "Cambió el destino; vuelve a calcular el enlace. La malla del origen se conserva."
+    }
+    private func invalidateTerrainCoverage() {
+        terrainCoverageGeneration = UUID()
+        terrainCoverageTask?.cancel(); terrainCoverageTask = nil
+        terrainCoverageBusy = false; terrainCoverageReport = nil
+        terrainCoverageOriginElevationMeters = nil; terrainCoverageProgress = 0
+        terrainCoverageStatus = "Cambió un parámetro; vuelve a calcular la malla."
+    }
     private func invalidateTerrainResult() {
-        let hadResult = terrainResult != nil || !terrainCoverageBoundary.isEmpty
+        terrainLinkGeneration = UUID()
         terrainResult = nil
-        terrainCoverageBoundary = []; terrainCoverageReachByBearing = []
-        terrainCoverageOriginElevationMeters = nil
-        terrainCoverageStatus = "Cambió un parámetro; vuelve a calcular la zona de cobertura."
-        if hadResult { terrainStatus = "Cambió un parámetro desde el último cálculo; vuelve a calcular el enlace." }
+        invalidateTerrainCoverage()
+        terrainStatus = "Cambió un parámetro; vuelve a calcular el enlace."
+    }
+    func cancelTerrainCoverage() {
+        invalidateTerrainCoverage()
+        terrainCoverageStatus = "Cálculo cancelado; no se muestra una malla incompleta."
     }
 
     func runAutoRefresh() async {
@@ -291,88 +311,92 @@ import RadioCore
             terrainStatus = "Completa coordenadas válidas, alturas sobre el terreno, frecuencia 20 MHz–20 GHz, potencia, ganancias y umbral RX."
             return
         }
+        let token = terrainLinkGeneration
         terrainBusy = true
         terrainResult = nil
-        terrainStatus = "Descargando perfil de terreno Copernicus GLO-90 en lotes de hasta 100 puntos…"
+        terrainStatus = "Cargando relieve DEM de todo el trayecto desde teselas y caché…"
         defer { terrainBusy = false }
         do {
-            let profile = try await terrainService.download(from: origin, to: target)
-            terrainProfile = profile
-            terrainStatus = "Perfil recibido: \(profile.points.count) puntos · relieve \(Int(profile.terrainReliefMeters ?? 0)) m · Open-Meteo/Copernicus GLO-90. Ejecutando NTIA ITM…"
+            let profile: TerrainProfile
+            let source: String
+            if let coverage = terrainCoverageReport, coverage.layout.origin == origin,
+               let cached = try? coverage.mosaic.profile(from: origin, to: target) {
+                profile = cached; source = "Mapzen Terrain Tiles · DEM de la malla"
+            } else {
+                profile = try await terrainDEMService.profile(from: origin, to: target)
+                source = "Mapzen Terrain Tiles · DEM del trayecto"
+            }
+            guard token == terrainLinkGeneration else { return }
+            terrainProfile = profile; terrainProfileSource = source
+            terrainStatus = "Perfil: \(profile.points.count) puntos · paso \(Int(profile.resolutionMeters)) m · \(source). Ejecutando NTIA ITM…"
             let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: txHeight, rxHeightMeters: rxHeight,
                                         climate: terrainClimate, verticalPolarization: terrainVerticalPolarization,
                                         transmitWatts: watts, txGainDBi: txGain, rxGainDBi: rxGain)
             let result = try await terrainEngine.predict(input: input, profile: profile)
+            guard token == terrainLinkGeneration else { return }
             terrainResult = result
             let margin = result.receivedPowerDBm - sensitivity
-            terrainStatus = "NTIA ITM · \(result.distanceKm.formatted(.number.precision(.fractionLength(1)))) km · margen estimado \(margin >= 0 ? "+" : "")\(margin.formatted(.number.precision(.fractionLength(1)))) dB frente al umbral RX · perfil actualizado \(profile.fetchedAt.formatted(date: .abbreviated, time: .shortened))."
+            terrainStatus = "NTIA ITM · \(result.distanceKm.formatted(.number.precision(.fractionLength(1)))) km · margen estimado \(margin >= 0 ? "+" : "")\(margin.formatted(.number.precision(.fractionLength(1)))) dB frente al umbral RX · DEM consultado \(profile.fetchedAt.formatted(date: .abbreviated, time: .shortened))."
         } catch {
-            terrainStatus = "No se pudo calcular con terreno: \(error.localizedDescription)"
+            if token == terrainLinkGeneration { terrainStatus = "No se pudo calcular con terreno: \(error.localizedDescription)" }
         }
     }
     func calculateTerrainCoverage() async {
         guard !terrainBusy, !terrainCoverageBusy else { return }
-        guard let origin = terrainOrigin,
-              let txHeight = number(txHeight), let rxHeight = number(rxHeight),
+        guard let origin = terrainOrigin, let tx = number(txHeight), let rx = number(rxHeight),
               let frequency = number(terrainFrequencyMHz), let watts = number(terrainWatts),
               let txGain = number(terrainTxGain), let rxGain = number(terrainRxGain),
-              let sensitivity = number(terrainSensitivityDBm), let maximumKm = number(terrainCoverageMaximumKm),
-              (0.5...3_000).contains(txHeight), (0.5...3_000).contains(rxHeight),
-              (20...20_000).contains(frequency), (0.001...1_000_000).contains(watts),
-              (-40...60).contains(txGain), (-40...60).contains(rxGain), (-200...0).contains(sensitivity),
-              (20...200).contains(maximumKm) else {
-            terrainCoverageStatus = "Completa origen, alturas, potencia, ganancias, umbral y un radio de 20–200 km."
+              let sensitivity = number(terrainSensitivityDBm), (-200...0).contains(sensitivity),
+              let maximumKm = number(terrainCoverageMaximumKm),
+              let layout = try? TerrainCoverageLayout(origin: origin, radiusKm: maximumKm, side: terrainCoverageQuality.side) else {
+            terrainCoverageStatus = "Completa origen, alturas, frecuencia, potencia, ganancias y área de 5–200 km (latitudes ±80°)."
             return
         }
-        terrainCoverageBusy = true
-        terrainCoverageBoundary = []; terrainCoverageReachByBearing = []; terrainCoverageCompletedBearings = 0
+        let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: tx, rxHeightMeters: rx,
+            climate: terrainClimate, verticalPolarization: terrainVerticalPolarization, transmitWatts: watts,
+            txGainDBi: txGain, rxGainDBi: rxGain)
+        guard input.isValid else { terrainCoverageStatus = TerrainITMError.invalidInput.localizedDescription; return }
+        let token = UUID(); terrainCoverageGeneration = token
+        terrainCoverageBusy = true; terrainCoverageProgress = 0; terrainCoverageReport = nil
         terrainCoverageOriginElevationMeters = nil
-        terrainCoverageStatus = "Consultando perfiles de relieve y modelando 32 rumbos con pasos de hasta 5 km…"
-        defer { terrainCoverageBusy = false }
-
-        let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: txHeight, rxHeightMeters: rxHeight,
-                                    climate: terrainClimate, verticalPolarization: terrainVerticalPolarization,
-                                    transmitWatts: watts, txGainDBi: txGain, rxGainDBi: rxGain)
-        let stepCount = max(2, Int(ceil(maximumKm / 5)))
-        var reaches = Array(repeating: 0.0, count: TerrainCoverageGeometry.bearingCount)
-        var failedBearings = 0
-        for bearingIndex in 0..<TerrainCoverageGeometry.bearingCount {
-            guard let endpoint = origin.destination(km: maximumKm, bearing: Double(bearingIndex) * 360 / Double(TerrainCoverageGeometry.bearingCount)) else {
-                failedBearings += 1; terrainCoverageCompletedBearings += 1; continue
-            }
-            do {
-                let fullProfile = try await terrainService.download(from: origin, to: endpoint)
-                if terrainCoverageOriginElevationMeters == nil {
-                    terrainCoverageOriginElevationMeters = fullProfile.points.first?.elevationMeters
+        terrainCoverageStatus = "Cargando teselas DEM para cada trayecto de la malla…"
+        let service = terrainDEMService
+        let job = Task { [weak self] in
+            let mosaic = try await service.load(keys: layout.suitableTileKeys) { [weak self] completed, total in
+                await MainActor.run {
+                    guard let self, self.terrainCoverageGeneration == token else { return }
+                    self.terrainCoverageProgress = 0.25 * Double(completed) / Double(total)
+                    self.terrainCoverageStatus = "Relieve DEM · \(completed)/\(total) teselas · caché local y descarga bajo demanda"
                 }
-                for step in 1...stepCount {
-                    let testDistance = maximumKm * Double(step) / Double(stepCount)
-                    let pathPoints = fullProfile.points.prefix {
-                        origin.distance(to: $0.location) <= testDistance + fullProfile.resolutionMeters / 2_000
+            }
+            let native = try TerrainITMNative()
+            return try await TerrainCoverageCalculator.calculate(layout: layout, input: input, thresholdDBm: sensitivity,
+                mosaic: mosaic, native: native) { [weak self] completed, total in
+                    await MainActor.run {
+                        guard let self, self.terrainCoverageGeneration == token else { return }
+                        self.terrainCoverageProgress = 0.25 + 0.75 * Double(completed) / Double(total)
+                        self.terrainCoverageStatus = "ITM por celda · fila \(completed)/\(total) · paso de malla \(Int(layout.spacingMeters)) m"
                     }
-                    guard pathPoints.count >= 3, let end = pathPoints.last?.location else { continue }
-                    let candidate = TerrainProfile(origin: origin, target: end, points: Array(pathPoints),
-                                                   fetchedAt: fullProfile.fetchedAt, resolutionMeters: fullProfile.resolutionMeters)
-                    let result = try await terrainEngine.predict(input: input, profile: candidate)
-                    if result.receivedPowerDBm >= sensitivity { reaches[bearingIndex] = candidate.distanceKm }
                 }
-            } catch {
-                failedBearings += 1
-            }
-            terrainCoverageCompletedBearings = bearingIndex + 1
-            terrainCoverageStatus = "Zona ITM · rumbo \(bearingIndex + 1) de \(TerrainCoverageGeometry.bearingCount) · paso radial ≤ 5 km · \(Int(maximumKm)) km máx."
         }
-        terrainCoverageReachByBearing = reaches
-        terrainCoverageBoundary = TerrainCoverageGeometry.boundary(from: origin, reachByBearingKm: reaches)
-        let modeled = TerrainCoverageGeometry.bearingCount - failedBearings
-        let reaching = reaches.filter { $0 > 0 }.count
-        if modeled == 0 {
-            terrainCoverageStatus = "No se pudo modelar la zona: fallaron los 32 perfiles radiales. Revisa la conexión e inténtalo de nuevo."
-        } else if reaching == 0 {
-            terrainCoverageStatus = "Ninguno de los \(modeled) rumbos modelados superó el umbral RX de \(sensitivity.formatted(.number.precision(.fractionLength(0)))) dBm hasta \(Int(maximumKm)) km.\(failedBearings > 0 ? " Fallaron \(failedBearings) consultas." : "")"
-        } else {
-            let farthest = reaches.max() ?? 0
-            terrainCoverageStatus = "Envolvente ITM orientativa · \(reaching)/\(modeled) rumbos superan el umbral RX · alcance máximo estimado \(farthest.formatted(.number.precision(.fractionLength(0)))) km.\(failedBearings > 0 ? " \(failedBearings) rumbos no respondieron." : "")"
+        terrainCoverageTask = job
+        defer { if terrainCoverageGeneration == token { terrainCoverageBusy = false; terrainCoverageTask = nil } }
+        do {
+            let result = try await job.value
+            guard terrainCoverageGeneration == token else { return }
+            terrainCoverageReport = result; terrainCoverageProgress = 1
+            terrainCoverageOriginElevationMeters = result.mosaic.elevation(at: origin).map { max(0, $0) }
+            terrainCoverageStatus = "Malla ITM: \(result.coveredCount)/\(result.modeledCount) celdas sobre umbral · \(Int(layout.spacingMeters.rounded())) m/celda · DEM ≈\(Int(result.mosaic.resolutionMeters(at: origin).rounded())) m/píxel · \(result.warnedCount) con avisos."
+            if result.missingTerrainCells + result.modelErrorCells > 0 {
+                terrainCoverageStatus += " \(result.missingTerrainCells) sin DEM, \(result.modelErrorCells) sin resultado; quedan transparentes."
+            }
+            if result.edgeCoveredCount > 0 {
+                terrainCoverageStatus += " Hay señal estimada en el borde: el área limita el análisis, no define el alcance máximo."
+            }
+        } catch is CancellationError {
+            if terrainCoverageGeneration == token { terrainCoverageStatus = "Cálculo cancelado." }
+        } catch {
+            if terrainCoverageGeneration == token { terrainCoverageStatus = "No se pudo modelar el terreno: \(error.localizedDescription)" }
         }
     }
     func number(_ value: String) -> Double? {
@@ -383,11 +407,6 @@ import RadioCore
         guard let tx = number(txHeight), let rx = number(rxHeight), tx <= 10_000, rx <= 10_000 else { return nil }
         return RadioLinkBudget.horizonKm(txHeight: tx, rxHeight: rx)
     }
-    var terrainHorizon: Double? {
-        guard let tx = number(txHeight), let rx = number(rxHeight), tx <= 10_000, rx <= 10_000 else { return nil }
-        let txGround = terrainProfile.flatMap { $0.origin == terrainOrigin ? $0.points.first?.elevationMeters : nil }
-            ?? terrainCoverageOriginElevationMeters ?? 0
-        let rxGround = terrainProfile.flatMap { $0.target == terrainTarget ? $0.points.last?.elevationMeters : nil } ?? 0
-        return RadioLinkBudget.horizonKm(txHeight: max(0, txGround + tx), rxHeight: max(0, rxGround + rx))
-    }
+    /// Flat-ground comparison uses structural AGL heights, not absolute altitude above sea level.
+    var terrainHorizon: Double? { horizon }
 }

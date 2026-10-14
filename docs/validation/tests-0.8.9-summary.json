@@ -1,0 +1,8 @@
+{
+  "command": "bash script/test.sh --configuration release",
+  "suiteResult": "✔ Test run with 110 tests in 0 suites passed after 7.353 seconds.",
+  "passedFunctionRecords": 109,
+  "skippedFunctionRecords": 1,
+  "optionalBenchmark": "terrainRealSantiagoBenchmark: passed separately with real network DEM",
+  "uiVerification": "Application launched; CUA native pipe disconnected before the map could be visually inspected. Offscreen MapKit renderer test passed for north orientation and transparent shadow holes."
+}

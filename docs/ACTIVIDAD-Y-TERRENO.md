@@ -1,4 +1,4 @@
-# Spots, alertas y perfil de terreno · 0.8.6
+# Spots, alertas y perfil de terreno · 0.8.9
 
 ## Reverse Beacon Network
 
@@ -14,17 +14,19 @@ En la ficha de una emisora, guárdala como favorita y activa **Avisarme**. macOS
 
 El panel consulta el producto de texto oficial NOAA SWPC, que incluye una tabla de Kp por periodos de tres horas, probabilidad de tormenta de radiación S1+ y probabilidad de apagón R1–R2/R3+. NOAA emite este pronóstico aproximadamente cada 12 horas; RadioWorkbench conserva caché y consulta como máximo cada seis horas, con espera de reintento si falla. El Kp y las probabilidades describen riesgo global, no disponibilidad cierta de una banda en una ubicación.
 
-## Perfil de terreno NTIA ITM
+## Perfil y cobertura NTIA ITM
 
-En **VHF/UHF · enlace punto a punto con relieve**, fija origen TX y destino RX escribiendo sus coordenadas o haciendo clic en el mapa de Apple Maps, que permite alternar vista plana y relieve 3D. Los campos se guardan localmente. Puedes copiar la ubicación de la guía y el destino del planificador HF como punto de partida. Registra por separado la altura AGL de cada antena, frecuencia, potencia, ganancias y umbral del receptor. **Calcular relieve y enlace** envía explícitamente los extremos y hasta 501 puntos a Open-Meteo para consultar el DEM Copernicus GLO-90; se agrupan hasta 100 coordenadas por solicitud. Para enlaces de hasta 250 km el perfil usa aproximadamente 500 m entre muestras; el límite de 501 puntos aumenta esa separación en trayectos más largos, hasta 500 km. No se solicita GPS; las coordenadas salen de los campos guardados y el perfil se conserva en memoria durante la sesión.
+En **VHF/UHF · enlace punto a punto con relieve**, fija TX y RX mediante coordenadas o clic en Apple Maps. Ingresa la altura de cada antena sobre el suelo (AGL), frecuencia, watts, ganancias y umbral RX. **Calcular relieve y enlace** consulta el corredor DEM de ese trayecto o reutiliza la malla disponible. El perfil geodésico mantiene elevaciones AMSL separadas de las alturas AGL; ITM combina ambas y calcula pérdida, difracción y potencia recibida. Los enlaces se limitan a 1–500 km.
 
-**Calcular zona orientativa** parte del origen TX y consulta perfiles radiales hasta el radio máximo elegido (20–200 km). Usa 32 rumbos separados 11,25°, un perfil topográfico de aproximadamente 500 m entre muestras y evalúa alcances ITM en intervalos de hasta 5 km. La envolvente coloreada conecta los radios donde la potencia calculada supera el umbral RX. A 100 km, los rumbos vecinos aún están separados por unos 20 km; el borde entre ellos es interpolado y puede omitir valles o crestas fuera de los perfiles. Es una exploración del umbral ITM, no un mapa probabilístico ni una garantía.
+**Calcular malla con terreno** analiza un área de 5–200 km con 65 × 65 o 129 × 129 celdas. Cada centro recibe un cálculo independiente con todo su perfil topográfico. Las celdas bajo umbral quedan transparentes o rojas al activar su visualización, conservando sombras interiores e islas de recepción. El radio limita los puntos analizados y no define el alcance máximo. Elegir RX mantiene el área y permite calcular después el enlace exacto.
 
-El mapa topográfico 3D muestra el trayecto, la envolvente ITM y un radiohorizonte solo como referencia geométrica. El corte del enlace grafica el relieve aparente con curvatura k=4/3 y el rayo directo. En cada extremo, la altura de la antena sobre el nivel del mar se calcula como **elevación del terreno AMSL + altura AGL**. La marca naranja indica dónde la montaña cruza la línea directa. Una obstrucción visual no significa silencio total: NTIA ITM puede estimar señal difractada sobre esa cresta. El corredor Fresnel del 60 % sigue siendo una referencia geométrica, no una probabilidad.
+El raster se coloca sobre Apple Maps en vista plana o con relieve. El corte muestra terreno, curvatura de referencia k=4/3 y rayo entre antenas. La altura AMSL de cada antena es **terreno AMSL + altura AGL**; una cresta que corta la línea directa no implica silencio total. El corredor Fresnel del 60 % es una ayuda geométrica. El círculo de Tierra lisa usa únicamente AGL, es opcional y está apagado inicialmente.
 
-El motor NTIA ITM calcula pérdida básica, irregularidad de terreno, modo de propagación y potencia recibida estimada en dBm. Sus entradas de antena son alturas estructurales AGL; el perfil contiene elevaciones AMSL, y el modelo combina ambos valores internamente para evaluar horizontes y difracción. La potencia recibida combina pérdida calculada con los watts y ganancias introducidos. Se muestra el margen frente al umbral RX; no es una tasa de éxito. Se usan N0=301, permitividad=15, conductividad=0,005 S/m y confianza/fiabilidad del 50 %. El DEM tiene resolución nominal de 90 m, pero la app consulta muestras cada ~500 m y limita el perfil a 501 puntos. Aún pueden faltar crestas estrechas, y la envolvente no modela el terreno entre sus 32 perfiles radiales. La estimación no incluye patrón real de antena, edificios, vegetación, pérdidas de cable, interferencia ni refracción meteorológica instantánea. No garantiza alcance, cobertura o contacto.
+El DEM viene de Mapzen Terrain Tiles/Terrarium en AWS, con SRTM/GMTED y otras fuentes regionales. La app descarga teselas solo al solicitar el cálculo y las conserva en caché; el proveedor recibe índices que permiten inferir la región. Apple Maps realiza sus consultas propias. El paso DEM cambia con zoom y latitud; el perfil usa ese paso, como mínimo 90 m y hasta 4.097 muestras. El paso de la malla se muestra por separado. Si falta relieve no se supone terreno plano. Las elevaciones negativas se llevan a nivel del mar como aproximación de superficie marina, sin distinguir aún depresiones terrestres.
 
-El código ITM proviene del repositorio público [NTIA/itm](https://github.com/NTIA/itm), con licencia y aviso original incluidos en `Vendor/NTIA-ITM/LICENSE.md` y en el paquete. La compilación adapta en un directorio temporal las rutas de inclusión y anotaciones de exportación para macOS; no modifica el algoritmo upstream. Los datos de elevación son de [Copernicus GLO-90](https://doi.org/10.5270/ESA-c5d3d65), servidos por [Open-Meteo](https://open-meteo.com/en/docs/elevation-api); el crédito aparece en la app.
+NTIA utiliza N0=301, permitividad=15, conductividad=0,005 S/m y confianza/fiabilidad del 50 %, con clima y polarización elegidos. Las llamadas nativas arm64 evitan ejecutar un proceso por celda. Las predicciones válidas con avisos se conservan y explican; edificios, vegetación, patrón de antena, pérdidas de cable, interferencia y meteorología instantánea quedan fuera del modelo implementado.
+
+Se mantienen el código y licencia de [NTIA/itm](https://github.com/NTIA/itm) en el repositorio y paquete; la adaptación de compilación para macOS no cambia su algoritmo. Mapzen y sus [atribuciones regionales](https://github.com/tilezen/joerd/blob/master/docs/attribution.md) aparecen en la app. [Revisión a fondo, resoluciones, privacidad y validación](TERRAIN-COVERAGE.md).
 
 ## Fuentes
 
@@ -32,6 +34,7 @@ El código ITM proviene del repositorio público [NTIA/itm](https://github.com/N
 - [RBN · red de receptores voluntarios](https://www.reversebeacon.net/index.php)
 - [PSK Reporter · API y datos](https://pskreporter.info/pskdev.html)
 - [NTIA · código ITS Irregular Terrain Model](https://github.com/NTIA/itm)
-- [Open-Meteo · API de elevación](https://open-meteo.com/en/docs/elevation-api)
+- [Mapzen Terrain Tiles · catálogo AWS](https://registry.opendata.aws/terrain-tiles/)
+- [Mapzen · formato Terrarium](https://github.com/tilezen/joerd/blob/master/docs/formats.md)
 - [NOAA SWPC · pronóstico de tres días](https://www.swpc.noaa.gov/products/3-day-forecast)
 - [Producto NOAA en texto](https://services.swpc.noaa.gov/text/3-day-forecast.txt)
