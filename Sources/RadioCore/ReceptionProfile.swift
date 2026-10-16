@@ -16,6 +16,8 @@ public struct ReceptionProfile: Sendable {
 public extension RadioMode {
     var receptionProfile: ReceptionProfile {
         switch self {
+        case .ft8, .ft4: .init(modulation: .usb, rfBandwidth: 3500, audioBand: "100–3500 Hz; PCM remuestreado a 12 kHz", center: 1500, note: "USB en todas las bandas. Desactiva squelch y procesado de voz; reloj UTC sincronizado. FT8 15 s, FT4 7,5 s. En WAV indica el inicio de la primera ventana.")
+        case .digitalVoice: .init(modulation: .fm, rfBandwidth: 12500, audioBand: "Discriminador NFM sin de-emphasis, PCM mono 48 kHz", center: 1500, note: "Selecciona el protocolo. SDR++: de-emphasis, squelch y filtros de voz desactivados. NXDN48 puede necesitar RF 6,25 kHz. Un único canal sintonizado; sin seguimiento de trunking ni control del SDR.")
         case .morse: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "Tono CW alrededor de 700 Hz", center: 700, note: "USB o CW; filtro estrecho solo si conserva el tono seleccionado.")
         case .rtty, .bitAnalysis: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "1415–1585 Hz para shift 170 y centro 1500", center: 1500, note: "LSB invierte la polaridad: activa Invertir si corresponde.")
         case .psk31: .init(modulation: .usb, rfBandwidth: 2400, audioBand: "BPSK31 alrededor de 1500 Hz", center: 1500, note: "Desactiva supresión de ruido; sintonía precisa y sin deriva.")

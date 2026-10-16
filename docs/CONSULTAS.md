@@ -32,7 +32,7 @@ La reparación 0.8.10 interpreta como UTC las épocas GP que CelesTrak entrega s
 
 La prueba con URLSession nativo del 14 de octubre descargó **97 satélites, 402 registros de frecuencias y 500 reportes**. CelesTrak agotó el tiempo de espera en el primer intento; AMSAT TLE permitió completar las órbitas. La siguiente actualización, con AMSAT preferido, terminó en 1,43 s. Es evidencia de esa consulta, no una garantía de disponibilidad permanente.
 
-Los pases de 48 horas se calculan desde elementos orbitales recientes con Kepler y corrección secular J2. Este método no implementa SGP4; horarios y elevación son aproximados, sobre todo si el TLE está antiguo. No se estima ni corrige Doppler y no se controla SDR++. La interfaz muestra la época orbital para que se pueda evaluar su antigüedad.
+Los pases de 48 horas usan SatelliteKit SGP4/SDP4 con BSTAR conservado en GP/TLE, observador WGS84 y época visible. El mapa calcula Doppler de AOS/LOS para una frecuencia nominal editable; no controla SDR++. Una caché anterior sin BSTAR requiere actualización. Consulta [motores 0.9](INTEGRATIONS-0.9.md).
 
 Selecciona un pase de la tabla para mostrar su trayectoria proyectada sobre Apple Maps, con observador y marcas AOS, máximo y LOS. Las polilíneas se separan al cruzar el meridiano de 180°. El gráfico polar usa la misma solución orbital: norte arriba, este a la derecha, horizonte en el borde y 90° de elevación en el centro. La hora del pase incluye fecha para distinguir los dos días calculados. Cambiar satélite, ubicación o elementos elimina resultados anteriores y descarta resultados de cálculos pendientes.
 

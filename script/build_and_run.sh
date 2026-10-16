@@ -28,6 +28,18 @@ mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
 cp "$BUILD_BINARY" "$APP_BINARY"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
+bash "$ROOT_DIR/script/build_ftx.sh" "$APP_MACOS/ftx-helper"
+bash "$ROOT_DIR/script/build_cw.sh" "$APP_MACOS/cw-helper"
+for component in ftx-helper cw-helper; do codesign --force --sign - "$APP_MACOS/$component"; done
+cp -R "$ROOT_DIR/Vendor/CWKit/Sources/CWKit/Resources/CWNet.mlmodelc" "$APP_BUNDLE/Contents/Resources/CWNet.mlmodelc"
+for library in SatelliteKit FT8 CWKit LibACARS; do
+  COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/$library-Sources.tar.gz" -C "$ROOT_DIR" "Vendor/$library"
+done
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/FT8-Sources.tar.gz" -C "$ROOT_DIR" Vendor/FT8 script/ftx-helper.c script/build_ftx.sh
+cp "$ROOT_DIR/docs/INTEGRATIONS-0.9.md" "$APP_BUNDLE/Contents/Resources/Integraciones.md"
+for mode in ft8 ft4; do cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_12000_cq_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"; done
+cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/m17_packet_48000_synthetic.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/acars_adsc_12000.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 bash "$ROOT_DIR/script/build_multimon.sh" "$APP_MACOS/multimon-helper"
 codesign --force --sign - "$APP_MACOS/multimon-helper"
 cp "$ROOT_DIR/Vendor/MultimonNG/COPYING" "$APP_BUNDLE/Contents/Resources/MultimonNG-License.txt"
@@ -58,7 +70,7 @@ for example in pocsag_512_22050_discriminator_clean pocsag_1200_22050_discrimina
   cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/$example.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 done
 cp "$ROOT_DIR/Vendor/acarsdec/LICENSE.md" "$APP_BUNDLE/Contents/Resources/ACARS-License.txt"
-COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ACARS-Sources.tar.gz" -C "$ROOT_DIR" Vendor/acarsdec script/acars-helper.c script/build_acars.sh
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ACARS-Sources.tar.gz" -C "$ROOT_DIR" Vendor/acarsdec Vendor/LibACARS script/acars-helper.c script/build_acars.sh
 mkdir -p "$APP_BUNDLE/Contents/Resources/EiBi"
 cp "$ROOT_DIR"/docs/eibi-snapshot/* "$APP_BUNDLE/Contents/Resources/EiBi/"
 cp "$ROOT_DIR/docs/sstv-modes.json" "$APP_BUNDLE/Contents/Resources/sstv-modes.json"
@@ -76,8 +88,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.8.11</string>
-<key>CFBundleVersion</key><string>23</string>
+<key>CFBundleShortVersionString</key><string>0.9.0</string>
+<key>CFBundleVersion</key><string>24</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

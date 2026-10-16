@@ -5,6 +5,12 @@ public struct SatellitePosition: Hashable, Sendable {
 }
 public struct SatelliteObservation: Hashable, Sendable {
     public let azimuthDegrees: Double, elevationDegrees: Double, rangeKm: Double
+    public var rangeRateKmPerSecond: Double = 0
+    /// Positive shift means the received downlink is above its nominal frequency.
+    public func dopplerHz(frequencyMHz: Double) -> Double? {
+        guard frequencyMHz.isFinite, (0.01...100000).contains(frequencyMHz) else { return nil }
+        return -frequencyMHz * 1_000_000 * rangeRateKmPerSecond / 299792.458
+    }
 }
 public struct SatelliteTrackSample: Sendable, Identifiable {
     public let date: Date
@@ -38,11 +44,17 @@ public enum SatelliteElementParser {
                 let e = number("ECCENTRICITY"), let i = number("INCLINATION"), let r = number("RA_OF_ASC_NODE"),
                 let p = number("ARG_OF_PERICENTER"), let m = number("MEAN_ANOMALY") else { return nil }
             let orbit = TLEOrbit(name: name, catalogNumber: Int(id), epoch: epoch, meanMotionRevolutionsPerDay: n,
-                eccentricity: e, inclinationDegrees: i, raanDegrees: r, argumentOfPerigeeDegrees: p, meanAnomalyDegrees: m)
+                eccentricity: e, inclinationDegrees: i, raanDegrees: r, argumentOfPerigeeDegrees: p, meanAnomalyDegrees: m, bstar: number("BSTAR"))
             return orbit.isValid ? orbit : nil
         }
         guard !orbits.isEmpty else { throw SatelliteElementError.invalidData }
         return orbits
+    }
+    private static func drag(_ text: String) -> Double? {
+        let b = Array(text.utf8)
+        guard b.count == 8, [32,43,45].contains(b[0]), b[1..<6].allSatisfy({ (48...57).contains($0) }),
+              [43,45].contains(b[6]), (48...57).contains(b[7]) else { return nil }
+        return Double((b[0] == 45 ? "-" : "") + "0." + String(decoding: b[1..<6], as: UTF8.self) + "e" + String(decoding: b[6..<8], as: UTF8.self))
     }
     public static func tle(_ data: Data) throws -> [TLEOrbit] {
         guard data.count <= 8_000_000, let text = String(data: data, encoding: .utf8) else { throw SatelliteElementError.invalidData }
@@ -73,7 +85,7 @@ public enum SatelliteElementParser {
                 day < next.timeIntervalSince(start) / 86_400 + 1 else { index += 2; continue }
             let orbit = TLEOrbit(name: name.isEmpty ? "NORAD \(id)" : String(name.prefix(200)), catalogNumber: id,
                 epoch: start.addingTimeInterval((day - 1) * 86_400), meanMotionRevolutionsPerDay: n,
-                eccentricity: e, inclinationDegrees: i, raanDegrees: r, argumentOfPerigeeDegrees: p, meanAnomalyDegrees: m)
+                eccentricity: e, inclinationDegrees: i, raanDegrees: r, argumentOfPerigeeDegrees: p, meanAnomalyDegrees: m, bstar: Self.drag(String(decoding: first[53..<61], as: UTF8.self)))
             if orbit.isValid { result.append(orbit) }
             index += 2
         }

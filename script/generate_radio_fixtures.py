@@ -82,9 +82,9 @@ def edge_envelope(t, duration, ramp=0.005):
     return 0.5 - 0.5 * math.cos(math.pi * distance / ramp)
 
 
-def add_morse(sample_rate, phase):
+def add_morse(sample_rate, phase, frequency=700.0, words_per_minute=20.0):
     message = "CQ TEST 123"
-    unit = 1.2 / 20.0
+    unit = 1.2 / words_per_minute
     events = []
     t = 0.0
     words = message.split(" ")
@@ -106,9 +106,9 @@ def add_morse(sample_rate, phase):
         for i in range(round(start * sample_rate), round(end * sample_rate)):
             local_time = i / sample_rate - start
             samples[i] = (AMPLITUDE * edge_envelope(local_time, end - start)
-                          * math.sin(TAU * 700.0 * i / sample_rate + phase))
+                          * math.sin(TAU * frequency * i / sample_rate + phase))
     return samples, {
-        "expected_message": message, "tone_hz": 700.0, "wpm": 20.0,
+        "expected_message": message, "tone_hz": frequency, "wpm": words_per_minute,
         "wpm_convention": "PARIS 50 units", "dot_seconds": unit,
         "dash_units": 3, "intra_element_gap_units": 1,
         "character_gap_units": 3, "word_gap_units": 7,

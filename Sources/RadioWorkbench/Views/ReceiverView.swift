@@ -22,6 +22,7 @@ struct ReceiverView: View {
                     .padding(8).background(.quaternary, in: Capsule())
             }
             AudioRoutingView(receiver: receiver)
+            AdditionalEngineControls(receiver: receiver)
             DecoderControls(receiver: receiver)
             if receiver.mode == .acars {
                 DisclosureGroup("Espectro y waterfall", isExpanded: $receiver.showsACARSSpectrum) { spectrum }
@@ -45,6 +46,17 @@ struct ReceiverView: View {
                 Button("Exportar…") { receiver.exportText() }.disabled(receiver.text.isEmpty)
             }
             if receiver.mode == .acars { ACARSMessagePanel(receiver: receiver) }
+            else if receiver.mode == .ft8 || receiver.mode == .ft4 {
+                VStack(alignment: .leading) {
+                    HStack { Text("LDPC + CRC verificados · últimos 200").font(.caption); Spacer(); Button("Guardar JSON…") { receiver.exportEngineJSON() }.disabled(receiver.engineRecords.isEmpty) }
+                    Table(receiver.engineRecords) {
+                        TableColumn("Audio Hz") { Text($0.frequencyHz.map { String(format: "%.0f", $0) } ?? "—") }.width(85)
+                        TableColumn("Inicio s") { Text($0.offsetSeconds.map { String(format: "%+.2f", $0) } ?? "—") }.width(75)
+                        TableColumn("Sinc.") { Text($0.syncScore.map(String.init) ?? "—") }.width(65)
+                        TableColumn("Mensaje", value: \.text)
+                    }.frame(height: 200)
+                }
+            }
             else if receiver.mode.isMultimon {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
@@ -68,7 +80,7 @@ struct ReceiverView: View {
             }.frame(height: 170).background(.background, in: RoundedRectangle(cornerRadius: 10))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
             }
-            Text("Decodificadores experimentales: verifica la sintonía y contrasta señales difíciles. La tasa de CW es manual; PSK31 requiere frecuencia estable.")
+            Text("Decodificadores experimentales: verifica la sintonía y contrasta señales difíciles. CWKit estima tono y velocidad; el motor Manual conserva sus ajustes. PSK31 requiere frecuencia estable.")
                 .font(.caption).foregroundStyle(.secondary)
         }.padding(24)
         }
@@ -79,10 +91,10 @@ struct DecoderControls: View {
     @Bindable var receiver: ReceiverStore
     var body: some View {
         HStack(alignment: .bottom, spacing: 14) {
-            if receiver.mode != .dtmf && receiver.mode != .selectiveTones && receiver.mode != .acars && !receiver.mode.isMultimon {
+            if receiver.mode != .dtmf && receiver.mode != .selectiveTones && receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) {
                 number("Audio (Hz)", value: $receiver.settings.frequency, width: 100)
             }
-            if receiver.mode == .morse { number("Velocidad (WPM)", value: $receiver.settings.wordsPerMinute, width: 100) }
+            if receiver.mode == .morse && receiver.settings.cwEngine == .manual { number("Velocidad (WPM)", value: $receiver.settings.wordsPerMinute, width: 100) }
             if [.rtty, .bitAnalysis].contains(receiver.mode) {
                 number("Baud", value: $receiver.settings.baud, width: 85)
                 number("Shift (Hz)", value: $receiver.settings.shift, width: 90)
@@ -117,7 +129,7 @@ struct DecoderControls: View {
                 Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
             }
             Spacer(minLength: 0)
-            if receiver.mode != .acars && !receiver.mode.isMultimon { VStack(alignment: .leading, spacing: 6) {
+            if receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) { VStack(alignment: .leading, spacing: 6) {
                 Text("Umbral \(Int(receiver.settings.threshold * 100)) %").font(.caption).foregroundStyle(.secondary)
                 Slider(value: $receiver.settings.threshold, in: 0.01...0.5).frame(width: 150)
             } }

@@ -76,7 +76,7 @@ struct SatelliteStatusReport: Codable, Hashable, Sendable, Identifiable {
         snapshot = await service.cached()
         if selectedID == nil { selectedID = snapshot?.satellites.first(where: { $0.name.localizedCaseInsensitiveContains("ISS") })?.id ?? snapshot?.satellites.first?.id }
         if snapshot == nil { status = "Conéctate y actualiza el catálogo de frecuencias y órbitas." }
-        if snapshot.map({ Date().timeIntervalSince($0.fetchedAt) > 21_600 || !($0.sourceErrors ?? [:]).isEmpty }) ?? true { Task { await self.refresh() } }
+        if snapshot.map({ Date().timeIntervalSince($0.fetchedAt) > 21_600 || $0.satellites.contains(where: { !$0.orbit.propagationReady }) || !($0.sourceErrors ?? [:]).isEmpty }) ?? true { Task { await self.refresh() } }
     }
 
     func refresh() async {
@@ -99,6 +99,7 @@ struct SatelliteStatusReport: Codable, Hashable, Sendable, Identifiable {
 
     func calculatePasses(location: RadioLocation?) {
         guard let location, let satellite = selected else { status = "Selecciona una ubicación guardada y un satélite para calcular sus pases."; return }
+        guard satellite.orbit.propagationReady else { status = "Esta copia orbital antigua no conserva BSTAR. Pulsa Actualizar antes de calcular con SGP4."; return }
         clearPasses(); calculatingPasses = true; observer = location
         let orbit = satellite.orbit, token = passGeneration, id = satellite.id
         let calculation = Task.detached(priority: .userInitiated) {
@@ -110,7 +111,7 @@ struct SatelliteStatusReport: Codable, Hashable, Sendable, Identifiable {
             guard let self, !Task.isCancelled, self.passGeneration == token, self.selectedID == id else { return }
             self.passes = result; self.calculatingPasses = false; self.passTask = nil
             self.selectPass(result.first?.id)
-            self.status = result.isEmpty ? "Sin pases con máximo ≥5° en 48 h; verifica ubicación y época orbital." : "\(result.count) pases en 48 h · selecciona una fila para ver mapa y trayectoria en el cielo · Kepler + J2 aproximado."
+            self.status = result.isEmpty ? "Sin pases con máximo ≥5° en 48 h; verifica ubicación y época orbital." : "\(result.count) pases en 48 h · selecciona una fila para ver mapa y trayectoria en el cielo · SGP4/SDP4 y WGS84."
         }
     }
 }

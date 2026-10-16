@@ -1,0 +1,19 @@
+{
+  "generatedLocally": true,
+  "noRFTransmission": true,
+  "FTX": "kgoba/ft8_lib pinned generator; CQ LU1ABC GF05, audio 1500/1200 Hz",
+  "ACARS": "independent generate_acars_fixtures.py; public ADS-C/CPDLC payloads from libacars examples, MIT",
+  "M17": "official DSD-neo 2.10.0 encoder, only stdin and null audio output, synthetic packet (Lorem ipsum) and 700 Hz tone through Codec2; no private audio",
+  "files": {
+    "ft8_12000_cq_clean.wav": "60838be51430f944feeeac3e2f9af1a8e6cda77da2d91c1f31dfd7e0a6aea798",
+    "ft4_12000_cq_clean.wav": "4b4559ee941acecb5e45f3e7567af4020f4bf3e5139298871f61f9ce9127e181",
+    "m17_packet_48000_synthetic.wav": "50c60c8a65c51bc28adf0d323e10709c3125dde0881c589dcfe675244418a68c",
+    "m17_voice_48000_synthetic.wav": "a46ba36eced5584f7e82c881b3326061c2c6f6815b43e3f8e4caa230d3ed3e41",
+    "acars_adsc_12000.wav": "ede8620cbdddfc2f5d93556100b7b31429dd3a063d9363e9b3bb169f6974fb12",
+    "acars_adsc_part1_12000.wav": "d75e51d413cd2af0ede7c0db5686373ccb8c6678a15a8ee5021ca94c6df25dd2",
+    "acars_adsc_part2_12000.wav": "4d46e13c5edefe447008d88333a5a0c1aa3acec1e76b5736a5ee35d0ee127c74",
+    "acars_cpdlc_12000.wav": "069208c80da2651d0ab8941bcd25906c4712ea191cb52bbfff52d7513825c1c9",
+    "acars_adsc_bad_inner_crc_12000.wav": "9c98c6baba4e5188c1896e32378fbe596116a4f83b3509039c33b8c5b0e085ad",
+    "cwkit_12000_900hz_28wpm.wav": "c7cca1a9c501c793a7ae3d63de9625b3445e4f00acb24d74e1e0afcbd8497ad8"
+  }
+}

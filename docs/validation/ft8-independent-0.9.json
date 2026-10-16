@@ -1,0 +1,545 @@
+{
+  "note": "Published WAVs are not redistributed. These upstream expected lists are a sensitivity comparison, not a guarantee of complete decoding. The upstream reference also recovers zero messages from 191111_110115.",
+  "recordings": [
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/191111_110115.wav",
+      "sha256": "aea482f19500a91cd85ef5441ae3b05dba949d7f51da4ed35efc1ccf3081f482",
+      "expected": [
+        "GJ0KYZ RK9AX MO05"
+      ],
+      "actual": [],
+      "expectedRecovered": 0,
+      "notRecovered": [
+        "GJ0KYZ RK9AX MO05"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/191111_110200.wav",
+      "sha256": "bfd0bd61ac22b6d19a861039023fdf8e17397ae084277e63174b3ab3773c4022",
+      "expected": [
+        "CQ TA6CQ KN70",
+        "OH3NIV ZS6S RR73",
+        "CQ LZ1JZ KN22",
+        "CQ R7IW LN35",
+        "CQ DX R6WA LN32"
+      ],
+      "actual": [
+        {
+          "text": "CQ DX R6WA LN32",
+          "frequencyHz": 2096.875,
+          "offsetSeconds": 1.52,
+          "syncScore": 26,
+          "crcValid": true
+        },
+        {
+          "text": "CQ TA6CQ KN70",
+          "frequencyHz": 684.375,
+          "offsetSeconds": 1.36,
+          "syncScore": 23,
+          "crcValid": true
+        },
+        {
+          "text": "CQ R7IW LN35",
+          "frequencyHz": 1290.625,
+          "offsetSeconds": 1.6,
+          "syncScore": 21,
+          "crcValid": true
+        },
+        {
+          "text": "CQ LZ1JZ KN22",
+          "frequencyHz": 1031.25,
+          "offsetSeconds": 1.28,
+          "syncScore": 15,
+          "crcValid": true
+        }
+      ],
+      "expectedRecovered": 4,
+      "notRecovered": [
+        "OH3NIV ZS6S RR73"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/191111_110215.wav",
+      "sha256": "9941b1b3c29698f641780ada1bb2a04ea9194b950795dbdc1d936f0226cc2ddd",
+      "expected": [
+        "<...> RY8CAA R-10",
+        "GJ0KYZ UA6HI -15",
+        "GJ0KYZ RK9AX MO05",
+        "CQ DX Z33Z KN11"
+      ],
+      "actual": [
+        {
+          "text": "GJ0KYZ RK9AX MO05",
+          "frequencyHz": 1234.375,
+          "offsetSeconds": 1.52,
+          "syncScore": 34,
+          "crcValid": true
+        },
+        {
+          "text": "<...> RY8CAA R-10",
+          "frequencyHz": 321.875,
+          "offsetSeconds": 1.68,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "GJ0KYZ UA6HI -15",
+          "frequencyHz": 996.875,
+          "offsetSeconds": 0.8,
+          "syncScore": 16,
+          "crcValid": true
+        }
+      ],
+      "expectedRecovered": 3,
+      "notRecovered": [
+        "CQ DX Z33Z KN11"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/191111_110700.wav",
+      "sha256": "648fe7508193c872a36ce09d164bcf99f22f43cae3370871d273831af43817c1",
+      "expected": [
+        "IZ1ANK PC2J R+10",
+        "CQ OR18RSX",
+        "JA2GQT SP7XIF JO91",
+        "CQ EA3UV JN01",
+        "CQ JR5MJS PM74",
+        "DG0OFT W4FGA EM83",
+        "RK6AUV SV1GN RR73",
+        "SP8NFO PA3EPP +04",
+        "CQ PB5DX JO22",
+        "JH1AJT SP8BJU -04",
+        "JH1AJT RK6AH 73",
+        "JL1TZQ R3BV R-12",
+        "<...> IT9AAI JM67",
+        "LA2GCA F5MXH JN07",
+        "CQ DX IK0YVV JN62",
+        "CQ M0NPT IO92"
+      ],
+      "actual": [
+        {
+          "text": "JH1AJT RK6AH 73",
+          "frequencyHz": 1953.125,
+          "offsetSeconds": 1.6,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "DG0OFT W4FGA EM83",
+          "frequencyHz": 1243.75,
+          "offsetSeconds": 1.52,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "IZ1ANK PC2J R+10",
+          "frequencyHz": 518.75,
+          "offsetSeconds": 1.76,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "CQ OR18RSX",
+          "frequencyHz": 840.625,
+          "offsetSeconds": 1.52,
+          "syncScore": 30,
+          "crcValid": true
+        },
+        {
+          "text": "LA2GCA F5MXH JN07",
+          "frequencyHz": 2359.375,
+          "offsetSeconds": 1.76,
+          "syncScore": 30,
+          "crcValid": true
+        },
+        {
+          "text": "CQ EA3UV JN01",
+          "frequencyHz": 1034.375,
+          "offsetSeconds": 1.52,
+          "syncScore": 29,
+          "crcValid": true
+        },
+        {
+          "text": "CQ DX IK0YVV JN62",
+          "frequencyHz": 2728.125,
+          "offsetSeconds": 2.0,
+          "syncScore": 28,
+          "crcValid": true
+        },
+        {
+          "text": "JA2GQT SP7XIF JO91",
+          "frequencyHz": 971.875,
+          "offsetSeconds": 0.16,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "JH1AJT SP8BJU -04",
+          "frequencyHz": 1725.0,
+          "offsetSeconds": 1.52,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "JL1TZQ R3BV R-12",
+          "frequencyHz": 2028.125,
+          "offsetSeconds": 1.52,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "RK6AUV SV1GN RR73",
+          "frequencyHz": 1403.125,
+          "offsetSeconds": 2.24,
+          "syncScore": 24,
+          "crcValid": true
+        },
+        {
+          "text": "CQ PB5DX JO22",
+          "frequencyHz": 1668.75,
+          "offsetSeconds": 1.6,
+          "syncScore": 22,
+          "crcValid": true
+        },
+        {
+          "text": "SP8NFO PA3EPP +04",
+          "frequencyHz": 1484.375,
+          "offsetSeconds": 1.6,
+          "syncScore": 19,
+          "crcValid": true
+        },
+        {
+          "text": "CQ JR5MJS PM74",
+          "frequencyHz": 1112.5,
+          "offsetSeconds": 1.04,
+          "syncScore": 18,
+          "crcValid": true
+        }
+      ],
+      "expectedRecovered": 14,
+      "notRecovered": [
+        "<...> IT9AAI JM67",
+        "CQ M0NPT IO92"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/websdr_test8.wav",
+      "sha256": "cb9fb1a6a0876fc3e56638f8a6544e105efb4f89f76a80e88af92a6ff5d18b39",
+      "expected": [
+        "CQ DX DO4TP JO31   Germany",
+        "EA8TH F8DBF 73",
+        "CQ IK2YCW JN55",
+        "CQ UY5AX KO70",
+        "SP9DLY CU2DX -11",
+        "DD2XJ SP3OTL JO81",
+        "CQ OE3UKW JN88",
+        "SM5NAS OZ0JD RR73",
+        "CQ DM1YS JO30",
+        "CQ SP6ZJB JO80",
+        "CQ DL7ACN JN49",
+        "SM2EKA UT7IS R-15",
+        "JA6VQA EA8PP 73",
+        "UN7IT OM7ZM -20",
+        "JH1AJT EA1RT -10",
+        "S56ECR DO8OL -11",
+        "CQ DK7LE JO54",
+        "DJ0AH DL6WAB R+01",
+        "CQ ON8GE JO20",
+        "OM7AZA SV8EUB -09",
+        "RZ3OA UT9LB -06",
+        "CQ E74BYZ JN84",
+        "PE0TS LZ2KV -25",
+        "DL8FBD LZ2KV -16",
+        "CQ DK2TS JO31",
+        "SM2EKA SV9FBN KM25"
+      ],
+      "actual": [
+        {
+          "text": "SM5NAS OZ0JD RR73",
+          "frequencyHz": 1218.75,
+          "offsetSeconds": 1.44,
+          "syncScore": 37,
+          "crcValid": true
+        },
+        {
+          "text": "CQ SP6ZJB JO80",
+          "frequencyHz": 1315.625,
+          "offsetSeconds": -0.72,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "CQ OE3UKW JN88",
+          "frequencyHz": 1112.5,
+          "offsetSeconds": 1.04,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "CQ IK2YCW JN55",
+          "frequencyHz": 859.375,
+          "offsetSeconds": 0.8,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "SP9DLY CU2DX -11",
+          "frequencyHz": 1009.375,
+          "offsetSeconds": 0.88,
+          "syncScore": 31,
+          "crcValid": true
+        },
+        {
+          "text": "JH1AJT EA1RT -10",
+          "frequencyHz": 2187.5,
+          "offsetSeconds": 1.28,
+          "syncScore": 30,
+          "crcValid": true
+        },
+        {
+          "text": "CQ DK7LE JO54",
+          "frequencyHz": 2325.0,
+          "offsetSeconds": 0.88,
+          "syncScore": 29,
+          "crcValid": true
+        },
+        {
+          "text": "CQ ON8GE JO20",
+          "frequencyHz": 2746.875,
+          "offsetSeconds": 0.88,
+          "syncScore": 29,
+          "crcValid": true
+        },
+        {
+          "text": "OM7AZA SV8EUB -09",
+          "frequencyHz": 346.875,
+          "offsetSeconds": 1.52,
+          "syncScore": 28,
+          "crcValid": true
+        },
+        {
+          "text": "CQ UY5AX KO70",
+          "frequencyHz": 912.5,
+          "offsetSeconds": 2.24,
+          "syncScore": 28,
+          "crcValid": true
+        },
+        {
+          "text": "JA6VQA EA8PP 73",
+          "frequencyHz": 1890.625,
+          "offsetSeconds": 0.88,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "DD2XJ SP3OTL JO81",
+          "frequencyHz": 1059.375,
+          "offsetSeconds": -0.24,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "SM2EKA UT7IS R-15",
+          "frequencyHz": 1762.5,
+          "offsetSeconds": 0.96,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "DJ0AH DL6WAB R+01",
+          "frequencyHz": 2390.625,
+          "offsetSeconds": 0.88,
+          "syncScore": 27,
+          "crcValid": true
+        },
+        {
+          "text": "CQ DX DO4TP JO31",
+          "frequencyHz": 587.5,
+          "offsetSeconds": 1.12,
+          "syncScore": 26,
+          "crcValid": true
+        },
+        {
+          "text": "UN7IT OM7ZM -20",
+          "frequencyHz": 1993.75,
+          "offsetSeconds": 0.72,
+          "syncScore": 26,
+          "crcValid": true
+        },
+        {
+          "text": "CQ DL7ACN JN49",
+          "frequencyHz": 1665.625,
+          "offsetSeconds": 0.88,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "EA8TH F8DBF 73",
+          "frequencyHz": 696.875,
+          "offsetSeconds": 0.88,
+          "syncScore": 23,
+          "crcValid": true
+        }
+      ],
+      "expectedRecovered": 17,
+      "notRecovered": [
+        "CQ DK2TS JO31",
+        "CQ DM1YS JO30",
+        "CQ DX DO4TP JO31   Germany",
+        "CQ E74BYZ JN84",
+        "DL8FBD LZ2KV -16",
+        "PE0TS LZ2KV -25",
+        "RZ3OA UT9LB -06",
+        "S56ECR DO8OL -11",
+        "SM2EKA SV9FBN KM25"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "source": "https://github.com/kgoba/ft8_lib/blob/9fec6ca39886edbf96f4f5e71edc76da5074e871/test/wav/websdr_test9.wav",
+      "sha256": "02119757b2b0b9cb41b47d44142e09c1bcb6800e4b5211640278c3db8db97d6a",
+      "expected": [
+        "EA8BEV LU3DW -14",
+        "CQ N2BJ EN61",
+        "OE4RWD NU2Q -05",
+        "CQ IK4LZH JN54",
+        "CQ SV2FPI KN10",
+        "W4DOW EA5LV 73",
+        "CQ 9A7DA JN86",
+        "CQ HA5MG JN97",
+        "OK1AW G3JFS R+02",
+        "CQ PD1ECA JO32",
+        "CQ PY1SX GG87",
+        "M0LMR IW1AYD R-08",
+        "K4VBM HA8EK -15",
+        "K4VBM HA8EK -15",
+        "K4VBM HA8EK -15",
+        "K2DSW IU8LLZ JN70",
+        "GI7KMC F8IJV/P 73",
+        "W9WI SV3AQM R-13",
+        "S57NCP PY2GIG RR73",
+        "F4DFQ F5LOW IN95",
+        "CQ OE4ATS JN87",
+        "CQ 2E0PKK IO90",
+        "CQ CT7AIX IM59",
+        "K3ZK IK2ZDT RR73"
+      ],
+      "actual": [
+        {
+          "text": "K2DSW IU8LLZ JN70",
+          "frequencyHz": 2600.0,
+          "offsetSeconds": -0.56,
+          "syncScore": 32,
+          "crcValid": true
+        },
+        {
+          "text": "EA8BEV LU3DW -14",
+          "frequencyHz": 312.5,
+          "offsetSeconds": -0.88,
+          "syncScore": 30,
+          "crcValid": true
+        },
+        {
+          "text": "CQ HA5MG JN97",
+          "frequencyHz": 1618.75,
+          "offsetSeconds": -0.16,
+          "syncScore": 28,
+          "crcValid": true
+        },
+        {
+          "text": "CQ PD1ECA JO32",
+          "frequencyHz": 1881.25,
+          "offsetSeconds": 0.64,
+          "syncScore": 26,
+          "crcValid": true
+        },
+        {
+          "text": "W4DOW EA5LV 73",
+          "frequencyHz": 1375.0,
+          "offsetSeconds": 0.72,
+          "syncScore": 26,
+          "crcValid": true
+        },
+        {
+          "text": "K4VBM HA8EK -15",
+          "frequencyHz": 2228.125,
+          "offsetSeconds": -1.6,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "CQ N2BJ EN61",
+          "frequencyHz": 609.375,
+          "offsetSeconds": 0.8,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "OK1AW G3JFS R+02",
+          "frequencyHz": 1687.5,
+          "offsetSeconds": 0.8,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "M0LMR IW1AYD R-08",
+          "frequencyHz": 2034.375,
+          "offsetSeconds": -0.48,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "S57NCP PY2GIG RR73",
+          "frequencyHz": 1453.125,
+          "offsetSeconds": 0.72,
+          "syncScore": 25,
+          "crcValid": true
+        },
+        {
+          "text": "CQ IK4LZH JN54",
+          "frequencyHz": 903.125,
+          "offsetSeconds": 0.8,
+          "syncScore": 24,
+          "crcValid": true
+        },
+        {
+          "text": "GI7KMC F8IJV/P 73",
+          "frequencyHz": 2831.25,
+          "offsetSeconds": 0.96,
+          "syncScore": 19,
+          "crcValid": true
+        },
+        {
+          "text": "OE4RWD NU2Q -05",
+          "frequencyHz": 734.375,
+          "offsetSeconds": 0.48,
+          "syncScore": 17,
+          "crcValid": true
+        },
+        {
+          "text": "CQ SV2FPI KN10",
+          "frequencyHz": 1125.0,
+          "offsetSeconds": 0.88,
+          "syncScore": 16,
+          "crcValid": true
+        }
+      ],
+      "expectedRecovered": 14,
+      "notRecovered": [
+        "CQ 2E0PKK IO90",
+        "CQ 9A7DA JN86",
+        "CQ CT7AIX IM59",
+        "CQ OE4ATS JN87",
+        "CQ PY1SX GG87",
+        "F4DFQ F5LOW IN95",
+        "K3ZK IK2ZDT RR73",
+        "W9WI SV3AQM R-13"
+      ],
+      "exitStatus": 0
+    }
+  ]
+}

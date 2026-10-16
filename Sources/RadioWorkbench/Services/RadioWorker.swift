@@ -15,11 +15,14 @@ struct RadioUpdate: Sendable {
     var samplesReceived: UInt64 = 0
     var sstvCalibration: SSTVCalibration?
     var multimonRecords: [MultimonRecord] = []
+    var engineRecords: [AudioEngineRecord] = []
+    var voiceURL: URL?
 }
 
 actor RadioWorker {
     func decodeFile(url: URL, mode: RadioMode, settings: DecoderSettings,
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
+        if [.ft8, .ft4, .digitalVoice].contains(mode) || (mode == .morse && settings.cwEngine != .manual) { try await decodeAdditionalFile(url: url, mode: mode, settings: settings, update: update); return }
         if mode == .acars { try await decodeACARSFile(url: url, settings: settings, update: update); return }
         if mode.isMultimon { try await decodeMultimonFile(url: url, mode: mode, settings: settings, update: update); return }
         let reader = try AudioFileReader(url: url, channel: settings.audioChannel)
@@ -47,6 +50,7 @@ actor RadioWorker {
     }
     func decodeLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String = "Entrada de audio",
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
+        if [.ft8, .ft4, .digitalVoice].contains(mode) || (mode == .morse && settings.cwEngine != .manual) { try await decodeAdditionalLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update); return }
         if mode == .acars { try await decodeACARSLive(ring: ring, sampleRate: sampleRate, settings: settings, source: source, update: update); return }
         if mode.isMultimon { try await decodeMultimonLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update); return }
         var decoder = try DecoderEngine(mode: mode, sampleRate: sampleRate, settings: settings)

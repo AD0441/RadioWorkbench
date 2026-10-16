@@ -1,5 +1,9 @@
 # Validación de RadioWorkbench 0.8.11
 
+## 0.9.0
+
+148 pruebas registradas, 146 aprobadas y dos opcionales de red omitidas en la pasada Release. Nuevas pruebas: FT8/FT4 por WAV y silencio, CW automático/neuronal con tono/velocidad apartados de valores iniciales y publicación en vivo, ADS-C/CPDLC y CRC interno, bloques ACARS en FIFO bajo acumulación, exportación, M17 SMS/Codec2 WAV, referencia SGP4 de Vallado y actualización de caché sin BSTAR. La comparación con seis WAV públicos FT8 recupera 53 mensajes; se conservan también los no recuperados en [ft8-independent-0.9.json](validation/ft8-independent-0.9.json). No certifica todos los protocolos DSD ni sustituye pruebas RF. No se usó micrófono o SDR++ en esta actualización.
+
 Release arm64/macOS 14+, build 23. Se reprodujeron los dos defectos revisados con **Avisos sin texto**: un aviso a 1200 baud para capcode 123456 seguido de dos segundos de silencio producía 75 registros, 74 falsos; la salida breve no era legible mientras stdin seguía abierto. Con el parche del sincronismo periódico, el mismo audio produce **un registro legítimo y cero falsos**. El aviso JSON se puede leer con stdin abierto y queda recibido antes de terminar el helper con SIGTERM.
 
 La corrección combina tres etapas: `fflush` en el aviso sin texto, lectura del Pipe mediante los bytes disponibles y publicación de resultados asíncronos aunque se haya agotado el último bloque de audio. El sincronismo se exige después de 16 palabras, reiniciando el framing al adquirirlo y respetando el límite BCH configurado. No se filtran direcciones bajas: un capcode real 0 conserva su recepción.

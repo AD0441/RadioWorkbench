@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.9.0:** SGP4/SDP4 y Doppler; FT8/FT4 con LDPC/CRC; CWKit automático/neuronal (macOS 15+); ADS-C/CPDLC con reensamblado y mapa; DSD-neo oficial bajo demanda (macOS 26+). La app conserva mínimo macOS 14. [Detalles y limitaciones](INTEGRATIONS-0.9.md).
+
 **0.8.11: POCSAG sin capcodes falsos tras perder el sincronismo.** Exige el marcador periódico de bloque, reinicia el framing al adquirir señal y respeta el límite BCH para sincronismos. Vacía stdout al emitir avisos sin texto, consume la salida disponible del helper sin esperar 8 KB/EOF y publica los resultados aunque se pause el flujo de audio. Añade regresiones de silencio tras transmisión, recuperación, mensajes multibloque y publicación antes de cerrar la entrada. [Detalles](RELEASE-0.8.11.md).
 
 **0.8.10: mapas, satélites y nuevos decodificadores.** Añade un mapa pequeño de repetidoras con ubicación manual para ITM y mapas de pases de satélite con azimut/elevación. Corrige las épocas GP UTC sin sufijo Z y el campo de fecha AMSAT; separa las actualizaciones y conserva cada caché. Incorpora alternativa orbital AMSAT TLE y descarga de frecuencias por la API oficial de GitHub. Añade POCSAG 512/1200/2400 y ocho familias Selcall mediante multimon-ng arm64, Hell nativo en cinco variantes por pulsos y RTTY ASCII 7/8 sin paridad. Incluye 19 WAV sintéticos nuevos y exportación de mensajes JSON/imágenes PNG. [Alcance de los modos](DECODIFICADORES-0.8.10.md) · [Consultas](CONSULTAS.md).

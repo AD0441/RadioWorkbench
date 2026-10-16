@@ -14,6 +14,11 @@ if [[ -f "$TESTING_PLUGIN" && -d "$TESTING_FRAMEWORKS/Testing.framework" ]]; the
   TESTING_FLAGS=(-Xswiftc -F -Xswiftc "$TESTING_FRAMEWORKS" -Xswiftc -load-plugin-library -Xswiftc "$TESTING_PLUGIN" -Xlinker -rpath -Xlinker "$TESTING_FRAMEWORKS")
 fi
 cd "$ROOT_DIR"
+bash "$ROOT_DIR/script/build_ftx.sh" "$BUILD_PATH/ftx-helper"
+export FTX_HELPER_PATH="$BUILD_PATH/ftx-helper"
+bash "$ROOT_DIR/script/build_cw.sh" "$BUILD_PATH/cw-helper"
+export CW_HELPER_PATH="$BUILD_PATH/cw-helper"
+export CW_MODEL_PATH="$ROOT_DIR/Vendor/CWKit/Sources/CWKit/Resources/CWNet.mlmodelc"
 bash "$ROOT_DIR/script/build_acars.sh" "$BUILD_PATH/acars-helper"
 export ACARS_HELPER_PATH="$BUILD_PATH/acars-helper"
 bash "$ROOT_DIR/script/build_multimon.sh" "$BUILD_PATH/multimon-helper"

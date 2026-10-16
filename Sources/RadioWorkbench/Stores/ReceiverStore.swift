@@ -1,4 +1,5 @@
 import AppKit
+import AVFoundation
 import Observation
 import RadioCore
 import UniformTypeIdentifiers
@@ -12,6 +13,13 @@ final class ReceiverStore {
     var text = ""
     var acarsMessages: [ACARSMessage] = []
     var multimonRecords: [MultimonRecord] = []
+    var engineRecords: [AudioEngineRecord] = []
+    var voiceURL: URL?
+    var voiceFinalizing = false
+    @ObservationIgnored private var voiceFinalization: Task<Void, Never>?
+    var engineDownloading = false
+    var engineNotice = ""
+    @ObservationIgnored private var voicePlayer: AVAudioPlayer?
     var selectedACARSMessage: UUID?
     var showsACARSSpectrum = false
     var frame: SpectrumFrame?
@@ -94,7 +102,7 @@ final class ReceiverStore {
         let previous = mode
         stop(); mode = value; text = ""; rows = []; waterfall = nil; frame = nil; error = nil
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []
+        multimonRecords = []; engineRecords = []; clearVoice()
         progress = 0; dropped = 0
         source = lastURL?.lastPathComponent ?? "Sin fuente"
         detail = lastURL == nil
@@ -118,7 +126,7 @@ final class ReceiverStore {
     func decode(_ url: URL) {
         stop(); text = ""; error = nil; rows = []; waterfall = nil; receivedImage = nil; imageCaption = ""
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []
+        multimonRecords = []; engineRecords = []; clearVoice()
         lastURL = url; source = url.lastPathComponent; progress = 0; busy = true
         let token = session, mode = mode, settings = settings
         task = Task {
@@ -131,9 +139,14 @@ final class ReceiverStore {
         }
     }
     func startLive() {
+        if mode == .digitalVoice && (!ExternalAudioEngine.dsdSupported || ExternalAudioEngine.dsdInstalledURL == nil) {
+            error = ExternalAudioEngine.dsdSupported ? "Descarga DSD-neo antes de iniciar la entrada." : "El motor oficial DSD-neo requiere macOS 26."; return
+        }
+        if mode == .morse && settings.cwEngine != .manual && !CWEngine.isSupported { error = "CWKit requiere macOS 15. Selecciona Manual."; return }
+        voicePlayer?.stop()
         stop(); text = ""; error = nil; busy = true; live = true
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []
+        multimonRecords = []; engineRecords = []; clearVoice()
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
         rows = []; waterfall = nil; frame = nil; receivedImage = nil; imageCaption = ""; sstvCalibration = nil
         let token = session, mode = mode, settings = settings, deviceID = selectedDeviceID
@@ -155,8 +168,47 @@ final class ReceiverStore {
             catch { if session == token { self.error = error.localizedDescription; stop() } }
         }
     }
+    func installDSD() {
+        guard !engineDownloading else { return }
+        engineDownloading = true; engineNotice = "Descargando DSD-neo 2.10.0 y verificando su huella…"
+        Task {
+            defer { engineDownloading = false }
+            do { try await DSDEngineInstaller.install(); engineNotice = "DSD-neo 2.10.0 instalado y listo." }
+            catch { engineNotice = error.localizedDescription }
+        }
+    }
+    func clearVoice() {
+        voicePlayer?.stop(); voicePlayer = nil
+        if let url = voiceURL, url.lastPathComponent.hasPrefix("RadioWorkbench-voice-") { let finishing = voiceFinalization; Task { await finishing?.value; try? FileManager.default.removeItem(at: url) } }
+        voiceURL = nil
+    }
+    func playVoice() {
+        guard !busy, !voiceFinalizing, let url = voiceURL else { return }
+        do { voicePlayer = try AVAudioPlayer(contentsOf: url); voicePlayer?.play() } catch { self.error = "No hay voz reproducible en esta sesión: " + error.localizedDescription }
+    }
+    func exportVoice() {
+        guard !busy, !voiceFinalizing, let url = voiceURL else { return }
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = "voz-\(settings.digitalVoiceProtocol.rawValue).wav"
+        guard panel.runModal() == .OK, let destination = panel.url else { return }
+        do { try Data(contentsOf: url).write(to: destination, options: .atomic) } catch { self.error = error.localizedDescription }
+    }
+    func exportEngineJSON() {
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "\(mode.rawValue)-recibido.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; encoder.dateEncodingStrategy = .iso8601; try encoder.encode(engineRecords).write(to: url, options: .atomic) } catch { self.error = error.localizedDescription }
+    }
     func stop() {
-        session = UUID(); task?.cancel(); task = nil; input.stop(); busy = false; live = false
+        let previous = task
+        session = UUID(); let token = session
+        task?.cancel(); task = nil; input.stop(); busy = false; live = false
+        if previous != nil && voiceURL != nil {
+            voiceFinalizing = true
+            voiceFinalization = Task { [weak self] in
+                await previous?.value
+                guard let self, self.session == token else { return }
+                self.voiceFinalizing = false
+            }
+        } else { voiceFinalizing = false }
     }
     private func apply(_ value: RadioUpdate, token: UUID) {
         guard session == token else { return }
@@ -166,6 +218,8 @@ final class ReceiverStore {
             if selectedACARSMessage == nil || !acarsMessages.contains(where: { $0.id == selectedACARSMessage }) { selectedACARSMessage = acarsMessages.last?.id }
         }
         if mode.isMultimon { multimonRecords = value.multimonRecords }
+        engineRecords = value.engineRecords
+        if let voice = value.voiceURL { voiceURL = voice }
         detail = value.detail; dropped = value.dropped; samplesReceived = value.samplesReceived
         sstvCalibration = value.sstvCalibration
         if let count = value.channelCount { sourceChannelCount = count }
@@ -195,8 +249,17 @@ final class ReceiverStore {
             try data.write(to: url, options: .atomic)
         } catch { self.error = error.localizedDescription }
     }
+    func loadACARSApplicationExample() {
+        guard let url = Bundle.main.url(forResource: "acars_adsc_12000", withExtension: "wav", subdirectory: "Examples") else { error = "No se encontró el ejemplo ADS-C."; return }
+        settings.audioChannel = .mix; decode(url)
+    }
     func loadExample() {
+        if mode == .digitalVoice { settings.digitalVoiceProtocol = .m17 }
+        if mode == .ft8 || mode == .ft4 { settings.ftxStartSeconds = 0 }
         let name = switch mode {
+        case .digitalVoice: "m17_packet_48000_synthetic"
+        case .ft8: "ft8_12000_cq_clean"
+        case .ft4: "ft4_12000_cq_clean"
         case .morse: "morse_8000_mono_clean"
         case .rtty: settings.rttyEncoding == .ascii7 ? "rtty_ascii7_8000_75baud" : settings.rttyEncoding == .ascii8 ? "rtty_ascii8_8000_110baud" : "rtty_8000_mono_clean"
         case .bitAnalysis: "rtty_8000_mono_clean"

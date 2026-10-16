@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.8.11
+# RadioWorkbench · 0.9.0
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -17,14 +17,15 @@ Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones 
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-El código 0.8.11 corrige los capcodes POCSAG falsos tras perder el sincronismo y publica los avisos sin texto durante la recepción. Conserva los mapas de repetidoras/pases, fuentes satelitales y decodificadores de 0.8.10, y la malla topográfica independiente de 0.8.9. La descarga pública indicada arriba sigue siendo 0.8.8. [Notas actuales](docs/RELEASE-0.8.11.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
+El código **0.9.0** integra SGP4/SDP4 con Doppler, FT8/FT4, CWKit automático/neuronal y aplicaciones ACARS ADS-C/CPDLC. Añade recepción DSD-neo mediante descarga verificada de su motor oficial; este paquete requiere macOS 26, y CWKit requiere 15. La app y el resto de modos conservan macOS 14. La descarga pública de arriba sigue siendo 0.8.8. [Motores, requisitos y uso](docs/INTEGRATIONS-0.9.md) · [Notas 0.9.0](docs/RELEASE-0.9.0.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
 | Área | Funciones disponibles |
 |---|---|
-| Texto y tonos | Morse/CW, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
-| Mensajes | POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF por audio AM |
+| Texto y tonos | FT8/FT4, Morse/CW manual o CWKit automático/neuronal, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
+| Mensajes | POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
+| Voz digital | DSD-neo descargable: DMR, P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR; un canal, voz WAV |
 | Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
 | Entrada | Micrófono, dispositivo USB o virtual seleccionable, canales individuales/mezcla y perfiles persistentes |
 | Guía de radios | Horarios EiBi, cruce técnico HFCC, favoritas y avisos de inicio |
@@ -75,7 +76,7 @@ Son ajustes iniciales, no anchos universales de todos los servicios. Desactiva e
 
 Las 41 variantes tienen pruebas matemáticas; una recepción acústica Robot36C se completó usando el micrófono del Mac. Eso no valida todos los transmisores ni todos los modos en RF. La opción de compatibilidad Robot36C permite exclusivamente la paridad VIS no estándar observada en esa prueba. Las fotografías y el audio personal de esa sesión se conservan localmente y **no se publican**. [Catálogo SSTV](docs/SSTV-MODOS.md) · [Prueba del micrófono](docs/MICROFONO.md).
 
-El catálogo de investigación contiene 103 entradas con fuentes y estado de disponibilidad. DRM, FT8/FT4/WSPR, DMR/P25/NXDN, AIS, RDS, DAB, SatDump y otras ampliaciones están investigadas, pero no deben confundirse con motores ya integrados. [Decodificadores candidatos](docs/DECODIFICADORES-EXTRA.md) · [Motores en GitHub](docs/GITHUB-MOTORES.md).
+El catálogo de investigación contiene 103 entradas con fuentes y estado de disponibilidad. FT8/FT4 y DSD-neo ya tienen recepción integrada con los requisitos descritos arriba. DRM, WSPR y otros modos WSJT-X, AIS, RDS, DAB y SatDump continúan como candidatos. [Decodificadores candidatos](docs/DECODIFICADORES-EXTRA.md) · [Motores en GitHub](docs/GITHUB-MOTORES.md).
 
 ## Guía de radios, condiciones y propagación
 
@@ -95,31 +96,31 @@ El catálogo de investigación contiene 103 entradas con fuentes y estado de dis
 2. **Repetidoras:** listados oficiales SUBTEL, búsqueda por indicativo/región/comuna, pequeño mapa Apple Maps y paso al destino ITM con coordenadas publicadas o ingresadas manualmente/con clic. Un permiso de operación no demuestra actividad actual.
 3. **Indicativos:** consulta las listas SUBTEL conservando indicativo, categoría, zona y vencimiento; descarta nombres y números de licencia.
 4. **APRS cercano:** flujo de solo recepción APRS-IS, filtro geográfico y selección de una estación como destino del análisis de terreno. Los paquetes llegan a través de gateways y no confirman cobertura RF local.
-5. **Satélites:** frecuencias AMSAT/SatNOGS por API de GitHub, elementos GP de CelesTrak con alternativa TLE de AMSAT, reportes AMSAT y pases aproximados de 48 horas. Seleccionar un pase muestra su trayectoria terrestre y un gráfico polar de azimut/elevación. Cada fuente conserva caché y fecha independientes. El cálculo usa Kepler con corrección secular J2; no implementa SGP4 ni corrección Doppler.
+5. **Satélites:** frecuencias AMSAT/SatNOGS por API de GitHub, elementos GP de CelesTrak con alternativa TLE de AMSAT, reportes AMSAT y pases aproximados de 48 horas. Seleccionar un pase muestra su trayectoria terrestre y un gráfico polar de azimut/elevación. Cada fuente conserva caché y fecha independientes. El cálculo usa SGP4/SDP4 con BSTAR y observador WGS84; muestra Doppler de entrada/salida para la frecuencia elegida.
 
 SUBTEL y satélites actualizan datos y mantienen caché local; APRS conecta únicamente al solicitarlo. [Fuentes, actualización y límites](docs/CONSULTAS.md).
 
 ## Datos y privacidad
 
-El audio se procesa en el Mac. La captura diagnóstica a WAV requiere una opción explícita; no se envía a terceros. Los perfiles y las copias de datos se almacenan localmente en Application Support.
+El audio se procesa en el Mac. DSD guarda voz decodificada en un WAV temporal local, reproducible/exportable al detener; al iniciar otra sesión se elimina la copia temporal previa. La captura diagnóstica a WAV requiere una opción explícita; no se envía a terceros. Los perfiles y las copias de datos se almacenan localmente en Application Support.
 
 Los servicios en línea consultan a sus proveedores: EiBi, HFCC, NOAA, HamQSL, ionosondas, SUBTEL, CelesTrak y AMSAT/SatNOGS. PSK Reporter comparte una cuadrícula Maidenhead de cuatro caracteres tras activarlo; APRS-IS envía indicativo y ubicación redondeada a dos decimales para filtrar. El análisis topográfico solicita índices de teselas DEM a AWS solo al pedir terreno; esos índices permiten inferir la región consultada. Apple Maps mantiene sus propias consultas de mapa. Estos servicios tienen su propia cobertura y disponibilidad.
 
 ## Compilar y probar
 
-Toolchain verificado: **Apple Swift 6.4, SDK macOS 27.0, arm64**. El código usa nuevas APIs de audio del SDK macOS 27 con una ruta de ejecución anterior protegida por disponibilidad; para compilar las fuentes actuales se requiere ese SDK o uno posterior, aunque el bundle declare macOS 14 como mínimo.
+Toolchain verificado: **Apple Swift 6.4, SDK macOS 27.0, arm64**, con CMake para libacars. El código usa nuevas APIs de audio del SDK macOS 27 con una ruta de ejecución anterior protegida por disponibilidad; para compilar las fuentes actuales se requiere ese SDK o uno posterior, aunque el bundle declare macOS 14 como mínimo.
 
 ```sh
 git clone https://github.com/AD0441/RadioWorkbench.git
 cd RadioWorkbench
-bash script/test.sh
+bash script/test.sh -c release
 bash script/build_and_run.sh --build-only
 open dist/RadioWorkbench.app
 ```
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La suite actual tiene **135 funciones registradas: 133 ejecutadas y aprobadas, dos opcionales omitidas**. Incluye todos los modos previos, los fixtures de POCSAG/Selcall/RTTY ASCII/Hell y las regresiones POCSAG de silencio, sincronismo y publicación en vivo/WAV a 48 kHz. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
+La pasada 0.9.0, con `DSD_NEO_PATH` apuntando al runtime oficial verificado, tiene **148 funciones registradas: 146 aprobadas y dos comprobaciones opcionales de red omitidas**. Sin ese motor se omiten también sus dos pruebas. Añade FT8/FT4 con CRC, CWKit manual/neuronal y seguimiento de tono/WPM, aplicaciones ACARS y reensamblado bajo carga, M17/Codec2 a WAV, SGP4 de referencia y caché anterior. Incluye todos los modos previos, los fixtures de POCSAG/Selcall/RTTY ASCII/Hell y las regresiones POCSAG de silencio, sincronismo y publicación en vivo/WAV a 48 kHz. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
 
 | Carpeta | Contenido |
 |---|---|
@@ -135,6 +136,8 @@ El callback de audio copia/mezcla al ring; los decodificadores y archivos se pro
 
 ## Componentes y avisos
 
+- **SatelliteKit, ft8_lib, CWKit y libacars:** fuentes MIT, avisos y hashes fijados, con archivos de fuentes incluidos en el bundle. [Integración y cambios](docs/INTEGRATIONS-0.9.md).
+- **DSD-neo:** runtime oficial opcional descargado de GitHub, con SHA-256 y versión fijados; no redistribuido por este proyecto. Conserva sus avisos GPL y los de sus dependencias.
 - **acarsdec:** helper separado bajo [GPL v2](Vendor/acarsdec/LICENSE.md), con fuentes y wrapper incluidos en el bundle.
 - **multimon-ng:** helper separado bajo [GPL v2 o posterior](Vendor/MultimonNG/COPYING), fijado a un commit con [parches locales documentados](Vendor/MultimonNG/LOCAL-CHANGES.md) y compilado para PCM por stdin, con fuentes, script y licencia incluidos en el bundle.
 - **ITU-R HF:** modelos P.533/P.372 y sus datos, con el [aviso upstream preservado](Vendor/ITU-R-HF/NOTICE.md).

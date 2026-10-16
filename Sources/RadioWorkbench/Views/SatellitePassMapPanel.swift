@@ -7,6 +7,7 @@ struct SatellitePassMapPanel: View {
     let track: [SatelliteTrackSample]
     let observer: RadioLocation
     @ViewState private var camera: MapCameraPosition = .automatic
+    @ViewState private var downlinkMHz = 145.8
     var body: some View {
         GroupBox("Pase seleccionado · mapa y dirección de antena") {
             VStack(alignment: .leading, spacing: 8) {
@@ -30,7 +31,16 @@ struct SatellitePassMapPanel: View {
                     Text("AOS azimut \(first.observation.azimuthDegrees, specifier: "%.0f")° · LOS \(last.observation.azimuthDegrees, specifier: "%.0f")° · máximo \(pass.maximumElevation, specifier: "%.1f")°")
                         .font(.caption.monospacedDigit())
                 }
-                Text("El mapa muestra la proyección del satélite sobre la Tierra durante el pase; el gráfico polar muestra azimut y elevación desde tu ubicación. Ambos usan Kepler + J2 aproximado y no indican cobertura RF confirmada.")
+                HStack {
+                    Text("Bajada (MHz)").font(.caption)
+                    TextField("MHz", value: $downlinkMHz, format: .number).frame(width: 95).textFieldStyle(.roundedBorder)
+                    if let first = track.first, let last = track.last,
+                       let a = first.observation.dopplerHz(frequencyMHz: downlinkMHz), let b = last.observation.dopplerHz(frequencyMHz: downlinkMHz) {
+                        Text("Doppler AOS \(a, specifier: "%+.0f") Hz · LOS \(b, specifier: "%+.0f") Hz").font(.caption.monospacedDigit())
+                    }
+                }
+                Text("Ajusta manualmente el receptor a frecuencia nominal + Doppler. La frecuencia de ejemplo no identifica un transmisor activo.").font(.caption2).foregroundStyle(.secondary)
+                Text("El mapa muestra la proyección del satélite sobre la Tierra durante el pase; el gráfico polar muestra azimut y elevación desde tu ubicación. Ambos usan SGP4/SDP4 y WGS84 y no indican cobertura RF confirmada.")
                     .font(.caption2).foregroundStyle(.secondary)
             }.padding(7)
         }

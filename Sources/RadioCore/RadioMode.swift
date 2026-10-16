@@ -1,12 +1,15 @@
 import Foundation
 
 public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
-    case morse, rtty, psk31, dtmf, bitAnalysis, pocsag, fiveTones
+    case morse, ft8, ft4, digitalVoice, rtty, psk31, dtmf, bitAnalysis, pocsag, fiveTones
     case wefax, satelliteAPT, sstv, sitorA, navtex, acars, packet, ale, hell, mt63, gmdss, dgps, loran, globeWireless, selectiveTones
     public var id: String { rawValue }
     public var title: String {
         switch self {
         case .morse: "Morse / CW"
+        case .ft8: "FT8"
+        case .ft4: "FT4"
+        case .digitalVoice: "Voz digital / DSD"
         case .rtty: "RTTY"
         case .psk31: "PSK31"
         case .dtmf: "DTMF"
@@ -33,10 +36,10 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
     public var isNative: Bool { [.morse, .rtty, .psk31, .dtmf, .bitAnalysis, .sstv, .wefax, .satelliteAPT, .navtex, .packet, .selectiveTones, .hell].contains(self) }
     public var isImage: Bool { [.sstv, .wefax, .satelliteAPT, .hell].contains(self) }
     public var isMultimon: Bool { self == .pocsag || self == .fiveTones }
-    public var isAudioAvailable: Bool { isNative || self == .acars || isMultimon }
+    public var isAudioAvailable: Bool { isNative || self == .acars || isMultimon || self == .ft8 || self == .ft4 || self == .digitalVoice }
     public var family: String {
         switch self {
-        case .morse, .rtty, .psk31, .dtmf, .bitAnalysis: "Audio · disponible"
+        case .morse, .ft8, .ft4, .rtty, .psk31, .dtmf, .bitAnalysis: "Audio · disponible"
         case .wefax, .satelliteAPT, .sstv: "Imágenes"
         case .sitorA, .navtex, .gmdss, .dgps, .loran, .globeWireless: "Marítimo y navegación"
         default: "Otros modos"
@@ -57,7 +60,9 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
     }
     public var summary: String {
         switch self {
-        case .morse: "Recepción CW con frecuencia, velocidad y umbral ajustables."
+        case .morse: "CW manual o CWKit automático/neuronal (macOS 15+), con tono y velocidad estimados."
+        case .ft8, .ft4: "FT8/FT4 desde USB y audio/WAV: LDPC + CRC, ventanas de 15/7,5 s. Recepción sin transmisión."
+        case .digitalVoice: "DSD-neo para voz digital desde discriminador NFM; descarga verificada del motor arm64."
         case .rtty: "RTTY ITA2 (5 bits) o ASCII 7/8 bits, sin paridad, con baud/shift y polaridad ajustables."
         case .psk31: "Recepción BPSK31 y Varicode ASCII. Ajusta con precisión la frecuencia de audio."
         case .dtmf: "Detección de las 16 combinaciones de tonos de teclado."
@@ -84,7 +89,10 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
     public var sourceURL: URL? {
         let source: String? = switch self {
         case .wefax, .sstv, .sitorA, .navtex, .hell, .mt63: "https://github.com/w1hkj/fldigi"
-        case .acars: "https://github.com/f00b4r0/acarsdec"
+        case .morse: "https://github.com/captobie/cwdecode"
+        case .ft8, .ft4: "https://github.com/kgoba/ft8_lib"
+        case .digitalVoice: "https://github.com/arancormonk/dsd-neo"
+        case .acars: "https://github.com/szpajder/libacars"
         case .packet: "https://github.com/wb2osz/direwolf"
         case .gmdss: "https://github.com/airframesio/xng"
         case .satelliteAPT: "https://github.com/SatDump/SatDump"
@@ -127,6 +135,9 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     public var fiveToneStandard: FiveToneStandard = .zvei1
     public var rttyEncoding: RTTYEncoding = .ita2
     public var hellVariant: HellVariant = .feld
+    public var cwEngine: CWEngine = .manual
+    public var ftxStartSeconds = 0.0
+    public var digitalVoiceProtocol: DigitalVoiceProtocol = .dmr
     public init() {}
     public func validated(sampleRate: Double, mode: RadioMode) throws {
         guard sampleRate.isFinite, sampleRate >= 4000, sampleRate <= 384000,
@@ -142,6 +153,8 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
               mode != .satelliteAPT || sampleRate >= 11025 else {
             throw RadioError.invalidSettings
         }
+        guard ftxStartSeconds.isFinite, (0...86400).contains(ftxStartSeconds) else { throw RadioError.invalidSettings }
+        if mode == .digitalVoice && sampleRate < 48000 { throw RadioError.invalidSettings }
         if mode == .packet && (sampleRate < 8000 || frequency - 500 <= 0 || frequency + 500 >= sampleRate / 2) { throw RadioError.invalidSettings }
         if mode == .hell && (frequency - hellVariant.bandwidthHz / 2 <= 0 || frequency + hellVariant.bandwidthHz / 2 >= sampleRate / 2) { throw RadioError.invalidSettings }
         if mode.isMultimon && (sampleRate < 8000 || !(0...2).contains(pagerCorrectionBits)) { throw RadioError.invalidSettings }
@@ -149,7 +162,7 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case frequency, wordsPerMinute, baud, shift, threshold, inverted, audioChannel, sstvFormat, sstvColorRange,
             sstvRobot36Compatibility, sstvAutoCalibrate, sstvNoiseReduction, imageAutoSync, imageStartSeconds,
-            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, fiveToneStandard, rttyEncoding, hellVariant
+            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, fiveToneStandard, rttyEncoding, hellVariant, cwEngine, ftxStartSeconds, digitalVoiceProtocol
     }
     public init(from decoder: Decoder) throws {
         self.init()
@@ -177,6 +190,9 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
         fiveToneStandard = try c.decodeIfPresent(FiveToneStandard.self, forKey: .fiveToneStandard) ?? fiveToneStandard
         rttyEncoding = try c.decodeIfPresent(RTTYEncoding.self, forKey: .rttyEncoding) ?? rttyEncoding
         hellVariant = try c.decodeIfPresent(HellVariant.self, forKey: .hellVariant) ?? hellVariant
+        cwEngine = try c.decodeIfPresent(CWEngine.self, forKey: .cwEngine) ?? cwEngine
+        ftxStartSeconds = try c.decodeIfPresent(Double.self, forKey: .ftxStartSeconds) ?? 0
+        digitalVoiceProtocol = try c.decodeIfPresent(DigitalVoiceProtocol.self, forKey: .digitalVoiceProtocol) ?? .dmr
     }
 }
 

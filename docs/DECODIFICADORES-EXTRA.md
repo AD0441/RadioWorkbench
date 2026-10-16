@@ -1,5 +1,7 @@
 # Decodificadores adicionales para RadioWorkbench
 
+**Actualización 0.9.0:** SatelliteKit, ft8_lib, CWKit y libacars están integrados; DSD-neo dispone de descarga oficial verificada y recepción PCM. Requisitos, validación y límites en [INTEGRATIONS-0.9.md](INTEGRATIONS-0.9.md). La investigación histórica de otros motores se conserva abajo.
+
 > Estado del producto al 14 de octubre de 2026: RadioWorkbench 0.8.10 ya incorpora POCSAG 512/1200/2400 y ocho familias Selcall con multimon-ng, más Hell por pulsos y RTTY ASCII 7/8 nativos. Las prioridades y contratos de la investigación histórica siguiente no equivalen al estado actual de integración. FLEX, DRM y los otros candidatos permanecen pendientes salvo que su documentación propia diga lo contrario. [Implementación y pruebas actuales](DECODIFICADORES-0.8.10.md).
 
 Investigación revisada el **13 de octubre de 2026**. Objetivo: ampliar el receptor nativo M1 manteniendo Audio/WAV, Morse, RTTY, PSK31, **SSTV, WEFAX y APT** dentro del producto. Los tres formatos de imagen conservan su investigación en [SDR-AUDIO-PRESETS.md](SDR-AUDIO-PRESETS.md); este documento añade candidatos y contratos de entrada. Durante la investigación original no se instalaron motores; la actualización de 0.8.10 indicada arriba registra las integraciones posteriores.
