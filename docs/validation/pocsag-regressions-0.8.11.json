@@ -1,0 +1,43 @@
+{
+  "version": "0.8.11",
+  "reviewedBaselineCommit": "523ca8cb7945ffa39c3d630b7db642b1c0dcabc2",
+  "date": "2026-10-16",
+  "reproduction": {
+    "baud": 1200,
+    "capcode": 123456,
+    "function": 3,
+    "showToneOnlyNotices": true,
+    "trailingSilenceSeconds": 2,
+    "input": "synthetic NRZ FM discriminator, 22050 Hz signed16 mono",
+    "before": {
+      "recordsAfterNoticeAndTwoSecondsSilence": 75,
+      "genuineAddressRecords": 1,
+      "falseRecords": 74,
+      "outputReadableBeforeEOF": false,
+      "recordsAfterEOF": 7
+    },
+    "after": {
+      "recordsAfterNoticeAndTwoSecondsSilence": 1,
+      "genuineAddressRecords": 1,
+      "falseRecords": 0,
+      "outputReadableBeforeEOF": true,
+      "recordsAfterEOF": 1
+    }
+  },
+  "regressionFunctions": 7,
+  "silenceChecksAcrossRatesPolaritiesAndFrames": 48,
+  "toneOnlyDeliveryVerifiedBeforeEOF": true,
+  "realCapcodeZeroRemainsValid": true,
+  "appMonitor48kHzLiveAndWAVPassed": true,
+  "microphoneOrSDRUsed": false,
+  "targetedTestFunctionsPassed": 14,
+  "targetedTestsDurationSeconds": 0.779,
+  "regressionCases": 25,
+  "packagedHelperRegression": {
+    "recordsAfterNoticeAndTwoSecondsSilence": 1,
+    "genuineAddressRecords": 1,
+    "falseRecords": 0,
+    "noticeReadWhileStdinOpen": true,
+    "noticeRetainedBeforeSIGTERM": true
+  }
+}

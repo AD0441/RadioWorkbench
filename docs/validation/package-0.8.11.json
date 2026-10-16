@@ -1,0 +1,30 @@
+{
+  "version": "0.8.11",
+  "build": "23",
+  "minimumSystem": "14.0",
+  "zip": "RadioWorkbench-0.8.11-macos-arm64.zip",
+  "bytes": 179446794,
+  "sha256": "cb9933beaeba800d8a3ddb49d5bdf1a1a84836268e9723814fbce6e870cadbe0",
+  "zipIntegrity": "passed",
+  "strictDeepSignatureVerification": "passed on freshly extracted ZIP",
+  "signing": "ad hoc, not notarized",
+  "architectures": {
+    "libp372.dylib": "arm64",
+    "propagation-helper": "arm64",
+    "multimon-helper": "arm64",
+    "RadioWorkbench": "arm64",
+    "libitm.dylib": "arm64",
+    "itm-helper": "arm64",
+    "libp533.dylib": "arm64",
+    "acars-helper": "arm64"
+  },
+  "bundledSourceMatchesPatchedPOCSAG": true,
+  "packagedHelperRegression": {
+    "recordsAfterNoticeAndTwoSecondsSilence": 1,
+    "genuineAddressRecords": 1,
+    "falseRecords": 0,
+    "noticeReadWhileStdinOpen": true,
+    "noticeRetainedBeforeSIGTERM": true
+  },
+  "verifiedAtUTC": "2026-10-16T14:47:10.870434+00:00"
+}

@@ -66,13 +66,29 @@
     "msvc_support.h": "b6188f24bed7a167ae36c97c3f639106b57ecc39f39febe8c11e7a73ce1e5f7e",
     "multimon-ng.1": "1377f67fa59b5d7ba88892b5d5b5770e20005df3204224644374c72a0580dc77",
     "multimon.h": "86202ee3153c8bdc1d6623bee20f987418e06d133c909ab7e7c77d4deea8d385",
-    "pocsag.c": "59867707738b79a799d7af2a7f261821c5a5b7a3ee4e27c3c1b0a444b6c7e0a8",
+    "pocsag.c": "20dc6d4c9359858dff54e88e9690697912a58081964d21ba75108271e2233473",
     "selcall.c": "511df1dbf2926d4061ac7bda068ba60683eeac248fa5b451834043dadaf582d9",
     "uart.c": "987939dba1b641a121485f5f3c7c836b8a5e69e03d48f8f8285f16ffcc772b75",
     "unixinput.c": "d42990a5637d56a4e4dde89d6c434118740f34fc552cbec8010895b65560d0d3",
     "win32_getopt.c": "6bbf6928a208ea50001de7b61c41d262af94ee09d1700fb00285c1f66ca92008",
     "win32_getopt.h": "d673fe3decdf6c66a23df7cd716b1df46f88d0a33a383bda0d9eb36a17b2827d",
     "win32_soundin.c": "7e41dbbcd14ce7afaf1c474287dde55f9f14883df6eac6d3acfc302cb07eb37d",
-    "xdisplay.c": "65e3cd46dec352470ede3cfa275dc0be435ddce0d56484029da07f9252622028"
-  }
+    "xdisplay.c": "65e3cd46dec352470ede3cfa275dc0be435ddce0d56484029da07f9252622028",
+    "LOCAL-CHANGES.md": "3f64854d8a064d8287869239817658b65d6c35902b5d1bc96e1dbfcfd8f1d48f"
+  },
+  "upstreamFileHashes": {
+    "pocsag.c": "59867707738b79a799d7af2a7f261821c5a5b7a3ee4e27c3c1b0a444b6c7e0a8"
+  },
+  "localModifications": [
+    {
+      "date": "2026-10-16",
+      "file": "pocsag.c",
+      "notice": "LOCAL-CHANGES.md",
+      "changes": [
+        "mandatory periodic sync and reacquisition counters",
+        "configured BCH limit for sync acceptance",
+        "flush tone-only JSON stdout"
+      ]
+    }
+  ]
 }

@@ -89,11 +89,15 @@ public final class MultimonProcess: @unchecked Sendable {
         let signal = terminated, collector = collector
         process.terminationHandler = { _ in signal.signal() }
         output.fileHandleForReading.readabilityHandler = { handle in
-            if let data = try? handle.read(upToCount: 8192), !data.isEmpty { collector.ingest(data) }
+            // A live pipe can contain a single short JSON event. Read what is
+            // available now rather than waiting for 8192 bytes or EOF.
+            let data = handle.availableData
+            if !data.isEmpty { collector.ingest(data) }
             else { handle.readabilityHandler = nil; collector.eof.signal() }
         }
         errors.fileHandleForReading.readabilityHandler = { handle in
-            if let data = try? handle.read(upToCount: 4096), !data.isEmpty { collector.log(data) }
+            let data = handle.availableData
+            if !data.isEmpty { collector.log(data) }
             else { handle.readabilityHandler = nil }
         }
         do { try process.run() }

@@ -1,5 +1,7 @@
 # POCSAG, Selcall, Hell y RTTY ASCII · 0.8.10
 
+**Corrección 0.8.11:** POCSAG exige sincronismo periódico después de 16 palabras de datos y abandona el bloqueo si falta. Los avisos sin texto vacían stdout y el lector Swift consume los bytes disponibles sin esperar 8 KB/EOF. Esto corrige los capcodes falsos tras una transmisión y la demora/pérdida de avisos en vivo. [Pruebas y cambios](RELEASE-0.8.11.md).
+
 Esta ampliación prioriza audio/WAV y aprovecha la selección de entrada y canales existente. No requiere conectar un SDR USB directamente a RadioWorkbench. **Ejemplo** carga señales matemáticas incluidas; la recepción RF y el cable virtual deben comprobarse con una fuente real aparte.
 
 ## Modos incorporados

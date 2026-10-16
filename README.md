@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.8.10
+# RadioWorkbench · 0.8.11
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -17,7 +17,7 @@ Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones 
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-El código 0.8.10 añade mapas de repetidoras y pases, corrige la actualización de satélites e incorpora POCSAG, ocho familias Selcall, Hell por pulsos y RTTY ASCII. Mantiene la malla topográfica independiente de 0.8.9. La descarga pública indicada arriba sigue siendo 0.8.8. [Notas actuales](docs/RELEASE-0.8.10.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
+El código 0.8.11 corrige los capcodes POCSAG falsos tras perder el sincronismo y publica los avisos sin texto durante la recepción. Conserva los mapas de repetidoras/pases, fuentes satelitales y decodificadores de 0.8.10, y la malla topográfica independiente de 0.8.9. La descarga pública indicada arriba sigue siendo 0.8.8. [Notas actuales](docs/RELEASE-0.8.11.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
@@ -119,7 +119,7 @@ open dist/RadioWorkbench.app
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La suite actual tiene **128 funciones registradas: 126 ejecutadas y aprobadas, dos opcionales omitidas**. Incluye todos los modos previos y los fixtures nuevos de POCSAG, Selcall, RTTY ASCII y Hell. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
+La suite actual tiene **135 funciones registradas: 133 ejecutadas y aprobadas, dos opcionales omitidas**. Incluye todos los modos previos, los fixtures de POCSAG/Selcall/RTTY ASCII/Hell y las regresiones POCSAG de silencio, sincronismo y publicación en vivo/WAV a 48 kHz. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
 
 | Carpeta | Contenido |
 |---|---|
@@ -136,7 +136,7 @@ El callback de audio copia/mezcla al ring; los decodificadores y archivos se pro
 ## Componentes y avisos
 
 - **acarsdec:** helper separado bajo [GPL v2](Vendor/acarsdec/LICENSE.md), con fuentes y wrapper incluidos en el bundle.
-- **multimon-ng:** helper separado bajo [GPL v2 o posterior](Vendor/MultimonNG/COPYING), fijado a un commit y compilado para PCM por stdin, con fuentes, script y licencia incluidos en el bundle.
+- **multimon-ng:** helper separado bajo [GPL v2 o posterior](Vendor/MultimonNG/COPYING), fijado a un commit con [parches locales documentados](Vendor/MultimonNG/LOCAL-CHANGES.md) y compilado para PCM por stdin, con fuentes, script y licencia incluidos en el bundle.
 - **ITU-R HF:** modelos P.533/P.372 y sus datos, con el [aviso upstream preservado](Vendor/ITU-R-HF/NOTICE.md).
 - **NTIA ITM:** fuentes originales y [licencia/avisos NTIA](Vendor/NTIA-ITM/LICENSE.md), con manifiesto de procedencia.
 - **DEM Mapzen Terrain Tiles:** datos consultados bajo demanda, con [fuentes y atribuciones regionales](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).

@@ -168,25 +168,33 @@ actor RadioWorker {
         var retained: [MultimonRecord] = [], storage = [Float](repeating: 0, count: 8192)
         let spectrum = SpectrumAnalyzer()
         var lastUpdate = 0.0, previousDrop: UInt64 = 0
+        var lastPublishedTotal = 0
         defer { session.cancel() }
         while !Task.isCancelled {
             let count = ring.read(into: &storage)
+            let samples = Array(storage.prefix(count))
             if count > 0 {
                 if ring.dropped != previousDrop {
                     retained = Array((retained + session.snapshot.records).suffix(100)); session.cancel()
                     session = try MultimonProcess(mode: mode, settings: settings)
                     resampler = try StreamingAudioResampler(sampleRate: sampleRate, outputRate: 22050); previousDrop = ring.dropped
                 }
-                let samples = Array(storage.prefix(count)), active = session
+                let active = session
                 try await withTaskCancellationHandler { try active.write(resampler.process(samples)) } onCancel: { active.cancel() }
-                let now = ProcessInfo.processInfo.systemUptime
-                if now - lastUpdate >= 0.1 {
-                    let result = session.snapshot, records = Array((retained + result.records).suffix(200))
-                    await update(RadioUpdate(text: records.map(\.monitorLine).joined(separator: "\n"), frame: spectrum.analyze(samples, sampleRate: sampleRate), progress: 0,
+            }
+            // stdout is asynchronous: a decoded event can arrive after the
+            // last audio block. Publish it even while the ring is empty.
+            let now = ProcessInfo.processInfo.systemUptime
+            if now - lastUpdate >= 0.1 {
+                let result = session.snapshot
+                if count > 0 || result.total != lastPublishedTotal {
+                    let records = Array((retained + result.records).suffix(200))
+                    await update(RadioUpdate(text: records.map(\.monitorLine).joined(separator: "\n"), frame: count > 0 ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0,
                         source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · " + result.status, dropped: ring.dropped,
                         samplesReceived: ring.written + ring.dropped, multimonRecords: records))
-                    lastUpdate = now
+                    lastPublishedTotal = result.total
                 }
+                lastUpdate = now
             }
             try await Task.sleep(for: .milliseconds(20))
         }

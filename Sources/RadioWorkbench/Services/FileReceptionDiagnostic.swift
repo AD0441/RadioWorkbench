@@ -5,7 +5,7 @@ import RadioCore
 // Opt-in file regression through the normal store/worker, without starting mic.
 @MainActor enum FileReceptionDiagnostic {
     private struct Report: Encodable {
-        let version = "0.8.10"
+        let version = "0.8.11"
         let source: String
         let caption: String
         let width: Int?

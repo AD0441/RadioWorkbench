@@ -16,6 +16,9 @@
  *      POCSAG (Post Office Code Standard Advisory Group)
  *      Radio Paging Decoder
  *
+ *  Modified for RadioWorkbench on 2026-10-16: require periodic batch sync,
+ *  reset framing on acquisition, respect sync BCH limits, and flush notices.
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -549,6 +552,7 @@ static void pocsag_printmessage(struct demod_state *s, bool sync)
                 addJsonTimestamp(json_output);
                 printJson(json_output);
                 cJSON_Delete(json_output);
+                fflush(stdout);
             }
         }
         else
@@ -813,12 +817,13 @@ static void do_one_bit(struct demod_state *s, uint32_t rx_data)
         if(pocsag_polarity != 2)
         {
             rx_data_try = rx_data;
-            pocsag_brute_repair(&s->l2.pocsag, &rx_data_try);
-            if(rx_data_try == POCSAG_SYNC)
+            if(!pocsag_brute_repair(&s->l2.pocsag, &rx_data_try) && rx_data_try == POCSAG_SYNC)
             {
                 verbprintf(4, "Acquired sync!\n");
                 s->l2.pocsag.state = SYNC;
                 s->l2.pocsag.inverted = 0;
+                s->l2.pocsag.rx_bit = 0;
+                s->l2.pocsag.rx_word = 0;
                 return;
             }
         }
@@ -827,12 +832,13 @@ static void do_one_bit(struct demod_state *s, uint32_t rx_data)
         if(pocsag_polarity != 1)
         {
             rx_data_try = ~rx_data;
-            pocsag_brute_repair(&s->l2.pocsag, &rx_data_try);
-            if(rx_data_try == POCSAG_SYNC)
+            if(!pocsag_brute_repair(&s->l2.pocsag, &rx_data_try) && rx_data_try == POCSAG_SYNC)
             {
                 verbprintf(3, "Acquired sync (inverted polarity detected)!\n");
                 s->l2.pocsag.state = SYNC;
                 s->l2.pocsag.inverted = 1;
+                s->l2.pocsag.rx_bit = 0;
+                s->l2.pocsag.rx_word = 0;
                 return;
             }
         }
@@ -850,14 +856,15 @@ static void do_one_bit(struct demod_state *s, uint32_t rx_data)
         if(!word_complete(s))
             return; // Wait for more bits to arrive.
 
-        // it is always 17 words: position 0 is sync, positions 1-16 are data
+        // Acquisition consumed sync: positions 0-15 are data, 16 is next sync.
         unsigned char rxword = s->l2.pocsag.rx_word; // for address calculation
         s->l2.pocsag.rx_word = (s->l2.pocsag.rx_word + 1) % 17;
 
         if(s->l2.pocsag.state == SYNC)
             s->l2.pocsag.state = ADDRESS; // We're in sync, move on.
 
-        if(pocsag_brute_repair(&s->l2.pocsag, &rx_data))
+        const bool invalid_word = pocsag_brute_repair(&s->l2.pocsag, &rx_data) != 0;
+        if(invalid_word)
         {
             // Arbitration lost
             if(s->l2.pocsag.state != LOST_SYNC)
@@ -872,8 +879,26 @@ static void do_one_bit(struct demod_state *s, uint32_t rx_data)
             }
         }
 
-        if(is_sync(&rx_data))
-            return; // Already sync'ed.
+        // BCH-valid data (including silence decoded as zero) cannot replace
+        // the mandatory sync after sixteen data words. Do not let LOST_SYNC
+        // recover on the next valid-looking address without acquiring sync.
+        if(rxword == 16 && (invalid_word || !is_sync(&rx_data)))
+        {
+            pocsag_printmessage(s, false);
+            s->l2.pocsag.numnibbles = 0;
+            s->l2.pocsag.address = -1;
+            s->l2.pocsag.function = -1;
+            s->l2.pocsag.state = NO_SYNC;
+            s->l2.pocsag.rx_bit = 0;
+            s->l2.pocsag.rx_word = 0;
+            return;
+        }
+
+        if(!invalid_word && is_sync(&rx_data))
+        {
+            s->l2.pocsag.rx_word = 0;
+            return;
+        }
 
         while(true)
             switch(s->l2.pocsag.state)

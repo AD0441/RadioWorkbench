@@ -1,3 +1,17 @@
+# Validación de RadioWorkbench 0.8.11
+
+Release arm64/macOS 14+, build 23. Se reprodujeron los dos defectos revisados con **Avisos sin texto**: un aviso a 1200 baud para capcode 123456 seguido de dos segundos de silencio producía 75 registros, 74 falsos; la salida breve no era legible mientras stdin seguía abierto. Con el parche del sincronismo periódico, el mismo audio produce **un registro legítimo y cero falsos**. El aviso JSON se puede leer con stdin abierto y queda recibido antes de terminar el helper con SIGTERM.
+
+La corrección combina tres etapas: `fflush` en el aviso sin texto, lectura del Pipe mediante los bytes disponibles y publicación de resultados asíncronos aunque se haya agotado el último bloque de audio. El sincronismo se exige después de 16 palabras, reiniciando el framing al adquirirlo y respetando el límite BCH configurado. No se filtran direcciones bajas: un capcode real 0 conserva su recepción.
+
+Se añadieron siete funciones con 25 casos, incluyendo 48 comprobaciones de aviso+silencio que cubren tres tasas, ambas polaridades y ocho frames de capcode. También cubren sincronismo ausente/sustituido por idle, recuperación con cambio de fase, mensajes multibloque, errores corregibles/no permitidos, publicación antes de EOF/cancelación y monitor en vivo/WAV a 48 kHz. La suite Release final registró **135 funciones: 133 ejecutadas y aprobadas; dos opcionales omitidas**, en 6,364 s. La prueba de 48 kHz tolera la espera del ejecutor durante la suite DSP completa; la condición sigue siendo recibir el aviso con la entrada abierta, antes de cancelar. No se utilizó micrófono, SDR++ ni una grabación de tráfico real.
+
+Las modificaciones de multimon-ng se identifican con fecha en `pocsag.c`, un aviso local y hashes upstream/distribuidos en el manifiesto. [Cambios del componente](../Vendor/MultimonNG/LOCAL-CHANGES.md).
+
+El ZIP 0.8.11/build 23 extraído pasó integridad y firma estricta; todos sus binarios son arm64. Se ejecutó la misma reproducción contra el helper extraído del ZIP: un aviso, cero falsos, lectura antes de EOF y evento recibido antes de SIGTERM. El archivo de fuentes del bundle contiene exactamente el `pocsag.c` parcheado, manifiesto y aviso local. Firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.11-macos-arm64.zip`: `cb9933beaeba800d8a3ddb49d5bdf1a1a84836268e9723814fbce6e870cadbe0`.
+
+[Pruebas completas](validation/release-0.8.11-tests.txt) · [Resumen](validation/tests-0.8.11-summary.json) · [Reproducción antes/después](validation/pocsag-regressions-0.8.11.json) · [Paquete](validation/package-0.8.11.json) · [Notas 0.8.11](RELEASE-0.8.11.md).
+
 # Validación de RadioWorkbench 0.8.10
 
 Release arm64/macOS 14+, build 22. La suite ordinaria registró **128 funciones: 126 ejecutadas y aprobadas; dos opcionales omitidas**, en 5,502 s una vez compilada. Las nuevas pruebas cubren tres tasas POCSAG, ambas polaridades, BCH con errores, ocho familias Selcall, ASCII 7/8, cinco variantes Hell, datos malformados, cancelación, perfiles anteriores y el pipeline WAV→worker→helper. Se inspeccionaron los cinco PNG «CQ» generados por el decodificador Hell nativo; el error medio contra patrones del transmisor fue aproximadamente 17–18 niveles de 255.
