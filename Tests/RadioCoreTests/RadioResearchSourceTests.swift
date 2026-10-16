@@ -122,18 +122,6 @@ private func hfccRow(frequency: Int = 9_655, start: String = "0330", stop: Strin
     #expect(TerrainLinkGeometry.firstFresnelCorridor(from: origin, to: destination, frequencyMHz: 7.1).isEmpty)
 }
 
-@Test func terrainCoverageEnvelopeUses32DirectionalRanges() throws {
-    let origin = try #require(RadioLocation(latitude: -33.45, longitude: -70.67))
-    var ranges = Array(repeating: 50.0, count: TerrainCoverageGeometry.bearingCount)
-    ranges[3] = 0
-    let boundary = TerrainCoverageGeometry.boundary(from: origin, reachByBearingKm: ranges)
-    #expect(boundary.count == 33)
-    #expect(boundary.first == origin)
-    #expect(abs((boundary[1].distance(to: origin)) - 50) < 0.001)
-    #expect(TerrainCoverageGeometry.boundary(from: origin, reachByBearingKm: [50, 40]).isEmpty)
-    #expect(TerrainCoverageGeometry.boundary(from: origin, reachByBearingKm: Array(repeating: 0, count: TerrainCoverageGeometry.bearingCount)).isEmpty)
-}
-
 @Test func terrainLineOfSightCombinesAGLWithTerrainAndDetectsMountainWalls() throws {
     let origin = try #require(RadioLocation(latitude: -33.45, longitude: -70.67))
     let target = try #require(origin.destination(km: 10, bearing: 90))

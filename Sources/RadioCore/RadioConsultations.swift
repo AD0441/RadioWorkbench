@@ -1,4 +1,5 @@
 import Foundation
+import SatelliteKit
 
 /// Amateur allocations published by SUBTEL in its 2025 band table.
 public struct ChileBandAllocation: Identifiable, Hashable, Sendable {
@@ -307,55 +308,75 @@ public struct TLEOrbit: Codable, Hashable, Sendable {
     public let raanDegrees: Double
     public let argumentOfPerigeeDegrees: Double
     public let meanAnomalyDegrees: Double
+    public let bstar: Double?
 
     public init(name: String, catalogNumber: Int, epoch: Date, meanMotionRevolutionsPerDay: Double, eccentricity: Double,
-                inclinationDegrees: Double, raanDegrees: Double, argumentOfPerigeeDegrees: Double, meanAnomalyDegrees: Double) {
+                inclinationDegrees: Double, raanDegrees: Double, argumentOfPerigeeDegrees: Double, meanAnomalyDegrees: Double, bstar: Double? = 0) {
         self.name = name; self.catalogNumber = catalogNumber; self.epoch = epoch
         self.meanMotionRevolutionsPerDay = meanMotionRevolutionsPerDay; self.eccentricity = eccentricity
         self.inclinationDegrees = inclinationDegrees; self.raanDegrees = raanDegrees
-        self.argumentOfPerigeeDegrees = argumentOfPerigeeDegrees; self.meanAnomalyDegrees = meanAnomalyDegrees
+        self.argumentOfPerigeeDegrees = argumentOfPerigeeDegrees; self.meanAnomalyDegrees = meanAnomalyDegrees; self.bstar = bstar
     }
 
-    /// Approximate elevation from a ground station. This uses Keplerian motion with a secular J2 correction;
-    /// it is not SGP4 and must be treated as a pass-planning aid, not a precision orbit solution.
-    public func elevationDegrees(at date: Date, latitude: Double, longitude: Double) -> Double? {
-        let mu = 398_600.4418 // km^3 / s^2
-        let earthRadius = 6378.137 // km
-        let j2 = 1.08262668e-3
-        let n = meanMotionRevolutionsPerDay * 2 * .pi / 86_400
-        guard n.isFinite, n > 0, (0..<1).contains(eccentricity) else { return nil }
-        let a = pow(mu / (n * n), 1.0 / 3.0)
-        let p = a * (1 - eccentricity * eccentricity)
-        let inclination = inclinationDegrees * .pi / 180
-        let cosI = cos(inclination)
-        let factor = 1.5 * j2 * pow(earthRadius / p, 2) * n
-        let raanRate = -factor * cosI
-        let argumentRate = 0.5 * factor * (5 * cosI * cosI - 1)
-        let meanRate = n + 0.5 * factor * sqrt(1 - eccentricity * eccentricity) * (3 * cosI * cosI - 1)
-        let elapsed = date.timeIntervalSince(epoch)
-        let raan = (raanDegrees * .pi / 180 + raanRate * elapsed).truncatingRemainder(dividingBy: 2 * .pi)
-        let argument = (argumentOfPerigeeDegrees * .pi / 180 + argumentRate * elapsed).truncatingRemainder(dividingBy: 2 * .pi)
-        let mean = (meanAnomalyDegrees * .pi / 180 + meanRate * elapsed).truncatingRemainder(dividingBy: 2 * .pi)
-        var eccentricAnomaly = mean
-        for _ in 0..<10 { eccentricAnomaly -= (eccentricAnomaly - eccentricity * sin(eccentricAnomaly) - mean) / (1 - eccentricity * cos(eccentricAnomaly)) }
-        let xOrbital = a * (cos(eccentricAnomaly) - eccentricity)
-        let yOrbital = a * sqrt(1 - eccentricity * eccentricity) * sin(eccentricAnomaly)
-        let cosArg = cos(argument), sinArg = sin(argument), cosNode = cos(raan), sinNode = sin(raan), cosIncl = cos(inclination), sinIncl = sin(inclination)
-        let xEci = (cosNode * cosArg - sinNode * sinArg * cosIncl) * xOrbital + (-cosNode * sinArg - sinNode * cosArg * cosIncl) * yOrbital
-        let yEci = (sinNode * cosArg + cosNode * sinArg * cosIncl) * xOrbital + (-sinNode * sinArg + cosNode * cosArg * cosIncl) * yOrbital
-        let zEci = sinArg * sinIncl * xOrbital + cosArg * sinIncl * yOrbital
-        let theta = Self.greenwichSiderealAngle(at: date)
-        let x = cos(theta) * xEci + sin(theta) * yEci
-        let y = -sin(theta) * xEci + cos(theta) * yEci
-        let z = zEci
+    public var isValid: Bool {
+        let values = [meanMotionRevolutionsPerDay, eccentricity, inclinationDegrees, raanDegrees, argumentOfPerigeeDegrees, meanAnomalyDegrees]
+        return catalogNumber > 0 && epoch.timeIntervalSince1970.isFinite && values.allSatisfy(\.isFinite)
+            && meanMotionRevolutionsPerDay > 0 && meanMotionRevolutionsPerDay <= 20
+            && (0..<1).contains(eccentricity) && (0...180).contains(inclinationDegrees)
+            && (0...360).contains(raanDegrees) && (0...360).contains(argumentOfPerigeeDegrees) && (0...360).contains(meanAnomalyDegrees)
+    }
+
+    /// Legacy caches lacking BSTAR must be refreshed before SGP4 propagation.
+    public var propagationReady: Bool { isValid && bstar?.isFinite == true }
+
+    public func position(at date: Date) -> SatellitePosition? {
+        guard let p = earthFixedPosition(at: date) else { return nil }
+        let r = hypot(p.x, p.y), e2 = 0.00669437999014
+        var lat = atan2(p.z, r * (1 - e2))
+        for _ in 0..<12 {
+            let n = 6378.137 / sqrt(1 - e2 * pow(sin(lat), 2))
+            lat = atan2(p.z + e2 * n * sin(lat), r)
+        }
+        let n = 6378.137 / sqrt(1 - e2 * pow(sin(lat), 2))
+        let altitude = r > 1e-8 ? r / cos(lat) - n : abs(p.z) - 6356.752314245
+        return SatellitePosition(latitude: lat * 180 / .pi, longitude: atan2(p.y, p.x) * 180 / .pi, altitudeKm: altitude)
+    }
+
+    public func observation(at date: Date, latitude: Double, longitude: Double) -> SatelliteObservation? {
+        guard RadioLocation(latitude: latitude, longitude: longitude) != nil,
+              let p = earthFixedPosition(at: date), let before = earthFixedPosition(at: date.addingTimeInterval(-0.5)),
+              let after = earthFixedPosition(at: date.addingTimeInterval(0.5)) else { return nil }
         let lat = latitude * .pi / 180, lon = longitude * .pi / 180
-        let sinLat = sin(lat), cosLat = cos(lat)
-        let stationX = earthRadius * cosLat * cos(lon), stationY = earthRadius * cosLat * sin(lon), stationZ = earthRadius * sinLat
-        let dx = x - stationX, dy = y - stationY, dz = z - stationZ
+        let sinLat = sin(lat), cosLat = cos(lat), e2 = 0.00669437999014
+        let n = 6378.137 / sqrt(1 - e2 * sinLat * sinLat)
+        let dx = p.x - n * cosLat * cos(lon), dy = p.y - n * cosLat * sin(lon), dz = p.z - n * (1 - e2) * sinLat
         let east = -sin(lon) * dx + cos(lon) * dy
         let north = -sinLat * cos(lon) * dx - sinLat * sin(lon) * dy + cosLat * dz
         let up = cosLat * cos(lon) * dx + cosLat * sin(lon) * dy + sinLat * dz
-        return atan2(up, hypot(east, north)) * 180 / .pi
+        let range = sqrt(dx * dx + dy * dy + dz * dz)
+        guard range > 0 else { return nil }
+        return SatelliteObservation(azimuthDegrees: (atan2(east, north) * 180 / .pi + 360).truncatingRemainder(dividingBy: 360),
+            elevationDegrees: atan2(up, hypot(east, north)) * 180 / .pi, rangeKm: range,
+            rangeRateKmPerSecond: (dx * (after.x - before.x) + dy * (after.y - before.y) + dz * (after.z - before.z)) / range)
+    }
+
+    public func elevationDegrees(at date: Date, latitude: Double, longitude: Double) -> Double? {
+        observation(at: date, latitude: latitude, longitude: longitude)?.elevationDegrees
+    }
+
+    public func temePosition(at date: Date) -> (x: Double, y: Double, z: Double)? {
+        guard propagationReady, date.timeIntervalSince1970.isFinite, let bstar else { return nil }
+        let elements = Elements(commonName: name, noradIndex: UInt(catalogNumber), launchName: "", t₀: epoch,
+            e₀: eccentricity, i₀: inclinationDegrees, ω₀: argumentOfPerigeeDegrees, Ω₀: raanDegrees,
+            M₀: meanAnomalyDegrees, n₀: meanMotionRevolutionsPerDay, ephemType: 0, tleClass: "U", tleNumber: 0, revNumber: 0, dragCoeff: bstar)
+        guard let p = try? Satellite(elements: elements).position(minsAfterEpoch: date.timeIntervalSince(epoch) / 60),
+              p.x.isFinite, p.y.isFinite, p.z.isFinite else { return nil }
+        return (p.x, p.y, p.z)
+    }
+    private func earthFixedPosition(at date: Date) -> (x: Double, y: Double, z: Double)? {
+        guard let p = temePosition(at: date) else { return nil }
+        let theta = Self.greenwichSiderealAngle(at: date)
+        return (cos(theta) * p.x + sin(theta) * p.y, -sin(theta) * p.x + cos(theta) * p.y, p.z)
     }
 
     private static func greenwichSiderealAngle(at date: Date) -> Double {

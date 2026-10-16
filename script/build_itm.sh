@@ -10,5 +10,6 @@ cp -R "$ROOT_DIR/Vendor/NTIA-ITM/include" "$STAGING_DIR/include"
 cp "$ROOT_DIR"/Vendor/NTIA-ITM/src/*.cpp "$STAGING_DIR/"
 perl -pi -e 's{\.\.\\include\\}{../include/}g' "$STAGING_DIR"/*.cpp
 FLAGS=(-arch arm64 -O2 -std=c++17 -mmacosx-version-min=14.0 "-D__declspec(x)=" -I"$STAGING_DIR/include")
+clang++ "${FLAGS[@]}" -dynamiclib -install_name @rpath/libitm.dylib "$STAGING_DIR"/*.cpp "$ROOT_DIR/script/itm-bridge.cpp" -o "$OUTPUT_DIR/libitm.dylib"
 clang++ "${FLAGS[@]}" "$STAGING_DIR"/*.cpp "$ROOT_DIR/script/itm-helper.cpp" -o "$OUTPUT_DIR/itm-helper"
 chmod +x "$OUTPUT_DIR/itm-helper"

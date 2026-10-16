@@ -1,0 +1,10 @@
+{
+  "retrieved": "2026-10-14",
+  "sources": {
+    "gp-utc-no-z.json": "https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=JSON",
+    "amsat-tle.txt": "https://www.amsat.org/tle/current/nasabare.txt",
+    "frequencies.json": "https://github.com/palewire/amateur-satellite-database/blob/main/data/amsat-active-frequencies.json",
+    "reports.json": "https://www.amsat.org/status/api/v1/reports.php?hours=72&limit=500"
+  },
+  "frequencyLicense": "CC BY-SA 4.0; AMSAT/SatNOGS via palewire"
+}

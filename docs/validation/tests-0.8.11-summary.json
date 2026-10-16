@@ -1,0 +1,18 @@
+{
+  "version": "0.8.11",
+  "configuration": "release",
+  "platform": "arm64 macOS",
+  "registeredFunctions": 135,
+  "executedFunctionsPassed": 133,
+  "optionalFunctionsSkipped": [
+    "terrainRealSantiagoBenchmark",
+    "satelliteLiveDownloadFromOfficialProviders"
+  ],
+  "testDurationSeconds": 6.364,
+  "pocsagRegressionFunctions": 7,
+  "pocsagRegressionCases": 25,
+  "liveInputSampleRate": 48000,
+  "liveSyntheticWorkerQueuedSeconds": 2.655112874985207,
+  "liveNoticeObservedBeforeCancellationSeconds": 2.781783916638233,
+  "microphoneOrSDRUsed": false
+}

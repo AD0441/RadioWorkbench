@@ -29,6 +29,7 @@ struct RadioConsultationsView: View {
             .frame(maxWidth: 1120, alignment: .leading)
         }
         .task { await store.activate(); await satellites.activate() }
+        .onChange(of: localPosition) { _, _ in satellites.clearPasses() }
         .onDisappear { aprs.stop() }
     }
 
@@ -62,8 +63,9 @@ struct RadioConsultationsView: View {
                             receiver.select(store.chosenMode)
                             receiver.rfModulation = store.selectedProfile.modulation
                             receiver.rfBandwidth = store.selectedProfile.rfBandwidth
+                            if store.chosenMode == .hell { receiver.applyHellVariant() }
                             if let frequency = RadioConsultationStore.parseFrequency(store.frequencyMHz) {
-                                receiver.detail = String(format: "Sintoniza SDR++ manualmente en %.5f MHz · %@ · filtro %.0f Hz. La app solo recibe el audio.", locale: Locale(identifier: "en_US_POSIX"), frequency, store.selectedProfile.modulation.rawValue, store.selectedProfile.rfBandwidth)
+                                receiver.detail = String(format: "Sintoniza SDR++ manualmente en %.5f MHz · %@ · filtro %.0f Hz. La app solo recibe el audio.", locale: Locale(identifier: "en_US_POSIX"), frequency, receiver.rfModulation.rawValue, receiver.rfBandwidth)
                             }
                         } label: { Label("Preparar recepción", systemImage: "waveform") }
                             .buttonStyle(.borderedProminent)
@@ -137,6 +139,7 @@ struct RadioConsultationsView: View {
                             GridRow { Text("Tono").foregroundStyle(.secondary); Text(repeater.toneHz.map { "\($0, specifier: "%.1f") Hz" } ?? "Sin dato") }
                         }
                         if !repeater.detail.isEmpty { Text(repeater.detail).font(.caption).foregroundStyle(.secondary).textSelection(.enabled) }
+                        RepeaterMapPanel(store: store, observer: localPosition)
                         Divider()
                         Text("Coordenadas del sitio").font(.headline)
                         HStack {
@@ -157,6 +160,7 @@ struct RadioConsultationsView: View {
                         Text("El perfil compara terreno AMSL más altura de antena AGL y calcula difracción ITM. El listado oficial indica licencia del sitio; no confirma que el repetidor esté encendido o que puedas recibirlo ahora.")
                             .font(.caption).foregroundStyle(.secondary)
                     } else {
+                        RepeaterMapPanel(store: store, observer: localPosition)
                         ContentUnavailableView("Selecciona una repetidora", systemImage: "antenna.radiowaves.left.and.right", description: Text("Después podrás revisar las frecuencias publicadas y abrir el análisis de relieve del enlace."))
                     }
                 }
@@ -269,12 +273,18 @@ struct RadioConsultationsView: View {
                                 GridRow { Text("Baliza").foregroundStyle(.secondary); Text(satellite.transmitters.compactMap(\.beacon).joined(separator: " · ").nilIfEmpty ?? "Sin dato") }
                                 GridRow { Text("Modo declarado").foregroundStyle(.secondary); Text(satellite.modeSummary.nilIfEmpty ?? "Sin dato") }
                                 GridRow { Text("Época orbital").foregroundStyle(.secondary); Text(Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: TimeZone(secondsFromGMT: 0)!).format(satellite.orbit.epoch) + " UTC") }
+                                GridRow { Text("Fuente orbital").foregroundStyle(.secondary); Text(catalog.orbitSource ?? "Copia anterior") }
+                                GridRow { Text("Consulta de órbitas").foregroundStyle(.secondary); Text(catalog.orbitsFetchedAt?.formatted(date: .abbreviated, time: .shortened) ?? "Sin fecha") }
+                                GridRow { Text("Consulta de frecuencias").foregroundStyle(.secondary); Text(catalog.frequenciesFetchedAt?.formatted(date: .abbreviated, time: .shortened) ?? "Sin descarga válida") }
                                 GridRow {
                                     Text("Estado reportado · 72 h").foregroundStyle(.secondary)
                                     if let report = satellites.latestStatus {
                                         Text("\(report.report) · \(report.reportedAt.formatted(date: .abbreviated, time: .shortened))")
                                     } else { Text("Sin reporte reciente") }
                                 }
+                            }
+                            if Date().timeIntervalSince(satellite.orbit.epoch) > 7 * 86_400 {
+                                Text("Época orbital de más de siete días: actualiza antes de planificar.").font(.caption).foregroundStyle(.orange)
                             }
                             HStack {
                                 Link("Frecuencias · AMSAT/SatNOGS", destination: URL(string: "https://satdb.amsat.org/")!)
@@ -293,13 +303,16 @@ struct RadioConsultationsView: View {
                     if localPosition == nil { Text("Guarda la ubicación antes de calcular.").font(.caption).foregroundStyle(.orange) }
                 }
                 if !satellites.passes.isEmpty {
-                    Table(satellites.passes) {
-                        TableColumn("AOS · hora local") { pass in Text(pass.aos, style: .time) }
+                    Table(satellites.passes, selection: Binding(get: { satellites.selectedPassID }, set: { satellites.selectPass($0) })) {
+                        TableColumn("AOS · fecha/hora local") { pass in Text(pass.aos.formatted(date: .abbreviated, time: .shortened)) }
                         TableColumn("Elevación máxima") { pass in Text("\(pass.maximumElevation, specifier: "%.1f")°") }
                         TableColumn("Máximo") { pass in Text(pass.maximumAt, style: .time) }
                         TableColumn("LOS · hora local") { pass in Text(pass.los, style: .time) }
                         TableColumn("Duración") { pass in Text("\(Int(pass.los.timeIntervalSince(pass.aos) / 60)) min") }
                     }.frame(minHeight: 170)
+                }
+                if let pass = satellites.selectedPass, let observer = satellites.observer, !satellites.track.isEmpty {
+                    SatellitePassMapPanel(pass: pass, track: satellites.track, observer: observer)
                 }
                 Text("Los pases usan los elementos orbitales descargados y un modelo Kepler con corrección secular J2, no SGP4. Sirven para planificar una escucha aproximada; comprueba TLE reciente, horizonte local, frecuencia activa y Doppler antes del pase. No controla SDR++ automáticamente.")
                     .font(.caption).foregroundStyle(.secondary)

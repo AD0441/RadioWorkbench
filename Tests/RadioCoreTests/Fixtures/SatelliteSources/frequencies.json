@@ -1,0 +1,62 @@
+[
+  {
+    "name": "AO-7",
+    "norad_id": "7530",
+    "uplink": "145.850-145.950",
+    "downlink": "29.400- 29.500",
+    "beacon": "29.502",
+    "mode": "A",
+    "callsign": null,
+    "satnogs_id": "HHSS-6325-1344-4603-7774"
+  },
+  {
+    "name": "AO-7",
+    "norad_id": "7530",
+    "uplink": "432.125-432.175",
+    "downlink": "145.975-145.925",
+    "beacon": "145.970",
+    "mode": "B C",
+    "callsign": null,
+    "satnogs_id": "HHSS-6325-1344-4603-7774"
+  },
+  {
+    "name": "ISS",
+    "norad_id": "25544",
+    "uplink": null,
+    "downlink": "145.800",
+    "beacon": null,
+    "mode": "SSTV",
+    "callsign": null,
+    "satnogs_id": "XSKZ-5603-1870-9019-3066"
+  },
+  {
+    "name": "ISS",
+    "norad_id": "25544",
+    "uplink": "145.825",
+    "downlink": "145.825",
+    "beacon": null,
+    "mode": "1k2 AFSK",
+    "callsign": "RS0ISS ARISS",
+    "satnogs_id": "XSKZ-5603-1870-9019-3066"
+  },
+  {
+    "name": "ISS",
+    "norad_id": "25544",
+    "uplink": "437.825",
+    "downlink": "437.825",
+    "beacon": null,
+    "mode": "1k2 AFSK APRS",
+    "callsign": "RS0ISS NA1SS",
+    "satnogs_id": "XSKZ-5603-1870-9019-3066"
+  },
+  {
+    "name": "ISS",
+    "norad_id": "25544",
+    "uplink": "145.990",
+    "downlink": "437.800",
+    "beacon": null,
+    "mode": "9k6 GFSK FM",
+    "callsign": null,
+    "satnogs_id": "XSKZ-5603-1870-9019-3066"
+  }
+]

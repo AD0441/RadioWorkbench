@@ -2,7 +2,7 @@ import Foundation
 
 // Streaming, normalized windowed-sinc FIR. The source clock crosses block
 // boundaries unchanged; 128 phases bound fractional-position error.
-public final class ACARSAudioResampler {
+public final class StreamingAudioResampler {
     private let step: Double
     private let radius: Int
     private let weights: [[Float]]
@@ -10,12 +10,13 @@ public final class ACARSAudioResampler {
     private var firstIndex: Int
     private var inputCount = 0
     private var nextPosition = 0.0
-    public init(sampleRate: Double) throws {
-        guard sampleRate.isFinite, (8000...384000).contains(sampleRate) else { throw RadioError.invalidSettings }
-        step = sampleRate / 12000
+    public init(sampleRate: Double, outputRate: Double = 12000) throws {
+        guard sampleRate.isFinite, (8000...384000).contains(sampleRate), outputRate.isFinite,
+              (8000...384000).contains(outputRate) else { throw RadioError.invalidSettings }
+        step = sampleRate / outputRate
         radius = max(24, Int(24 * max(1, step)))
         firstIndex = -radius; buffer = [Float](repeating: 0, count: radius)
-        let cutoff = 0.45 * min(1, 12000 / sampleRate)
+        let cutoff = 0.45 * min(1, outputRate / sampleRate)
         var bank: [[Float]] = []
         for phase in 0..<128 {
             let fraction = Double(phase) / 128
@@ -57,3 +58,5 @@ public final class ACARSAudioResampler {
         return output
     }
 }
+
+public typealias ACARSAudioResampler = StreamingAudioResampler

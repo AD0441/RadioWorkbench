@@ -28,9 +28,25 @@ mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
 cp "$BUILD_BINARY" "$APP_BINARY"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
+bash "$ROOT_DIR/script/build_ftx.sh" "$APP_MACOS/ftx-helper"
+bash "$ROOT_DIR/script/build_cw.sh" "$APP_MACOS/cw-helper"
+for component in ftx-helper cw-helper; do codesign --force --sign - "$APP_MACOS/$component"; done
+cp -R "$ROOT_DIR/Vendor/CWKit/Sources/CWKit/Resources/CWNet.mlmodelc" "$APP_BUNDLE/Contents/Resources/CWNet.mlmodelc"
+for library in SatelliteKit FT8 CWKit LibACARS; do
+  COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/$library-Sources.tar.gz" -C "$ROOT_DIR" "Vendor/$library"
+done
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/FT8-Sources.tar.gz" -C "$ROOT_DIR" Vendor/FT8 script/ftx-helper.c script/build_ftx.sh
+cp "$ROOT_DIR/docs/INTEGRATIONS-0.9.md" "$APP_BUNDLE/Contents/Resources/Integraciones.md"
+for mode in ft8 ft4; do cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_12000_cq_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"; done
+cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/m17_packet_48000_synthetic.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/acars_adsc_12000.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+bash "$ROOT_DIR/script/build_multimon.sh" "$APP_MACOS/multimon-helper"
+codesign --force --sign - "$APP_MACOS/multimon-helper"
+cp "$ROOT_DIR/Vendor/MultimonNG/COPYING" "$APP_BUNDLE/Contents/Resources/MultimonNG-License.txt"
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/MultimonNG-Sources.tar.gz" -C "$ROOT_DIR" Vendor/MultimonNG script/build_multimon.sh
 bash "$ROOT_DIR/script/build_propagation.sh" "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Propagation"
 bash "$ROOT_DIR/script/build_itm.sh" "$APP_MACOS"
-for component in libp372.dylib libp533.dylib propagation-helper itm-helper; do
+for component in libp372.dylib libp533.dylib propagation-helper itm-helper libitm.dylib; do
   codesign --force --sign - "$APP_MACOS/$component"
 done
 cp "$ROOT_DIR/Vendor/ITU-R-HF/NOTICE.md" "$APP_BUNDLE/Contents/Resources/Propagation-Notice.md"
@@ -41,15 +57,20 @@ COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/Propagation-Sources.
 cp "$ROOT_DIR/Vendor/NTIA-ITM/LICENSE.md" "$APP_BUNDLE/Contents/Resources/NTIA-ITM-License.txt"
 COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/NTIA-ITM-Sources.tar.gz" -C "$ROOT_DIR" \
   Vendor/NTIA-ITM/include Vendor/NTIA-ITM/src Vendor/NTIA-ITM/LICENSE.md Vendor/NTIA-ITM/README.md \
-  Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/build_itm.sh
+  Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/itm-bridge.cpp script/build_itm.sh
 chmod +x "$APP_BINARY"
 for mode in morse rtty bpsk31 dtmf navtex packet; do
   cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_8000_mono_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 done
 cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/ctcss_8000_mono_100hz.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/acars_upstream_12000_mono.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+for example in pocsag_512_22050_discriminator_clean pocsag_1200_22050_discriminator_clean pocsag_2400_22050_discriminator_clean \
+  selcall_zvei1_22050_12345 rtty_ascii7_8000_75baud rtty_ascii8_8000_110baud hell_feld_8000_cq_clean \
+  hell_slow14_8000_cq_clean hell_slow_fldigi_8000_cq_clean hell_x5_8000_cq_clean hell_x9_8000_cq_clean; do
+  cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/$example.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+done
 cp "$ROOT_DIR/Vendor/acarsdec/LICENSE.md" "$APP_BUNDLE/Contents/Resources/ACARS-License.txt"
-COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ACARS-Sources.tar.gz" -C "$ROOT_DIR" Vendor/acarsdec script/acars-helper.c script/build_acars.sh
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ACARS-Sources.tar.gz" -C "$ROOT_DIR" Vendor/acarsdec Vendor/LibACARS script/acars-helper.c script/build_acars.sh
 mkdir -p "$APP_BUNDLE/Contents/Resources/EiBi"
 cp "$ROOT_DIR"/docs/eibi-snapshot/* "$APP_BUNDLE/Contents/Resources/EiBi/"
 cp "$ROOT_DIR/docs/sstv-modes.json" "$APP_BUNDLE/Contents/Resources/sstv-modes.json"
@@ -67,8 +88,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.8.8</string>
-<key>CFBundleVersion</key><string>20</string>
+<key>CFBundleShortVersionString</key><string>0.9.0</string>
+<key>CFBundleVersion</key><string>24</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

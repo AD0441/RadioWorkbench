@@ -5,6 +5,7 @@ struct RTTYDecoder {
     private var space: ToneDetector
     private let tick: Double, bit: Double, threshold: Double
     private let inverted: Bool
+    private let encoding: RTTYEncoding
     private var time = 0.0, next = 0.0
     private var state = -1, value = 0
     private var figures = false
@@ -21,6 +22,7 @@ struct RTTYDecoder {
         space = ToneDetector(frequency: settings.frequency - settings.shift / 2, sampleRate: sampleRate, duration: duration)
         tick = Double(mark.length) / sampleRate
         bit = 1 / settings.baud; threshold = settings.threshold; inverted = settings.inverted
+        encoding = settings.rttyEncoding
     }
     mutating func push(_ sample: Float) {
         let m = mark.push(sample), s = space.push(sample)
@@ -34,7 +36,7 @@ struct RTTYDecoder {
         } else if time >= next {
             if state == 0 {
                 if isMark { state = -1 } else { state = 1; next += bit }
-            } else if state <= 5 {
+            } else if state <= encoding.dataBits {
                 if isMark { value |= 1 << (state - 1) }
                 state += 1; next += bit
             } else {
@@ -45,6 +47,11 @@ struct RTTYDecoder {
         previousMark = isMark
     }
     private mutating func append(_ code: Int) {
+        if encoding != .ita2 {
+            if code == 10 || code == 9 || (32...126).contains(code), let scalar = UnicodeScalar(code) { text.unicodeScalars.append(scalar) }
+            if text.utf8.count > 65536 { text = String(text.suffix(32768)) }
+            return
+        }
         switch code {
         case 31: figures = false
         case 27: figures = true

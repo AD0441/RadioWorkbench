@@ -43,6 +43,7 @@
 static pthread_mutex_t blkq_mtx = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t blkq_wcd = PTHREAD_COND_INITIALIZER;
 static msgblk_t *blkq_h = NULL;
+static msgblk_t *blkq_t = NULL; // FIFO: preserve block order for application reassembly.
 static unsigned int rw_pending = 0;
 extern void rw_queue_dropped(void);
 static pthread_t blkth_id;
@@ -128,6 +129,7 @@ static void *blk_thread(void *arg)
 
 		blk = blkq_h;
 		blkq_h = blk->prev;
+		if (blkq_h == NULL) blkq_t = NULL;
 		rw_pending--;
 		pthread_mutex_unlock(&blkq_mtx);
 
@@ -409,8 +411,10 @@ putmsg_lbl:
 			goto fail;
 		}
 		rw_pending++;
-		ch->blk->prev = blkq_h;
-		blkq_h = ch->blk;
+		ch->blk->prev = NULL;
+		if (blkq_t != NULL) blkq_t->prev = ch->blk;
+		else blkq_h = ch->blk;
+		blkq_t = ch->blk;
 		pthread_cond_signal(&blkq_wcd);
 		pthread_mutex_unlock(&blkq_mtx);
 

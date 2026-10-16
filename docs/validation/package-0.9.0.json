@@ -1,0 +1,55 @@
+{
+  "version": "0.9.0",
+  "build": "24",
+  "bytes": 187631549,
+  "sha256": "bfebb50382aed7d33bbdd3e7355b0c7c2ccafed0e9b449af8d35c55be0dba77d",
+  "zipIntegrity": true,
+  "extractedStrictDeepSignature": true,
+  "signing": "ad hoc, not notarized",
+  "executables": {
+    "RadioWorkbench": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "acars-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "cw-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 15.0"
+    },
+    "ftx-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "itm-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "libitm.dylib": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "libp372.dylib": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "libp533.dylib": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "multimon-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    },
+    "propagation-helper": {
+      "architecture": "arm64",
+      "minimum": "minos 14.0"
+    }
+  },
+  "FT8FT4PackagedExamples": true,
+  "CWNeuralPackagedModel": true,
+  "sourcesAndLicenses": true,
+  "DSD": "optional official 2.10.0 runtime, not bundled; macOS 26 minimum"
+}

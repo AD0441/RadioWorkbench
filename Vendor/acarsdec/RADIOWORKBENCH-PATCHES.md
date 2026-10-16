@@ -15,3 +15,7 @@ audio device access or filesystem input. StatsD functions are disabled stubs.
 `script/build_acars.sh` compiles only that adapter, acars.c and msk.c for arm64.
 The helper is GPL-2.0-only; it is a separate executable, not linked into Swift.
 Complete corresponding sources and the build script are included with the app.
+
+## 2026-10-16 · FIFO for libacars integration
+
+The bounded output queue now appends at a tail and removes at its head. The previous LIFO behavior reversed blocks when the output thread fell behind; sorting the monitor by timestamp concealed it, but ACARS application reassembly rejected the reversed fragments. Both head and tail remain protected by blkq_mtx, including empty-queue transitions. The 256-block bound and drop counter are preserved. Regression: repeated concatenated ADS-C A/B blocks must produce a completed application under backlog.

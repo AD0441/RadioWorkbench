@@ -2,6 +2,12 @@
   "upstream": "f00b4r0/acarsdec",
   "revision": "cbaa28c4173fc1529a01ab50708e29d12d09a644",
   "sha256": {
+    "Vendor/acarsdec/acars.c": "b5f88c988ddd709254d435c367a6369960635b3ea83a9c92eb8e20847d9e97de",
+    "Vendor/acarsdec/msk.c": "b9baf291a98b8d6dbc43f319367e6b5030d335daa334d47c0d88548ad151ee15",
+    "script/acars-helper.c": "0f14526e8018350745e47e41f02bbf0b06913440ffd2d9b04f201c52b681eed2",
+    "script/build_acars.sh": "cf66e133fd41f12a35e4e776ad9d014567de6f76641d62109e90cd9ae0b08472"
+  },
+  "previousLocalSHA256": {
     "Vendor/acarsdec/acars.c": "55a54339547f5f1c7a47a46464ef75f6d1d4b9d287088e31ba38f02f33dcf97c",
     "Vendor/acarsdec/msk.c": "b9baf291a98b8d6dbc43f319367e6b5030d335daa334d47c0d88548ad151ee15",
     "script/acars-helper.c": "224a717ca393a89c1c17685b91c011f2baa54d740be8ef64e67d84cca8629fd9",

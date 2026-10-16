@@ -1,0 +1,20 @@
+{
+  "version": "0.8.9",
+  "build": 21,
+  "minimumMacOS": "14.0",
+  "zip": "RadioWorkbench-0.8.9-macos-arm64.zip",
+  "bytes": 178927721,
+  "sha256": "fcaa8f9a34f6cbf0dd7bcb5a30a6eaec2d5483ead85e7c0c083a9042fbc22dc5",
+  "zipIntegrity": "passed",
+  "strictBundleSignature": "passed on extracted ZIP",
+  "signature": "ad hoc; not notarized",
+  "components": {
+    "RadioWorkbench": "Mach-O 64-bit executable arm64",
+    "acars-helper": "Mach-O 64-bit executable arm64",
+    "itm-helper": "Mach-O 64-bit executable arm64",
+    "libitm.dylib": "Mach-O 64-bit dynamically linked shared library arm64",
+    "libp372.dylib": "Mach-O 64-bit dynamically linked shared library arm64",
+    "libp533.dylib": "Mach-O 64-bit dynamically linked shared library arm64",
+    "propagation-helper": "Mach-O 64-bit executable arm64"
+  }
+}

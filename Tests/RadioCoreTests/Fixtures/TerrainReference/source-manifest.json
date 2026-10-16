@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/NTIA/itm",
+  "revision": "183ad95bd813a8be11009df396e1c631356864b2",
+  "license": "../../../../Vendor/NTIA-ITM/LICENSE.md",
+  "files": {
+    "p2p.csv": {
+      "url": "https://github.com/NTIA/itm/blob/183ad95bd813a8be11009df396e1c631356864b2/p2p.csv",
+      "sha256": "49d58a3d63f91f7103d9b9edaf14793ac5080fc5ba914d79ce6c9c840ccc1341"
+    },
+    "pfls.csv": {
+      "url": "https://github.com/NTIA/itm/blob/183ad95bd813a8be11009df396e1c631356864b2/pfls.csv",
+      "sha256": "a149390714ed4e25344ed1e27042b67387e96c5bf438c39d575453db6ccdfa10"
+    }
+  }
+}
