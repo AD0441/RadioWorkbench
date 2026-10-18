@@ -14,6 +14,8 @@ Este documento conserva el alcance solicitado; una propuesta no se marca como fu
 - [x] Guía: selección BBC de 9410 kHz y ficha observadas; el usuario confirmó BBC, 9,410 MHz y Escucha tras el envío directo al planificador. El control de pantalla falló al abrir esa vista.
 - [x] DMR: runtime oficial con una grabación independiente TS1; origen/destino/clase coinciden con el oráculo público. CC7 observado, sin oráculo independiente para ese campo.
 - [x] Voz DMR durante la recepción, TS1/TS2/ambos y panel con procedencia y antigüedad, conservando WAV.
+- [x] Corregir waterfall lento en vivo: reloj visual, cola de un cuadro, ventanas completas y raster incremental; comparación sintética reproducible en 0.12.1.
+- [ ] Repetir recepción en vivo con la entrada del usuario para confirmar la fluidez visual en su flujo real.
 - [ ] Terminar el recorrido visual de biblioteca, DSC, mapas y otras herramientas en la nueva compilación.
 - [ ] Corpus identificado con dos conversaciones simultáneas y evaluación perceptual de voz; la prueba física sigue aplazada.
 

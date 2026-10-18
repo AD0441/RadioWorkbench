@@ -17,16 +17,11 @@ struct ImageReceiverView: View {
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                SpectrumView(frame: receiver.frame, waterfall: receiver.waterfall, frequency: receiver.settings.frequency, shift: receiver.mode == .wefax ? 800 : 0) { frequency in
-                    if !receiver.busy { receiver.settings.frequency = frequency }
-                }
+                ReceiverSpectrumView(receiver: receiver)
                 HStack {
                     Text(receiver.source).font(.caption)
                     Spacer()
-                    if let frame = receiver.frame {
-                        Text("\(frame.levelDB, specifier: "%.1f") dBFS").monospacedDigit()
-                        if frame.clipped { Label("Saturación: baja el volumen", systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
-                    }
+                    ReceiverLevelView(visualization: receiver.visualization, imageMode: true)
                     Button("Volver a decodificar") { if let url = receiver.lastURL { receiver.decode(url) } }.disabled(receiver.busy || receiver.lastURL == nil)
                     Button("Guardar PNG…") { receiver.exportImage() }.disabled(receiver.receivedImage == nil)
                 }

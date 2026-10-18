@@ -54,7 +54,7 @@ extension RadioWorker {
                 engineRecords: ftx ? records : result?.records ?? [], voiceURL: voice, dmrStatus: result?.dmrStatus, voiceFrames: result?.voiceFrames ?? 0))
         } onCancel: { engine?.cancel() }
     }
-    func decodeAdditionalLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String, voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)?, update: @Sendable (RadioUpdate) async -> Void) async throws {
+    func decodeAdditionalLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String, voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)?, visualize: (@Sendable (SpectrumFrame) -> Void)?, update: @Sendable (RadioUpdate) async -> Void) async throws {
         try settings.validated(sampleRate: sampleRate, mode: mode)
         let ftx = mode == .ft8 || mode == .ft4, rate = mode.engineSampleRate
         var voice = mode == .digitalVoice ? FileManager.default.temporaryDirectory.appendingPathComponent("RadioWorkbench-voice-\(UUID().uuidString).wav") : nil
@@ -64,6 +64,7 @@ extension RadioWorker {
         var retainedText = ""
         var storage = [Float](repeating: 0, count: 8192), buffer: [Float] = [], records: [AudioEngineRecord] = []
         let spectrum = SpectrumAnalyzer(), seconds = mode == .ft4 ? 7.5 : 15.0, window = Int((mode == .ft4 ? 7.5 : 15) * rate)
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
         var slot = Self.nextFTXSlot(after: Date(), seconds: seconds)
         var skip = max(0, Int(slot.timeIntervalSinceNow * rate)), previousDrop: UInt64 = 0, last = 0.0
         let started = ProcessInfo.processInfo.systemUptime
@@ -94,6 +95,7 @@ extension RadioWorker {
                 return
             }
             if ring.dropped != previousDrop {
+                liveSpectrum.reset()
                 buffer.removeAll(keepingCapacity: true); previousDrop = ring.dropped
                 retainedText = String((retainedText + (engine?.snapshot.text ?? "") + "\n[Interrupción de audio]\n").suffix(20000))
                 if mode == .digitalVoice {
@@ -106,6 +108,7 @@ extension RadioWorker {
                 slot = Self.nextFTXSlot(after: Date(), seconds: seconds); skip = max(0, Int(slot.timeIntervalSinceNow * rate))
             }
             if count > 0 {
+                if visualize != nil, let frame = liveSpectrum.append(samples) { visualize?(frame) }
                 let mapped = resampler.process(samples)
                 if ftx {
                     let drop = min(skip, mapped.count); skip -= drop; buffer.append(contentsOf: mapped.dropFirst(drop))
@@ -122,7 +125,7 @@ extension RadioWorker {
             let now = ProcessInfo.processInfo.systemUptime
             if now - last >= 0.2 {
                 let snapshot = engine?.snapshot
-                await update(RadioUpdate(text: ftx ? records.map(\.monitorLine).joined(separator: "\n") : retainedText + (snapshot?.text ?? ""), frame: count > 0 ? spectrum.analyze(samples, sampleRate: sampleRate) : nil,
+                await update(RadioUpdate(text: ftx ? records.map(\.monitorLine).joined(separator: "\n") : retainedText + (snapshot?.text ?? ""), frame: visualize == nil && count > 0 ? spectrum.analyze(samples, sampleRate: sampleRate) : nil,
                     progress: 0, source: source, detail: ftx ? "Esperando ventanas UTC de \(seconds) s · \(buffer.count / 12000) s recibidos · sincroniza el reloj del Mac" : engineDetail(mode, settings: settings, snapshot: snapshot),
                     dropped: ring.dropped, samplesReceived: ring.written + ring.dropped, engineRecords: ftx ? records : snapshot?.records ?? [], voiceURL: voice, dmrStatus: snapshot?.dmrStatus, voiceFrames: snapshot?.voiceFrames ?? 0))
                 last = now

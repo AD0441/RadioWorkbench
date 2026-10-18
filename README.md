@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.12.0
+# RadioWorkbench · 0.12.1
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -9,6 +9,8 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 **Estado:** aplicación experimental en desarrollo. Las señales sintéticas y las pruebas unitarias validan el comportamiento implementado, pero no garantizan recepción RF bajo cualquier condición.
 
 **Nuevo en el código 0.12:** DMR con voz durante la recepción, selección TS1/TS2/ambos y panel con CC, identificadores, clase de llamada, procedencia y antigüedad. Contraste con una grabación independiente TS1; faltan dos conversaciones simultáneas identificadas y evaluación perceptual de voz. [Uso y límites](docs/DMR-0.12.md) · [Contrato medido](docs/validation/dmr-0.12-contract.md). La descarga enlazada abajo corresponde a la versión publicada indicada.
+
+**Corrección 0.12.1:** espectro y waterfall en vivo con actualización independiente del texto, un solo cuadro visual pendiente e historial incremental. Una entrada sintética a velocidad real pasó de 3,26 a 19,21 actualizaciones/s, sin perder audio; son cuadros entregados, no FPS de pantalla. [Medición y límites](docs/RELEASE-0.12.1.md).
 
 ## Descargar y abrir
 
@@ -130,7 +132,7 @@ open dist/RadioWorkbench.app
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La pasada **0.12.0** registra **212 funciones: 210 aprobadas y dos opcionales de red omitidas**, sin fallos. Incluye el runtime DSD-neo oficial, una grabación DMR independiente, TS1/TS2, voz antes de EOF, cancelación, conservación del WAV y el grafo de audio renderizado offline sin altavoces. [Resultados y límites](docs/VALIDACION.md).
+La pasada **0.12.1** registra **218 funciones: 216 aprobadas y dos opcionales de red omitidas**, sin fallos. Incluye actualización visual, el runtime DSD-neo oficial, una grabación DMR independiente, TS1/TS2, voz antes de EOF, cancelación, conservación del WAV y el grafo de audio renderizado offline sin altavoces. [Resultados y límites](docs/VALIDACION.md).
 
 La pasada **0.11.0** registra **202 funciones: 198 aprobadas y cuatro opcionales omitidas**, sin fallos. Añade pruebas de biblioteca/integridad, PCM/TCP/EOF, DSC, mapa/eventos, SatDump aislado, Rigctl y taller. El ZIP extraído pasó integridad y firma estricta, con todos sus ejecutables arm64. La revisión visual comprobó la apertura, las nuevas entradas de navegación, los parámetros TCP y el diagnóstico; quedó interrumpida por un cierre de la herramienta de control de pantalla mientras RadioWorkbench seguía activa. [Comprobaciones y límite de interfaz](docs/validation/ui-0.11.0.json) · [Notas y límites](docs/RELEASE-0.11.0.md).
 

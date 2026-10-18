@@ -65,5 +65,5 @@
   "dmr_document_matches": true,
   "external_dmr_audio_in_package": false,
   "extract_path": "/private/tmp/rwb-0.12-extract-hr2qp7co/RadioWorkbench.app",
-  "source_commit": null
+  "source_commit": "fc8a642124af0f6a9a29f5f49ed7d160a50bc9f7"
 }

@@ -39,8 +39,9 @@ final class ReceiverStore {
     @ObservationIgnored private var voicePlayer: AVAudioPlayer?
     var selectedACARSMessage: UUID?
     var showsACARSSpectrum = false
-    var frame: SpectrumFrame?
-    var waterfall: CGImage?
+    let visualization = ReceiverVisualization()
+    var frame: SpectrumFrame? { visualization.frame }
+    var waterfall: CGImage? { visualization.waterfall }
     var busy = false
     var live = false
     var progress = 0.0
@@ -79,7 +80,6 @@ final class ReceiverStore {
     @ObservationIgnored private let input = LiveAudioInput()
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var session = UUID()
-    @ObservationIgnored private var rows: [[Float]] = []
     @ObservationIgnored var microphoneDiagnosticStarted = false
 
     init() {
@@ -119,7 +119,7 @@ final class ReceiverStore {
     func select(_ value: RadioMode) {
         destination = .decoder(value)
         let previous = mode
-        stop(); mode = value; text = ""; rows = []; waterfall = nil; frame = nil; error = nil
+        stop(); mode = value; text = ""; visualization.reset(); error = nil
         acarsMessages = []; selectedACARSMessage = nil
         multimonRecords = []; engineRecords = []; clearVoice()
         progress = 0; dropped = 0
@@ -149,11 +149,11 @@ final class ReceiverStore {
         decode(url)
     }
     func decode(_ url: URL) {
-        stop(); text = ""; error = nil; rows = []; waterfall = nil; receivedImage = nil; imageCaption = ""
+        stop(); text = ""; error = nil; visualization.reset(); receivedImage = nil; imageCaption = ""
         acarsMessages = []; selectedACARSMessage = nil
         multimonRecords = []; engineRecords = []; clearVoice()
         lastURL = url; source = url.lastPathComponent; progress = 0; busy = true
-        frame = nil; sourceChannelCount = 0; captureSampleRate = 0; dropped = 0; samplesReceived = 0
+        sourceChannelCount = 0; captureSampleRate = 0; dropped = 0; samplesReceived = 0
         let token = session, mode = mode, settings = settings
         task = Task {
             do {
@@ -177,7 +177,7 @@ final class ReceiverStore {
         multimonRecords = []; engineRecords = []; clearVoice()
         lastURL = nil
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
-        rows = []; waterfall = nil; frame = nil; receivedImage = nil; imageCaption = ""; sstvCalibration = nil
+        visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
         let token = session, mode = mode, settings = settings, deviceID = selectedDeviceID
         let inputName: String
         if deviceID == 0 { inputName = "Entrada predeterminada" }
@@ -191,7 +191,8 @@ final class ReceiverStore {
                 sourceChannelCount = stream.channels; captureSampleRate = stream.sampleRate
                 detail = "Captura iniciada · \(Int(stream.sampleRate)) Hz · \(stream.channels) canal(es) · esperando audio"
                 let voiceOutput = try prepareDMRVoiceOutput()
-                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: inputName, voiceOutput: voiceOutput) { [weak self] value in
+                let visualize = visualization.startLive()
+                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: inputName, voiceOutput: voiceOutput, visualize: visualize) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
             } catch is CancellationError { }
@@ -202,7 +203,7 @@ final class ReceiverStore {
         stop(); text = ""; error = nil; busy = true; live = true; lastURL = nil
         acarsMessages = []; selectedACARSMessage = nil; multimonRecords = []; engineRecords = []; clearVoice()
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
-        rows = []; waterfall = nil; frame = nil; receivedImage = nil; imageCaption = ""; sstvCalibration = nil
+        visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
         let configuration = networkPCM, token = session, mode = mode, settings = settings
         let name = "TCP \(configuration.host):\(configuration.port) · \(configuration.format.rawValue)"
         source = name; detail = "Conectando al audio local…"; networkNotice = ""
@@ -216,7 +217,8 @@ final class ReceiverStore {
                 guard token == session, !Task.isCancelled else { return }
                 sourceChannelCount = stream.channels; captureSampleRate = stream.sampleRate
                 let voiceOutput = try prepareDMRVoiceOutput()
-                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: name, voiceOutput: voiceOutput) { [weak self] value in
+                let visualize = visualization.startLive()
+                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: name, voiceOutput: voiceOutput, visualize: visualize) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
                 if session == token {
@@ -280,6 +282,7 @@ final class ReceiverStore {
         } catch { self.error = error.localizedDescription }
     }
     func stop() {
+        visualization.stopLive()
         let previous = task
         session = UUID(); let token = session
         voiceOutputDropped = dmrVoiceMonitor?.snapshot.dropped ?? voiceOutputDropped
@@ -296,7 +299,10 @@ final class ReceiverStore {
     }
     private func apply(_ value: RadioUpdate, token: UUID) {
         guard session == token else { return }
-        text = String(value.text.suffix(40000)); progress = value.progress; source = value.source
+        let newText = String(value.text.suffix(40000))
+        if text != newText { text = newText }
+        if progress != value.progress { progress = value.progress }
+        if source != value.source { source = value.source }
         let kind: ReceptionEventSource = live ? (inputSource == .tcp ? .networkAudio : .audioLive) : .audioFile
         for packet in value.packetReceptions {
             if let point = packet.position {
@@ -323,19 +329,18 @@ final class ReceiverStore {
         if let voice = value.voiceURL { voiceURL = voice }
         dmrStatus = value.dmrStatus; voiceFrames = value.voiceFrames
         voiceOutputDropped = dmrVoiceMonitor?.snapshot.dropped ?? voiceOutputDropped
-        detail = value.detail; dropped = value.dropped; samplesReceived = value.samplesReceived
+        if detail != value.detail { detail = value.detail }
+        if dropped != value.dropped { dropped = value.dropped }
+        samplesReceived = value.samplesReceived
         sstvCalibration = value.sstvCalibration
         if let count = value.channelCount { sourceChannelCount = count }
         if let image = value.image {
             receivedImage = Self.rgbImage(image); imageCaption = image.caption
         }
         if let frame = value.frame {
-            self.frame = frame
-            let row = (0..<256).map { frame.bins[min(frame.bins.count - 1, $0 * frame.bins.count / 256)] }
-            rows.insert(row, at: 0); if rows.count > 80 { rows.removeLast() }
-            waterfall = Self.image(rows)
+            visualization.update(frame)
         }
-        if value.finished { dmrVoiceMonitor?.finish(); busy = false; live = false; task = nil }
+        if value.finished { visualization.stopLive(); dmrVoiceMonitor?.finish(); busy = false; live = false; task = nil }
     }
     func exportText() {
         let panel = NSSavePanel(); panel.allowedContentTypes = [.plainText]; panel.nameFieldStringValue = "\(mode.rawValue)-recepcion.txt"
@@ -444,19 +449,6 @@ final class ReceiverStore {
               let provider = CGDataProvider(data: Data(image.rgb) as CFData) else { return nil }
         return CGImage(width: image.width, height: image.height, bitsPerComponent: 8, bitsPerPixel: 24,
                        bytesPerRow: image.width * 3, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: 0),
-                       provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent)
-    }
-    private static func image(_ rows: [[Float]]) -> CGImage? {
-        var bytes = [UInt8](); bytes.reserveCapacity(rows.count * 256 * 4)
-        for row in rows {
-            for db in row {
-                let value = min(1, max(0, (Double(db) + 80) / 70))
-                bytes.append(UInt8(30 * value)); bytes.append(UInt8(190 * value)); bytes.append(UInt8(255 * value)); bytes.append(255)
-            }
-        }
-        guard let provider = CGDataProvider(data: Data(bytes) as CFData) else { return nil }
-        return CGImage(width: 256, height: rows.count, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 1024,
-                       space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
                        provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent)
     }
 }

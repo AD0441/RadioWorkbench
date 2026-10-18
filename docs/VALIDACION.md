@@ -1,3 +1,23 @@
+# Validación de RadioWorkbench 0.12.1
+
+Suite Release arm64: **218 funciones registradas, 216 aprobadas, dos opcionales
+omitidas y cero fallos**, 14,531 s una vez compilada. Se habilitó la medición de
+entrada sintética; las omisiones siguen siendo satélites y terreno con red.
+Se conservan las comprobaciones DMR independientes y del grafo de salida offline.
+
+La regresión visual verifica historial de 2048 muestras con paquetes pequeños,
+sondeos vacíos, pausas/reinicio, límite de frecuencia, cola con el cuadro más
+reciente, rechazo de una sesión anterior, colores/orden del raster y snapshots
+inmutables. La comparación aislada de entrada DMR sintética a velocidad real
+pasó de 10 a 59 cuadros en 3,072 s (3,26 → 19,21 actualizaciones/s), sin pérdida
+de muestras. El raster pasó de 104 a 4,7 µs de media. No mide FPS de pantalla,
+latencia RF a voz ni la recepción física del usuario. La captura del proceso
+existente estaba inactiva y no se usa como perfil de carga en vivo.
+
+[Suite](validation/release-0.12.1-tests.txt) ·
+[Resumen](validation/tests-0.12.1-summary.json) ·
+[Mediciones y reproducción](RELEASE-0.12.1.md).
+
 # Validación de RadioWorkbench 0.12.0
 
 Suite Release arm64: **212 funciones registradas, 210 aprobadas, dos opcionales
@@ -26,6 +46,14 @@ de los otros flujos se registra por separado, sin sustituirla por los tests.
 [Suite completa](validation/release-0.12.0-tests.txt) ·
 [Resumen](validation/tests-0.12.0-summary.json) ·
 [Contrato independiente](validation/dmr-0.12-contract.md) · [Uso DMR](DMR-0.12.md).
+
+El paquete 0.12.0/build 27 extraído pasó integridad ZIP y firma ad hoc estricta;
+sus ejecutables son arm64, sin dependencias Homebrew o del checkout. La nueva
+app abrió en CW. SkyComputerUseService volvió a cerrarse al intentar cambiar
+a DSC y al reconectar; RadioWorkbench permaneció activa, sin un nuevo informe
+de cierre. El panel DMR y los otros flujos no se presentan como observados en
+la interfaz por esta pasada. [Verificación de paquete](validation/package-0.12.0.json) ·
+[Límite de revisión visual](validation/ui-0.12.0.json).
 
 # Validación de RadioWorkbench 0.11.0
 

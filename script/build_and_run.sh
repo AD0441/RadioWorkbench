@@ -106,8 +106,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.12.0</string>
-<key>CFBundleVersion</key><string>27</string>
+<key>CFBundleShortVersionString</key><string>0.12.1</string>
+<key>CFBundleVersion</key><string>28</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

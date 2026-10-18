@@ -66,10 +66,11 @@ actor RadioWorker {
     }
     func decodeLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String = "Entrada de audio",
                     voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil,
+                    visualize: (@Sendable (SpectrumFrame) -> Void)? = nil,
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
         do {
             try Task.checkCancellation()
-            try await receiveLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, update: update)
+            try await receiveLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, visualize: visualize, update: update)
             try Task.checkCancellation()
         } catch {
             try Task.checkCancellation()
@@ -78,13 +79,15 @@ actor RadioWorker {
     }
     private func receiveLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String,
                              voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)?,
+                             visualize: (@Sendable (SpectrumFrame) -> Void)?,
                              update: @Sendable (RadioUpdate) async -> Void) async throws {
-        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, update: update); return }
-        if mode == .acars { try await decodeACARSLive(ring: ring, sampleRate: sampleRate, settings: settings, source: source, update: update); return }
-        if mode.isMultimon { try await decodeMultimonLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update); return }
+        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, visualize: visualize, update: update); return }
+        if mode == .acars { try await decodeACARSLive(ring: ring, sampleRate: sampleRate, settings: settings, source: source, visualize: visualize, update: update); return }
+        if mode.isMultimon { try await decodeMultimonLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, visualize: visualize, update: update); return }
         var decoder = try DecoderEngine(mode: mode, sampleRate: sampleRate, settings: settings)
         let recording = try AudioDiagnosticRecorder.requested(rate: sampleRate, mode: mode)
         let spectrum = SpectrumAnalyzer()
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
         var storage = [Float](repeating: 0, count: 8192)
         var lastUpdate = 0.0
         var previousDrop: UInt64 = 0
@@ -101,16 +104,18 @@ actor RadioWorker {
             if count > 0 {
                 let dropped = ring.dropped
                 if dropped != previousDrop {
+                    liveSpectrum.reset()
                     retainedText = String((retainedText + decoder.text + "\n[Interrupción de audio]\n").suffix(32000))
                     decoder = try DecoderEngine(mode: mode, sampleRate: sampleRate, settings: settings)
                     previousDrop = dropped
                 }
                 let samples = Array(storage.prefix(count))
+                if visualize != nil, let frame = liveSpectrum.append(samples) { visualize?(frame) }
                 try recording?.write(samples)
                 decoder.process(samples)
                 let now = ProcessInfo.processInfo.systemUptime
                 if now - lastUpdate >= 0.1 {
-                    await update(RadioUpdate(text: retainedText + decoder.text, frame: spectrum.analyze(samples, sampleRate: sampleRate), progress: 0,
+                    await update(RadioUpdate(text: retainedText + decoder.text, frame: visualize == nil ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0,
                                              source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · recepción en vivo" + (decoder.status.isEmpty ? "" : " · " + decoder.status), dropped: dropped, image: decoder.image, samplesReceived: ring.written + ring.dropped, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
                     lastUpdate = now
                 }
@@ -145,10 +150,11 @@ actor RadioWorker {
         } onCancel: { session.cancel() }
     }
 
-    private func decodeACARSLive(ring: AudioSampleRing, sampleRate: Double, settings: DecoderSettings, source: String, update: @Sendable (RadioUpdate) async -> Void) async throws {
+    private func decodeACARSLive(ring: AudioSampleRing, sampleRate: Double, settings: DecoderSettings, source: String, visualize: (@Sendable (SpectrumFrame) -> Void)?, update: @Sendable (RadioUpdate) async -> Void) async throws {
         var session = try ACARSProcess()
         var resampler = try ACARSAudioResampler(sampleRate: sampleRate)
         let spectrum = SpectrumAnalyzer()
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
         var storage = [Float](repeating: 0, count: 8192), retained: [ACARSMessage] = []
         var lastUpdate = 0.0, previousDrop: UInt64 = 0
         defer { session.cancel() }
@@ -167,18 +173,20 @@ actor RadioWorker {
             }
             if count > 0 {
                 if ring.dropped != previousDrop {
+                    liveSpectrum.reset()
                     retained = Array((retained + session.snapshot.messages).suffix(100)); session.cancel()
                     session = try ACARSProcess(); resampler = try ACARSAudioResampler(sampleRate: sampleRate)
                     previousDrop = ring.dropped
                 }
                 let samples = Array(storage.prefix(count))
+                if visualize != nil, let frame = liveSpectrum.append(samples) { visualize?(frame) }
                 let active = session
                 try await withTaskCancellationHandler { try active.write(resampler.process(samples)) } onCancel: { active.cancel() }
                 let now = ProcessInfo.processInfo.systemUptime
                 if now - lastUpdate >= 0.1 {
                     let result = session.snapshot
                     let messages = Array((retained + result.messages).suffix(200))
-                    await update(RadioUpdate(text: messages.map(\.monitorLine).joined(separator: "\n"), frame: spectrum.analyze(samples, sampleRate: sampleRate), progress: 0, source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · PCM continuo → 12000 Hz · " + result.status, dropped: ring.dropped, acarsMessages: messages, samplesReceived: ring.written + ring.dropped))
+                    await update(RadioUpdate(text: messages.map(\.monitorLine).joined(separator: "\n"), frame: visualize == nil ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0, source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · PCM continuo → 12000 Hz · " + result.status, dropped: ring.dropped, acarsMessages: messages, samplesReceived: ring.written + ring.dropped))
                     lastUpdate = now
                 }
             }
@@ -212,12 +220,13 @@ actor RadioWorker {
         } onCancel: { session.cancel() }
     }
     private func decodeMultimonLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings,
-                                   source: String, update: @Sendable (RadioUpdate) async -> Void) async throws {
+                                   source: String, visualize: (@Sendable (SpectrumFrame) -> Void)?, update: @Sendable (RadioUpdate) async -> Void) async throws {
         try settings.validated(sampleRate: sampleRate, mode: mode)
         var session = try MultimonProcess(mode: mode, settings: settings)
         var resampler = try StreamingAudioResampler(sampleRate: sampleRate, outputRate: 22050)
         var retained: [MultimonRecord] = [], storage = [Float](repeating: 0, count: 8192)
         let spectrum = SpectrumAnalyzer()
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
         var lastUpdate = 0.0, previousDrop: UInt64 = 0
         var lastPublishedTotal = 0
         defer { session.cancel() }
@@ -237,10 +246,12 @@ actor RadioWorker {
             let samples = Array(storage.prefix(count))
             if count > 0 {
                 if ring.dropped != previousDrop {
+                    liveSpectrum.reset()
                     retained = Array((retained + session.snapshot.records).suffix(100)); session.cancel()
                     session = try MultimonProcess(mode: mode, settings: settings)
                     resampler = try StreamingAudioResampler(sampleRate: sampleRate, outputRate: 22050); previousDrop = ring.dropped
                 }
+                if visualize != nil, let frame = liveSpectrum.append(samples) { visualize?(frame) }
                 let active = session
                 try await withTaskCancellationHandler { try active.write(resampler.process(samples)) } onCancel: { active.cancel() }
             }
@@ -251,7 +262,7 @@ actor RadioWorker {
                 let result = session.snapshot
                 if count > 0 || result.total != lastPublishedTotal {
                     let records = Array((retained + result.records).suffix(200))
-                    await update(RadioUpdate(text: records.map(\.monitorLine).joined(separator: "\n"), frame: count > 0 ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0,
+                    await update(RadioUpdate(text: records.map(\.monitorLine).joined(separator: "\n"), frame: visualize == nil && count > 0 ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0,
                         source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · " + result.status, dropped: ring.dropped,
                         samplesReceived: ring.written + ring.dropped, multimonRecords: records))
                     lastPublishedTotal = result.total

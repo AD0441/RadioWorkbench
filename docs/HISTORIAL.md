@@ -1,5 +1,9 @@
 # Historial de RadioWorkbench
 
+**0.12.1:** corrige el refresco de espectro y waterfall en vivo: reloj visual propio, cola de un cuadro, historial FFT acotado y raster incremental. Separa observación de nivel/espectro de controles y texto. La medición sintética pasó de 3,26 a 19,21 cuadros entregados/s, sin pérdidas de audio; falta repetición física. [Mediciones y límites](RELEASE-0.12.1.md).
+
+**0.12.0:** DMR con escucha durante la recepción, selección TS1/TS2/ambos, panel CC/origen/destino/clase/antigüedad y exportación JSON con procedencia. Cierre del WAV y cancelación fuera de la interfaz; contraste independiente TS1 y pruebas offline del grafo de salida. [Uso y límites](DMR-0.12.md) · [Notas](RELEASE-0.12.0.md).
+
 **0.11.0:** repara Guía → Planificador HF y la descarga HFCC; corrige R12=0, procedencia por mes UTC y dos condiciones del modelo para el hemisferio sur. Añade biblioteca de audio/ajustes/fechas, diagnóstico, TCP local, DSC MF/HF/VHF con ECC e interpretación parcial, mapa de recepciones, SatDump LRPT offline, Rigctl optativo con lectura de confirmación, eventos externos y taller de referencias. [Alcance de los nueve módulos](NUEVE-MEJORAS.md) · [Notas](RELEASE-0.11.0.md).
 
 **0.10.0:** recepción MT63 500/1000/2000 Hz con entrelazado corto/largo, centro y guía de banda; ALE 2G con sondeos, llamadas y AMD. Helpers arm64/macOS 14, WAV y entrada en vivo, JSON, señales de ejemplo y fuentes/licencias incluidas. Revisión estática REA de cinco aplicaciones y propuestas de audio TCP, DSC, biblioteca de recepciones, mapas e I/Q/SatDump. [Uso y límites](INTEGRATIONS-0.10.md) · [Investigación y propuestas](REVISION-APPS-0.10.md).
