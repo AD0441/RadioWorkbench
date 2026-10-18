@@ -1,9 +1,35 @@
 {
   "version": "0.11.0",
   "date": "2026-10-18",
-  "status": "blocked",
-  "reason": "CUA reported: The Mac is locked and automatic unlock could not unlock it.",
-  "requested_user_action": "Unlock the Mac; asynchronous question pending.",
+  "status": "partial",
+  "mac_unlocked_by_user": true,
+  "observed": [
+    "The 0.11.0 window opened with Library, reception map, LRPT, Rigctl, external events and signal workshop in the sidebar.",
+    "The input selector offered audio device and local TCP audio.",
+    "Selecting local TCP displayed 127.0.0.1, port 7355, signed 16-bit little-endian PCM, 48000 Hz and one channel.",
+    "The UI explicitly required matching the sender format and distinguished DMR discriminator audio from decoded voice.",
+    "The input quality disclosure opened and showed that a file or explicitly started input is required for measurements."
+  ],
+  "not_verified_in_ui": [
+    "Guide selection and transfer to HF planner",
+    "DSC example decoding in the final 0.11.0 UI",
+    "Interactive library, maps, LRPT, Rigctl, event import and workshop flows"
+  ],
+  "blocker": {
+    "service": "SkyComputerUseService",
+    "reported_error": "Sky Computer Use native pipe closed before response",
+    "reproduced_after_session_reset": true,
+    "crash_reports": [
+      "SkyComputerUseService-2026-10-18-160916.ips",
+      "SkyComputerUseService-2026-10-18-160922.ips",
+      "SkyComputerUseService-2026-10-18-160930.ips"
+    ],
+    "exception": "EXC_BREAKPOINT / SIGTRAP",
+    "top_relevant_symbol": "Array.remove(at:)",
+    "application_process_alive_after_tool_failure": true,
+    "new_application_crash_report_found": false
+  },
   "microphone_started": false,
-  "sdr_connection_started": false
+  "sdr_connection_started": false,
+  "tcp_connection_started": false
 }
