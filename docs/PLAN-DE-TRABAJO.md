@@ -4,7 +4,7 @@ Este documento conserva el alcance solicitado; una propuesta no se marca como fu
 
 ## Correcciones y revisión en curso
 
-- [x] MT63 en seis variantes y ALE 2G: fuentes, pruebas, ejemplos, paquete 0.10.0 y comprobación de interfaz. Falta incorporar los cambios al PR existente al cerrar la siguiente revisión.
+- [x] MT63 en seis variantes y ALE 2G: fuentes, pruebas, ejemplos, paquete 0.10.0 y comprobación de interfaz. Cambios incorporados al PR existente durante el cierre de 0.11.0.
 - [x] Reparar Guía de radios → Planificador HF: selección persistente, envío directo, datos parciales, procedencia y campos pendientes visibles.
 - [x] Auditar cálculo HF: unidades, dirección TX/RX, índices solares, condiciones por hemisferio, supuestos y pruebas de referencia.
 - [x] Comparar DMR de SDR++Brown con DSD-neo: arquitectura, slots, CC y límites documentados. Se aplicaron biblioteca, diagnóstico y entrada TCP de discriminador. Voz DMR continua, selector de slots y panel de llamada quedan para una fase con corpus DMR independiente.

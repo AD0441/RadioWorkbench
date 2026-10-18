@@ -106,5 +106,6 @@
     }
   ],
   "extract_path": "/private/tmp/rwb-0.11-extract-p4wy872v/RadioWorkbench.app",
-  "private_media": "No phone/private paths in archive members; examples used here are synthetic."
+  "private_media": "No phone/private paths in archive members; examples used here are synthetic.",
+  "source_commit": "31ed374"
 }
