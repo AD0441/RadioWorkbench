@@ -10,14 +10,15 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 
 ## Descargar y abrir
 
-- [RadioWorkbench 0.8.8 · macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.8.8)
-- [ZIP de la aplicación](https://github.com/AD0441/RadioWorkbench/releases/download/v0.8.8/RadioWorkbench-0.8.8-macos-arm64.zip)
+- [RadioWorkbench 0.11.0 · versión preliminar · macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.11.0)
+- [ZIP de la aplicación](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/RadioWorkbench-0.11.0-macos-arm64.zip)
+- [Sumas SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/SHA256SUMS)
 
 Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones y ábrela. La primera captura requiere el permiso de micrófono de macOS, también cuando se utiliza una entrada de audio virtual.
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-El código **0.11.0** repara la transferencia de emisoras al Planificador HF, revisa el modelo por hemisferio y mes UTC, e incorpora las nueve herramientas acordadas: biblioteca, diagnóstico, audio TCP local, DSC MF/HF/VHF, mapa común, LRPT offline con SatDump, Rigctl optativo, eventos externos y taller de señales. Incluye MT63 en seis variantes y ALE 2G de 0.10.0. DSD-neo requiere macOS 26 y descarga separada; CWKit requiere 15. La app principal conserva macOS 14. **La descarga pública de arriba sigue siendo 0.8.8**; este código y el paquete local corresponden a la rama de desarrollo. [Nueve mejoras y límites](docs/NUEVE-MEJORAS.md) · [Notas 0.11.0](docs/RELEASE-0.11.0.md) · [MT63/ALE](docs/INTEGRATIONS-0.10.md) · [DMR de Brown](docs/DMR-BROWN-0.10.md) · [Historial](docs/HISTORIAL.md).
+La versión preliminar **0.11.0** repara la transferencia de emisoras al Planificador HF, revisa el modelo por hemisferio y mes UTC, e incorpora las nueve herramientas acordadas: biblioteca, diagnóstico, audio TCP local, DSC MF/HF/VHF, mapa común, LRPT offline con SatDump, Rigctl optativo, eventos externos y taller de señales. Incluye MT63 en seis variantes y ALE 2G de 0.10.0. DSD-neo requiere macOS 26 y descarga separada; CWKit requiere 15. La app principal conserva macOS 14. [Nueve mejoras y límites](docs/NUEVE-MEJORAS.md) · [Notas 0.11.0](docs/RELEASE-0.11.0.md) · [MT63/ALE](docs/INTEGRATIONS-0.10.md) · [DMR de Brown](docs/DMR-BROWN-0.10.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
