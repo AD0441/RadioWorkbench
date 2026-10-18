@@ -1,0 +1,14 @@
+{
+  "version": "0.8.10",
+  "method": "CUA native accessibility",
+  "launchVerified": true,
+  "sidebarVerified": [
+    "POCSAG / pagers",
+    "Cinco tonos / Selcall",
+    "Hellschreiber"
+  ],
+  "audioInputAndChannelSelectorsVerified": true,
+  "audioCaptureStarted": false,
+  "interactiveMapInspection": "blocked by Sky native pipe closed before response after entering Consultas and after reconnect",
+  "personalScreenshotsPublished": false
+}

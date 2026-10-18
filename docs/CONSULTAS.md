@@ -1,4 +1,4 @@
-# Consultas locales · 0.8.7
+# Consultas de radio · 0.8.10
 
 La pantalla **Consultas de radio** reúne consulta de frecuencia, directorios SUBTEL, actividad APRS por Internet y pases de satélites.
 
@@ -16,6 +16,8 @@ La búsqueda de indicativos descarga los PDF vigentes de categorías y aspirante
 
 El botón **Usar como destino ITM** carga las coordenadas en el perfil de terreno VHF/UHF. Si hay frecuencia de transmisión publicada, la copia al campo de frecuencia para escuchar; el resultado sigue siendo una predicción del enlace, no una recepción confirmada.
 
+El mapa pequeño muestra los resultados que tienen coordenadas publicadas válidas, el sitio seleccionado en naranja y la ubicación guardada del observador. No convierte el centro de una comuna en una ubicación supuestamente precisa. Si falta la posición, se puede escribir latitud/longitud o activar **Ubicar con clic**; esa posición manual se utiliza al preparar el destino ITM. El modo de ubicación con clic se desactiva al elegir otra repetidora para evitar modificarla accidentalmente.
+
 ## APRS cercano
 
 La conexión solo comienza cuando el usuario la solicita. Requiere un indicativo y una ubicación guardada; usa APRS-IS por TCP con `pass -1` y filtro geográfico, no transmite paquetes. El área redondea latitud y longitud a dos decimales antes de enviar el filtro. Los paquetes recibidos pueden haber llegado por gateways remotos: no confirman cobertura RF en el Mac. Se reconocen posiciones APRS sin comprimir y comprimidas; otras formas, incluidas Mic-E, se omiten.
@@ -24,11 +26,19 @@ Los resultados permanecen en memoria hasta detener la conexión o cerrar la app.
 
 ## Satélites y pases
 
-La app actualiza en línea el catálogo de frecuencias AMSAT/SatNOGS, los elementos GP del grupo `amateur` de CelesTrak y los reportes de estado publicados en AMSAT. Las fuentes se guardan en caché para consultar sin conexión. Los reportes de estado son observaciones de usuarios, no telemetría oficial del satélite.
+La app actualiza tres conjuntos independientes: frecuencias AMSAT/SatNOGS, órbitas y reportes de estado AMSAT. Las frecuencias se descargan mediante la API oficial de contenidos de GitHub y conservan una alternativa raw. Las órbitas utilizan GP del grupo `amateur` de CelesTrak y TLE de AMSAT como alternativa; si AMSAT fue el último proveedor orbital que funcionó, se intenta primero al actualizar. La interfaz muestra fuente y fecha para cada conjunto. Un error de frecuencias no impide calcular pases si existen órbitas válidas; un fallo de red conserva la última copia correspondiente.
 
-Los pases de 48 horas se calculan desde elementos orbitales recientes con Kepler y corrección secular J2. Este método no implementa SGP4; horarios y elevación son aproximados, sobre todo si el TLE está antiguo. No se estima ni corrige Doppler y no se controla SDR++. La interfaz muestra la época orbital para que se pueda evaluar su antigüedad.
+La reparación 0.8.10 interpreta como UTC las épocas GP que CelesTrak entrega sin sufijo `Z`, acepta fracciones de segundo y valida los campos físicos. Los TLE deben tener checksum correcto y NORAD coincidente. Lee la fecha real `reported_time` de la API AMSAT. Los reportes conservan satélite, estado y hora, descartando indicativos y cuadrículas de los colaboradores. Los errores HTTPS se presentan sin desactivar la validación de certificados.
 
-Los datos de frecuencia derivados de SatNOGS se atribuyen en la interfaz y se distribuyen bajo CC BY-SA 4.0. Las órbitas provienen de CelesTrak y los reportes de estado de AMSAT.
+La prueba con URLSession nativo del 14 de octubre descargó **97 satélites, 402 registros de frecuencias y 500 reportes**. CelesTrak agotó el tiempo de espera en el primer intento; AMSAT TLE permitió completar las órbitas. La siguiente actualización, con AMSAT preferido, terminó en 1,43 s. Es evidencia de esa consulta, no una garantía de disponibilidad permanente.
+
+Los pases de 48 horas usan SatelliteKit SGP4/SDP4 con BSTAR conservado en GP/TLE, observador WGS84 y época visible. El mapa calcula Doppler de AOS/LOS para una frecuencia nominal editable; no controla SDR++. Una caché anterior sin BSTAR requiere actualización. Consulta [motores 0.9](INTEGRATIONS-0.9.md).
+
+Selecciona un pase de la tabla para mostrar su trayectoria proyectada sobre Apple Maps, con observador y marcas AOS, máximo y LOS. Las polilíneas se separan al cruzar el meridiano de 180°. El gráfico polar usa la misma solución orbital: norte arriba, este a la derecha, horizonte en el borde y 90° de elevación en el centro. La hora del pase incluye fecha para distinguir los dos días calculados. Cambiar satélite, ubicación o elementos elimina resultados anteriores y descarta resultados de cálculos pendientes.
+
+El mapa es la trayectoria terrestre del satélite durante el pase; no es una huella de cobertura RF. Para obtener resultados hace falta una ubicación guardada y pulsar **Calcular pases**. Una órbita antigua puede dar horarios imprecisos aunque la descarga de hoy haya funcionado; la época orbital y la fecha de consulta son campos distintos.
+
+Los datos de frecuencia derivados de SatNOGS se atribuyen en la interfaz y se distribuyen bajo CC BY-SA 4.0. Las órbitas provienen de CelesTrak o AMSAT y los reportes de estado de AMSAT. Los reportes son observaciones de usuarios, no telemetría oficial.
 
 ## Fuentes
 
@@ -38,4 +48,11 @@ Los datos de frecuencia derivados de SatNOGS se atribuyen en la interfaz y se di
 - [AMSAT · catálogo de frecuencias](https://satdb.amsat.org/)
 - [AMSAT · API de reportes de estado](https://www.amsat.org/status/api/)
 - [CelesTrak · formatos de elementos orbitales GP](https://celestrak.org/NORAD/documentation/gp-data-formats.php)
+- [AMSAT · elementos Keplerianos y TLE](https://www.amsat.org/keplerian-elements-resources/)
 - [Catálogo de datos de frecuencia · CC BY-SA 4.0](https://github.com/palewire/amateur-satellite-database/tree/main/data)
+
+## Sintonía y mapa en 0.11
+
+La consulta por frecuencia permite preparar una propuesta Rigctl con frecuencia, modo y ancho. La conexión local se habilita aparte; comprobar solo lee, y enviar requiere pulsar un botón. El servidor se vuelve a leer para confirmar los tres ajustes. No se envían PTT ni seguimiento automático.
+
+El mapa común conserva posiciones APRS/ACARS con su procedencia. Una conexión APRS-IS ya iniciada puede continuar al entrar al mapa, con botón Desconectar visible; se detiene al salir hacia otras herramientas. El mapa no inicia conexiones ni obtiene ubicación por sí solo. Una recepción de audio ya iniciada también puede seguir mientras se consulta el mapa, con su botón Detener visible.

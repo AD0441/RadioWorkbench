@@ -134,7 +134,7 @@ public enum SpaceWeatherParser {
             if let first = cells.first.flatMap(Int.init), (1900...2100).contains(first), cells.count == 6 { year = first; offset = 1 }
             guard let year, cells.count == 5 + offset, let month = Int(cells[offset]), (1...12).contains(month) else { continue }
             let raw = cells[offset+2]
-            guard let r = Double(raw.components(separatedBy: " ").first ?? ""), r.isFinite, (1...311).contains(r) else { continue }
+            guard let r = Double(raw.components(separatedBy: " ").first ?? ""), r.isFinite, (0...311).contains(r) else { continue }
             result.append(IonosphericIndex(year: year, month: month, r12: r, predicted: raw.localizedCaseInsensitiveContains("predicted")))
         }
         guard result.count >= 12, Set(result.map(\.id)).count == result.count else { throw URLError(.cannotParseResponse) }

@@ -1,5 +1,21 @@
 import Foundation
 
+public enum RadioNumericText {
+    public static func number(_ text: String) -> Double? {
+        let value = text.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "−", with: "-").replacingOccurrences(of: ",", with: ".")
+        guard let result = Double(value), result.isFinite else { return nil }
+        return result
+    }
+    /// Unitless input is MHz; explicit units prevent accidental kHz/MHz copies.
+    public static func frequencyMHz(_ text: String) -> Double? {
+        let value = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        for (suffix, scale) in [("mhz", 1.0), ("khz", 0.001), ("hz", 0.000001)] where value.hasSuffix(suffix) {
+            return number(String(value.dropLast(suffix.count))).map { $0 * scale }
+        }
+        return number(value)
+    }
+}
+
 public struct RadioLocation: Codable, Hashable, Sendable {
     public let latitude: Double
     public let longitude: Double
@@ -8,8 +24,7 @@ public struct RadioLocation: Codable, Hashable, Sendable {
         self.latitude = latitude; self.longitude = longitude
     }
     public init?(latitude: String, longitude: String) {
-        guard let lat = Double(latitude.replacingOccurrences(of: ",", with: ".")),
-              let lon = Double(longitude.replacingOccurrences(of: ",", with: ".")) else { return nil }
+        guard let lat = RadioNumericText.number(latitude), let lon = RadioNumericText.number(longitude) else { return nil }
         self.init(latitude: lat, longitude: lon)
     }
     public func distance(to other: Self) -> Double {

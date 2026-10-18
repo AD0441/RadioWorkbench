@@ -23,8 +23,22 @@ import RadioCore
     var targetLatitude = ""
     var targetLongitude = ""
     var targetName = "Destino del enlace"
+    var stationTransferNotice = ""
+    var stationSites: [BroadcastSite] = []
+    var selectedStationSite: Int?
+    var stationPowerCandidate: HFCCTransmission?
+    var planningDate = Date()
+    var usesCurrentPlanningTime = true
     var watts = "100"
-    var wattsSource = "Potencia TX manual; introduce un valor conocido o un supuesto explícito."
+    private var wattsReference: Double?
+    private var wattsDescription = "Potencia TX manual; introduce un valor conocido o un supuesto explícito."
+    var wattsSource: String {
+        get {
+            if let wattsReference, number(watts) != wattsReference { return "Potencia TX modificada manualmente; ya no coincide con el supuesto HFCC elegido." }
+            return wattsDescription
+        }
+        set { wattsDescription = newValue }
+    }
     var bandwidth = "2400"
     var requiredSNR = "10"
     var txGain = "0"
@@ -32,6 +46,7 @@ import RadioCore
     var frequencyMHz = "7.1"
     var r12 = ""
     private var r12Reference: Double?
+    private var r12Month: String?
     private var r12Description = "Introduce R12 o usa la circular mensual de ITU."
     var r12Source: String {
         if let value = number(r12), value != r12Reference { return "R12 introducido manualmente; comprueba su mes y procedencia." }
@@ -48,10 +63,10 @@ import RadioCore
         didSet { UserDefaults.standard.set(terrainOriginLongitude, forKey: "terrainOriginLongitude"); invalidateTerrainLocation() }
     }
     var terrainTargetLatitude = UserDefaults.standard.string(forKey: "terrainTargetLatitude") ?? "" {
-        didSet { UserDefaults.standard.set(terrainTargetLatitude, forKey: "terrainTargetLatitude"); invalidateTerrainLocation() }
+        didSet { UserDefaults.standard.set(terrainTargetLatitude, forKey: "terrainTargetLatitude"); invalidateTerrainDestination() }
     }
     var terrainTargetLongitude = UserDefaults.standard.string(forKey: "terrainTargetLongitude") ?? "" {
-        didSet { UserDefaults.standard.set(terrainTargetLongitude, forKey: "terrainTargetLongitude"); invalidateTerrainLocation() }
+        didSet { UserDefaults.standard.set(terrainTargetLongitude, forKey: "terrainTargetLongitude"); invalidateTerrainDestination() }
     }
     var txHeight = UserDefaults.standard.string(forKey: "terrainTxHeight") ?? "10" {
         didSet { UserDefaults.standard.set(txHeight, forKey: "terrainTxHeight"); invalidateTerrainResult() }
@@ -77,9 +92,7 @@ import RadioCore
     var terrainCoverageMaximumKm = UserDefaults.standard.string(forKey: "terrainCoverageMaximumKm") ?? "100" {
         didSet {
             UserDefaults.standard.set(terrainCoverageMaximumKm, forKey: "terrainCoverageMaximumKm")
-            terrainCoverageBoundary = []; terrainCoverageReachByBearing = []
-            terrainCoverageOriginElevationMeters = nil
-            terrainCoverageStatus = "El alcance de cobertura se calcula solo al pulsar Calcular zona."
+            invalidateTerrainCoverage()
         }
     }
     var terrainMapSelection = "destination"
@@ -94,12 +107,17 @@ import RadioCore
     var terrainResult: TerrainITMResult?
     var terrainBusy = false
     var terrainStatus = "El perfil se consulta solo al pulsar Calcular con terreno."
-    var terrainCoverageBoundary: [RadioLocation] = []
-    var terrainCoverageReachByBearing: [Double] = []
+    var terrainCoverageReport: TerrainCoverageReport?
     var terrainCoverageOriginElevationMeters: Double?
     var terrainCoverageBusy = false
-    var terrainCoverageCompletedBearings = 0
-    var terrainCoverageStatus = "El alcance de cobertura se calcula solo al pulsar Calcular zona."
+    var terrainCoverageProgress = 0.0
+    var terrainCoverageStatus = "Calcula una malla de recepción con el relieve de cada trayecto."
+    var terrainCoverageQuality: TerrainCoverageQuality = .detailed {
+        didSet { invalidateTerrainCoverage() }
+    }
+    var terrainCoverageShowShadows = false
+    var terrainMapShowingHorizon = false
+    var terrainProfileSource = "Mapzen Terrain Tiles · DEM"
     var terrainOrigin: RadioLocation? { RadioLocation(latitude: terrainOriginLatitude, longitude: terrainOriginLongitude) }
     var terrainTarget: RadioLocation? { RadioLocation(latitude: terrainTargetLatitude, longitude: terrainTargetLongitude) }
     private let service = SpaceWeatherService()
@@ -107,8 +125,11 @@ import RadioCore
     private let noaaForecastService = NoaaThreeDayForecastService()
     private let pskReporterService = PSKReporterService()
     private let engine = HFPropagationEngine()
-    private let terrainService = TerrainElevationService()
     private let terrainEngine = TerrainITMEngine()
+    private let terrainDEMService = TerrainDEMService()
+    private var terrainCoverageTask: Task<TerrainCoverageReport, Error>?
+    private var terrainCoverageGeneration = UUID()
+    private var terrainLinkGeneration = UUID()
     private var activated = false
     private var lastAttempt: Date?
     private var calculationTask: Task<Void, Never>?
@@ -141,13 +162,27 @@ import RadioCore
         terrainProfile = nil
         invalidateTerrainResult()
     }
+    private func invalidateTerrainDestination() {
+        terrainLinkGeneration = UUID()
+        terrainProfile = nil; terrainResult = nil
+        terrainStatus = "Cambió el destino; vuelve a calcular el enlace. La malla del origen se conserva."
+    }
+    private func invalidateTerrainCoverage() {
+        terrainCoverageGeneration = UUID()
+        terrainCoverageTask?.cancel(); terrainCoverageTask = nil
+        terrainCoverageBusy = false; terrainCoverageReport = nil
+        terrainCoverageOriginElevationMeters = nil; terrainCoverageProgress = 0
+        terrainCoverageStatus = "Cambió un parámetro; vuelve a calcular la malla."
+    }
     private func invalidateTerrainResult() {
-        let hadResult = terrainResult != nil || !terrainCoverageBoundary.isEmpty
+        terrainLinkGeneration = UUID()
         terrainResult = nil
-        terrainCoverageBoundary = []; terrainCoverageReachByBearing = []
-        terrainCoverageOriginElevationMeters = nil
-        terrainCoverageStatus = "Cambió un parámetro; vuelve a calcular la zona de cobertura."
-        if hadResult { terrainStatus = "Cambió un parámetro desde el último cálculo; vuelve a calcular el enlace." }
+        invalidateTerrainCoverage()
+        terrainStatus = "Cambió un parámetro; vuelve a calcular el enlace."
+    }
+    func cancelTerrainCoverage() {
+        invalidateTerrainCoverage()
+        terrainCoverageStatus = "Cálculo cancelado; no se muestra una malla incompleta."
     }
 
     func runAutoRefresh() async {
@@ -199,7 +234,18 @@ import RadioCore
         }
         r12 = String(index.r12)
         r12Reference = index.r12
+        r12Month = index.id
         r12Description = "ITU · \(index.id) · \(index.predicted ? "pronosticado" : "observado suavizado") · consulta \(weather.indicesFetchedAt?.formatted(date: .abbreviated, time: .shortened) ?? "sin fecha")"
+    }
+    func useManualR12() {
+        r12Reference = nil; r12Month = nil
+        r12Description = "R12 manual elegido como supuesto; documenta su mes y procedencia."
+    }
+    func r12MonthMismatch(at date: Date) -> Bool {
+        guard let reference = r12Reference, number(r12) == reference, let month = r12Month else { return false }
+        let calendar = BroadcastCalendar.utc
+        let selected = String(format: "%04d-%02d", calendar.component(.year, from: date), calendar.component(.month, from: date))
+        return month != selected
     }
     func setPSKGridSharing(_ enabled: Bool) {
         shareGridWithPSKReporter = enabled
@@ -228,40 +274,82 @@ import RadioCore
             pskStatus = "PSK Reporter no disponible: \(error.localizedDescription). Se mantiene la condición modelada por separado."
         }
     }
-    func useSelectedStation(_ guide: BroadcastStore) {
-        guard let id = guide.selectedID, let snapshot = guide.snapshot,
-              let entry = snapshot.entries.first(where: { $0.id == id }), let site = snapshot.reference.site(for: entry) else {
-            calculationError = "Selecciona una emisora con coordenadas resueltas en la Guía de radios."; return
+    func planningTime(at now: Date) -> Date { usesCurrentPlanningTime ? now : planningDate }
+    @discardableResult func useSelectedStation(_ guide: BroadcastStore) -> Bool {
+        guard let entry = guide.selectedEntry else {
+            stationTransferNotice = "Elige una fila en la Guía de radios o pulsa Enviar al Planificador HF en su detalle."
+            calculationError = stationTransferNotice; return false
         }
-        targetLatitude = String(site.latitude); targetLongitude = String(site.longitude)
-        targetName = "\(entry.station) · \(site.name)"
+        useStation(entry, guide: guide); return true
+    }
+    func useStation(_ entry: BroadcastEntry, guide: BroadcastStore) {
+        cancelCalculation(); report = nil
+        guide.selectedID = entry.id
+        targetLatitude = ""; targetLongitude = ""; targetCountry = ""
+        targetName = "\(entry.station) · \(entry.frequencyKHz) kHz · \(entry.time) UTC"
         frequencyMHz = String(entry.frequencyKHz / 1000)
-        if let transmission = guide.hfccMatch(for: entry), let scheduledWatts = transmission.scheduledPowerWatts {
-            watts = String(Int(scheduledWatts))
-            wattsSource = "\(transmission.powerKW ?? 0) kW declarados en HFCC para esta frecuencia y horario; no es potencia medida ni ERP."
-            switch transmission.modulationCode.uppercased() {
-            case "D": bandwidth = "9000"
-            case "T": bandwidth = "2700"
-            case "N": bandwidth = "10000"
-            default: break
-            }
-        } else {
-            watts = ""
-            wattsSource = "HFCC no aporta una potencia inequívoca para esta emisora. Introduce un valor si lo conoces; no se asumirá 100 W."
+        stationSites = guide.snapshot?.reference.siteCandidates(for: entry) ?? []
+        selectedStationSite = nil
+        if let site = guide.snapshot?.reference.site(for: entry) {
+            targetLatitude = Self.coordinateText(site.latitude); targetLongitude = Self.coordinateText(site.longitude)
+            selectedStationSite = stationSites.firstIndex(of: site)
         }
+        stationPowerCandidate = guide.hfccMatch(for: entry)
+        watts = ""; wattsReference = nil
+        wattsSource = "Falta potencia TX: introduce un dato conocido o un supuesto. Una coincidencia de frecuencia y horario HFCC no demuestra por sí sola el mismo transmisor."
+        txGain = "0"
+        if entry.modulation.hasPrefix("AM") { bandwidth = "9000" }
+        else if entry.modulation == "USB" || entry.modulation == "LSB" { bandwidth = "2700" }
+        else if entry.modulation.hasPrefix("CW") { bandwidth = "500" }
+        else if entry.modulation.hasPrefix("DRM") { bandwidth = "10000" }
         listening = true
+        stationTransferNotice = "Copiados nombre, frecuencia y modo de escucha. " + (targetLatitude.isEmpty ? "El sitio EiBi no es único o no tiene coordenadas: elige un sitio o completa el emisor remoto. " : "Coordenadas del transmisor tomadas de EiBi. ") + "Potencia pendiente; TX 0 dBi es un supuesto. El ancho RX es inicial, ajustable al receptor."
         calculationError = nil
     }
+    func useChosenStationSite() {
+        guard let index = selectedStationSite, stationSites.indices.contains(index) else { return }
+        cancelCalculation(); report = nil
+        let site = stationSites[index]
+        targetLatitude = Self.coordinateText(site.latitude); targetLongitude = Self.coordinateText(site.longitude)
+        stationTransferNotice = "Sitio elegido: \(site.name). Revisa la potencia, el ancho de ruido RX y el R12 antes de calcular."
+    }
+    func useCandidatePowerAsAssumption() {
+        guard let tx = stationPowerCandidate, let value = tx.scheduledPowerWatts else { return }
+        watts = String(Int(value))
+        wattsReference = value
+        wattsSource = "Supuesto elegido: \(tx.powerKW ?? 0) kW declarados por HFCC, sitio \(tx.siteCode), \(tx.startUTC)–\(tx.stopUTC) UTC. Verifica que sea el transmisor correcto; no es potencia medida ni ERP."
+    }
+    func hfPlanningDataText(origin: RadioLocation?, date: Date) -> String {
+        let local = origin.map { "\($0.latitude), \($0.longitude)" } ?? "pendiente"
+        let remote = "\(targetLatitude), \(targetLongitude)"
+        let frequency = RadioNumericText.frequencyMHz(frequencyMHz).map { String($0) } ?? frequencyMHz
+        return "\(listening ? "Escucha" : "Emisión") · \(targetName)\nTX: \(listening ? remote : local)\nRX: \(listening ? local : remote)\nFecha UTC: \(ISO8601DateFormatter().string(from: date))\nFrecuencia: \(frequency) MHz\nPotencia TX: \(watts.isEmpty ? "pendiente" : watts) W\nAncho de ruido RX: \(bandwidth) Hz · SNR requerido: \(requiredSNR) dB\nGanancias TX/RX: \(txGain)/\(rxGain) dBi · R12: \(r12)\n\(r12Source)\n\(wattsSource)\nP.533: estimación mensual por hora UTC, antenas de ganancia constante."
+    }
+    func inputProblems(origin: RadioLocation?, date: Date) -> [String] {
+        var problems: [String] = []
+        if r12MonthMismatch(at: date) { problems.append("R12 ITU pertenece a \(r12Month ?? "otro mes"); usa el índice del mes UTC elegido o conviértelo explícitamente en un supuesto manual.") }
+        if origin == nil { problems.append("Tu ubicación: latitud y longitud válidas.") }
+        let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude)
+        if target == nil { problems.append("\(listening ? "Emisor remoto" : "Destino"): completa coordenadas válidas.") }
+        if let origin, let target, origin.distance(to: target) < 10 { problems.append("El trayecto debe medir al menos 10 km.") }
+        if RadioNumericText.frequencyMHz(frequencyMHz).map({ !(1.6...30).contains($0) }) ?? true { problems.append("Frecuencia HF: 1,6–30 MHz; puedes pegar un valor con kHz o MHz.") }
+        for (label, value, range) in [("Potencia TX", watts, 1.0...1_000_000), ("Ancho de ruido RX (Hz)", bandwidth, 1.0...100_000), ("SNR requerido (dB)", requiredSNR, -30.0...100), ("R12 mensual", r12, 0.0...311), ("Ganancia TX (dBi)", txGain, -40.0...40), ("Ganancia RX (dBi)", rxGain, -40.0...40)] {
+            if number(value).map({ !range.contains($0) }) ?? true { problems.append("\(label): introduce un valor entre \(range.lowerBound) y \(range.upperBound).") }
+        }
+        if !(1900...2100).contains(BroadcastCalendar.utc.component(.year, from: date)) { problems.append("La fecha debe estar entre 1900 y 2100.") }
+        return problems
+    }
     func input(origin: RadioLocation?, date: Date) -> HFPropagationInput? {
-        guard let origin, let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude),
+        guard !r12MonthMismatch(at: date), let origin, let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude),
               let r = number(r12), let p = number(watts), let bw = number(bandwidth), let snr = number(requiredSNR),
-              let tx = number(txGain), let rx = number(rxGain), let f = number(frequencyMHz) else { return nil }
+              let tx = number(txGain), let rx = number(rxGain), let f = RadioNumericText.frequencyMHz(frequencyMHz) else { return nil }
         let input = HFPropagationInput(origin: listening ? target : origin, target: listening ? origin : target, date: date, r12: r, watts: p, bandwidth: bw, requiredSNR: snr, txGain: tx, rxGain: rx, noise: noise, frequencyMHz: f)
         return input.isValid ? input : nil
     }
     func calculate(origin: RadioLocation?, date: Date) {
-        guard let input = input(origin: origin, date: date) else {
-            calculationError = "Completa ubicación y destino separados al menos 10 km, 1–1.000.000 W, 1,6–30 MHz, R12 1–311, ancho 1–100.000 Hz y SNR −30 a 100 dB. Ganancias: −40 a 40 dBi."; return
+        let problems = inputProblems(origin: origin, date: date)
+        guard problems.isEmpty, let input = input(origin: origin, date: date) else {
+            calculationError = problems.joined(separator: "\n"); return
         }
         cancelCalculation(); calculationBusy = true; calculationError = nil
         let token = generation
@@ -291,103 +379,101 @@ import RadioCore
             terrainStatus = "Completa coordenadas válidas, alturas sobre el terreno, frecuencia 20 MHz–20 GHz, potencia, ganancias y umbral RX."
             return
         }
+        let token = terrainLinkGeneration
         terrainBusy = true
         terrainResult = nil
-        terrainStatus = "Descargando perfil de terreno Copernicus GLO-90 en lotes de hasta 100 puntos…"
+        terrainStatus = "Cargando relieve DEM de todo el trayecto desde teselas y caché…"
         defer { terrainBusy = false }
         do {
-            let profile = try await terrainService.download(from: origin, to: target)
-            terrainProfile = profile
-            terrainStatus = "Perfil recibido: \(profile.points.count) puntos · relieve \(Int(profile.terrainReliefMeters ?? 0)) m · Open-Meteo/Copernicus GLO-90. Ejecutando NTIA ITM…"
+            let profile: TerrainProfile
+            let source: String
+            if let coverage = terrainCoverageReport, coverage.layout.origin == origin,
+               let cached = try? coverage.mosaic.profile(from: origin, to: target) {
+                profile = cached; source = "Mapzen Terrain Tiles · DEM de la malla"
+            } else {
+                profile = try await terrainDEMService.profile(from: origin, to: target)
+                source = "Mapzen Terrain Tiles · DEM del trayecto"
+            }
+            guard token == terrainLinkGeneration else { return }
+            terrainProfile = profile; terrainProfileSource = source
+            terrainStatus = "Perfil: \(profile.points.count) puntos · paso \(Int(profile.resolutionMeters)) m · \(source). Ejecutando NTIA ITM…"
             let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: txHeight, rxHeightMeters: rxHeight,
                                         climate: terrainClimate, verticalPolarization: terrainVerticalPolarization,
                                         transmitWatts: watts, txGainDBi: txGain, rxGainDBi: rxGain)
             let result = try await terrainEngine.predict(input: input, profile: profile)
+            guard token == terrainLinkGeneration else { return }
             terrainResult = result
             let margin = result.receivedPowerDBm - sensitivity
-            terrainStatus = "NTIA ITM · \(result.distanceKm.formatted(.number.precision(.fractionLength(1)))) km · margen estimado \(margin >= 0 ? "+" : "")\(margin.formatted(.number.precision(.fractionLength(1)))) dB frente al umbral RX · perfil actualizado \(profile.fetchedAt.formatted(date: .abbreviated, time: .shortened))."
+            terrainStatus = "NTIA ITM · \(result.distanceKm.formatted(.number.precision(.fractionLength(1)))) km · margen estimado \(margin >= 0 ? "+" : "")\(margin.formatted(.number.precision(.fractionLength(1)))) dB frente al umbral RX · DEM consultado \(profile.fetchedAt.formatted(date: .abbreviated, time: .shortened))."
         } catch {
-            terrainStatus = "No se pudo calcular con terreno: \(error.localizedDescription)"
+            if token == terrainLinkGeneration { terrainStatus = "No se pudo calcular con terreno: \(error.localizedDescription)" }
         }
     }
     func calculateTerrainCoverage() async {
         guard !terrainBusy, !terrainCoverageBusy else { return }
-        guard let origin = terrainOrigin,
-              let txHeight = number(txHeight), let rxHeight = number(rxHeight),
+        guard let origin = terrainOrigin, let tx = number(txHeight), let rx = number(rxHeight),
               let frequency = number(terrainFrequencyMHz), let watts = number(terrainWatts),
               let txGain = number(terrainTxGain), let rxGain = number(terrainRxGain),
-              let sensitivity = number(terrainSensitivityDBm), let maximumKm = number(terrainCoverageMaximumKm),
-              (0.5...3_000).contains(txHeight), (0.5...3_000).contains(rxHeight),
-              (20...20_000).contains(frequency), (0.001...1_000_000).contains(watts),
-              (-40...60).contains(txGain), (-40...60).contains(rxGain), (-200...0).contains(sensitivity),
-              (20...200).contains(maximumKm) else {
-            terrainCoverageStatus = "Completa origen, alturas, potencia, ganancias, umbral y un radio de 20–200 km."
+              let sensitivity = number(terrainSensitivityDBm), (-200...0).contains(sensitivity),
+              let maximumKm = number(terrainCoverageMaximumKm),
+              let layout = try? TerrainCoverageLayout(origin: origin, radiusKm: maximumKm, side: terrainCoverageQuality.side) else {
+            terrainCoverageStatus = "Completa origen, alturas, frecuencia, potencia, ganancias y área de 5–200 km (latitudes ±80°)."
             return
         }
-        terrainCoverageBusy = true
-        terrainCoverageBoundary = []; terrainCoverageReachByBearing = []; terrainCoverageCompletedBearings = 0
+        let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: tx, rxHeightMeters: rx,
+            climate: terrainClimate, verticalPolarization: terrainVerticalPolarization, transmitWatts: watts,
+            txGainDBi: txGain, rxGainDBi: rxGain)
+        guard input.isValid else { terrainCoverageStatus = TerrainITMError.invalidInput.localizedDescription; return }
+        let token = UUID(); terrainCoverageGeneration = token
+        terrainCoverageBusy = true; terrainCoverageProgress = 0; terrainCoverageReport = nil
         terrainCoverageOriginElevationMeters = nil
-        terrainCoverageStatus = "Consultando perfiles de relieve y modelando 32 rumbos con pasos de hasta 5 km…"
-        defer { terrainCoverageBusy = false }
-
-        let input = TerrainITMInput(frequencyMHz: frequency, txHeightMeters: txHeight, rxHeightMeters: rxHeight,
-                                    climate: terrainClimate, verticalPolarization: terrainVerticalPolarization,
-                                    transmitWatts: watts, txGainDBi: txGain, rxGainDBi: rxGain)
-        let stepCount = max(2, Int(ceil(maximumKm / 5)))
-        var reaches = Array(repeating: 0.0, count: TerrainCoverageGeometry.bearingCount)
-        var failedBearings = 0
-        for bearingIndex in 0..<TerrainCoverageGeometry.bearingCount {
-            guard let endpoint = origin.destination(km: maximumKm, bearing: Double(bearingIndex) * 360 / Double(TerrainCoverageGeometry.bearingCount)) else {
-                failedBearings += 1; terrainCoverageCompletedBearings += 1; continue
-            }
-            do {
-                let fullProfile = try await terrainService.download(from: origin, to: endpoint)
-                if terrainCoverageOriginElevationMeters == nil {
-                    terrainCoverageOriginElevationMeters = fullProfile.points.first?.elevationMeters
+        terrainCoverageStatus = "Cargando teselas DEM para cada trayecto de la malla…"
+        let service = terrainDEMService
+        let job = Task { [weak self] in
+            let mosaic = try await service.load(keys: layout.suitableTileKeys) { [weak self] completed, total in
+                await MainActor.run {
+                    guard let self, self.terrainCoverageGeneration == token else { return }
+                    self.terrainCoverageProgress = 0.25 * Double(completed) / Double(total)
+                    self.terrainCoverageStatus = "Relieve DEM · \(completed)/\(total) teselas · caché local y descarga bajo demanda"
                 }
-                for step in 1...stepCount {
-                    let testDistance = maximumKm * Double(step) / Double(stepCount)
-                    let pathPoints = fullProfile.points.prefix {
-                        origin.distance(to: $0.location) <= testDistance + fullProfile.resolutionMeters / 2_000
+            }
+            let native = try TerrainITMNative()
+            return try await TerrainCoverageCalculator.calculate(layout: layout, input: input, thresholdDBm: sensitivity,
+                mosaic: mosaic, native: native) { [weak self] completed, total in
+                    await MainActor.run {
+                        guard let self, self.terrainCoverageGeneration == token else { return }
+                        self.terrainCoverageProgress = 0.25 + 0.75 * Double(completed) / Double(total)
+                        self.terrainCoverageStatus = "ITM por celda · fila \(completed)/\(total) · paso de malla \(Int(layout.spacingMeters)) m"
                     }
-                    guard pathPoints.count >= 3, let end = pathPoints.last?.location else { continue }
-                    let candidate = TerrainProfile(origin: origin, target: end, points: Array(pathPoints),
-                                                   fetchedAt: fullProfile.fetchedAt, resolutionMeters: fullProfile.resolutionMeters)
-                    let result = try await terrainEngine.predict(input: input, profile: candidate)
-                    if result.receivedPowerDBm >= sensitivity { reaches[bearingIndex] = candidate.distanceKm }
                 }
-            } catch {
-                failedBearings += 1
-            }
-            terrainCoverageCompletedBearings = bearingIndex + 1
-            terrainCoverageStatus = "Zona ITM · rumbo \(bearingIndex + 1) de \(TerrainCoverageGeometry.bearingCount) · paso radial ≤ 5 km · \(Int(maximumKm)) km máx."
         }
-        terrainCoverageReachByBearing = reaches
-        terrainCoverageBoundary = TerrainCoverageGeometry.boundary(from: origin, reachByBearingKm: reaches)
-        let modeled = TerrainCoverageGeometry.bearingCount - failedBearings
-        let reaching = reaches.filter { $0 > 0 }.count
-        if modeled == 0 {
-            terrainCoverageStatus = "No se pudo modelar la zona: fallaron los 32 perfiles radiales. Revisa la conexión e inténtalo de nuevo."
-        } else if reaching == 0 {
-            terrainCoverageStatus = "Ninguno de los \(modeled) rumbos modelados superó el umbral RX de \(sensitivity.formatted(.number.precision(.fractionLength(0)))) dBm hasta \(Int(maximumKm)) km.\(failedBearings > 0 ? " Fallaron \(failedBearings) consultas." : "")"
-        } else {
-            let farthest = reaches.max() ?? 0
-            terrainCoverageStatus = "Envolvente ITM orientativa · \(reaching)/\(modeled) rumbos superan el umbral RX · alcance máximo estimado \(farthest.formatted(.number.precision(.fractionLength(0)))) km.\(failedBearings > 0 ? " \(failedBearings) rumbos no respondieron." : "")"
+        terrainCoverageTask = job
+        defer { if terrainCoverageGeneration == token { terrainCoverageBusy = false; terrainCoverageTask = nil } }
+        do {
+            let result = try await job.value
+            guard terrainCoverageGeneration == token else { return }
+            terrainCoverageReport = result; terrainCoverageProgress = 1
+            terrainCoverageOriginElevationMeters = result.mosaic.elevation(at: origin).map { max(0, $0) }
+            terrainCoverageStatus = "Malla ITM: \(result.coveredCount)/\(result.modeledCount) celdas sobre umbral · \(Int(layout.spacingMeters.rounded())) m/celda · DEM ≈\(Int(result.mosaic.resolutionMeters(at: origin).rounded())) m/píxel · \(result.warnedCount) con avisos."
+            if result.missingTerrainCells + result.modelErrorCells > 0 {
+                terrainCoverageStatus += " \(result.missingTerrainCells) sin DEM, \(result.modelErrorCells) sin resultado; quedan transparentes."
+            }
+            if result.edgeCoveredCount > 0 {
+                terrainCoverageStatus += " Hay señal estimada en el borde: el área limita el análisis, no define el alcance máximo."
+            }
+        } catch is CancellationError {
+            if terrainCoverageGeneration == token { terrainCoverageStatus = "Cálculo cancelado." }
+        } catch {
+            if terrainCoverageGeneration == token { terrainCoverageStatus = "No se pudo modelar el terreno: \(error.localizedDescription)" }
         }
     }
     func number(_ value: String) -> Double? {
-        guard let n = Double(value.replacingOccurrences(of: ",", with: ".")), n.isFinite else { return nil }
-        return n
+        RadioNumericText.number(value)
     }
     var horizon: Double? {
         guard let tx = number(txHeight), let rx = number(rxHeight), tx <= 10_000, rx <= 10_000 else { return nil }
         return RadioLinkBudget.horizonKm(txHeight: tx, rxHeight: rx)
     }
-    var terrainHorizon: Double? {
-        guard let tx = number(txHeight), let rx = number(rxHeight), tx <= 10_000, rx <= 10_000 else { return nil }
-        let txGround = terrainProfile.flatMap { $0.origin == terrainOrigin ? $0.points.first?.elevationMeters : nil }
-            ?? terrainCoverageOriginElevationMeters ?? 0
-        let rxGround = terrainProfile.flatMap { $0.target == terrainTarget ? $0.points.last?.elevationMeters : nil } ?? 0
-        return RadioLinkBudget.horizonKm(txHeight: max(0, txGround + tx), rxHeight: max(0, rxGround + rx))
-    }
+    /// Flat-ground comparison uses structural AGL heights, not absolute altitude above sea level.
+    var terrainHorizon: Double? { horizon }
 }

@@ -1,0 +1,15 @@
+{
+  "version": "0.8.10",
+  "configuration": "release",
+  "platform": "arm64 macOS",
+  "registeredFunctions": 128,
+  "executedFunctionsPassed": 126,
+  "optionalFunctionsSkipped": [
+    "terrainRealSantiagoBenchmark",
+    "satelliteLiveDownloadFromOfficialProviders"
+  ],
+  "testDurationSeconds": 5.502,
+  "separateLiveSatelliteTest": "satellites-live-0.8.10.json",
+  "newModeFixtures": 19,
+  "newModesRFOrCableTested": false
+}

@@ -492,7 +492,7 @@ void FindfoE(struct ControlPt *here, int month, int hour, int SSN) {
 		// night. This program works on median months, so polar night will be defined as ...
 		if(((here->L.lat > 72.5622*D2R) && ((month == NOV) || (month == DEC) || (month == JAN))) 
 										||
-		   ((here->L.lat < 72.5622*D2R) && ((month == MAY) || (month == JUN) || (month == JUL)))) {
+		   ((here->L.lat < -72.5622*D2R) && ((month == MAY) || (month == JUN) || (month == JUL)))) {
 			// Northern hemisphere polar winter || Southern hemisphere polar winter
 			D = pow(0.072,p)*exp(25.2 - 0.28*here->Sun.sza*R2D);
 		}

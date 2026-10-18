@@ -1,0 +1,25 @@
+{
+  "tool": "rea-agents 6.4.0",
+  "target": "MultiMode Cocoa.app",
+  "originalBinarySHA256": "3464d5add25fa01096c2eabca8ff490e49b3fbae5dd3011a536c495dcce6338f",
+  "version": "6.9.1b1",
+  "bundleIdentifier": "com.blackcatsystems.multimode",
+  "minimumSystemVersion": "10.6.6",
+  "architectures": [
+    "x86_64"
+  ],
+  "initialBundleInspection": {
+    "code": "target_unavailable",
+    "message": "Cannot open artifact: FAT binary has no host-compatible arm64 architecture. Check that the path exists, is readable, and points to a supported file.",
+    "retryable": false
+  },
+  "recovery": "Extracted sole x86_64 slice with Apple lipo; original unchanged. Inspected derived Mach-O offline.",
+  "derivedSliceSHA256": "0a3a2ec46aecf8c397ef6b66c6c2011331e9422236bedb2280f097c3b527e4bf",
+  "evidenceID": "ev_e16b9529b30651f953f164daa5ed34d42f4ef5915b38b872bd5323b0a53b589f",
+  "provider": {
+    "id": "rea-artifact-graph",
+    "name": "REA safe artifact graph provider",
+    "version": "1"
+  },
+  "coverage": "Static artifact inventory only; no pseudocode, target execution, DSP behavior or license activation tested. See REVISION-MULTIMODE.md for separately labeled historical shell/plist/manual observations."
+}

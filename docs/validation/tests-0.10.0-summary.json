@@ -1,0 +1,20 @@
+{
+  "version": "0.10.0",
+  "build": 25,
+  "configuration": "Release",
+  "registeredTestFunctions": 159,
+  "passedTestFunctions": 155,
+  "skippedTestFunctions": 4,
+  "failedTestFunctions": 0,
+  "executionSeconds": 7.618,
+  "skipped": [
+    "satelliteLiveDownloadFromOfficialProviders()",
+    "integratedDSDVoiceProducesPlayableWAV()",
+    "integratedDSDReceivesM17PacketThroughPCMAndRejectsSilence()",
+    "terrainRealSantiagoBenchmark()"
+  ],
+  "physicalAudioTest": false,
+  "fullOutput": "release-0.10.0-tests.txt",
+  "MT63NativeValidation": "Vendor/MT63/validation-summary.json",
+  "ALENativeValidation": "docs/validation/ale2g-0.10.json"
+}

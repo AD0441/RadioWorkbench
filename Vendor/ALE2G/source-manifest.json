@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/jks-prv/Beagle_SDR_GPS",
+  "revision": "efb38e2b25137029cb37a96a94e03366f8d2871e",
+  "directory": "extensions/ALE_2G",
+  "license": "GPL-3.0-or-later; original author notices retained",
+  "files": {
+    "COPYING": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "LOCAL-CHANGES.md": "9a31dfe8fff9343aca3b1c4acae84c401d8a7e18358bede5bd9f56637566219a",
+    "decode_ff.h": "0d30479f08781546b84424c264ab86711a434cbcd9e5dadc5de6b92d99792439",
+    "decode_ff_impl.cpp": "7b88211dd3aaf0b66483352508b67dfceaa375f621fb786fb3e74bddd46d83c6",
+    "decode_ff_impl.h": "d37456dacbf59a29835510b35f427ddb90a313f3a6df489670711153bff7782d",
+    "radio_compat.h": "43bc36626fd9813f22579352fbed26491dfbff21fc838c27bc3c68b8b3a5fddc"
+  },
+  "upstreamFiles": {
+    "decode_ff.h": "0d30479f08781546b84424c264ab86711a434cbcd9e5dadc5de6b92d99792439",
+    "decode_ff_impl.h": "1af15071209c34c66be642ad98221dea49d6cb44049e5736f121abc100760886",
+    "decode_ff_impl.cpp": "2428e89d281fee176ae76f9f80c845cd325040a3b5434075679af33902af9c90"
+  },
+  "adapterFiles": {
+    "script/ale-helper.cpp": "f35ca2fde4285ecfc704538204d30e1b43e8c84a4f3e91bdfba4ceb69212e575",
+    "script/build_ale.sh": "fb64767419f82398054dd1a0b34335ac714987c2119c4f02a839b319674543e6",
+    "script/generate_ale_fixtures.py": "d747a69fe3bb5d89dff8fa85f820adb61291bd5e613dff97a0499d55038c3207"
+  }
+}

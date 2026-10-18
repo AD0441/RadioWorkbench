@@ -20,6 +20,20 @@ public struct BroadcastReference: Codable, Sendable {
     public var targets: [String: String] = [:]
     public var sites: [String: BroadcastSite] = [:]
     public init() {}
+    public func siteCandidates(for entry: BroadcastEntry) -> [BroadcastSite] {
+        let tokens = entry.site.split(whereSeparator: { $0 == "," || $0.isWhitespace }).map(String.init)
+        var result: [BroadcastSite] = []
+        for token in tokens.isEmpty ? [""] : tokens {
+            let key: String
+            if token.hasPrefix("/") {
+                let parts = token.dropFirst().split(separator: "-", maxSplits: 1)
+                guard let country = parts.first else { continue }
+                key = "\(country)|\(parts.count == 2 ? String(parts[1]) : "")"
+            } else { key = "\(entry.country)|\(token)" }
+            if let site = sites[key], !result.contains(site) { result.append(site) }
+        }
+        return result
+    }
     public func targetName(_ code: String) -> String {
         if let name = targets[code] ?? countries[code] { return name }
         let prefixes = ["N":"North", "S":"South", "E":"East", "W":"West", "C":"Central"]

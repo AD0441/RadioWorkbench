@@ -20,7 +20,7 @@ private final class ACARSCollector: @unchecked Sendable {
     func ingest(_ data: Data) {
         lock.lock(); defer { lock.unlock() }
         pending.append(data)
-        if pending.count > 65536 { pending.removeAll(keepingCapacity: true); invalid += 1; return }
+        if pending.count > 262144 { pending.removeAll(keepingCapacity: true); invalid += 1; return }
         while let newline = pending.firstIndex(of: 10) {
             let line = pending.prefix(upTo: newline)
             if !line.isEmpty {
@@ -63,11 +63,13 @@ public final class ACARSProcess: @unchecked Sendable {
         let finished = terminated, collector = collector
         process.terminationHandler = { _ in finished.signal() }
         output.fileHandleForReading.readabilityHandler = { handle in
-            if let data = try? handle.read(upToCount: 8192), !data.isEmpty { collector.ingest(data) }
+            let data = handle.availableData
+            if !data.isEmpty { collector.ingest(data) }
             else { handle.readabilityHandler = nil; collector.eof.signal() }
         }
         errors.fileHandleForReading.readabilityHandler = { handle in
-            if let data = try? handle.read(upToCount: 4096), !data.isEmpty { collector.log(data) }
+            let data = handle.availableData
+            if !data.isEmpty { collector.log(data) }
             else { handle.readabilityHandler = nil }
         }
         do { try process.run() }

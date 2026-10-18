@@ -1,0 +1,720 @@
+Building for production...
+[0/2] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'cw-helper' complete! (0.24s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+{"checks":21,"failures":0,"equatorialBCR":16.00535375,"polarBCR":21.26398679,"santiagoJuneFoEMHz":1.75548953}
+Building for production...
+[0/5] Write sources
+[2/5] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[4/8] Write Objects.LinkFileList
+[5/8] Linking RadioWorkbench
+[7/9] Compiling RadioCoreTests ACARSTests.swift
+[7/9] Write Objects.LinkFileList
+[8/9] Linking RadioWorkbenchPackageTests
+Build complete! (47.17s)
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test liveAudioMonoAndOverflow() started.
+◇ Test tcpAudioInputBoundsRingAndRejectsRemoteHost() started.
+◇ Test receptionLibraryRejectsSymlinkedOwnedAudio() started.
+◇ Test mt63RFGuidePreservesShiftedAudioBand() started.
+◇ Test hfGuideHandoffUsesPhysicalTransmitterAndKeepsTXRXRoles() started.
+◇ Test selectiveToneReleaseAndChangeAreHysteretic() started.
+◇ Test hfccDaysUseSundayOneAndDoNotReuseEiBiMondayOne() started.
+◇ Test pagerAppWorkerResamplesWAVAndPublishesStructuredRecords() started.
+◇ Test independentAPT(_:) started.
+◇ Test selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test ale2GPublishesSoundingBeforeClosingLiveInput() started.
+◇ Test inputQualityDistinguishesSilenceClippingAndInvalidSamples() started.
+◇ Test terrainNativeITMPreservesWarningsAndMatchesTheCLI() started.
+◇ Test sstvImpulseReductionPreservesThinLinesAndColorEdges() started.
+◇ Test broadcastSourceHTTPFallbackWorks() started.
+◇ Test pendingModeWorkerDecodesWAVThroughPackagedTransport(_:) started.
+◇ Test bandInformationHourlyCadenceIncludesManualRefreshAndRestarts() started.
+◇ Test propagationOfflineKeepsObservationDateAndPartialSources() started.
+◇ Test integratedACARSApplicationsUseCompleteBlocksAndPreserveExport() started.
+◇ Test hfITUIndexParserKeepsSolarMinimumZero() started.
+➜ Test satelliteLiveDownloadFromOfficialProviders() skipped.
+◇ Test packetKnownCRCCheckValue() started.
+◇ Test integratedACARSOrphanFragmentDoesNotInventPosition() started.
+◇ Test reverseBeaconTelnetDecoderHandlesNegotiationAndSplitLines() started.
+◇ Test propagationPowerAndBandwidthHavePhysicalScaling() started.
+◇ Test packetIndependentHDLCBitVectors(_:) started.
+◇ Test receptionLibraryCaptureTimeIsExplicitAndTrashIsRecoverable() started.
+◇ Test packetNoiseAndMissingClosingFlagProduceNoMessage() started.
+◇ Test pocsagSilenceAloneIsEmptyAndRealCapcodeZeroRemainsValid() started.
+◇ Test propagationGeometryAndPowerBudget() started.
+◇ Test packetMonitorRetainsBoundedRecentFrames() started.
+◇ Test bandContactDistanceAndInternationalAreIndependent() started.
+◇ Test sstvFindsClockWithoutManualPPM(_:) started.
+◇ Test dscWorkerAcceptsOnlyCompleteECCFramesAndExportsSymbols(_:) started.
+◇ Test terrainNativeITMMatchesAllFivePublishedNTIAReferencePaths() started.
+◇ Test acarsPCMStreamContinuesAcrossMessages() started.
+◇ Test propagationRejectsMalformedAndFutureData() started.
+◇ Test pocsagToneOnlyNoticeArrivesBeforeEOFAndSurvivesCancel(_:) started.
+◇ Test propagationDrapUsesActualGridAndWrapsDateLine() started.
+◇ Test broadcastDownloadPersistsSourceAndOfflineCopy() started.
+◇ Test broadcastPartialSeasonAndInactive() started.
+◇ Test terrainITMInputValidatesVHFModelRangeAndRadioBudget() started.
+◇ Test invalidProfileSavePreservesPreviousFile() started.
+◇ Test broadcastFavoriteAlertFindsNextConfidentUTCStart() started.
+◇ Test receptionLibraryOwnsOriginalAudioAndRoundTripsAllSettings() started.
+◇ Test pendingModeWorkerResamples48kStereoSelectedInput(_:) started.
+◇ Test receptionLibraryPreservesMetadataWhenAudioIsMissing() started.
+◇ Test ale2GSilenceNoiseAndInvalidFloatsDoNotInventMessages() started.
+◇ Test broadcastSeasonBoundaries(test:) started.
+◇ Test tcpAudioInputReceivesFragmentedLocalPCMAndFinishesWithoutMicrophone() started.
+◇ Test mmsstvPublishedModes(_:) started.
+◇ Test hfccFixedWidthScheduleKeepsDeclaredPowerDirectionAndMode() started.
+◇ Test mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test satDumpOfflineCancellationTerminatesOnlyItsOwnJob() started.
+◇ Test acarsMissingMotorAndInvalidMessageAreExplicitErrors() started.
+◇ Test pocsagToneOnlyNoticeReachesLiveAndWAVMonitorsAt48kHz() started.
+◇ Test propagationMatchesPublishedITURReferenceNoise() started.
+◇ Test subtelCallsignParserKeepsLicenseFieldsAndExcludesNames() started.
+◇ Test acarsRepairsSingleParityErrorAndRejectsInvalidCRC() started.
+◇ Test pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test hfccMatchRejectsAmbiguousRowsAndUsesLanguageWhenUnique() started.
+◇ Test pagerMalformedOutputCannotInventIdentifiersOrRetainUnboundedText() started.
+◇ Test selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test ringOverflowAndWrapPreserveOrder() started.
+◇ Test satDumpRejectsAudioHeadersAndPreservesExplicitIQParameters() started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_16640_mono_24lines" to independentAPT(_:) started.
+◇ Test case passing 1 argument variant → "silence" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument name → "noaa_apt_2400am_48000_mono_24lines" to independentAPT(_:) started.
+◇ Test silenceAndSettings() started.
+◇ Test case passing 1 argument variant → "voice" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test receptionLibraryCleansUncommittedCopyIfIndexCannotBeWritten() started.
+◇ Test networkAudioEOFDrainsAndFinalizesNativeDecoder() started.
+◇ Test case passing 1 argument variant → "voice_model" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 2 arguments baud → 512, inverted → false to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test case passing 1 argument scenario → 0 to robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test case passing 1 argument variant → "noise" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+◇ Test case passing 1 argument scenario → 1 to robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test case passing 1 argument variant → "off_table" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 2 arguments baud → 512, inverted → true to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test case passing 1 argument variant → "alias" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument scenario → 2 to robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test receptionTracesSeparateSourcesGapsAndAntimeridian() started.
+◇ Test case passing 1 argument variant → "midpoint" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument scenario → 3 to robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test case passing 2 arguments baud → 1200, inverted → false to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test case passing 1 argument variant → "weak" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test multiChannelRingMixAndSingleChannel() started.
+◇ Test case passing 1 argument scenario → 4 to robot36CompatibilityIsExplicitAndScoped(_:) started.
+◇ Test case passing 2 arguments baud → 1200, inverted → true to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test case passing 1 argument variant → "brief" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test case passing 1 argument variant → "two_tones" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test terrainMapFresnelCorridorTracksPathAndFrequency() started.
+◇ Test pskReporterServiceHonorsFiveMinuteQueryCadence() started.
+◇ Test subtelRepeaterRowsTolerateSpanishHeadersAndNormalizeFrequency() started.
+◇ Test case passing 2 arguments baud → 2400, inverted → false to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument variant → "changing_pitch" to selectiveRejectsUnqualifiedAudio(_:) started.
+◇ Test imageAudioMustPreserveVideoAndHeaderBand() started.
+◇ Test independentAudioFixture(_:) started.
+◇ Test case passing 2 arguments baud → 2400, inverted → true to pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) started.
+◇ Test broadcastMalformedResponseCannotReplaceCache() started.
+◇ Test rigctlDoesNotTrustSuccessWhenTuningIsDisabled() started.
+◇ Test pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test acarsStopTerminatesItsOwnedHelper() started.
+◇ Test chileBandLookupMatchesPublishedAmateurSegmentsAndLeavesOtherServicesUnclassified() started.
+◇ Test publishedCCIR476Interleave(_:) started.
+◇ Test terrainExactLinkTileCorridorCoversEverySampleAcrossTheDateLine() started.
+◇ Test noaaThreeDayForecastParsesKpAndStormProbabilityTables() started.
+◇ Test bandInformationParsesProviderAndPreservesRegions() started.
+◇ Test case passing 1 argument mode → .mt63 to pendingModeWorkerDecodesWAVThroughPackagedTransport(_:) started.
+◇ Test workshopReferencesShowKnownBandsAndPreserveLearningParameters(_:) started.
+◇ Test case passing 1 argument mode → .ale to pendingModeWorkerDecodesWAVThroughPackagedTransport(_:) started.
+◇ Test hfSelectedPlanningTimeAndR12ZeroReachTheCalculation() started.
+◇ Test integratedACARSCPDLCAndInnerCRC() started.
+◇ Test terrainCoverageRidgeCreatesARealShadowWithoutFillingFromTheFarthestPoint() started.
+◇ Test bandInformationChangeAlertsDoNotRepeatOldDates() started.
+◇ Test satelliteGPReadsRealUTCEpochWithoutZuluAndRejectsNonPhysicalElements() started.
+◇ Test satelliteCatalogFallsBackToAMSATAndReadsReportedTimeWithoutBlockingFrequencies() started.
+◇ Test satelliteSwitchingSelectionClearsPendingPassState() started.
+◇ Test rigctlAppliesWhitelistedSettingsAndConfirmsReadback() started.
+◇ Test broadcastRedirectOutsideSourceIsRejected() started.
+◇ Test satelliteFrequencyCertificateFailureStillAllowsOrbitalPassPlanning() started.
+◇ Test integratedSGP4MatchesValladoVanguardReferenceAndRejectsLegacyDrag() started.
+◇ Test inputProfilesSurviveReloadWithAllReceptionSettings() started.
+◇ Test pendingModesPreserveOldProfilesAndValidateBandEdges() started.
+◇ Test case passing 1 argument name → "packet_8000_mono_clean" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test hfCandidatePowerIsAnExplicitAssumptionAndTracksManualChanges() started.
+◇ Test case passing 1 argument name → "packet_8000_mono_crc_bad" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_resync" to packetIndependentHDLCBitVectors(_:) started.
+◇ Test selectiveToneCanChangeWithoutSilence() started.
+◇ Test reverseBeaconLinesParseSpotsAndRejectPrompts() started.
+◇ Test terrainDEMDecodesNumericRGBAndNeverAssumesMissingTerrainIsFlat() started.
+◇ Test navtexAudioFixture(_:) started.
+◇ Test terrainCoverageCancellationDoesNotPublishAPartialRaster() started.
+◇ Test robot36ClockCorrectionPreservesRaster(_:) started.
+◇ Test pskReporterXMLParsesRecentReportsAndRejectsOldOrInvalidRows() started.
+◇ Test propagationInvalidInputAndCancelledCalculation() started.
+◇ Test tcpAudioInputReportsTruncationAndIdleTimeout() started.
+◇ Test independentSSTV(_:) started.
+◇ Test robot36CCompatibilityWorksWithAutoVISAndOtherSelectedFormat() started.
+➜ Test terrainRealSantiagoBenchmark() skipped.
+◇ Test selcallRecognizesZVEI1AndPreservesRawSpecialCodes() started.
+◇ Test hfFrequencyCopiesKeepExplicitUnitsAndDoNotGuessUnitlessKHz() started.
+◇ Test case passing 1 argument sourcePPM → -18068.0 to sstvFindsClockWithoutManualPPM(_:) started.
+◇ Test case passing 1 argument variant → .mfHF to dscWorkerAcceptsOnlyCompleteECCFramesAndExportsSymbols(_:) started.
+◇ Test case passing 1 argument sourcePPM → 25000.0 to sstvFindsClockWithoutManualPPM(_:) started.
+◇ Test case passing 1 argument variant → .vhf to dscWorkerAcceptsOnlyCompleteECCFramesAndExportsSymbols(_:) started.
+◇ Test networkPCMFloat32RejectsNonFiniteAndCountsSaturation() started.
+◇ Test satelliteTLEChecksChecksumAndMatchesPublishedGPReferenceOrbit() started.
+◇ Test aprsCallsignTextFieldNormalizesWithoutRecursiveSetter() started.
+◇ Test packetPayloadControlBytesAreVisible() started.
+◇ Test packetEngineRejectsAliasedToneSettings() started.
+◇ Test terrainCoverageGridIsNorthOrientedAndWrapsAtTheDateLine() started.
+◇ Test packetOppositeStereoNeedsExplicitChannel(_:) started.
+➜ Test integratedDSDReceivesM17PacketThroughPCMAndRejectsSilence() skipped.
+◇ Test acarsJSONExportRoundTripPreservesMessageFields() started.
+◇ Test integratedFTXRecoversCRCValidatedMessage(_:) started.
+◇ Test integratedCWKitPublishesWhileLiveInputRemainsOpen() started.
+◇ Test spectrumResolvesTone() started.
+◇ Test satelliteElevationAndPassPredictionStayWithinPhysicalRanges() started.
+◇ Test decoderProfilesFromOlderVersionsKeepTheirSettingsWhenNewModeFieldsAreMissing() started.
+◇ Test propagationParsesOfficialSpaceWeatherFixtures() started.
+◇ Test liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 1 argument baud → 512 to pocsagToneOnlyNoticeArrivesBeforeEOFAndSurvivesCancel(_:) started.
+◇ Test case passing 1 argument baud → 1200 to pocsagToneOnlyNoticeArrivesBeforeEOFAndSurvivesCancel(_:) started.
+◇ Test case passing 1 argument baud → 2400 to pocsagToneOnlyNoticeArrivesBeforeEOFAndSurvivesCancel(_:) started.
+◇ Test rttyASCIIFramingReadsSevenAndEightBitsWithoutITA2ShiftInterpretation(_:) started.
+◇ Test satDumpOfflineImportsProductsFromAnIsolatedMockCLI() started.
+◇ Test integratedMissingEnginesAndInvalidSettingsFailExplicitly() started.
+◇ Test stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test integratedFTXWorkerProcessesWAVAndFinalPartialSlot(_:) started.
+◇ Test broadcastCSVRejectsMalformedAndDeduplicates() started.
+◇ Test pocsagPeriodicSyncHonorsTheConfiguredBCHLimit(_:) started.
+◇ Test receptionLibraryRejectsIndexTraversalAndPreservesOriginalIndex() started.
+◇ Test networkPCMTruncatedFrameAndChunkBoundsFailExplicitly() started.
+◇ Test hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+◇ Test selectiveWeakToneCanUseTheExplicitThreshold() started.
+◇ Test hfAutomaticR12CannotSilentlyFollowTheWrongPlanningMonth() started.
+◇ Test ale2GRecoversIndependentlyEncodedAMD(_:) started.
+◇ Test sstvClockRejectsRandomSyncAndRecoversMissingPulses() started.
+◇ Test broadcastUTCDays(test:) started.
+◇ Test terrainDEMPNGIsDecodedWithoutColorConversionAndCacheAvoidsRepeatDownload() started.
+◇ Test selectiveEngineIntegrationDecodesTheBundledDemo() started.
+◇ Test pagerSilenceAndRestartProduceNoFalseTextAndCancelStopsTheHelper() started.
+◇ Test dscSettingsKeepOldProfilesAndRejectImpossibleAudioBand() started.
+◇ Test packetFramesAreBoundedAndAbortIsRecoverable() started.
+◇ Test networkPCMDecodesSigned16AcrossEveryByteBoundary() started.
+◇ Test acarsPublishedSampleAndFinalBlockAreRetained() started.
+◇ Test sstvAutomaticTimingAcrossFamilies(_:) started.
+◇ Test hfMultipleTransmitterSitesRequireAnExplicitChoice() started.
+◇ Test receptionLibrarySerializesConcurrentImports() started.
+◇ Test receptionLibraryRejectsOversizeAndBadAudioWithoutChangingSnapshot() started.
+◇ Test satelliteGroundPositionAndSkyTrackShareTheSamePhysicalSolution() started.
+◇ Test acarsSilenceAndRestartProduceNoFalseMessages() started.
+◇ Test rigctlCancellationStopsBeforeAnyTuningCommand() started.
+◇ Test receptionLibraryDetectsSameSizeAudioTamperingBeforeRedecoding() started.
+◇ Test packetMalformedAddressAndControlAreRejected() started.
+◇ Test broadcastReferenceSitesAndGeography() started.
+◇ Test hfGuideSelectionSurvivesTableDetachingAndCopiesPartialData() started.
+◇ Test selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test ionosondeParserRetainsStationCoordinatesConfidenceAndObservationTime() started.
+◇ Test acarsIndependentTransmission(_:) started.
+◇ Test pagerBCHCorrectsTwoErrorsAndStrictModeRejectsTheDamagedWord() started.
+◇ Test networkPCMPreservesChannelFramingBeforeMixingOrSelection() started.
+◇ Test inputQualityCleanToneDoesNotClaimCalibratedRadioSNR() started.
+◇ Test independentWEFAX() started.
+◇ Test receptionEventsValidateWholeDocumentAndKeepProvenance() started.
+◇ Test packetEngineIntegrationUsesTheNativeDecoder() started.
+◇ Test liveAudioRobot36At96k(noisy:) started.
+◇ Test terrainMapRendererKeepsNorthUpAndDoesNotPaintShadowHoles() started.
+◇ Test terrainCoverageKeepsAnInteriorHoleAndARemoteRecoveryAsSeparateCells() started.
+◇ Test ale2GWorkerProcessesWAVThroughSelectedEngine() started.
+◇ Test networkRingEOFIsOnlyDrainedAfterTheFinalPublishedSamples() started.
+◇ Test pendingModeWorkerPublishesBeforeLiveInputCloses(_:) started.
+◇ Test terrainLineOfSightCombinesAGLWithTerrainAndDetectsMountainWalls() started.
+◇ Test mt63SilenceDoesNotInventText() started.
+◇ Test aprsParserReadsUncompressedPositionAndRejectsBadCoordinates() started.
+◇ Test corruptAndAmbiguousProfileLibrariesAreRejected() started.
+◇ Test maidenheadGridFourIsValidAndUsesFourCharacterResolution() started.
+◇ Test terrainDestinationSelectionKeepsCoverageAndAGLHorizonHasNoSeaLevelOffset() started.
+◇ Test integratedFTXSilenceDoesNotCreateContacts(_:) started.
+◇ Test satellitePartialUpdatePreservesEachSourceDateAndUsableOfflineOrbits() started.
+◇ Test hfccArchiveFindsActualScheduleWithoutReadingReferenceTable() started.
+◇ Test packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument mode → .mt63 to pendingModeWorkerResamples48kStereoSelectedInput(_:) started.
+◇ Test absentChannelIsAnExplicitError() started.
+◇ Test terrainProfileSamplesRouteAndParsesOpenMeteoElevation() started.
+◇ Test integratedCWKitReadsKnownCW(_:) started.
+◇ Test pagerDecodesIndependentSyntheticFramesAtAllThreeRates(_:) started.
+◇ Test bandInformationRejectsEntitiesMalformedAndFutureData() started.
+◇ Test integratedCWKitTracksFrequencyAndSpeedAwayFromDefaults(_:) started.
+◇ Test tcpAudioInputManualStopDoesNotReportAnOldConnectionAsCurrent() started.
+➜ Test integratedDSDVoiceProducesPlayableWAV() skipped.
+◇ Test networkPCMConfigurationAcceptsOnlyExplicitLocalAudioContracts() started.
+◇ Test acarsResamplerPreservesDurationAndBlockContinuity() started.
+◇ Test acarsParityDamageIsRejected() started.
+◇ Test case passing 1 argument mode → .ale to pendingModeWorkerResamples48kStereoSelectedInput(_:) started.
+◇ Test case passing 1 argument test → ("2026-03-28T23:59:00Z", "b25") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument test → ("2026-03-29T00:00:00Z", "a26") to broadcastSeasonBoundaries(test:) started.
+2026-10-18 15:51:56.765 swiftpm-testing-helper[86939:7416444] Audio files cannot be non-interleaved. Ignoring setting AVLinearPCMIsNonInterleaved YES.
+2026-10-18 15:51:56.766 swiftpm-testing-helper[86939:7416440] Audio files cannot be non-interleaved. Ignoring setting AVLinearPCMIsNonInterleaved YES.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument test → ("2026-10-24T23:59:00Z", "a26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument test → ("2026-10-25T00:00:00Z", "b26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b500Short to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument test → ("2027-01-01T00:00:00Z", "b26") to broadcastSeasonBoundaries(test:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr90_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b500Long to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr115_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b1000Short to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr140_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b1000Long to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr175_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b2000Short to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml180_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument variant → .b2000Long to mt63ReceivesAllBandwidthAndInterleaveVariants(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml240_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml280_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_ml320_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc140_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc180_n_8000_clean" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mr73_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_fullrange" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mc110_n_8000_badheader" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_mmsstv_mp73_n_8000_manual" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_vis2_8000_unsupported" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument name → "sstv_classic_m1_8000_badparity" to mmsstvPublishedModes(_:) started.
+◇ Test case passing 1 argument frequency → 67.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 2 arguments damagedBits → 0, inverted → false to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test case passing 1 argument frequency → 69.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 71.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 74.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 77.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 79.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 2 arguments damagedBits → 0, inverted → true to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test case passing 1 argument frequency → 82.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 85.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 88.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 91.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 94.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 97.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 100.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 103.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 107.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 110.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 114.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 118.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 123.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 127.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 131.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 136.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 141.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 146.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 150.0 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 151.4 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 156.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 159.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 162.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 165.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 167.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 171.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 173.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 177.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 179.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 183.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 186.2 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 189.9 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 192.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 196.6 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 199.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 203.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 206.5 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 210.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 218.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 225.7 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 229.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 233.6 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 241.8 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 250.3 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 1 argument frequency → 254.1 to selectiveNeighborAndBoundaryTones(_:) started.
+◇ Test case passing 2 arguments damagedBits → 1, inverted → false to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test case passing 2 arguments damagedBits → 1, inverted → true to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test case passing 2 arguments damagedBits → 2, inverted → false to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+◇ Test case passing 2 arguments damagedBits → 2, inverted → true to pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) started.
+✔ Test selectiveRejectsUnqualifiedAudio(_:) with 11 test cases passed after 2.501 seconds.
+✔ Test hfccDaysUseSundayOneAndDoNotReuseEiBiMondayOne() passed after 2.502 seconds.
+✔ Test liveAudioMonoAndOverflow() passed after 2.502 seconds.
+◇ Test case passing 1 argument rate → 44100.0 to selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+◇ Test case passing 1 argument rate → 48000.0 to selectiveFractionalResamplingWithVoiceAndNoise(_:) started.
+✔ Test robot36CompatibilityIsExplicitAndScoped(_:) with 5 test cases passed after 2.503 seconds.
+✔ Test selectiveToneReleaseAndChangeAreHysteretic() passed after 2.503 seconds.
+✔ Test inputQualityDistinguishesSilenceClippingAndInvalidSamples() passed after 2.503 seconds.
+✔ Test independentAPT(_:) with 2 test cases passed after 2.503 seconds.
+◇ Test case passing 1 argument name → "sstv_martin_m2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s2_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s4_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_dx_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd90_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd120_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd160_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd240_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd290_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot72_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p3_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p5_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pasokon_p7_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_wraasesc2_180_8000_mono_clean" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_fullrange" to publishedSSTVFamilyFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "morse_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "rtty_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "bpsk31_44100_stereo_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_8000_mono_noisy" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_clean" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_offset" to independentAudioFixture(_:) started.
+◇ Test case passing 1 argument filename → "dtmf_44100_stereo_noisy" to independentAudioFixture(_:) started.
+✔ Test pagerAppWorkerResamplesWAVAndPublishesStructuredRecords() passed after 3.973 seconds.
+✔ Test receptionLibraryRejectsSymlinkedOwnedAudio() passed after 3.977 seconds.
+✔ Test pocsagToneOnlyNoticeDoesNotInventAddressesAfterSilence(_:inverted:) with 6 test cases passed after 3.976 seconds.
+◇ Test case passing 2 arguments baud → 512, inverted → false to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 2 arguments baud → 512, inverted → true to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 2 arguments baud → 1200, inverted → false to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 2 arguments baud → 1200, inverted → true to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 2 arguments baud → 2400, inverted → false to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 2 arguments baud → 2400, inverted → true to pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) started.
+◇ Test case passing 1 argument variant → "clean" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "first_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "second_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "both_bad" to publishedCCIR476Interleave(_:) started.
+◇ Test case passing 1 argument variant → "disagree" to publishedCCIR476Interleave(_:) started.
+✔ Test sstvImpulseReductionPreservesThinLinesAndColorEdges() passed after 4.016 seconds.
+◇ Test case passing 1 argument reference → .cw to workshopReferencesShowKnownBandsAndPreserveLearningParameters(_:) started.
+◇ Test case passing 1 argument reference → .rtty to workshopReferencesShowKnownBandsAndPreserveLearningParameters(_:) started.
+◇ Test case passing 1 argument reference → .psk31 to workshopReferencesShowKnownBandsAndPreserveLearningParameters(_:) started.
+✔ Test hfITUIndexParserKeepsSolarMinimumZero() passed after 4.032 seconds.
+✔ Test packetKnownCRCCheckValue() passed after 4.036 seconds.
+✔ Test broadcastSourceHTTPFallbackWorks() passed after 4.047 seconds.
+✔ Test reverseBeaconTelnetDecoderHandlesNegotiationAndSplitLines() passed after 4.047 seconds.
+✔ Test packetIndependentHDLCBitVectors(_:) with 3 test cases passed after 4.053 seconds.
+✔ Test packetNoiseAndMissingClosingFlagProduceNoMessage() passed after 4.055 seconds.
+◇ Test case passing 1 argument name → "navtex_8000_mono_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_offset" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_noisy" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_repaired" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_lost" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_disagree" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_inverted" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_drift" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_8000_mono_resync" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument name → "navtex_44100_stereo_clean" to navtexAudioFixture(_:) started.
+◇ Test case passing 1 argument ppm → -18068.0 to robot36ClockCorrectionPreservesRaster(_:) started.
+◇ Test case passing 1 argument ppm → 25000.0 to robot36ClockCorrectionPreservesRaster(_:) started.
+✔ Test propagationGeometryAndPowerBudget() passed after 4.162 seconds.
+✔ Test receptionLibraryCaptureTimeIsExplicitAndTrashIsRecoverable() passed after 4.162 seconds.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_martin_m1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_clean" to independentSSTV(_:) started.
+✔ Test packetMonitorRetainsBoundedRecentFrames() passed after 4.298 seconds.
+◇ Test case passing 1 argument name → "sstv_scottie_s1_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_pd50_8000_mono_offset" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_clean" to independentSSTV(_:) started.
+◇ Test case passing 1 argument name → "sstv_robot36_8000_mono_offset" to independentSSTV(_:) started.
+✔ Test bandContactDistanceAndInternationalAreIndependent() passed after 4.598 seconds.
+✔ Test pocsagSilenceAloneIsEmptyAndRealCapcodeZeroRemainsValid() passed after 4.598 seconds.
+✔ Test pendingModeWorkerDecodesWAVThroughPackagedTransport(_:) with 2 test cases passed after 4.598 seconds.
+✔ Test integratedACARSOrphanFragmentDoesNotInventPosition() passed after 4.598 seconds.
+✔ Test dscWorkerAcceptsOnlyCompleteECCFramesAndExportsSymbols(_:) with 2 test cases passed after 4.598 seconds.
+◇ Test case passing 1 argument channel → .mix to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument channel → .channel(0) to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument channel → .channel(1) to packetOppositeStereoNeedsExplicitChannel(_:) started.
+◇ Test case passing 1 argument mode → .ft8 to integratedFTXRecoversCRCValidatedMessage(_:) started.
+◇ Test case passing 1 argument mode → .ft4 to integratedFTXRecoversCRCValidatedMessage(_:) started.
+✔ Test terrainNativeITMMatchesAllFivePublishedNTIAReferencePaths() passed after 4.630 seconds.
+◇ Test case passing 2 arguments sampleRate → 8000.0, modern → false to liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 2 arguments sampleRate → 8000.0, modern → true to liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 2 arguments sampleRate → 48000.0, modern → false to liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 2 arguments sampleRate → 48000.0, modern → true to liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 2 arguments sampleRate → 96000.0, modern → false to liveAudioChannels(sampleRate:modern:) started.
+◇ Test case passing 2 arguments sampleRate → 96000.0, modern → true to liveAudioChannels(sampleRate:modern:) started.
+✔ Test sstvFindsClockWithoutManualPPM(_:) with 2 test cases passed after 4.670 seconds.
+✔ Test acarsPCMStreamContinuesAcrossMessages() passed after 4.670 seconds.
+✔ Test propagationRejectsMalformedAndFutureData() passed after 4.670 seconds.
+◇ Test case passing 1 argument input → (RadioCore.RTTYEncoding.ascii7, 75.0, 7) to rttyASCIIFramingReadsSevenAndEightBitsWithoutITA2ShiftInterpretation(_:) started.
+◇ Test case passing 1 argument input → (RadioCore.RTTYEncoding.ascii8, 110.0, 8) to rttyASCIIFramingReadsSevenAndEightBitsWithoutITA2ShiftInterpretation(_:) started.
+◇ Test case passing 1 argument channel → .mix to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument channel → .channel(0) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument channel → .channel(1) to stereoSelectionPreservesOppositePhaseAudio(_:) started.
+◇ Test case passing 1 argument mode → .ft8 to integratedFTXWorkerProcessesWAVAndFinalPartialSlot(_:) started.
+◇ Test case passing 1 argument mode → .ft4 to integratedFTXWorkerProcessesWAVAndFinalPartialSlot(_:) started.
+◇ Test case passing 1 argument correction → 0 to pocsagPeriodicSyncHonorsTheConfiguredBCHLimit(_:) started.
+◇ Test case passing 1 argument correction → 1 to pocsagPeriodicSyncHonorsTheConfiguredBCHLimit(_:) started.
+✔ Test propagationDrapUsesActualGridAndWrapsDateLine() passed after 4.783 seconds.
+◇ Test case passing 1 argument input → (RadioCore.HellVariant.feld, "feld", 1500.0) to hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+Hell feld: error visual medio 18.085714285714285 /255
+◇ Test case passing 1 argument input → (RadioCore.HellVariant.slow14, "slow14", 1500.0) to hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+◇ Test case passing 1 argument input → (RadioCore.HellVariant.slowFldigi, "slow_fldigi", 1500.0) to hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+◇ Test case passing 1 argument input → (RadioCore.HellVariant.x5, "x5", 1500.0) to hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+Hell x5: error visual medio 17.257142857142856 /255
+◇ Test case passing 1 argument input → (RadioCore.HellVariant.x9, "x9", 2000.0) to hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) started.
+Hell x9: error visual medio 16.938095238095237 /255
+◇ Test case passing 1 argument name → "ale2g_8000_synthetic" to ale2GRecoversIndependentlyEncodedAMD(_:) started.
+◇ Test case passing 1 argument name → "ale2g_8000_noisy_offset" to ale2GRecoversIndependentlyEncodedAMD(_:) started.
+Hell slow14: error visual medio 18.409523809523808 /255
+◇ Test case passing 1 argument test → ("2300-0100", "1", "2026-10-13T00:30:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("2300-0100", "2", "2026-10-13T00:30:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("2300-0100", "1", "2026-10-13T01:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1245", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1245", "2026-10-14T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+Hell slow_fldigi: error visual medio 18.37142857142857 /255
+◇ Test case passing 1 argument test → ("0000-2400", "Fr-Mo", "2026-10-12T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "Fr-Mo", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "irr", "2026-10-13T12:00:00Z", RadioCore.BroadcastActivity.uncertain) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1.Sa", "2026-10-03T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "1.Sa", "2026-10-10T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "Last7", "2026-10-25T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "MF-15", "2026-10-16T12:00:00Z", RadioCore.BroadcastActivity.off) to broadcastUTCDays(test:) started.
+◇ Test case passing 1 argument test → ("0000-2400", "24Oct", "2026-10-24T12:00:00Z", RadioCore.BroadcastActivity.scheduled) to broadcastUTCDays(test:) started.
+✔ Test integratedACARSApplicationsUseCompleteBlocksAndPreserveExport() passed after 4.816 seconds.
+◇ Test case passing 1 argument sample → ("sstv_martin_m1_8000_mono_clean", -18068.0) to sstvAutomaticTimingAcrossFamilies(_:) started.
+◇ Test case passing 1 argument sample → ("sstv_scottie_s1_8000_mono_clean", 25000.0) to sstvAutomaticTimingAcrossFamilies(_:) started.
+◇ Test case passing 1 argument sample → ("sstv_pd50_8000_mono_clean", -18068.0) to sstvAutomaticTimingAcrossFamilies(_:) started.
+◇ Test case passing 1 argument sample → ("sstv_mmsstv_mc110_n_8000_clean", 1000.0) to sstvAutomaticTimingAcrossFamilies(_:) started.
+✔ Test terrainITMInputValidatesVHFModelRangeAndRadioBudget() passed after 4.919 seconds.
+◇ Test case passing 1 argument standard → .zvei2 to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .zvei1 to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .zvei3 to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .pzvei to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .dzvei to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .eea to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .eia to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument standard → .ccir to selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) started.
+◇ Test case passing 1 argument name → "acars_synthetic_12000" to acarsIndependentTransmission(_:) started.
+◇ Test case passing 1 argument name → "acars_synthetic_44100" to acarsIndependentTransmission(_:) started.
+◇ Test case passing 1 argument name → "acars_synthetic_48000" to acarsIndependentTransmission(_:) started.
+◇ Test case passing 1 argument noisy → false to liveAudioRobot36At96k(noisy:) started.
+◇ Test case passing 1 argument noisy → true to liveAudioRobot36At96k(noisy:) started.
+◇ Test case passing 1 argument mode → .mt63 to pendingModeWorkerPublishesBeforeLiveInputCloses(_:) started.
+◇ Test case passing 1 argument mode → .ale to pendingModeWorkerPublishesBeforeLiveInputCloses(_:) started.
+✔ Test broadcastPartialSeasonAndInactive() passed after 5.025 seconds.
+◇ Test case passing 1 argument mode → .ft8 to integratedFTXSilenceDoesNotCreateContacts(_:) started.
+◇ Test case passing 1 argument mode → .ft4 to integratedFTXSilenceDoesNotCreateContacts(_:) started.
+✔ Test invalidProfileSavePreservesPreviousFile() passed after 5.077 seconds.
+◇ Test case passing 1 argument name → "packet_8000_mono_clean" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_noisy" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_offset" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_drift" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_crc_bad" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_44100_stereo_clean" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument name → "packet_8000_mono_resync" to packetIndependentAudioFixtures(_:) started.
+◇ Test case passing 1 argument engine → .automatic to integratedCWKitReadsKnownCW(_:) started.
+◇ Test case passing 1 argument engine → .neural to integratedCWKitReadsKnownCW(_:) started.
+◇ Test case passing 1 argument baud → 512 to pagerDecodesIndependentSyntheticFramesAtAllThreeRates(_:) started.
+◇ Test case passing 1 argument baud → 1200 to pagerDecodesIndependentSyntheticFramesAtAllThreeRates(_:) started.
+◇ Test case passing 1 argument baud → 2400 to pagerDecodesIndependentSyntheticFramesAtAllThreeRates(_:) started.
+✔ Test broadcastDownloadPersistsSourceAndOfflineCopy() passed after 5.190 seconds.
+◇ Test case passing 1 argument engine → .automatic to integratedCWKitTracksFrequencyAndSpeedAwayFromDefaults(_:) started.
+◇ Test case passing 1 argument engine → .neural to integratedCWKitTracksFrequencyAndSpeedAwayFromDefaults(_:) started.
+✔ Test broadcastFavoriteAlertFindsNextConfidentUTCStart() passed after 5.276 seconds.
+✔ Test broadcastSeasonBoundaries(test:) with 5 test cases passed after 5.276 seconds.
+✔ Test receptionLibraryOwnsOriginalAudioAndRoundTripsAllSettings() passed after 5.277 seconds.
+✔ Test receptionLibraryPreservesMetadataWhenAudioIsMissing() passed after 5.277 seconds.
+✔ Test hfccFixedWidthScheduleKeepsDeclaredPowerDirectionAndMode() passed after 5.277 seconds.
+✔ Test terrainNativeITMPreservesWarningsAndMatchesTheCLI() passed after 5.277 seconds.
+✔ Test pendingModeWorkerResamples48kStereoSelectedInput(_:) with 2 test cases passed after 5.277 seconds.
+✔ Test ale2GSilenceNoiseAndInvalidFloatsDoNotInventMessages() passed after 5.277 seconds.
+✔ Test mt63ReceivesAllBandwidthAndInterleaveVariants(_:) with 6 test cases passed after 5.277 seconds.
+✔ Test acarsMissingMotorAndInvalidMessageAreExplicitErrors() passed after 5.286 seconds.
+✔ Test mmsstvPublishedModes(_:) with 27 test cases passed after 5.286 seconds.
+POCSAG 48 kHz: worker scheduled after 4.12588145834161 s
+✔ Test subtelCallsignParserKeepsLicenseFieldsAndExcludesNames() passed after 5.296 seconds.
+✔ Test acarsRepairsSingleParityErrorAndRejectsInvalidCRC() passed after 5.296 seconds.
+✔ Test hfccMatchRejectsAmbiguousRowsAndUsesLanguageWhenUnique() passed after 5.296 seconds.
+✔ Test pagerMalformedOutputCannotInventIdentifiersOrRetainUnboundedText() passed after 5.296 seconds.
+✔ Test selectiveNeighborAndBoundaryTones(_:) with 51 test cases passed after 5.296 seconds.
+✔ Test satDumpRejectsAudioHeadersAndPreservesExplicitIQParameters() passed after 5.296 seconds.
+✔ Test ringOverflowAndWrapPreserveOrder() passed after 5.296 seconds.
+✔ Test pocsagTextCrossesBatchesWithCorrectablePeriodicSync(_:inverted:) with 6 test cases passed after 5.296 seconds.
+✔ Test silenceAndSettings() passed after 5.295 seconds.
+✔ Test receptionTracesSeparateSourcesGapsAndAntimeridian() passed after 5.277 seconds.
+✔ Test multiChannelRingMixAndSingleChannel() passed after 5.268 seconds.
+✔ Test terrainMapFresnelCorridorTracksPathAndFrequency() passed after 5.227 seconds.
+✔ Test receptionLibraryCleansUncommittedCopyIfIndexCannotBeWritten() passed after 5.295 seconds.
+✔ Test subtelRepeaterRowsTolerateSpanishHeadersAndNormalizeFrequency() passed after 5.227 seconds.
+✔ Test pskReporterServiceHonorsFiveMinuteQueryCadence() passed after 5.227 seconds.
+✔ Test selectiveFractionalResamplingWithVoiceAndNoise(_:) with 2 test cases passed after 5.288 seconds.
+✔ Test publishedSSTVFamilyFixture(_:) with 20 test cases passed after 5.175 seconds.
+✔ Test imageAudioMustPreserveVideoAndHeaderBand() passed after 5.169 seconds.
+✔ Test independentAudioFixture(_:) with 24 test cases passed after 5.169 seconds.
+✔ Test mt63RFGuidePreservesShiftedAudioBand() passed after 5.297 seconds.
+✔ Test hfGuideHandoffUsesPhysicalTransmitterAndKeepsTXRXRoles() passed after 5.297 seconds.
+✔ Test broadcastMalformedResponseCannotReplaceCache() passed after 4.992 seconds.
+✔ Test pocsagMissingPeriodicSyncDropsPayloadAndReacquiresFrameAlignment(_:inverted:) with 6 test cases passed after 4.957 seconds.
+✔ Test chileBandLookupMatchesPublishedAmateurSegmentsAndLeavesOtherServicesUnclassified() passed after 4.957 seconds.
+✔ Test publishedCCIR476Interleave(_:) with 5 test cases passed after 4.957 seconds.
+✔ Test noaaThreeDayForecastParsesKpAndStormProbabilityTables() passed after 4.954 seconds.
+✔ Test bandInformationParsesProviderAndPreservesRegions() passed after 4.954 seconds.
+✔ Test terrainExactLinkTileCorridorCoversEverySampleAcrossTheDateLine() passed after 4.955 seconds.
+✔ Test workshopReferencesShowKnownBandsAndPreserveLearningParameters(_:) with 3 test cases passed after 4.953 seconds.
+✔ Test bandInformationChangeAlertsDoNotRepeatOldDates() passed after 4.952 seconds.
+✔ Test satelliteGPReadsRealUTCEpochWithoutZuluAndRejectsNonPhysicalElements() passed after 4.952 seconds.
+✔ Test broadcastRedirectOutsideSourceIsRejected() passed after 4.953 seconds.
+✔ Test integratedSGP4MatchesValladoVanguardReferenceAndRejectsLegacyDrag() passed after 4.956 seconds.
+✔ Test inputProfilesSurviveReloadWithAllReceptionSettings() passed after 4.956 seconds.
+✔ Test pendingModesPreserveOldProfilesAndValidateBandEdges() passed after 4.956 seconds.
+✔ Test integratedACARSCPDLCAndInnerCRC() passed after 4.961 seconds.
+✔ Test reverseBeaconLinesParseSpotsAndRejectPrompts() passed after 4.959 seconds.
+✔ Test terrainDEMDecodesNumericRGBAndNeverAssumesMissingTerrainIsFlat() passed after 4.958 seconds.
+✔ Test selectiveToneCanChangeWithoutSilence() passed after 4.959 seconds.
+✔ Test navtexAudioFixture(_:) with 10 test cases passed after 4.958 seconds.
+✔ Test pskReporterXMLParsesRecentReportsAndRejectsOldOrInvalidRows() passed after 4.958 seconds.
+ITM cresta: este -143.94253109257752 dBm; oeste -95.57263257086731 dBm; diferencia 48.36989852171021 dB
+✔ Test robot36ClockCorrectionPreservesRaster(_:) with 2 test cases passed after 4.964 seconds.
+✔ Test independentSSTV(_:) with 8 test cases passed after 4.960 seconds.
+✔ Test robot36CCompatibilityWorksWithAutoVISAndOtherSelectedFormat() passed after 4.960 seconds.
+✔ Test selcallRecognizesZVEI1AndPreservesRawSpecialCodes() passed after 4.960 seconds.
+✔ Test hfFrequencyCopiesKeepExplicitUnitsAndDoNotGuessUnitlessKHz() passed after 4.960 seconds.
+✔ Test networkPCMFloat32RejectsNonFiniteAndCountsSaturation() passed after 4.816 seconds.
+✔ Test packetPayloadControlBytesAreVisible() passed after 4.816 seconds.
+✔ Test packetEngineRejectsAliasedToneSettings() passed after 4.816 seconds.
+✔ Test terrainCoverageGridIsNorthOrientedAndWrapsAtTheDateLine() passed after 4.816 seconds.
+✔ Test packetOppositeStereoNeedsExplicitChannel(_:) with 3 test cases passed after 4.816 seconds.
+✔ Test satelliteTLEChecksChecksumAndMatchesPublishedGPReferenceOrbit() passed after 4.817 seconds.
+✔ Test acarsJSONExportRoundTripPreservesMessageFields() passed after 4.816 seconds.
+✔ Test spectrumResolvesTone() passed after 4.819 seconds.
+✔ Test satelliteElevationAndPassPredictionStayWithinPhysicalRanges() passed after 4.817 seconds.
+✔ Test decoderProfilesFromOlderVersionsKeepTheirSettingsWhenNewModeFieldsAreMissing() passed after 4.817 seconds.
+✔ Test liveAudioChannels(sampleRate:modern:) with 6 test cases passed after 4.817 seconds.
+✔ Test rttyASCIIFramingReadsSevenAndEightBitsWithoutITA2ShiftInterpretation(_:) with 2 test cases passed after 4.810 seconds.
+✔ Test integratedMissingEnginesAndInvalidSettingsFailExplicitly() passed after 4.810 seconds.
+✔ Test integratedFTXRecoversCRCValidatedMessage(_:) with 2 test cases passed after 4.821 seconds.
+✔ Test broadcastCSVRejectsMalformedAndDeduplicates() passed after 4.810 seconds.
+✔ Test pocsagPeriodicSyncHonorsTheConfiguredBCHLimit(_:) with 2 test cases passed after 4.810 seconds.
+✔ Test integratedFTXWorkerProcessesWAVAndFinalPartialSlot(_:) with 2 test cases passed after 4.810 seconds.
+✔ Test receptionLibraryRejectsIndexTraversalAndPreservesOriginalIndex() passed after 4.810 seconds.
+✔ Test networkPCMTruncatedFrameAndChunkBoundsFailExplicitly() passed after 4.809 seconds.
+✔ Test hellPulseVariantsKeepSenderGlyphContrastAndHaveBoundedVisualRaster(_:) with 5 test cases passed after 4.809 seconds.
+✔ Test propagationParsesOfficialSpaceWeatherFixtures() passed after 4.818 seconds.
+✔ Test selectiveWeakToneCanUseTheExplicitThreshold() passed after 4.809 seconds.
+✔ Test sstvClockRejectsRandomSyncAndRecoversMissingPulses() passed after 4.808 seconds.
+✔ Test broadcastUTCDays(test:) with 13 test cases passed after 4.808 seconds.
+✔ Test selectiveEngineIntegrationDecodesTheBundledDemo() passed after 4.808 seconds.
+✔ Test dscSettingsKeepOldProfilesAndRejectImpossibleAudioBand() passed after 4.809 seconds.
+✔ Test packetFramesAreBoundedAndAbortIsRecoverable() passed after 4.809 seconds.
+✔ Test networkPCMDecodesSigned16AcrossEveryByteBoundary() passed after 4.809 seconds.
+✔ Test acarsPublishedSampleAndFinalBlockAreRetained() passed after 4.809 seconds.
+✔ Test stereoSelectionPreservesOppositePhaseAudio(_:) with 3 test cases passed after 4.812 seconds.
+✔ Test pagerSilenceAndRestartProduceNoFalseTextAndCancelStopsTheHelper() passed after 4.810 seconds.
+✔ Test receptionLibraryRejectsOversizeAndBadAudioWithoutChangingSnapshot() passed after 4.810 seconds.
+✔ Test ale2GRecoversIndependentlyEncodedAMD(_:) with 2 test cases passed after 4.811 seconds.
+✔ Test acarsSilenceAndRestartProduceNoFalseMessages() passed after 4.810 seconds.
+✔ Test receptionLibraryDetectsSameSizeAudioTamperingBeforeRedecoding() passed after 4.810 seconds.
+✔ Test packetMalformedAddressAndControlAreRejected() passed after 4.810 seconds.
+✔ Test satelliteGroundPositionAndSkyTrackShareTheSamePhysicalSolution() passed after 4.810 seconds.
+✔ Test broadcastReferenceSitesAndGeography() passed after 4.810 seconds.
+✔ Test selcallAllEightFamiliesReceiveTheirDistinctiveCodes(_:) with 8 test cases passed after 4.811 seconds.
+✔ Test ionosondeParserRetainsStationCoordinatesConfidenceAndObservationTime() passed after 4.811 seconds.
+✔ Test acarsIndependentTransmission(_:) with 3 test cases passed after 4.811 seconds.
+✔ Test networkPCMPreservesChannelFramingBeforeMixingOrSelection() passed after 4.811 seconds.
+✔ Test inputQualityCleanToneDoesNotClaimCalibratedRadioSNR() passed after 4.811 seconds.
+✔ Test receptionEventsValidateWholeDocumentAndKeepProvenance() passed after 4.811 seconds.
+✔ Test packetEngineIntegrationUsesTheNativeDecoder() passed after 4.811 seconds.
+✔ Test independentWEFAX() passed after 4.811 seconds.
+✔ Test terrainCoverageKeepsAnInteriorHoleAndARemoteRecoveryAsSeparateCells() passed after 4.811 seconds.
+✔ Test pagerBCHCorrectsTwoErrorsAndStrictModeRejectsTheDamagedWord() passed after 4.811 seconds.
+✔ Test terrainLineOfSightCombinesAGLWithTerrainAndDetectsMountainWalls() passed after 4.811 seconds.
+✔ Test mt63SilenceDoesNotInventText() passed after 4.811 seconds.
+✔ Test aprsParserReadsUncompressedPositionAndRejectsBadCoordinates() passed after 4.811 seconds.
+✔ Test corruptAndAmbiguousProfileLibrariesAreRejected() passed after 4.811 seconds.
+✔ Test maidenheadGridFourIsValidAndUsesFourCharacterResolution() passed after 4.812 seconds.
+✔ Test ale2GWorkerProcessesWAVThroughSelectedEngine() passed after 4.812 seconds.
+✔ Test integratedFTXSilenceDoesNotCreateContacts(_:) with 2 test cases passed after 4.812 seconds.
+✔ Test packetIndependentAudioFixtures(_:) with 7 test cases passed after 4.814 seconds.
+✔ Test absentChannelIsAnExplicitError() passed after 4.814 seconds.
+✔ Test terrainProfileSamplesRouteAndParsesOpenMeteoElevation() passed after 4.814 seconds.
+✔ Test sstvAutomaticTimingAcrossFamilies(_:) with 4 test cases passed after 4.816 seconds.
+✔ Test integratedCWKitReadsKnownCW(_:) with 2 test cases passed after 4.814 seconds.
+✔ Test pagerDecodesIndependentSyntheticFramesAtAllThreeRates(_:) with 3 test cases passed after 4.814 seconds.
+✔ Test bandInformationRejectsEntitiesMalformedAndFutureData() passed after 4.814 seconds.
+✔ Test networkPCMConfigurationAcceptsOnlyExplicitLocalAudioContracts() passed after 4.814 seconds.
+✔ Test acarsResamplerPreservesDurationAndBlockContinuity() passed after 4.814 seconds.
+✔ Test acarsParityDamageIsRejected() passed after 4.814 seconds.
+✔ Test propagationMatchesPublishedITURReferenceNoise() passed after 5.330 seconds.
+✔ Test satelliteSwitchingSelectionClearsPendingPassState() passed after 4.989 seconds.
+✔ Test hfCandidatePowerIsAnExplicitAssumptionAndTracksManualChanges() passed after 4.993 seconds.
+✔ Test terrainCoverageRidgeCreatesARealShadowWithoutFillingFromTheFarthestPoint() passed after 4.995 seconds.
+✔ Test ale2GPublishesSoundingBeforeClosingLiveInput() passed after 5.343 seconds.
+✔ Test aprsCallsignTextFieldNormalizesWithoutRecursiveSetter() passed after 4.843 seconds.
+✔ Test hfAutomaticR12CannotSilentlyFollowTheWrongPlanningMonth() passed after 4.830 seconds.
+✔ Test hfMultipleTransmitterSitesRequireAnExplicitChoice() passed after 4.829 seconds.
+✔ Test hfGuideSelectionSurvivesTableDetachingAndCopiesPartialData() passed after 4.829 seconds.
+✔ Test terrainMapRendererKeepsNorthUpAndDoesNotPaintShadowHoles() passed after 4.829 seconds.
+✔ Test terrainDestinationSelectionKeepsCoverageAndAGLHorizonHasNoSeaLevelOffset() passed after 4.829 seconds.
+✔ Test pocsagToneOnlyNoticeArrivesBeforeEOFAndSurvivesCancel(_:) with 3 test cases passed after 5.345 seconds.
+✔ Test acarsStopTerminatesItsOwnedHelper() passed after 5.006 seconds.
+✔ Test satelliteCatalogFallsBackToAMSATAndReadsReportedTimeWithoutBlockingFrequencies() passed after 4.999 seconds.
+✔ Test hfccArchiveFindsActualScheduleWithoutReadingReferenceTable() passed after 4.831 seconds.
+✔ Test integratedCWKitTracksFrequencyAndSpeedAwayFromDefaults(_:) with 2 test cases passed after 4.832 seconds.
+✔ Test terrainCoverageCancellationDoesNotPublishAPartialRaster() passed after 4.999 seconds.
+✔ Test rigctlDoesNotTrustSuccessWhenTuningIsDisabled() passed after 5.009 seconds.
+✔ Test rigctlAppliesWhitelistedSettingsAndConfirmsReadback() passed after 5.001 seconds.
+✔ Test propagationInvalidInputAndCancelledCalculation() passed after 4.999 seconds.
+✔ Test satDumpOfflineCancellationTerminatesOnlyItsOwnJob() passed after 5.350 seconds.
+✔ Test receptionLibrarySerializesConcurrentImports() passed after 4.837 seconds.
+✔ Test terrainDEMPNGIsDecodedWithoutColorConversionAndCacheAvoidsRepeatDownload() passed after 4.838 seconds.
+✔ Test networkAudioEOFDrainsAndFinalizesNativeDecoder() passed after 5.350 seconds.
+✔ Test networkRingEOFIsOnlyDrainedAfterTheFinalPublishedSamples() passed after 4.837 seconds.
+✔ Test satelliteFrequencyCertificateFailureStillAllowsOrbitalPassPlanning() passed after 5.009 seconds.
+✔ Test bandInformationHourlyCadenceIncludesManualRefreshAndRestarts() passed after 5.358 seconds.
+✔ Test tcpAudioInputBoundsRingAndRejectsRemoteHost() passed after 5.361 seconds.
+✔ Test tcpAudioInputReceivesFragmwarning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+entedLocalPCMAndFinishesWithoutMicrophone() passed after 5.360 seconds.
+✔ Test satellitePartialUpdatePreservesEachSourceDateAndUsableOfflineOrbits() passed after 4.853 seconds.
+✔ Test rigctlCancellationStopsBeforeAnyTuningCommand() passed after 4.861 seconds.
+✔ Test propagationOfflineKeepsObservationDateAndPartialSources() passed after 5.390 seconds.
+POCSAG 48 kHz: live addresses [Optional(123456)] after 4.249234625021927 s, before cancellation
+✔ Test hfSelectedPlanningTimeAndR12ZeroReachTheCalculation() passed after 5.070 seconds.
+✔ Test pocsagToneOnlyNoticeReachesLiveAndWAVMonitorsAt48kHz() passed after 5.422 seconds.
+✔ Test satDumpOfflineImportsProductsFromAnIsolatedMockCLI() passed after 4.935 seconds.
+✔ Test tcpAudioInputReportsTruncationAndIdleTimeout() passed after 5.166 seconds.
+✔ Test integratedCWKitPublishesWhileLiveInputRemainsOpen() passed after 5.049 seconds.
+✔ Test tcpAudioInputManualStopDoesNotReportAnOldConnectionAsCurrent() passed after 5.037 seconds.
+✔ Test propagationPowerAndBandwidthHavePhysicalScaling() passed after 5.586 seconds.
+✔ Test pendingModeWorkerPublishesBeforeLiveInputCloses(_:) with 2 test cases passed after 5.529 seconds.
+SSTV ruido 96 kHz · MSE de color: sin reducción 3.18, equilibrada 2.395
+✔ Test liveAudioRobot36At96k(noisy:) with 2 test cases passed after 6.922 seconds.
+✔ Test run with 202 tests in 0 suites passed after 7.438 seconds.

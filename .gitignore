@@ -27,3 +27,11 @@ docs/validation/microphone-live-0.7.3-retry.png
 docs/validation/sstv-phone-*.png
 docs/validation/*phone*.wav
 docs/validation/microphone-*.wav
+
+# Inventarios completos de aplicaciones locales; publicar solo resúmenes.
+docs/app-evidence-0.10/local/
+docs/validation/modes-0.10-swift-initial.txt
+# Intermediate failed validation attempts; final logs are kept separately.
+docs/validation/library-quality-0.10-tests.txt
+docs/validation/library-quality-tcp-0.10-tests.txt
+docs/validation/release-next-tests.txt

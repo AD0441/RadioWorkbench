@@ -3,7 +3,7 @@ import math, pathlib, struct, wave, hashlib, json
 ROOT = pathlib.Path(__file__).resolve().parents[1] / 'Tests/RadioCoreTests/Fixtures'
 
 def parity(byte):
-    return byte | (0x80 if byte.bit_count() % 2 == 0 else 0)
+    return byte | (0x80 if bin(byte).count('1') % 2 == 0 else 0)
 
 def crc16(data):
     crc = 0
@@ -13,8 +13,8 @@ def crc16(data):
             crc = (crc >> 1) ^ (0x8408 if crc & 1 else 0)
     return crc
 
-def transmit(name, rate, parity_errors=0, bad_crc=False):
-    body = b'2.TEST00\x15H11\x020001TST001RADIOWORKBENCH ACARS TEST\x03'
+def transmit(name, rate, parity_errors=0, bad_crc=False, body=None):
+    body = body or b'2.TEST00\x15H11\x020001TST001RADIOWORKBENCH ACARS TEST\x03'
     framed = bytearray(parity(b) for b in body)
     check = crc16(framed)
     if parity_errors:

@@ -1,6 +1,12 @@
 # Motores y complementos encontrados en GitHub
 
-Consulta: **12 de octubre de 2026**. Objetivo: apoyar una nueva aplicación macOS arm64 para Apple Silicon, inspirada en las funciones de MultiMode Cocoa. Se consultaron repositorios mediante el conector GitHub y documentación primaria de los proyectos. No se instalaron, compilaron ni ejecutaron los motores de esta investigación.
+**Actualización 0.10.0:** se incorporan MT63 en seis variantes mediante el DSP de fldigi y ALE 2G mediante el decodificador standalone de KiwiSDR. [Uso, revisiones fijadas y límites](INTEGRATIONS-0.10.md). Se revisaron las cinco copias locales indicadas con REA: [hallazgos y mejoras propuestas](REVISION-APPS-0.10.md). Las tablas históricas de candidatos de abajo no sustituyen el estado de la integración actual.
+
+**Actualización 0.9.0:** SatelliteKit, ft8_lib, CWKit y libacars están integrados; DSD-neo dispone de descarga oficial verificada y recepción PCM. Requisitos, validación y límites en [INTEGRATIONS-0.9.md](INTEGRATIONS-0.9.md). La investigación histórica de otros motores se conserva abajo.
+
+Consulta original: **12 de octubre de 2026**. Objetivo: apoyar una nueva aplicación macOS arm64 para Apple Silicon, inspirada en las funciones de MultiMode Cocoa. Se consultaron repositorios mediante el conector GitHub y documentación primaria de los proyectos. La tabla conserva el resultado histórico de esa investigación.
+
+**Actualización del 14 de octubre:** acarsdec está integrado desde 0.6 y multimon-ng se ha compilado y validado localmente para arm64 en 0.8.10, con POCSAG y ocho familias Selcall. Hell por pulsos y RTTY ASCII son implementaciones Swift propias. Otros motores de la tabla no se han instalado como parte de esta ampliación. [Contratos y pruebas actuales](DECODIFICADORES-0.8.10.md).
 
 Las columnas de compatibilidad distinguen paquetes disponibles, declaraciones del proyecto y candidatos que necesitan un port. Una compilación o un paquete arm64 no prueba por sí solo la calidad del decodificador ni que todos los dispositivos USB sean compatibles. Las fechas de actividad son `pushed_at` observadas en la API de GitHub; no equivalen a una release ni a una validación funcional.
 

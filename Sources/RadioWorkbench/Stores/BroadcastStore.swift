@@ -16,7 +16,14 @@ import RadioCore
     var onlyFavorites = false
     var frequency = ""
     var tolerance = 5.0
-    var selectedID: String?
+    var selectedID: String? {
+        didSet { if let selectedID { retainedSelectionID = selectedID } }
+    }
+    private var retainedSelectionID: String?
+    var selectedEntry: BroadcastEntry? {
+        guard let id = selectedID ?? retainedSelectionID else { return nil }
+        return snapshot?.entries.first { $0.id == id }
+    }
     var favorites: Set<String>
     var alertFavorites: Set<String>
     var alertLeadMinutes: Int
@@ -135,8 +142,8 @@ import RadioCore
         UserDefaults.standard.set(latitude, forKey: "listenerLatitude"); UserDefaults.standard.set(longitude, forKey: "listenerLongitude")
     }
     var position: (Double,Double)? {
-        guard let lat = Double(latitude.replacingOccurrences(of: ",", with: ".")), let lon = Double(longitude.replacingOccurrences(of: ",", with: ".")), lat.isFinite, lon.isFinite, abs(lat) <= 90, abs(lon) <= 180 else { return nil }
-        return (lat,lon)
+        guard let value = RadioLocation(latitude: latitude, longitude: longitude) else { return nil }
+        return (value.latitude, value.longitude)
     }
     var invalidFrequency: Bool {
         guard !frequency.trimmingCharacters(in: .whitespaces).isEmpty else { return false }

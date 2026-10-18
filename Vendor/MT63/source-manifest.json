@@ -1,0 +1,53 @@
+{
+  "repository": "https://github.com/w1hkj/fldigi",
+  "revision": "61b97f4133c488063f3de1795c894d22d5032e8a",
+  "license": "GPL-3.0-or-later (individual notices retained)",
+  "upstreamPaths": {
+    "include/dsp.h": "src/include/dsp.h",
+    "include/mt63base.h": "src/include/mt63base.h",
+    "src/dsp.cxx": "src/mt63/dsp.cxx",
+    "src/mt63base.cxx": "src/mt63/mt63base.cxx",
+    "src/mt63intl.dat": "src/mt63/mt63intl.dat",
+    "src/symbol.dat": "src/mt63/symbol.dat",
+    "src/mt63.cxx": "src/mt63/mt63.cxx",
+    "COPYING": "COPYING",
+    "AUTHORS": "AUTHORS",
+    "README": "README"
+  },
+  "upstreamFiles": {
+    "include/dsp.h": "d5d13040837993c396364d220b6d7b41998878ebac3e4437432588c31e6ce4cd",
+    "include/mt63base.h": "ed29b569f811768f16083369b07defa7b1048a8307716ab11f4879ad349f0ab4",
+    "src/dsp.cxx": "6eabccefb12542c1a92070d159d027086982b54c350d6c20261ff2df1b89b64f",
+    "src/mt63base.cxx": "1eae40648fc30a8090f1ca41ab0906eef375e15a921d8636aecee283fc988a76",
+    "src/mt63intl.dat": "ca916ed7109ad1855828b7ff7eb668da61d211400d93f2394fafcfc8f3991932",
+    "src/symbol.dat": "2c84500254c18a1d07ae4c3f85e66d7d3bc6dc0c852bc37f603d83ebc47ea33f",
+    "src/mt63.cxx": "a34c5c27441f318a9f6089912e3c0b4bc497f3b52d2ad79573b09d1f8a7c1185",
+    "COPYING": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "AUTHORS": "385ef992b7499ea1a0e195bd35506cd2afb5fdcf0d07f88b1cb5a6d0a44fe5ea",
+    "README": "3d26445e84fd4e263700a30dac1ff607245db5c86ba277a66e6e04872f2aa8ad"
+  },
+  "files": {
+    "AUTHORS": "385ef992b7499ea1a0e195bd35506cd2afb5fdcf0d07f88b1cb5a6d0a44fe5ea",
+    "COPYING": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "LOCAL-CHANGES.md": "b07e8974955f958132d301b0727275f35822dffa0bc64d20d6418a6569d0da6a",
+    "README": "3d26445e84fd4e263700a30dac1ff607245db5c86ba277a66e6e04872f2aa8ad",
+    "README.RadioWorkbench.md": "115e201c301903b057f3b2d81cb97951bf0e1e930906cb475f6d3a723230ca85",
+    "fixture-generator.cpp": "fb312a31b0227d1f0f30942ae4415cba6884c8218e2e67274c2d944c00204989",
+    "fixture-manifest.json": "0d7399269a7887ee82a3cc9962ea41f3cbd04c129fe013018edf5e59cc274594",
+    "include/config.h": "1397089b2a177c5a454b66357b9a487097b61c354427e1f4a6965b55446af4f5",
+    "include/dsp.h": "86ab9bb2d57e496271417258a150df86052f0b75c3e2be9140cc5f8c838ae10c",
+    "include/mt63base.h": "ed29b569f811768f16083369b07defa7b1048a8307716ab11f4879ad349f0ab4",
+    "src/dsp.cxx": "424850a8b41a3a60f7aa1128fe1469c4cab032a94e5ae2ddfd61d24c56df4d65",
+    "src/mt63.cxx": "a34c5c27441f318a9f6089912e3c0b4bc497f3b52d2ad79573b09d1f8a7c1185",
+    "src/mt63base.cxx": "e22f4c450312fdf849006cb14fb82f5cf6b04cd72db191c858ffff8e17dbd4cc",
+    "src/mt63intl.dat": "ca916ed7109ad1855828b7ff7eb668da61d211400d93f2394fafcfc8f3991932",
+    "src/symbol.dat": "2c84500254c18a1d07ae4c3f85e66d7d3bc6dc0c852bc37f603d83ebc47ea33f",
+    "validate-helper.py": "40eed26d40102a94a3e5f2651995b6ca58c12c25d41f78bf9bcc1e4f5a628d8b",
+    "validation-summary.json": "1cf60e9afa7bd987c5bd48c7d214ac6b2d66320eb80fc01f43e8e129a5eaa91e"
+  },
+  "adapterFiles": {
+    "script/mt63-helper.cpp": "d938e57a0798b81e79e2ea033d605cea5cc3a9a51c65969b684eb617799ec620",
+    "script/build_mt63.sh": "57bec9cf6613353065b01be2cdab22a3d06c5eb60b4e8f21bc69bf59f7d9fb1c",
+    "script/generate_mt63_fixtures.py": "3923f154bba23fbcf6637a15d788ee17df81ff02c87d55ca16256fc6dc58b1cd"
+  }
+}

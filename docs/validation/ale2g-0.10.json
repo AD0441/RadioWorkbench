@@ -1,0 +1,121 @@
+{
+  "sourcePin": "efb38e2b25137029cb37a96a94e03366f8d2871e",
+  "results": [
+    {
+      "case": "ale2g_8000_noisy_offset.wav",
+      "returncode": 0,
+      "records": [
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:09] [MSG] [AMD: \"RADIOWORKBENCH TEST\"] [His BER: 8]\n"
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "case": "ale2g_8000_synthetic.wav",
+      "returncode": 0,
+      "records": [
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:09] [MSG] [AMD: \"RADIOWORKBENCH TEST\"] [His BER: 6]\n"
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "case": "ale2g_sounding_8000_synthetic.wav",
+      "returncode": 0,
+      "records": [
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:06] [Sounding THIS IS] [From: LAB] [His BER: 9]\n"
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "case": "ALE.2784.uk.au",
+      "returncode": 0,
+      "records": [
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:16] [Sounding THIS WAS] [From: XSS] [His BER: 0]\n"
+        }
+      ],
+      "stderr": "",
+      "sha256": "d4d1a662af66b693a2306838d7f2ca8c74b423be955d71d26eabd0590497e0c0",
+      "upstream": "https://github.com/jks-prv/Beagle_SDR_GPS/blob/efb38e2b25137029cb37a96a94e03366f8d2871e/extensions/ALE_2G/standalone_test/ALE.2784.uk.au",
+      "sampleRate": 8000,
+      "channels": 1,
+      "encoding": 3,
+      "redistributed": false
+    },
+    {
+      "case": "ALE.zkd.AMD.au",
+      "returncode": 0,
+      "records": [
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:22] [MSG] [AMD: \"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG\"] [His BER: 3]\n"
+        },
+        {
+          "mode": "ALE2G",
+          "decoder": "KiwiSDR ALE 2G",
+          "text": "[00:00:24] [Sounding THIS WAS] [From: BAS] [His BER: 2]\n"
+        }
+      ],
+      "stderr": "",
+      "sha256": "90d1a75ef48c7802fcd49c1b8273bd36dfcb97d4b35e1f1ededa45e00842815e",
+      "upstream": "https://github.com/jks-prv/Beagle_SDR_GPS/blob/efb38e2b25137029cb37a96a94e03366f8d2871e/extensions/ALE_2G/standalone_test/ALE.zkd.AMD.au",
+      "sampleRate": 8000,
+      "channels": 1,
+      "encoding": 3,
+      "redistributed": false
+    },
+    {
+      "case": "silence",
+      "returncode": 0,
+      "records": [],
+      "stderr": ""
+    },
+    {
+      "case": "noise",
+      "returncode": 0,
+      "records": [],
+      "stderr": ""
+    },
+    {
+      "case": "nonfinite",
+      "returncode": 0,
+      "records": [],
+      "stderr": ""
+    },
+    {
+      "case": "asan-long-commands",
+      "returncode": 0,
+      "records": 10,
+      "stderr": ""
+    },
+    {
+      "case": "asan-long-text",
+      "returncode": 0,
+      "records": 1,
+      "stderr": ""
+    },
+    {
+      "case": "live-stdout-before-EOF",
+      "record": {
+        "mode": "ALE2G",
+        "decoder": "KiwiSDR ALE 2G",
+        "text": "[00:00:06] [Sounding THIS IS] [From: LAB] [His BER: 9]\n"
+      },
+      "stdinStillOpenAtPublication": true
+    }
+  ]
+}

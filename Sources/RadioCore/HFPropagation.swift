@@ -19,7 +19,7 @@ public struct HFPropagationInput: Sendable, Equatable {
     }
     public var isValid: Bool {
         let values = [r12, watts, bandwidth, requiredSNR, txGain, rxGain, frequencyMHz]
-        return values.allSatisfy(\.isFinite) && (1...311).contains(r12) && (1...1_000_000).contains(watts)
+        return values.allSatisfy(\.isFinite) && (0...311).contains(r12) && (1...1_000_000).contains(watts)
             && (1...100_000).contains(bandwidth) && (-30...100).contains(requiredSNR)
             && (-40...40).contains(txGain) && (-40...40).contains(rxGain) && (0...3).contains(noise)
             && (1.6...30).contains(frequencyMHz) && origin.distance(to: target) >= 10

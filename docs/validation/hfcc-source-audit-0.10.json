@@ -1,0 +1,254 @@
+{
+  "review_date": "2026-10-18",
+  "scope": "Read-only public-source investigation; no common source/service edits, no app or RF run.",
+  "report": "docs/HFCC-REVISION-0.10.md",
+  "sources": [
+    {
+      "id": "HFCC-A26-INDEX",
+      "url": "https://new.hfcc.org/data/a26/",
+      "kind": "official public index",
+      "observed_last_updated": "16-Oct-2026"
+    },
+    {
+      "id": "HFCC-A26-ZIP",
+      "url": "https://new.hfcc.org/data/a26/a26allx2.zip",
+      "kind": "official public download",
+      "local_path": "/tmp/rw-hfcc-a26allx2.zip",
+      "bytes": 164750,
+      "sha256": "07c4eff6d73cdd38f65e7591dc2895fcce1d2c45b09ea571c6af24a2f667350e"
+    },
+    {
+      "id": "ITU-HFBC-FORMAT",
+      "url": "https://www.itu.int/en/ITU-R/terrestrial/broadcast/HFBC/Documents/File%20format%20for%20submission%20of%20HFBC%20requirements-E.pdf",
+      "kind": "official format specification",
+      "document_updated": "24.10.2014"
+    },
+    {
+      "id": "HFCC-HELP",
+      "url": "https://new.hfcc.org/schedule/help.html",
+      "kind": "official help"
+    },
+    {
+      "id": "HFCC-PUBLIC-ACCESS",
+      "url": "https://new.hfcc.org/data/public_access_HFCC_database.phtml",
+      "kind": "official public access description"
+    }
+  ],
+  "archive_members": [
+    {
+      "name": "A26all00.TXT",
+      "bytes": 523538,
+      "sha256": "0f54e722efcac41e34afb7b5c7ef63269fd3d805674220490dd52e4479024604"
+    },
+    {
+      "name": "admin.txt",
+      "bytes": 30269,
+      "sha256": "40e39c5bbbcf42e6b021f2c5fc967fef24acecc057979392b2aba362ec1f6c1c"
+    },
+    {
+      "name": "antenna.txt",
+      "bytes": 40254,
+      "sha256": "029e403f17175f746a7f49cc9e72943c522b6fe8258c81e8a671027c86c9d9c3"
+    },
+    {
+      "name": "broadcas.txt",
+      "bytes": 9996,
+      "sha256": "acb9a53b10fdba967a7c70ceed0c742029703c1a5e106ad05d6bacad5c7377dd"
+    },
+    {
+      "name": "fmorg.txt",
+      "bytes": 25361,
+      "sha256": "fd66d14a792e0a67f543b7e8b21aa8de857c8fcdde3722920fc8a3b920dffd73"
+    },
+    {
+      "name": "language.txt",
+      "bytes": 816662,
+      "sha256": "07e0a0ab55fb729aa0a9210c94f0c09ece767aea096f8473b99542ab3d7f6a01"
+    },
+    {
+      "name": "site.txt",
+      "bytes": 37357,
+      "sha256": "62339f1db63170d038d0c813f22eb0e2ed5099014f08d5553e062f5a118dde70"
+    }
+  ],
+  "site_table": {
+    "member": "site.txt",
+    "header_date": "20-May-2026",
+    "rows": 700,
+    "unique_codes": 700,
+    "parse_failures": 0,
+    "encoding": "Latin-1; CRLF",
+    "one_based_byte_columns": {
+      "code": "1-3, trim spaces",
+      "name": "5-34",
+      "administration": "36-38, trim spaces",
+      "latitude": "40-44 DD[N/S]MM",
+      "longitude": "starts 46; 1-3 degree digits + E/W + two minute digits"
+    },
+    "observed_row_regex": "^(.{3}) (.{30}) (.{3}) (\\d{2})([NS])(\\d{2})\\s+(\\d{1,3})([EW])(\\d{2})\\s*$",
+    "coordinate_conversion": "sign * (degrees + minutes/60); minutes <60; latitude <=90, longitude <=180",
+    "local_parsed_rows": "/tmp/rw-hfcc-sites-parsed.json"
+  },
+  "schedule": {
+    "member": "A26all00.TXT",
+    "rows": 3388,
+    "cross_midnight_rows": 155,
+    "date_fields_valid_ddmmyy": 6776,
+    "old_flag_column_132_blank_rows": 3388,
+    "site_codes_missing_from_paired_table": {
+      "BNA": 4
+    },
+    "main_start_stop_date_pairs": {
+      "290326/251026": 2098,
+      "290326/241026": 896
+    },
+    "weekday_counts": {
+      "1234567": 2858,
+      "23456": 106,
+      "1": 104,
+      "7": 68,
+      "17": 47,
+      "35": 39,
+      "6": 29,
+      "4": 22
+    }
+  },
+  "findings": [
+    {
+      "id": "HFCC-ZIP-MEMBER",
+      "severity": "functional defect",
+      "observation": "Downloaded a26allx2.zip contains A26all00.TXT; inspected service accepted only a26allx2.txt. Valid public download therefore failed with cannotFindHost.",
+      "recommendation": "Accept exact season-specific known names, reject missing/ambiguous candidates; never choose first arbitrary text member."
+    },
+    {
+      "id": "HFCC-WEEKDAY",
+      "severity": "association correctness",
+      "observation": "HFCC Sunday=1 and Saturday=7; current BroadcastCalendar EiBi numeric convention Monday=1 and Sunday=7.",
+      "recommendation": "Use separate UTC HFCC day conversion; 23456 means Monday-Friday, 1 means Sunday."
+    },
+    {
+      "id": "HFCC-DATE-POLICY",
+      "severity": "unresolved source semantics",
+      "observation": "DDMMYY specified, but consulted sources did not explicitly settle final-day inclusivity or all overnight weekday anchors.",
+      "recommendation": "Record policy and test full UTC dates, midnight, month/year and season boundaries before automatic power association."
+    },
+    {
+      "id": "HFCC-POWER",
+      "severity": "physical quantity semantics",
+      "observation": "kW is DSB carrier power or SSB peak envelope power; below 1kW must be filed as 1. Not measured radiated power or ERP/EIRP."
+    },
+    {
+      "id": "HFCC-AZIMUTH",
+      "severity": "physical model semantics",
+      "observation": "0 degrees can represent nondirectional antenna; do not infer a north-facing beam from zero alone."
+    }
+  ],
+  "eibi_crossmatch": {
+    "source": "docs/eibi-snapshot/README.TXT",
+    "distance_model": "haversine, sphere radius 6371km",
+    "examples": [
+      {
+        "eibi_key": "G|w",
+        "eibi": {
+          "name": "Woofferton",
+          "latitude": 52.31666666666667,
+          "longitude": -2.716666666666667
+        },
+        "hfcc": {
+          "code": "WOF",
+          "name": "Woofferton",
+          "administration": "G",
+          "latitude": 52.31666666666667,
+          "longitude": -2.716666666666667
+        },
+        "distance_km": 0.0
+      },
+      {
+        "eibi_key": "CVA|",
+        "eibi": {
+          "name": "Santa Maria di Galeria",
+          "latitude": 42.05,
+          "longitude": 12.316666666666666
+        },
+        "hfcc": {
+          "code": "SMG",
+          "name": "S. Maria di Galeria",
+          "administration": "CVA",
+          "latitude": 42.05,
+          "longitude": 12.316666666666666
+        },
+        "distance_km": 0.0
+      },
+      {
+        "eibi_key": "USA|o",
+        "eibi": {
+          "name": "Okeechobee, FL (WYFR)",
+          "latitude": 27.458333333333332,
+          "longitude": -80.93333333333334
+        },
+        "hfcc": {
+          "code": "RMI",
+          "name": "Okeechobee, FL",
+          "administration": "USA",
+          "latitude": 27.466666666666665,
+          "longitude": -80.93333333333334
+        },
+        "distance_km": 0.9266243887047163
+      },
+      {
+        "eibi_key": "F|i",
+        "eibi": {
+          "name": "Issoudun",
+          "latitude": 46.93333333333333,
+          "longitude": 1.9
+        },
+        "hfcc": {
+          "code": "ISS",
+          "name": "Issoudun",
+          "administration": "F",
+          "latitude": 46.95,
+          "longitude": 1.9833333333333334
+        },
+        "distance_km": 6.592314887883707
+      },
+      {
+        "eibi_key": "ROU|g",
+        "eibi": {
+          "name": "Galbeni",
+          "latitude": 46.75,
+          "longitude": 26.683333333333334
+        },
+        "hfcc": {
+          "code": "GAL",
+          "name": "Galbeni",
+          "administration": "ROU",
+          "latitude": 46.733333333333334,
+          "longitude": 26.833333333333332
+        },
+        "distance_km": 11.5793618339304
+      }
+    ],
+    "proposed_threshold_km": 10,
+    "threshold_status": "Conservative implementation proposal; not official standard or coordinate validation. Galbeni example remains a discrepancy.",
+    "automatic_power_requirements": [
+      "Both physical sites resolved",
+      "distance within documented tolerance",
+      "frequency, time, date, weekdays and modulation compatible",
+      "one unambiguous candidate; conflicting powers require explicit selection",
+      "retain source, season, fetch time, site and row provenance"
+    ]
+  },
+  "license": {
+    "explicit_open_redistribution_license_found": false,
+    "official_pages_notice": "Copyright HFCC 1999-2026 All Rights Reserved",
+    "public_access_is_public_domain": false,
+    "recommendation": "Prefer attributed on-demand official download and dated cache; clarify conditions before redistribution of complete tables."
+  },
+  "limits": [
+    "Reference table is version paired with this official A26 snapshot, not proof of globally latest ITU table.",
+    "No private area access or account authentication.",
+    "No full HFCC table copied into repository or application bundle.",
+    "No exact equivalence between HFCC administration codes and EiBi country/site keys assumed.",
+    "No source modifications or runtime application tests performed in this investigation."
+  ]
+}

@@ -1,0 +1,280 @@
+cmake_minimum_required( VERSION 3.15...3.30 )
+
+# The "MSVC" flag isn't set until the "project" command
+# is called.  Let's just check the operating system.
+if( NOT WIN32 )
+	project( multimon-ng C )
+	set( PROJECT_LINKER_LANGUAGE C )
+else( NOT WIN32 )
+	# Visual Studio C compiler doesn't support C99 (i.e. stdbool.h);
+	# so use the Visual Studio C++ compiler instead
+	project( multimon-ng CXX )
+	set( PROJECT_LINKER_LANGUAGE CXX )
+endif( NOT WIN32 )
+
+set( TARGET "${PROJECT_NAME}" )
+set( VERSION "1.6.2" )
+set( MAJOR "1" )
+set( MINOR "6" )
+set( PATCH "2" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra" )
+
+option( ENABLE_HARDENING "Enable supported compiler and linker hardening" ON )
+if( ENABLE_HARDENING AND NOT MSVC )
+	if( CMAKE_C_COMPILER_LOADED )
+		include( CheckCCompilerFlag )
+		set( HARDENING_LANGUAGE C )
+	else()
+		include( CheckCXXCompilerFlag )
+		set( HARDENING_LANGUAGE CXX )
+	endif()
+	set( SAVED_CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS}" )
+	set( CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -Werror" )
+
+	foreach( FLAG IN ITEMS
+			"-fstack-protector-strong"
+			"-fstack-clash-protection"
+			"-Wformat=2" )
+		string( MAKE_C_IDENTIFIER "${FLAG}" FLAG_ID )
+		if( HARDENING_LANGUAGE STREQUAL C )
+			check_c_compiler_flag( "${FLAG}" "HAVE_COMPILE_${FLAG_ID}" )
+		else()
+			check_cxx_compiler_flag( "${FLAG}" "HAVE_COMPILE_${FLAG_ID}" )
+		endif()
+		if( HAVE_COMPILE_${FLAG_ID} )
+			list( APPEND HARDENING_COMPILE_OPTIONS "${FLAG}" )
+		endif()
+	endforeach()
+
+	if( CMAKE_VERSION VERSION_GREATER_EQUAL 3.18 )
+		include( CheckLinkerFlag )
+	endif()
+	foreach( FLAG IN ITEMS
+			"-Wl,-z,relro"
+			"-Wl,-z,now"
+			"-Wl,-z,noexecstack" )
+		string( MAKE_C_IDENTIFIER "${FLAG}" FLAG_ID )
+		if( CMAKE_VERSION VERSION_GREATER_EQUAL 3.18 )
+			check_linker_flag( ${HARDENING_LANGUAGE} "${FLAG}" "HAVE_LINK_${FLAG_ID}" )
+		elseif( HARDENING_LANGUAGE STREQUAL C )
+			check_c_compiler_flag( "${FLAG}" "HAVE_LINK_${FLAG_ID}" )
+		else()
+			check_cxx_compiler_flag( "${FLAG}" "HAVE_LINK_${FLAG_ID}" )
+		endif()
+		if( HAVE_LINK_${FLAG_ID} )
+			list( APPEND HARDENING_LINK_OPTIONS "${FLAG}" )
+		endif()
+	endforeach()
+	set( CMAKE_REQUIRED_FLAGS "${SAVED_CMAKE_REQUIRED_FLAGS}" )
+endif()
+
+function( enable_target_hardening TARGET_NAME )
+	if( HARDENING_COMPILE_OPTIONS )
+		target_compile_options( "${TARGET_NAME}" PRIVATE ${HARDENING_COMPILE_OPTIONS} )
+	endif()
+	if( HARDENING_LINK_OPTIONS )
+		target_link_options( "${TARGET_NAME}" PRIVATE ${HARDENING_LINK_OPTIONS} )
+	endif()
+endfunction()
+
+if( WIN32 )
+	add_definitions( "-DWIN32_AUDIO" "-DONLY_RAW" "-DWINDOWS" )
+	link_libraries( "winmm" )
+	set( SOURCES ${SOURCES}
+		"win32_soundin.c"
+		)
+elseif( UNIX )
+	find_package( X11 )
+	if ( X11_FOUND )
+		option( X11_SUPPORT "Enable X11 display support" ${X11_FOUND} )
+		mark_as_advanced( X11_SUPPORT )
+	endif( X11_FOUND )
+	find_package( PulseAudio )
+	if ( PULSEAUDIO_FOUND )
+		option( PULSE_AUDIO_SUPPORT "Enable pulse audio support" ${PULSEAUDIO_FOUND} )
+		mark_as_advanced( PULSE_AUDIO_SUPPORT )
+	endif( PULSEAUDIO_FOUND )
+
+	# Check if we can use the GCC/llvm __builtin_popcount
+	include( CheckCSourceCompiles )
+	check_c_source_compiles(
+		"int main() { __builtin_popcount(42); return 0; }" USE_BUILTIN_POPCOUNT )
+
+	set( INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/share/man" )
+	install( FILES multimon-ng.1 DESTINATION "${INSTALL_MAN_DIR}/man1" )
+endif( WIN32 )
+
+# Check for C11 timespec_get on all platforms. It is standard C11 but missing
+# on Android/Bionic and some older systems; MSVC has it since VS2015, glibc
+# since 2.16, macOS since 10.15. When absent, unixinput.c provides a fallback.
+include( CheckSymbolExists )
+# Ensure the check sees the same C standard the project builds with. Some
+# older compilers default to pre-C11 modes where timespec_get() is hidden.
+if( NOT MSVC )
+	set( CMAKE_REQUIRED_FLAGS "-std=gnu11" )
+endif()
+check_symbol_exists( timespec_get "time.h" HAVE_TIMESPEC_GET )
+unset( CMAKE_REQUIRED_FLAGS )
+if( HAVE_TIMESPEC_GET )
+	add_definitions( "-DHAVE_TIMESPEC_GET" )
+endif( HAVE_TIMESPEC_GET )
+
+if( X11_SUPPORT )
+	include_directories( ${X11_INCLUDE_DIR} )
+	link_libraries( ${X11_LIBRARIES} )
+	set( SOURCES ${SOURCES}
+		xdisplay.c
+		demod_display.c
+	)
+else( X11_SUPPORT )
+	add_definitions( "-DNO_X11" )
+endif( X11_SUPPORT )
+
+# SDL3 phosphor scope support
+find_package( SDL3 QUIET )
+if( SDL3_FOUND )
+	option( SDL3_SCOPE "Enable SDL3 digital phosphor scope" ON )
+	mark_as_advanced( SDL3_SCOPE )
+endif( SDL3_FOUND )
+
+if( SDL3_SCOPE )
+	set( SOURCES ${SOURCES}
+		demod_sdl_scope.c
+	)
+else( SDL3_SCOPE )
+	add_definitions( "-DNO_SDL3" )
+endif( SDL3_SCOPE ) 
+
+if( PULSE_AUDIO_SUPPORT )
+	include_directories( ${PULSEAUDIO_INCLUDE_DIR} )
+	find_library( PULSE_SIMPLE NAMES pulse-simple REQUIRED )
+	link_libraries( ${PULSEAUDIO_LIBRARY} ${PULSE_SIMPLE} )
+	add_definitions( "-DPULSE_AUDIO" )
+elseif( APPLE )
+	# macOS: Use Core Audio ProcessTap for system audio capture (macOS 14.2+)
+	find_library( COREAUDIO_LIBRARY CoreAudio REQUIRED )
+	find_library( AUDIOTOOLBOX_LIBRARY AudioToolbox REQUIRED )
+	find_library( COREFOUNDATION_LIBRARY CoreFoundation REQUIRED )
+	find_library( FOUNDATION_LIBRARY Foundation REQUIRED )
+	link_libraries( ${COREAUDIO_LIBRARY} ${AUDIOTOOLBOX_LIBRARY} ${COREFOUNDATION_LIBRARY} ${FOUNDATION_LIBRARY} )
+	add_definitions( "-DCOREAUDIO" "-DHAS_PROCESSTAP" )
+	set( MACOS_AUDIO_SOURCE macos_audio.m )
+	# Enable Objective-C for .m files
+	enable_language( OBJC )
+else( PULSE_AUDIO_SUPPORT )
+	add_definitions( "-DDUMMY_AUDIO" )
+endif( PULSE_AUDIO_SUPPORT )
+
+if( NOT MSVC )
+	add_definitions( "-std=gnu11" )
+endif( NOT MSVC )
+add_definitions( "-DCHARSET_UTF8" )
+
+if ( EXISTS "${multimon-ng_SOURCE_DIR}/bch.c" )
+	set( BCH_SOURCE bch.c )
+elseif ( EXISTS "${multimon-ng_SOURCE_DIR}/BCHCode.c" )
+	set( BCH_SOURCE BCHCode.c )
+else()
+	message(STATUS "Using the BCH decoder stub")
+	set( BCH_SOURCE bch_stub.c )
+endif()
+
+set( SOURCES ${SOURCES}
+	${BCH_SOURCE} )
+
+set( HEADERS ${HEADERS}
+    	multimon.h
+    	gen.h
+    	filter.h
+    	filter-i386.h
+		cJSON.h
+		bch.h
+)
+
+set( SOURCES ${SOURCES}
+	unixinput.c
+	uart.c
+	pocsag.c
+	selcall.c
+	hdlc.c
+	demod_zvei1.c
+	demod_zvei2.c
+	demod_zvei3.c
+	demod_pzvei.c
+	demod_dzvei.c
+	demod_ccir.c
+	demod_eia.c
+	demod_eea.c
+	demod_ufsk12.c
+	demod_poc24.c
+	demod_poc12.c
+	demod_poc5.c
+	demod_hapn48.c
+	demod_fsk96.c
+	demod_dtmf.c
+	demod_dualtone.c
+	demod_clipfsk.c
+	demod_fmsfsk.c
+	demod_afsk24.c
+	demod_afsk24_3.c
+	demod_afsk24_2.c
+	demod_afsk12.c
+	demod_flex.c
+	demod_flex_next.c
+	demod_gsc.c
+	costabi.c
+	costabf.c
+	clip.c
+	fms.c
+	demod_eas.c
+	demod_morse.c
+	demod_dumpcsv.c
+	demod_x10.c
+	cJSON.c
+	${MACOS_AUDIO_SOURCE}
+)
+
+
+add_executable( "${TARGET}" ${SOURCES} ${HEADERS} )
+set_property(TARGET "${TARGET}" PROPERTY LINKER_LANGUAGE ${PROJECT_LINKER_LANGUAGE})
+target_compile_definitions( "${TARGET}" PRIVATE MAX_VERBOSE_LEVEL=3 )
+target_link_libraries( "${TARGET}" m )
+enable_target_hardening( "${TARGET}" )
+if( SDL3_SCOPE )
+	target_link_libraries( "${TARGET}" SDL3::SDL3 )
+endif( SDL3_SCOPE )
+install(TARGETS multimon-ng DESTINATION bin)
+
+# gen-ng signal generator
+option( BUILD_GEN_NG "Build gen-ng signal generator" ON )
+if( BUILD_GEN_NG )
+	set( GEN_SOURCES
+		gen.c
+		gen_dtmf.c
+		gen_sin.c
+		gen_zvei.c
+		gen_hdlc.c
+		gen_uart.c
+		gen_clipfsk.c
+		gen_flex.c
+		gen_pocsag.c
+		gen_scope.c
+		costabi.c
+		${BCH_SOURCE}
+	)
+	add_executable( gen-ng ${GEN_SOURCES} gen.h )
+	target_compile_definitions( gen-ng PRIVATE MAX_VERBOSE_LEVEL=1 )
+	enable_target_hardening( gen-ng )
+	if( WIN32 )
+		target_compile_definitions( gen-ng PRIVATE DUMMY_AUDIO ONLY_RAW WINDOWS )
+		target_link_libraries( gen-ng winmm )
+	elseif( APPLE )
+		target_compile_definitions( gen-ng PRIVATE DUMMY_AUDIO CHARSET_UTF8 )
+		target_link_libraries( gen-ng m )
+	else()
+		target_compile_definitions( gen-ng PRIVATE CHARSET_UTF8 )
+		target_link_libraries( gen-ng m )
+	endif()
+	set_property(TARGET gen-ng PROPERTY LINKER_LANGUAGE ${PROJECT_LINKER_LANGUAGE})
+	install(TARGETS gen-ng DESTINATION bin)
+endif()

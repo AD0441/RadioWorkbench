@@ -1,0 +1,78 @@
+{
+  "provenance": "fldigi MT63tx synthetic source-loopback; no real RF/audio-device reception is claimed",
+  "checks": [
+    {
+      "bandwidth": 500,
+      "interleave": "short",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 33.216,
+      "transmitterPreambleSeconds": 20.0,
+      "measuredReceiverLatencySeconds": 13.216
+    },
+    {
+      "bandwidth": 500,
+      "interleave": "long",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 39.616,
+      "transmitterPreambleSeconds": 20.0,
+      "measuredReceiverLatencySeconds": 19.616
+    },
+    {
+      "bandwidth": 1000,
+      "interleave": "short",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 16.608,
+      "transmitterPreambleSeconds": 10.0,
+      "measuredReceiverLatencySeconds": 6.608
+    },
+    {
+      "bandwidth": 1000,
+      "interleave": "long",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 19.808,
+      "transmitterPreambleSeconds": 10.0,
+      "measuredReceiverLatencySeconds": 9.808
+    },
+    {
+      "bandwidth": 2000,
+      "interleave": "short",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 8.32,
+      "transmitterPreambleSeconds": 5.0,
+      "measuredReceiverLatencySeconds": 3.32
+    },
+    {
+      "bandwidth": 2000,
+      "interleave": "long",
+      "cleanExact": true,
+      "noisy12dBExact": true,
+      "silence60sNoText": true,
+      "whiteNoise60sNoText": true,
+      "firstCharacterSeconds": 9.92,
+      "transmitterPreambleSeconds": 5.0,
+      "measuredReceiverLatencySeconds": 4.92
+    }
+  ],
+  "fragmentedWritesTextBeforeEOF": true,
+  "nonFiniteInputSanitized": true,
+  "truncatedSampleRejected": true,
+  "invalidOptionsRejected": true,
+  "ASanUBSanAllSixTXAndRX": true,
+  "ASanUBSanCenterBoundaryCases": 12,
+  "JSONEscapingAndLatin1EscapeRecovered": true
+}

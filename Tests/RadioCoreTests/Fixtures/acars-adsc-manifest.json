@@ -1,0 +1,23 @@
+{
+  "source": "libacars examples/adsc_get_position.c, MIT; independent MSK modulation via generate_acars_fixtures.py",
+  "fixtures": [
+    {
+      "file": "acars_adsc_12000.wav",
+      "sha256": "ede8620cbdddfc2f5d93556100b7b31429dd3a063d9363e9b3bb169f6974fb12",
+      "expected_messages": 1,
+      "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b0b0c154d354b0b0312fc24fcdc1d3c149aec1c4d3aed654adc1cec2b03732b5b031c1b037b0c1b9383843c137b332343846b045b5c44331b032b0b0b0b0b046b5454531c1c243b0b0b031b032c23838b545b0c131b946b583d8a17fffff"
+    },
+    {
+      "file": "acars_adsc_part1_12000.wav",
+      "sha256": "d75e51d413cd2af0ede7c0db5686373ccb8c6678a15a8ee5021ca94c6df25dd2",
+      "expected_messages": 1,
+      "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313102b0b031c154d354b0b0312fc24fcdc1d3c149aec1c4d3aed654adc1cec2b03732b5b031c1b037b0c1b9383843c137b332972c377fffff"
+    },
+    {
+      "file": "acars_adsc_part2_12000.wav",
+      "sha256": "4d46e13c5edefe447008d88333a5a0c1aa3acec1e76b5736a5ee35d0ee127c74",
+      "expected_messages": 1,
+      "bytes_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffab2a16160132ae5445d354b0b015c8313202b0b031c254d354b0b031343846b045b5c44331b032b0b0b0b0b046b5454531c1c243b0b0b031b032c23838b545b0c131b946b5830d6f7fffff"
+    }
+  ]
+}

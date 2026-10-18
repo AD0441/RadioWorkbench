@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     int month, ssn, noise;
     double txlat, txlon, power, bandwidth, required, txgain, rxgain;
     if (scanf("%d %d %d %lf %lf %lf %lf %lf %lf %lf %d", &path.year, &month, &ssn, &txlat, &txlon, &power, &bandwidth, &required, &txgain, &rxgain, &noise) != 11) return 2;
-    if (path.year < 1900 || path.year > 2100 || month < 1 || month > 12 || ssn < 1 || ssn > 311 || noise < 0 || noise > 3 ||
+    if (path.year < 1900 || path.year > 2100 || month < 1 || month > 12 || ssn < 0 || ssn > 311 || noise < 0 || noise > 3 ||
         !isfinite(txlat) || fabs(txlat) > 90 || !isfinite(txlon) || fabs(txlon) > 180 ||
         !isfinite(power) || power < 1 || power > 1e6 || !isfinite(bandwidth) || bandwidth < 1 || bandwidth > 1e5 ||
         !isfinite(required) || required < -30 || required > 100 || !isfinite(txgain) || fabs(txgain) > 40 || !isfinite(rxgain) || fabs(rxgain) > 40) return 2;

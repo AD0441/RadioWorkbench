@@ -3,7 +3,7 @@ import RadioCore
 import UserNotifications
 
 @MainActor final class BroadcastAlertScheduler {
-    private let center = UNUserNotificationCenter.current()
+    private lazy var center = UNUserNotificationCenter.current()
     private let prefix = "broadcast-favorite-"
 
     func requestAuthorization() async throws -> Bool {

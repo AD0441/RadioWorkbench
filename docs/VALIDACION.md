@@ -1,3 +1,71 @@
+# Validación de RadioWorkbench 0.11.0
+
+Suite Release arm64: **202 funciones registradas, 198 aprobadas y cuatro opcionales omitidas**, cero fallos, 7,438 s una vez compilada. Las omisiones son dos pruebas que requieren el runtime DSD instalado, descarga satelital en vivo y el benchmark de terreno en red. No se inició micrófono, SDR++ ni sintonía del receptor físico.
+
+Se verificaron biblioteca/SHA-256/papelera, calidad PCM, fragmentación y EOF TCP, cierre concurrente sin perder el último bloque, servidores Rigctl simulados (incluido éxito sin sintonizar y cancelación), DSC con ECC y exportación de símbolos, mapa/eventos con fechas y trazas, SatDump aislado con importación y cancelación, y referencias del taller. La revisión HF incorpora 21 comprobaciones C y conserva la referencia pública y las escalas de potencia/ancho. DSC pasó 18 comprobaciones aisladas, repetidas con ASan/UBSan y muestras públicas identificadas.
+
+[Suite](validation/release-0.11.0-tests.txt) · [Resumen](validation/tests-0.11.0-summary.json) · [HF](validation/hf-review-0.10-tests.txt) · [DSC](validation/dsc-prototype-0.10.json) · [Sanitizadores DSC](validation/dsc-sanitizers-0.10.json) · [SatDump real con I/Q cero](validation/satdump-offline-0.11.json) · [Límites](NUEVE-MEJORAS.md).
+
+La prueba física SDR++ → VB-Cable y una captura LRPT independiente siguen pendientes. El procesamiento real de I/Q cero produjo descriptores vacíos y ninguna imagen; no se interpreta como recepción. La firma es local ad hoc, sin notarización. El [paquete 0.11.0](validation/package-0.11.0.json) extraído pasó integridad y firma estricta; sus ejecutables son arm64 y los ejemplos DSC/MT63/ALE decodificaron con los helpers distribuidos. ZIP: 190.779.871 bytes, SHA-256 `ab2a4b05a0324a2112e671c88ab1f5c6e066b2086f1ebe90c535b0432e420961`.
+
+Con el Mac desbloqueado, la interfaz 0.11.0 mostró las nuevas entradas de navegación, el selector de dispositivo/TCP, los parámetros explícitos de TCP y el diagnóstico desplegado. No se inició la conexión. Al cambiar a DSC se cerró SkyComputerUseService, con `EXC_BREAKPOINT / SIGTRAP` en `Array.remove(at:)`; el servicio volvió a fallar tras reiniciar la sesión de control. RadioWorkbench seguía en ejecución y no apareció un nuevo informe de cierre de la app. La transferencia Guía → HF y los demás flujos interactivos no se presentan como comprobados en esta pasada; sus pruebas automatizadas sí están incluidas en la suite indicada. [Registro de interfaz parcial](validation/ui-0.11.0.json).
+
+# Validación de RadioWorkbench 0.8.11
+
+## 0.10.0
+
+La suite release registra **159 funciones: 155 aprobadas y cuatro opcionales omitidas**, ejecución 7,618 s. Se omitieron las dos pruebas de DSD que exigen su runtime externo y dos comprobaciones de red/terreno real. No hubo fallos. [Salida completa](validation/release-0.10.0-tests.txt) · [Resumen](validation/tests-0.10.0-summary.json).
+
+La ampliación verifica las seis variantes MT63; ALE 2G con modulador aritmético independiente, AMD y sondeos; silencio, ruido y floats no finitos; publicación con stdin abierto; enrutamiento del worker, remuestreo de WAV estéreo a 48 kHz con el canal derecho seleccionado, recepción simulada en vivo y persistencia de ajustes anteriores. Un caso comprueba que la guía RF MT63 conserve el bloque al desplazar su centro.
+
+Las comprobaciones nativas de MT63 añaden ruido a 12 dB en los seis modos, 60 s de silencio/ruido, entradas fragmentadas, escape JSON, argumentos inválidos y ASan/UBSan en TX/RX y doce centros extremos. Corrigen fallos heredados de asignación y de índice FFT. [Resultados](../Vendor/MT63/validation-summary.json) · [Cambios](../Vendor/MT63/LOCAL-CHANGES.md). Los fixtures usan TX/RX del mismo upstream: falta una grabación MT63 independiente.
+
+ALE se contrastó además con dos AU públicos del repositorio KiwiSDR, identificados por SHA-256 y conservados solo para comprobación local; recupera XSS y el AMD de referencia. [Once comprobaciones nativas y procedencia](validation/ale2g-0.10.json). El caso sintético con +25 Hz y ruido recupera AMD completo; +65 Hz no garantiza el mensaje. Se documenta la sensibilidad limitada en lugar de generalizarla.
+
+Una ejecución inicial dentro del aislamiento del agente quedó esperando la enumeración de formatos de AudioToolbox. La muestra del proceso localizó esa espera; se detuvieron únicamente los procesos de esa prueba y se repitió la suite con acceso al servicio de audio de macOS. Esa repetición es la pasada indicada arriba. No fue una caída de RadioWorkbench.
+
+No se realizó captura de micrófono ni prueba física de SDR++/VB-Cable en esta ampliación. La inspección REA de las cinco aplicaciones fue estática: [cobertura, identidades y límites](REVISION-APPS-0.10.md).
+
+## 0.9.0
+
+148 pruebas registradas, 146 aprobadas y dos opcionales de red omitidas en la pasada Release. Nuevas pruebas: FT8/FT4 por WAV y silencio, CW automático/neuronal con tono/velocidad apartados de valores iniciales y publicación en vivo, ADS-C/CPDLC y CRC interno, bloques ACARS en FIFO bajo acumulación, exportación, M17 SMS/Codec2 WAV, referencia SGP4 de Vallado y actualización de caché sin BSTAR. La comparación con seis WAV públicos FT8 recupera 53 mensajes; se conservan también los no recuperados en [ft8-independent-0.9.json](validation/ft8-independent-0.9.json). No certifica todos los protocolos DSD ni sustituye pruebas RF. No se usó micrófono o SDR++ en esta actualización.
+
+Release arm64/macOS 14+, build 23. Se reprodujeron los dos defectos revisados con **Avisos sin texto**: un aviso a 1200 baud para capcode 123456 seguido de dos segundos de silencio producía 75 registros, 74 falsos; la salida breve no era legible mientras stdin seguía abierto. Con el parche del sincronismo periódico, el mismo audio produce **un registro legítimo y cero falsos**. El aviso JSON se puede leer con stdin abierto y queda recibido antes de terminar el helper con SIGTERM.
+
+La corrección combina tres etapas: `fflush` en el aviso sin texto, lectura del Pipe mediante los bytes disponibles y publicación de resultados asíncronos aunque se haya agotado el último bloque de audio. El sincronismo se exige después de 16 palabras, reiniciando el framing al adquirirlo y respetando el límite BCH configurado. No se filtran direcciones bajas: un capcode real 0 conserva su recepción.
+
+Se añadieron siete funciones con 25 casos, incluyendo 48 comprobaciones de aviso+silencio que cubren tres tasas, ambas polaridades y ocho frames de capcode. También cubren sincronismo ausente/sustituido por idle, recuperación con cambio de fase, mensajes multibloque, errores corregibles/no permitidos, publicación antes de EOF/cancelación y monitor en vivo/WAV a 48 kHz. La suite Release final registró **135 funciones: 133 ejecutadas y aprobadas; dos opcionales omitidas**, en 6,364 s. La prueba de 48 kHz tolera la espera del ejecutor durante la suite DSP completa; la condición sigue siendo recibir el aviso con la entrada abierta, antes de cancelar. No se utilizó micrófono, SDR++ ni una grabación de tráfico real.
+
+Las modificaciones de multimon-ng se identifican con fecha en `pocsag.c`, un aviso local y hashes upstream/distribuidos en el manifiesto. [Cambios del componente](../Vendor/MultimonNG/LOCAL-CHANGES.md).
+
+El ZIP 0.8.11/build 23 extraído pasó integridad y firma estricta; todos sus binarios son arm64. Se ejecutó la misma reproducción contra el helper extraído del ZIP: un aviso, cero falsos, lectura antes de EOF y evento recibido antes de SIGTERM. El archivo de fuentes del bundle contiene exactamente el `pocsag.c` parcheado, manifiesto y aviso local. Firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.11-macos-arm64.zip`: `cb9933beaeba800d8a3ddb49d5bdf1a1a84836268e9723814fbce6e870cadbe0`.
+
+[Pruebas completas](validation/release-0.8.11-tests.txt) · [Resumen](validation/tests-0.8.11-summary.json) · [Reproducción antes/después](validation/pocsag-regressions-0.8.11.json) · [Paquete](validation/package-0.8.11.json) · [Notas 0.8.11](RELEASE-0.8.11.md).
+
+# Validación de RadioWorkbench 0.8.10
+
+Release arm64/macOS 14+, build 22. La suite ordinaria registró **128 funciones: 126 ejecutadas y aprobadas; dos opcionales omitidas**, en 5,502 s una vez compilada. Las nuevas pruebas cubren tres tasas POCSAG, ambas polaridades, BCH con errores, ocho familias Selcall, ASCII 7/8, cinco variantes Hell, datos malformados, cancelación, perfiles anteriores y el pipeline WAV→worker→helper. Se inspeccionaron los cinco PNG «CQ» generados por el decodificador Hell nativo; el error medio contra patrones del transmisor fue aproximadamente 17–18 niveles de 255.
+
+Los tests satelitales verifican épocas GP UTC sin Z, fracciones de segundo, checksum TLE, NORAD, fechas AMSAT, actualización parcial, error de certificado sin pérdida de órbitas, persistencia precisa de épocas y consistencia entre trayectoria terrestre/azimut/elevación. Una prueba separada con URLSession real descargó **97 satélites, 402 registros de frecuencias y 500 reportes**. CelesTrak agotó su espera en el primer intento; AMSAT TLE completó las órbitas. Una actualización posterior con AMSAT preferido pasó en 1,431 s, sin errores por fuente y sin desactivar TLS.
+
+El ZIP final extraído pasó integridad y `codesign --verify --deep --strict`. Todos sus ejecutables y bibliotecas son arm64, incluido multimon-helper. Contiene las fuentes, script y licencia de multimon-ng. Versión 0.8.10/build 22; firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.10-macos-arm64.zip`: `4794f84c8c0e1973cd49b9f9fad7e7a0f9b0a2377ad78c29fd5983a4713ba966`.
+
+La app abrió y se pudo inspeccionar su árbol de accesibilidad: nuevos modos disponibles y selector de entrada/canal presentes. El control CUA volvió a desconectar el canal nativo al entrar a Consultas, incluso después de reconectarse; la revisión visual interactiva de los mapas queda pendiente. No se hizo una prueba SDR++ → VB-Cable ni recepción RF de los nuevos modos. Los cálculos y las descargas se comprobaron independientemente de ese bloqueo de la herramienta.
+
+[Pruebas](validation/release-0.8.10-tests.txt) · [Resumen](validation/tests-0.8.10-summary.json) · [Descarga real](validation/satellites-live-0.8.10.json) · [Paquete](validation/package-0.8.10.json) · [Modos y parámetros](DECODIFICADORES-0.8.10.md) · [Consultas](CONSULTAS.md).
+
+# Validación de RadioWorkbench 0.8.9
+
+Release arm64/macOS 14+, build 21. La cobertura VHF/UHF pasa de una envolvente radial a enlaces ITM independientes por celda, con DEM Mapzen/Terrarium, alturas AGL y terreno AMSL, cancelación, caché y avisos válidos del modelo. El horizonte de Tierra lisa es opcional y usa AGL; elegir RX conserva el área.
+
+`bash script/test.sh --configuration release` terminó con 110 funciones registradas: **109 aprobaron** y el benchmark geográfico quedó omitido por defecto. Ese benchmark pasó por separado con 36 teselas reales de Santiago: 13.098 celdas modeladas, 4.841 sobre −110 dBm y 7.498 con avisos NTIA, en 6,35 s incluyendo descarga/cálculo en esta ejecución. Los cinco perfiles oficiales NTIA coinciden a menos de 0,01 dB. La prueba de cresta sintética arroja 48,37 dB de diferencia frente al lado despejado. El renderizador MapKit se verifica fuera de pantalla: norte arriba y huecos transparentes.
+
+El ZIP extraído pasó verificación estricta de firma e integridad y todos los ejecutables/bibliotecas son arm64, incluida `libitm.dylib`. Versión 0.8.9/build 21; firma ad hoc, sin notarización. SHA-256 de `RadioWorkbench-0.8.9-macos-arm64.zip`: `fcaa8f9a34f6cbf0dd7bcb5a30a6eaec2d5483ead85e7c0c083a9042fbc22dc5`.
+
+La app abrió y permaneció activa sin un nuevo informe de cierre. CUA desconectó su canal nativo antes de inspeccionar el mapa, también después de reconectarse: la revisión visual interactiva queda pendiente. La figura científica es una simulación con coordenadas públicas, no una captura de Apple Maps ni una recepción RF medida. No se hizo la prueba SDR++ → VB-Cable.
+
+[Pruebas](validation/release-0.8.9-tests.txt) · [Paquete](validation/package-0.8.9.json) · [Método, fuentes y figura](TERRAIN-COVERAGE.md).
+
 # Validación de RadioWorkbench 0.8.8
 
 Release arm64/macOS 14+, build 20. Se corrigió el cierre reportado al editar el indicativo en APRS: el `didSet` de 0.8.7 volvía a escribir la propiedad `@Observable` en cada cambio y causaba recursión hasta agotar la pila. La propiedad ahora enlaza con almacenamiento separado y normaliza una sola vez. Una regresión asigna fragmentos sucesivos como lo hace el campo SwiftUI y confirma persistencia en mayúsculas sin reentrancia. `bash script/test.sh` aprobó **99 pruebas**. `bash script/build_and_run.sh --build-only` compiló Release; el ZIP extraído en `/private/tmp` pasó `codesign --verify --deep --strict`, contiene un ejecutable Mach-O arm64 e identifica versión 0.8.8/build 20. El archivo pasó `unzip -t`. SHA-256 de `RadioWorkbench-arm64.zip`: `d01d190fa4595f7cb26a4797f8e3fba980f14e0b9ccd407ed64c822d22c71cb8`.

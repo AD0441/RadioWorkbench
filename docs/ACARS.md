@@ -1,5 +1,7 @@
 # ACARS VHF de audio · RadioWorkbench 0.6
 
+**0.9.0:** se integra libacars 2.2.1 para ADS-C/CPDLC y reensamblado de aplicaciones. La cola del helper conserva orden FIFO aun bajo carga; el mapa exige un informe ADS-C con CRC interno correcto. El panel incluye «Ejemplo ADS-C» y exporta árbol JSON y coordenadas. [Uso, límites y fuentes](INTEGRATIONS-0.9.md).
+
 Recepción de ACARS clásico a 2400 baud desde audio demodulado en AM. Funciona
 con archivos legibles por AVFoundation y con el dispositivo/canal de entrada
 seleccionado en la app. No es VDL2, HFDL, ADS-B ni un receptor I/Q directo.

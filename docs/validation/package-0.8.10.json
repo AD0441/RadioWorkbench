@@ -1,0 +1,23 @@
+{
+  "version": "0.8.10",
+  "build": "22",
+  "minimumSystem": "14.0",
+  "zip": "RadioWorkbench-0.8.10-macos-arm64.zip",
+  "bytes": 179444749,
+  "sha256": "4794f84c8c0e1973cd49b9f9fad7e7a0f9b0a2377ad78c29fd5983a4713ba966",
+  "zipIntegrity": "passed",
+  "strictDeepSignatureVerification": "passed on freshly extracted ZIP",
+  "signing": "ad hoc, not notarized",
+  "architectures": {
+    "libp372.dylib": "arm64",
+    "propagation-helper": "arm64",
+    "multimon-helper": "arm64",
+    "RadioWorkbench": "arm64",
+    "libitm.dylib": "arm64",
+    "itm-helper": "arm64",
+    "libp533.dylib": "arm64",
+    "acars-helper": "arm64"
+  },
+  "bundledMultimonLicenseAndSources": true,
+  "verifiedAtUTC": "2026-10-14T18:54:29.518433+00:00"
+}

@@ -1,4 +1,10 @@
-# CTCSS en «Tonos selectivos»
+# CTCSS y Selcall · 0.8.10
+
+La app ofrece dos modos separados: **CTCSS / tonos**, con el motor Swift descrito debajo, y **Cinco tonos / Selcall**, mediante multimon-ng incluido. Selcall permite elegir ZVEI1, ZVEI2, ZVEI3, PZVEI, DZVEI, EEA, EIA o CCIR. El monitor conserva la secuencia hexadecimal original, incluidos los símbolos especiales E/F, sin asignarles nombres de personas o dispositivos. Exporta JSON y procesa audio FM/WAV fuera del callback de captura.
+
+Se probaron las ocho familias con señales sintéticas independientes y códigos distintivos `1ABCD`, además de una secuencia ZVEI1 `12345` y un código especial. La temporización del detector es la de multimon-ng; las secuencias observadas no se fuerzan siempre a cinco dígitos. DCS y DUALTONE siguen pendientes. [Entrada, integración y límites](DECODIFICADORES-0.8.10.md).
+
+## CTCSS en «CTCSS / tonos»
 
 Recepción nativa de CTCSS sobre audio PCM de FM. El motor recorre
 automáticamente 51 frecuencias entre 67,0 y 254,1 Hz, incluida la extensión
@@ -78,8 +84,6 @@ que imite de forma estable una sinusoidal CTCSS no se puede distinguir por
 este audio solo; la persistencia y pureza reducen falsos positivos, sin autenticar
 el origen de la señal.
 
-Solo CTCSS está implementado aquí. DCS, CCIR, EIA, ZVEI, secuencias de cinco
-tonos y tonos dobles requieren tablas, temporización y validación separadas.
-No se incluyen como decodificadores disponibles de este motor.
+Este motor Swift implementa CTCSS. CCIR, EIA y las familias ZVEI están disponibles en el modo Selcall separado; DCS y tonos dobles aún requieren integración y validación.
 
 Para repetir: `RADIO_BUILD_PATH=/tmp/radioworkbench-packet-tests script/test.sh --filter selective`.

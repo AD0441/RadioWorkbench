@@ -24,7 +24,7 @@ public actor HFCCScheduleService {
         let season = BroadcastCalendar.season(at: now)
         let url = URL(string: "https://new.hfcc.org/data/\(season)/\(season)allx2.zip")!
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 25)
-        request.setValue("RadioWorkbench/0.8 HFCC schedule reader", forHTTPHeaderField: "User-Agent")
+        request.setValue("RadioWorkbench/0.11 HFCC schedule reader", forHTTPHeaderField: "User-Agent")
         let (archive, response) = try await transport(request)
         guard response.statusCode == 200, response.url?.scheme == "https", response.url?.host == "new.hfcc.org",
               archive.count > 100, archive.count <= 15_000_000,
@@ -37,7 +37,7 @@ public actor HFCCScheduleService {
         return snapshot
     }
 
-    private nonisolated static func scheduleText(from archive: Data, season: String) throws -> String {
+    nonisolated static func scheduleText(from archive: Data, season: String) throws -> String {
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("radio-workbench-hfcc-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -72,10 +72,14 @@ public actor HFCCScheduleService {
         }
 
         let listingData = try unzip(["-Z1", zip.path], maximumBytes: 100_000)
-        let expectedName = "\(season)allx2.txt"
-        let member = String(decoding: listingData, as: UTF8.self).components(separatedBy: .newlines)
-            .first { URL(fileURLWithPath: $0).lastPathComponent.caseInsensitiveCompare(expectedName) == .orderedSame }
-        guard let member else { throw URLError(.cannotFindHost) }
+        // The published allx2.zip currently contains A26all00.TXT. Older
+        // archives used allx2.txt. Select only a known schedule name, never the
+        // first TXT (the archive also contains administrative reference tables).
+        let members = String(decoding: listingData, as: UTF8.self).components(separatedBy: .newlines)
+        let member = ["\(season)all00.txt", "\(season)allx2.txt"].compactMap { expected in
+            members.first { URL(fileURLWithPath: $0).lastPathComponent.caseInsensitiveCompare(expected) == .orderedSame }
+        }.first
+        guard let member else { throw URLError(.cannotParseResponse) }
         let bytes = try unzip(["-p", zip.path, member], maximumBytes: 50_000_000)
         guard !bytes.isEmpty,
               let text = String(data: bytes, encoding: .isoLatin1) ?? String(data: bytes, encoding: .utf8) else {

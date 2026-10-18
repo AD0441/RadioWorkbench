@@ -46,7 +46,7 @@ struct ImageReceiverView: View {
                         .frame(height: 180)
                 }
                 Text(receiver.imageCaption.isEmpty ? receiver.text : receiver.imageCaption).font(.caption).foregroundStyle(.secondary)
-                Text("Recepción experimental. Para fax, inicio manual: indica el segundo de comienzo de imagen en un archivo. APT muestra A/B sin calibración radiométrica ni georreferenciación.")
+                Text(receiver.mode == .hell ? "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes." : "Recepción experimental. Para fax, inicio manual: indica el segundo de comienzo de imagen en un archivo. APT muestra A/B sin calibración radiométrica ni georreferenciación.")
                     .font(.caption).foregroundStyle(.secondary)
             }.padding(24)
         }
@@ -79,13 +79,29 @@ struct ImageReceiverView: View {
                 Text("El reloj se estima con las sincronías de línea. Sin señal suficiente se conserva el reloj manual. Intensa suaviza más y puede perder detalles finos.")
                     .font(.caption).foregroundStyle(.secondary)
             }
+            if receiver.mode == .hell {
+                HStack {
+                    Picker("Variante Hell", selection: $receiver.settings.hellVariant) {
+                        ForEach(HellVariant.allCases) { Text($0.rawValue).tag($0) }
+                    }.frame(width: 255)
+                    Text("\(receiver.settings.hellVariant.pixelRate, specifier: "%.3f") píxeles/s · ≈\(receiver.settings.hellVariant.bandwidthHz, specifier: "%.0f") Hz ocupados")
+                        .font(.caption).foregroundStyle(.secondary)
+                    Toggle("Invertir imagen", isOn: $receiver.settings.inverted)
+                }.onChange(of: receiver.settings.hellVariant) { _, _ in receiver.applyHellVariant() }
+                HStack {
+                    Text("Umbral \(receiver.settings.threshold * 100, specifier: "%.1f") %").font(.caption)
+                    Slider(value: $receiver.settings.threshold, in: 0.001...0.2).frame(width: 170)
+                    Text("Lectura visual, sin OCR. El raster se pliega cada 160 columnas y conserva las últimas 1280.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
             HStack(alignment: .bottom, spacing: 14) {
                 if receiver.mode != .satelliteAPT {
                     VStack(alignment: .leading) {
                         Text("Centro de audio (Hz)").font(.caption)
                         TextField("Centro", value: $receiver.settings.frequency, format: .number).textFieldStyle(.roundedBorder).frame(width: 100)
                     }
-                    Button("1900 Hz") { receiver.settings.frequency = 1900 }
+                    Button(receiver.mode == .hell ? "1500 Hz" : "1900 Hz") { receiver.settings.frequency = receiver.mode == .hell ? max(1500, receiver.settings.hellVariant.bandwidthHz / 2 + 300) : 1900 }
                 }
                 if receiver.mode == .wefax {
                     Picker("LPM", selection: $receiver.settings.faxLinesPerMinute) {

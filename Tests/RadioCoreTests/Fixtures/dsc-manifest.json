@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "file": "dsc_vhf_48000_synthetic.wav",
+      "sha256": "628ac523a6443035821c887c0fe186da4f374b748434be4a6dcc1ec196c521d6",
+      "variant": "vhf",
+      "license": "CC0-1.0",
+      "origin": "Independent Python symbol/modulation generator; synthetic, not RF capture."
+    },
+    {
+      "file": "dsc_mf_hf_48000_synthetic.wav",
+      "sha256": "c7eddee4fb67bd0c8a399b79b4576b4bc254aafb63b6de904b4e252ed3a2c740",
+      "variant": "mf-hf",
+      "license": "CC0-1.0",
+      "origin": "Independent Python symbol/modulation generator; synthetic, not RF capture."
+    }
+  ]
+}

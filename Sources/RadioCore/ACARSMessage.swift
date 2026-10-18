@@ -1,6 +1,14 @@
 import Foundation
 
 public struct ACARSMessage: Decodable, Encodable, Identifiable, Sendable {
+    public struct AircraftPosition: Codable, Sendable {
+        public let latitude: Double, longitude: Double
+        public let altitudeFeet: Int
+    }
+    public let applicationText: String?
+    public let applicationJSON: String?
+    public let applicationStatus: Int?
+    public let aircraftPosition: AircraftPosition?
     public let id: UUID
     public let timestamp: Double
     public let mode: String
@@ -12,9 +20,15 @@ public struct ACARSMessage: Decodable, Encodable, Identifiable, Sendable {
     public let endBlock: Int
     public let parityCorrections: Int
     public let levelDB: Double
-    private enum CodingKeys: String, CodingKey { case timestamp, mode, registration, ack, label, block, payload, endBlock, parityCorrections, levelDB }
+    private enum CodingKeys: String, CodingKey { case timestamp, mode, registration, ack, label, block, payload, endBlock, parityCorrections, levelDB, applicationText, applicationJSON, applicationStatus, aircraftPosition }
     public init(from decoder: any Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
+        applicationText = try c.decodeIfPresent(String.self, forKey: .applicationText)
+        applicationJSON = try c.decodeIfPresent(String.self, forKey: .applicationJSON)
+        applicationStatus = try c.decodeIfPresent(Int.self, forKey: .applicationStatus)
+        let pos = try c.decodeIfPresent(AircraftPosition.self, forKey: .aircraftPosition)
+        aircraftPosition = pos.flatMap { $0.latitude.isFinite && $0.longitude.isFinite && (-90...90).contains($0.latitude) && (-180...180).contains($0.longitude) ? $0 : nil }
+        guard (applicationText?.utf8.count ?? 0) <= 65536, (applicationJSON?.utf8.count ?? 0) <= 65536 else { throw RadioError.invalidAudio }
         id = UUID(); timestamp = try c.decode(Double.self, forKey: .timestamp)
         mode = try c.decode(String.self, forKey: .mode)
         registration = try c.decode(String.self, forKey: .registration)

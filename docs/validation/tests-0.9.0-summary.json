@@ -1,0 +1,27 @@
+{
+  "registered": 148,
+  "passed": 146,
+  "optionalSkipped": 2,
+  "failures": 0,
+  "elapsedSeconds": 6.375,
+  "configuration": "release",
+  "includedEngines": [
+    "SatelliteKit SGP4/SDP4",
+    "FT8/FT4",
+    "CWKit classic/neural",
+    "libacars ADS-C/CPDLC",
+    "DSD-neo M17 packet/Codec2 WAV"
+  ],
+  "optionalSkippedTests": [
+    "satelliteLiveDownloadFromOfficialProviders",
+    "terrainRealSantiagoBenchmark"
+  ],
+  "liveHardwareTest": false,
+  "logSHA256": "1115219959884d3c7b089381f1a837e77af87565a6b62927e5806b1eb31ea26c",
+  "uiVerified": [
+    "FT4 CQ LU1ABC GF05",
+    "CWKit neuronal CQ TEST 123 with bundled Core ML model",
+    "ADS-C position and interpreted application"
+  ],
+  "uiLimitation": "Computer-use pipe disconnected before DSD visual check; M17 packet/voice verified through PCM helper."
+}

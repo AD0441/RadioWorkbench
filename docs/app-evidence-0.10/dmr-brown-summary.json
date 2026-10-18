@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-18",
+  "scope": "Reuse prior REA static bundle inventory; focused read-only symbol/string and public pinned-source study. No application launch, RF/audio capture, decoder execution, decompilation, provider installation or source integration.",
+  "installed_artifact": {
+    "bundle_version": "1.2.1",
+    "reported_build_text": "v1.2.1-brown; Built July 4 2025",
+    "plugin_path": "Contents/Plugins/ch_extravhf_decoder.dylib",
+    "plugin_sha256": "80cd38686ef6a8d678a61b179715d8a5aa18b902e3902d36fa39c7bbbb479e67",
+    "plugin_bytes": 1180104,
+    "plugin_architecture": "arm64 from prior file-header observation",
+    "rea_inspection_evidence_id": "ev_5d5f90d7e7d189b9116349ec7f6708d49a638e4a4db940bedd2deb79ea4bcf63",
+    "rea_inventory_evidence_id": "ev_6aa4742b391eb860d08fa247b07691e999c48b1177f11669d392ec7a75731b63",
+    "manifest_id": "agm_4f17f629d3f496b8edde4a3d723d27dc7f5865649e27d6085f4d258e8b360739",
+    "artifact_id": "art_0f0b6c48f8eeeabad4c7902ea51d9e50ddb60ec25d08265b6a8a3c31da37cff5",
+    "occurrence_id": "occ_1263cbe52b0b0cd39defd91832ca8e118a6467523a2497422c3f6e1f71c218da"
+  },
+  "source_version_boundary": {
+    "brown_source_commit": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+    "commit_date": "2026-08-12T22:42:09Z",
+    "matches_installed_binary": "not established; source postdates installed build"
+  },
+  "sources": [
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/main.cpp",
+      "git_blob_sha": "479c8b19cf314356c52d2eb7e124999cb432bb60",
+      "sha256": "7b0ab992713f33c4453d1c0b8a733075384405874c29d859d47876b299115dac",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/main.cpp"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/demodulators/dsd.h",
+      "git_blob_sha": "87c433860208d68c82d239438c977ecedce19098",
+      "sha256": "af7b51a167e1098d7ef40034531361f96974417a0e4866728f428d3b9d3cac9b",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/demodulators/dsd.h"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/demodulators/olddsd.h",
+      "git_blob_sha": "b540f0bf9d7afcbc4df4b66ded4945f2cd3f8da1",
+      "sha256": "9a1b70b6448538b4341ee70498940b033aa48c958da4316921c74fee35c18f73",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/demodulators/olddsd.h"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/dsp/dsd.h",
+      "git_blob_sha": "c3bbc0faf2792a8fd003849d6113a51cc7d06b97",
+      "sha256": "130dc7d4087e8247dc14721fc3dfd7bc123f229c4ab5ced54b9c897aeea78ceb",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/dsp/dsd.h"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/dsp/dsd_dmr.cpp",
+      "git_blob_sha": "e6fcd667622d263511ec4b9737b6bba8471f1091",
+      "sha256": "3cf403f762df1a67ed84dc9c0049757e11ac8cf582070e675548d7228af4e4cb",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/dsp/dsd_dmr.cpp"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/src/dsp/dsd_demod.cpp",
+      "git_blob_sha": "3dc37e2613204757dc12ccf6955af61b09681ba1",
+      "sha256": "a9353680537f3afc15f507b4c00583f93889bee87a23be0b91de0a3b2721ad53",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/src/dsp/dsd_demod.cpp"
+    },
+    {
+      "repository": "sannysanoff/SDRPlusPlusBrown",
+      "ref": "5fca05446b3f985ab49c7c3c257980aaf2ec34fe",
+      "path": "decoder_modules/ch_extravhf_decoder/README.md",
+      "git_blob_sha": "702fef54ae1784ccc2e12b7f521f0b9963f27b31",
+      "sha256": "9f4ecf428c6993f1f5cdea10af4c4125e67a33209571ee740f3c9f6cab6cd73f",
+      "url": "https://github.com/sannysanoff/SDRPlusPlusBrown/blob/5fca05446b3f985ab49c7c3c257980aaf2ec34fe/decoder_modules/ch_extravhf_decoder/README.md"
+    },
+    {
+      "repository": "arancormonk/dsd-neo",
+      "ref": "v2.10.0",
+      "path": "docs/cli.md",
+      "git_blob_sha": "afafb909b9ad0b24326208494ac1b68650fa56c8",
+      "sha256": "c0ace95406eca37d21d06a95f59019c7db889d6e306c3800da8c408472d66ebc",
+      "url": "https://github.com/arancormonk/dsd-neo/blob/v2.10.0/docs/cli.md"
+    },
+    {
+      "repository": "arancormonk/dsd-neo",
+      "ref": "v2.10.0",
+      "path": "docs/network-audio.md",
+      "git_blob_sha": "d960201df76df493227d63ed126a8f31660f9c93",
+      "sha256": "960f1c445b0c6d14d5dceaed6b18b55dadfe076d3a5935070c40468d0fe468d2",
+      "url": "https://github.com/arancormonk/dsd-neo/blob/v2.10.0/docs/network-audio.md"
+    },
+    {
+      "repository": "arancormonk/dsd-neo",
+      "ref": "v2.10.0",
+      "path": "include/dsd-neo/app_control/snapshot.h",
+      "git_blob_sha": "74d5cf95934c2ef9c985c6c877d9e39d9868bfb7",
+      "sha256": "875c2c8a1cb65d55a57f7c78786ff7ad60d52fc8c929275b296b56f6f844780d",
+      "url": "https://github.com/arancormonk/dsd-neo/blob/v2.10.0/include/dsd-neo/app_control/snapshot.h"
+    },
+    {
+      "repository": "arancormonk/dsd-neo",
+      "ref": "v2.10.0",
+      "path": "src/runtime/cli/usage.c",
+      "git_blob_sha": "91a30a45794660a9833925d49e951b2189a35343",
+      "sha256": "fa00119142f498a3a14dfe82d5979d7872a90fbb457c97d06c04d61a0a2a9731",
+      "url": "https://github.com/arancormonk/dsd-neo/blob/v2.10.0/src/runtime/cli/usage.c"
+    }
+  ],
+  "findings": [
+    {
+      "id": "DMRB-01",
+      "evidence_type": "shipped static symbols/strings",
+      "conclusion": "Plugin distributes NewDSD and legacy DSD, DMR voice/data and mbelib AMBE/IMBE functions. Runtime activation and reception quality unknown."
+    },
+    {
+      "id": "DMRB-02",
+      "evidence_type": "pinned source",
+      "conclusion": "New path complex input at 9600 samples/s -> quadrature FM -> DC blocker -> RRC -> clock recovery 4800 symbols/s -> four-level slicer -> NewDSD -> mbelib -> 8000 Hz PCM. Old path demodulates to PCM16 at 48000 before legacy DSD."
+    },
+    {
+      "id": "DMRB-03",
+      "evidence_type": "pinned source + ETSI reference",
+      "conclusion": "SLOT0/1 are zero-based slot indices derived from CACH, not frequencies. DMR state exposes CC and burst type; SRC/TG/ALGID/KID are in the distinct P25 state."
+    },
+    {
+      "id": "DMRB-04",
+      "evidence_type": "bounded negative source search",
+      "conclusion": "Inspected DMR/vocoder files did not establish a DMR key/configuration/decryption path or reliable DMR encryption indicator. This is not a universal claim about every fork."
+    },
+    {
+      "id": "DMRB-05",
+      "evidence_type": "source vs bounded negative binary search",
+      "conclusion": "Current pinned main adds get_dmr_status/wait_dmr_sync_voice JSON debug commands. Literal names/accessors not found in retained installed-plugin strings/exports; availability in the installed copy remains unconfirmed."
+    },
+    {
+      "id": "DMRB-06",
+      "evidence_type": "RadioWorkbench source + prior validation",
+      "conclusion": "Current application transports raw PCM16 mono at 48 kHz to DSD-neo 2.10.0, DMR -fs, headless, -o null plus -w temporary WAV; play/export after stop. No new DMR RF validation; previous voice test is synthetic M17."
+    },
+    {
+      "id": "DMRB-07",
+      "evidence_type": "design recommendation backed by pinned CLI/contracts",
+      "conclusion": "Extend existing DSD-neo with live PCM output, explicit TS1/TS2/both controls and typed per-call status; do not feed already decoded Brown voice to a second DMR decoder."
+    }
+  ],
+  "verified_dsd_cli_contracts": {
+    "input": "-i - ; -s 48000 ; raw s16le mono",
+    "decoded_audio": "-o - or -o udp:host:port ; digital decoded voice 8000 Hz, channel count/type must be verified for selected mode",
+    "dmr": "-fs dual-slot ; -fr single-slot mono",
+    "voice_slots": "-V 0 off; 1 TS1; 2 TS2; 3 both",
+    "slot_preference": "-z 0 TS1; 1 TS2; 2 auto",
+    "event_log": "-J file is textual event log, not established general JSON CLI",
+    "snapshots": "single-consumer C snapshot accessors; last values may persist after stop, so lifecycle must be tracked separately"
+  },
+  "unresolved": [
+    "Installed build source alignment",
+    "Availability of new Brown debug API in installed copy",
+    "Known-slot independent DMR fixtures and RF reception",
+    "End-to-end live playback format and latency",
+    "Comparative sensitivity/errors/CPU on M1",
+    "Lower-minimum-macOS DSD helper build"
+  ],
+  "reference_sources": [
+    "https://dmrassociation.org/dmr-key-benefits.html",
+    "https://www.etsi.org/deliver/etsi_ts/102300_102399/10236101/02.06.01_60/ts_10236101v020601p.pdf"
+  ],
+  "local_analysis_outputs": {
+    "directory": "/tmp/radioworkbench-app-audit-afsk",
+    "exports_sha256": "e8c9da96371156786cfb0a145e735dc357980a16a52c39ba9fdffe9c5f18df2a",
+    "strings_sha256": "b97304d8f7906f977756eefc8968f8d17895e5997de8ba20992848b7aed29718"
+  },
+  "prior_runtime_validation": "docs/INTEGRATIONS-0.9.md; docs/validation/tests-0.9.0-summary.json"
+}
