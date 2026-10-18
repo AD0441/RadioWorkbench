@@ -17,15 +17,18 @@ struct RadioUpdate: Sendable {
     var multimonRecords: [MultimonRecord] = []
     var engineRecords: [AudioEngineRecord] = []
     var voiceURL: URL?
+    var dmrStatus: DMRStatus?
+    var voiceFrames: UInt64 = 0
     var packetReceptions: [PacketReception] = []
 }
 
 actor RadioWorker {
     func decodeFile(url: URL, mode: RadioMode, settings: DecoderSettings,
+                    voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil,
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
         do {
             try Task.checkCancellation()
-            try await receiveFile(url: url, mode: mode, settings: settings, update: update)
+            try await receiveFile(url: url, mode: mode, settings: settings, voiceOutput: voiceOutput, update: update)
             try Task.checkCancellation()
         } catch {
             try Task.checkCancellation()
@@ -33,8 +36,9 @@ actor RadioWorker {
         }
     }
     private func receiveFile(url: URL, mode: RadioMode, settings: DecoderSettings,
+                             voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)?,
                              update: @Sendable (RadioUpdate) async -> Void) async throws {
-        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalFile(url: url, mode: mode, settings: settings, update: update); return }
+        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalFile(url: url, mode: mode, settings: settings, voiceOutput: voiceOutput, update: update); return }
         if mode == .acars { try await decodeACARSFile(url: url, settings: settings, update: update); return }
         if mode.isMultimon { try await decodeMultimonFile(url: url, mode: mode, settings: settings, update: update); return }
         let reader = try AudioFileReader(url: url, channel: settings.audioChannel)
@@ -61,10 +65,11 @@ actor RadioWorker {
                                  detail: detail + " · proceso \(String(format: "%.2f", elapsed)) s" + (decoder.status.isEmpty ? "" : " · " + decoder.status), finished: true, image: decoder.image, channelCount: reader.channelCount, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
     }
     func decodeLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String = "Entrada de audio",
+                    voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil,
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
         do {
             try Task.checkCancellation()
-            try await receiveLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update)
+            try await receiveLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, update: update)
             try Task.checkCancellation()
         } catch {
             try Task.checkCancellation()
@@ -72,8 +77,9 @@ actor RadioWorker {
         }
     }
     private func receiveLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String,
+                             voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)?,
                              update: @Sendable (RadioUpdate) async -> Void) async throws {
-        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update); return }
+        if mode.usesAdditionalAudioEngine(settings: settings) { try await decodeAdditionalLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, voiceOutput: voiceOutput, update: update); return }
         if mode == .acars { try await decodeACARSLive(ring: ring, sampleRate: sampleRate, settings: settings, source: source, update: update); return }
         if mode.isMultimon { try await decodeMultimonLive(ring: ring, sampleRate: sampleRate, mode: mode, settings: settings, source: source, update: update); return }
         var decoder = try DecoderEngine(mode: mode, sampleRate: sampleRate, settings: settings)

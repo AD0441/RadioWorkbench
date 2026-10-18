@@ -35,6 +35,8 @@ public struct ExternalEngineSnapshot: Sendable {
     public var text: String
     public var records: [AudioEngineRecord]
     public var detail: String
+    public var dmrStatus: DMRStatus? = nil
+    public var voiceFrames: UInt64 = 0
 }
 public enum AudioEngineError: LocalizedError {
     case unavailable(String), failed(String)
@@ -43,9 +45,15 @@ public enum AudioEngineError: LocalizedError {
 private final class EngineOutput: @unchecked Sendable {
     let lock = NSLock(), eof = DispatchSemaphore(value: 0), errorEOF = DispatchSemaphore(value: 0)
     var pending = Data(), records: [AudioEngineRecord] = [], text = "", detail = ""
+    var dmr: DMRLogParser?
+    var voice = DMRVoicePCMDecoder()
+    func ingestVoice(_ data: Data, deliver: @Sendable (DigitalVoicePCMChunk) -> Void) {
+        lock.lock(); let chunks = voice.consume(data); lock.unlock()
+        for chunk in chunks { deliver(chunk) }
+    }
     func ingest(_ data: Data, json: Bool) {
         lock.lock(); defer { lock.unlock() }
-        if !json { text = String((text + String(decoding: data, as: UTF8.self)).suffix(40000)); return }
+        if !json { text = String((text + String(decoding: data, as: UTF8.self)).suffix(40000)); dmr?.consume(data); return }
         pending.append(data)
         if pending.count > 262144 { pending.removeAll(); detail = "Respuesta del motor demasiado grande"; return }
         while let end = pending.firstIndex(of: 10) {
@@ -57,16 +65,19 @@ private final class EngineOutput: @unchecked Sendable {
         }
     }
     func log(_ data: Data) { lock.lock(); defer { lock.unlock() }; detail = String((detail + String(decoding: data, as: UTF8.self)).suffix(4096)) }
-    func snapshot() -> ExternalEngineSnapshot { lock.lock(); defer { lock.unlock() }; return .init(text: text, records: records, detail: detail) }
+    func finishLog() { lock.lock(); defer { lock.unlock() }; dmr?.finish() }
+    func snapshot() -> ExternalEngineSnapshot { lock.lock(); defer { lock.unlock() }; return .init(text: text, records: records, detail: detail, dmrStatus: dmr?.status, voiceFrames: voice.frames) }
 }
 /// PCM transport runs on the worker, never on the CoreAudio callback. All output is bounded.
 public final class ExternalAudioEngine: @unchecked Sendable {
     private let process = Process(), input = Pipe(), output = Pipe(), errors = Pipe()
-    private let collector = EngineOutput(), ended = DispatchSemaphore(value: 0), lock = NSLock()
+    private let collector = EngineOutput(), ended = DispatchGroup(), lock = NSLock()
     private var closed = false
+    private var cancellationRequested = false
     private let int16Input: Bool
     public let voiceURL: URL?
-    public init(mode: RadioMode, settings: DecoderSettings, executableURL: URL? = nil, voiceURL: URL? = nil) throws {
+    public init(mode: RadioMode, settings: DecoderSettings, executableURL: URL? = nil, voiceURL: URL? = nil,
+                voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil) throws {
         int16Input = mode == .digitalVoice || mode == .gmdss; self.voiceURL = voiceURL
         let name: String, args: [String], override: String
         if mode == .ft8 || mode == .ft4 { name = "ftx-helper"; args = [mode.rawValue]; override = "FTX_HELPER_PATH" }
@@ -89,7 +100,10 @@ public final class ExternalAudioEngine: @unchecked Sendable {
         } else if mode == .digitalVoice {
             guard Self.dsdSupported else { throw AudioEngineError.unavailable("El paquete oficial DSD-neo 2.10.0 requiere macOS 26.") }
             name = "dsd-neo"; override = "DSD_NEO_PATH"
-            args = ["--frontend", "none", "-Z", settings.digitalVoiceProtocol.flag, "-i", "-", "-s", "48000", "-o", "null"] + (voiceURL.map { ["-w", $0.path] } ?? [])
+            let dmr = settings.digitalVoiceProtocol == .dmr
+            collector.dmr = dmr ? DMRLogParser() : nil
+            args = ["--frontend", "none", "-Z", settings.digitalVoiceProtocol.flag, "-i", "-", "-s", "48000", "-o", dmr && voiceOutput != nil ? "-" : "null"]
+                + (dmr ? ["-V", settings.dmrSlotSelection.synthesisMask] : []) + (voiceURL.map { ["-w", $0.path] } ?? [])
         } else { throw RadioError.unsupportedMode }
         let envURL = ProcessInfo.processInfo.environment[override].map { URL(fileURLWithPath: $0) }
         let installed = mode == .digitalVoice ? Self.dsdInstalledURL : nil
@@ -105,16 +119,20 @@ public final class ExternalAudioEngine: @unchecked Sendable {
             process.environment = env
         }
         let collector = collector, ended = ended, json = mode != .digitalVoice
-        process.terminationHandler = { _ in ended.signal() }
+        let streamsVoice = mode == .digitalVoice && settings.digitalVoiceProtocol == .dmr && voiceOutput != nil
+        ended.enter()
+        process.terminationHandler = { _ in ended.leave() }
         output.fileHandleForReading.readabilityHandler = { h in
             let d = h.availableData
-            if d.isEmpty { h.readabilityHandler = nil; collector.eof.signal() } else { collector.ingest(d, json: json) }
+            if d.isEmpty { h.readabilityHandler = nil; collector.eof.signal() }
+            else if streamsVoice, let voiceOutput { collector.ingestVoice(d, deliver: voiceOutput) }
+            else { collector.ingest(d, json: json) }
         }
         errors.fileHandleForReading.readabilityHandler = { h in
             let d = h.availableData
-            if d.isEmpty { h.readabilityHandler = nil; collector.errorEOF.signal() } else if json { collector.log(d) } else { collector.ingest(d, json: false) }
+            if d.isEmpty { h.readabilityHandler = nil; collector.finishLog(); collector.errorEOF.signal() } else if json { collector.log(d) } else { collector.ingest(d, json: false) }
         }
-        do { try process.run() } catch { output.fileHandleForReading.readabilityHandler = nil; errors.fileHandleForReading.readabilityHandler = nil; throw error }
+        do { try process.run() } catch { output.fileHandleForReading.readabilityHandler = nil; errors.fileHandleForReading.readabilityHandler = nil; ended.leave(); throw error }
     }
     public static var dsdSupported: Bool { if #available(macOS 26, *) { true } else { false } }
     public static var dsdInstalledURL: URL? {
@@ -139,7 +157,17 @@ public final class ExternalAudioEngine: @unchecked Sendable {
         guard process.terminationStatus == 0 else { throw AudioEngineError.failed(snapshot.detail + snapshot.text) }
         return snapshot
     }
-    public func cancel() { close(); if process.isRunning { process.terminate() } }
+    public func cancel() {
+        close()
+        lock.lock(); let first = !cancellationRequested; cancellationRequested = true; lock.unlock()
+        guard first, process.isRunning else { return }
+        process.terminate()
+        // Only this owned child is affected. Never leave a decoder that ignores
+        // both EOF and SIGTERM running after cancellation.
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2) { [self] in
+            if process.isRunning { _ = Darwin.kill(process.processIdentifier, SIGKILL) }
+        }
+    }
     public func finishVoice() { close(); if ended.wait(timeout: .now() + 2) != .success { cancel() } }
     deinit { cancel(); output.fileHandleForReading.readabilityHandler = nil; errors.fileHandleForReading.readabilityHandler = nil }
 }

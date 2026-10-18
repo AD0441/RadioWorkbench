@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.11.0
+# RadioWorkbench · 0.12.0
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -7,6 +7,8 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 **Plataforma:** el bundle declara macOS 14 o posterior y el paquete publicado es **arm64 para M1 y posteriores**. Se ha probado en un MacBook Pro M1 con macOS 27.2. No se distribuyen binarios para Mac Intel, iOS, Windows o Linux; tampoco se ha verificado la ejecución física en todas las versiones macOS 14–26.
 
 **Estado:** aplicación experimental en desarrollo. Las señales sintéticas y las pruebas unitarias validan el comportamiento implementado, pero no garantizan recepción RF bajo cualquier condición.
+
+**Nuevo en el código 0.12:** DMR con voz durante la recepción, selección TS1/TS2/ambos y panel con CC, identificadores, clase de llamada, procedencia y antigüedad. Contraste con una grabación independiente TS1; faltan dos conversaciones simultáneas identificadas y evaluación perceptual de voz. [Uso y límites](docs/DMR-0.12.md) · [Contrato medido](docs/validation/dmr-0.12-contract.md). La descarga enlazada abajo corresponde a la versión publicada indicada.
 
 ## Descargar y abrir
 
@@ -26,7 +28,7 @@ La versión preliminar **0.11.0** repara la transferencia de emisoras al Planifi
 |---|---|
 | Texto y tonos | MT63 500/1000/2000 corto/largo, FT8/FT4, Morse/CW manual o CWKit automático/neuronal, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
 | Mensajes | DSC MF/HF y VHF con ECC e interpretación parcial; ALE 2G (sondeos, llamadas y AMD), POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
-| Voz digital | DSD-neo descargable: DMR, P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR; un canal, voz WAV |
+| Voz digital | DSD-neo descargable: DMR con escucha durante recepción, TS1/TS2 y panel; P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR con voz WAV; un canal RF |
 | Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
 | Entrada | Micrófono, USB o cable virtual; audio TCP local con formato explícito; mezcla/canal individual y diagnóstico medido |
 | Biblioteca y taller | Copia de audio/ajustes/fechas, repetición de decodificación, papelera recuperable y referencias CW/RTTY/BPSK31 |
@@ -127,6 +129,8 @@ open dist/RadioWorkbench.app
 ```
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
+
+La pasada **0.12.0** registra **212 funciones: 210 aprobadas y dos opcionales de red omitidas**, sin fallos. Incluye el runtime DSD-neo oficial, una grabación DMR independiente, TS1/TS2, voz antes de EOF, cancelación, conservación del WAV y el grafo de audio renderizado offline sin altavoces. [Resultados y límites](docs/VALIDACION.md).
 
 La pasada **0.11.0** registra **202 funciones: 198 aprobadas y cuatro opcionales omitidas**, sin fallos. Añade pruebas de biblioteca/integridad, PCM/TCP/EOF, DSC, mapa/eventos, SatDump aislado, Rigctl y taller. El ZIP extraído pasó integridad y firma estricta, con todos sus ejecutables arm64. La revisión visual comprobó la apertura, las nuevas entradas de navegación, los parámetros TCP y el diagnóstico; quedó interrumpida por un cierre de la herramienta de control de pantalla mientras RadioWorkbench seguía activa. [Comprobaciones y límite de interfaz](docs/validation/ui-0.11.0.json) · [Notas y límites](docs/RELEASE-0.11.0.md).
 

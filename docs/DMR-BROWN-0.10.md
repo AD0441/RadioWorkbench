@@ -1,6 +1,6 @@
 # DMR de SDR++Brown y mejoras para RadioWorkbench
 
-**Actualización 0.11:** ya se incorporaron biblioteca de audio/ajustes, diagnóstico y entrada TCP local con formato explícito. La voz DMR continua, el selector TS1/TS2 y un panel estructurado de llamadas siguen pendientes de corpus y validación independientes; no se sustituyó DSD-neo por el plugin Brown.
+**Actualización 0.12:** biblioteca, diagnóstico y entrada TCP local llegaron en 0.11. La ampliación 0.12 añade voz DMR durante la recepción, selección TS1/TS2/ambos y panel de llamadas, contrastados con el runtime oficial y una grabación independiente identificada de TS1. Falta un corpus identificado de dos conversaciones simultáneas y evaluación perceptual de voz. Se mantiene DSD-neo como motor. [Uso y límites actuales](DMR-0.12.md) · [Mediciones](validation/dmr-0.12-contract.md).
 
 Revisión: 18 de octubre de 2026. **Brown incorpora un decodificador de voz digital dentro de su receptor SDR. RadioWorkbench ya ofrece DMR mediante DSD-neo; la mejora más útil es escuchar la voz durante la recepción y mostrar con claridad el estado de cada intervalo DMR.** No se ha incorporado código de Brown ni se ha validado una recepción DMR real en esta investigación.
 
@@ -63,14 +63,19 @@ Los nombres de esos comandos y de sus accesores no aparecieron en la búsqueda l
 |---|---|---|
 | Captura | El receptor controla el canal I/Q antes del demodulador | Entrada seleccionada o archivo; conversión a PCM16 mono de 48 kHz |
 | Motor | NewDSD y DSD legado integrados en el plugin | DSD-neo 2.10.0, proceso separado, modo DMR `-fs` |
-| Voz | El grafo entrega audio mientras procesa | Se guarda WAV; reproducción y exportación al detener o terminar |
-| Estado | Sincronía, tipo de ráfaga por slot, CC, errores MBE | Monitor textual; sin modelo estructurado propio de llamadas/slots |
+| Voz | El grafo entrega audio mientras procesa | Desde 0.12: escucha optativa durante recepción, selección de síntesis TS1/TS2/ambos y WAV exportable |
+| Estado | Sincronía, tipo de ráfaga por slot, CC, errores MBE | Desde 0.12: panel por intervalo desde consola, con CC/IDs/clase y antigüedad; no equivale a CRC validado |
 | Otros protocolos | La presencia de código y etiquetas no valida cada variante | Selecciones P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR; la validación previa cubre M17 sintético, no DMR RF |
 | Integración | Acoplado al núcleo, flujos y GUI de SDR++ | Transporte y cancelación propios; el runtime oficial requiere macOS 26 |
 
 El contrato actual puede revisarse en `ExternalAudioEngine.swift` y `AdditionalAudioDecoders.swift`; los límites de validación están en [INTEGRATIONS-0.9.md](INTEGRATIONS-0.9.md).
 
-## Mejoras concretas que conviene hacer
+## Propuestas originales y evolución
+
+Los puntos 1–4 siguientes conservan el razonamiento de la investigación. La
+implementación inicial y sus pruebas de 0.12 se describen en [DMR-0.12.md](DMR-0.12.md).
+La entrada TCP del punto 5 ya se incorporó en 0.11; su interoperabilidad física
+con Brown sigue pendiente.
 
 1. **Voz en vivo dentro de RadioWorkbench.** DSD-neo documenta `-o -` para PCM decodificado por stdout y salida UDP alternativa. Para DMR hay que comprobar formato, tasa y canales reales antes de crear una cola de reproducción; separar audio binario y mensajes diagnósticos. Mantener el WAV exportable. [Contrato de audio 2.10.0](https://github.com/arancormonk/dsd-neo/blob/v2.10.0/docs/network-audio.md).
 2. **Escuchar TS1, TS2 o ambos.** La CLI 2.10.0 ofrece `-V 1`, `-V 2` y `-V 3` para síntesis de voz; `-z 0/1/2` expresa preferencia de slot. No son el mismo control. `-fs` usa el receptor de dos slots y `-fr` el receptor mono de un slot. Validar la correspondencia con un archivo identificado antes de añadir los controles. [Guía CLI](https://github.com/arancormonk/dsd-neo/blob/v2.10.0/docs/cli.md).
@@ -82,4 +87,4 @@ Antes de reemplazar el motor, conviene ampliar la presentación y la reproducci�
 
 ## Qué queda abierto
 
-No se midieron sensibilidad, errores de voz, estabilidad ni consumo M1 de ninguno de los receptores DMR. Falta un corpus DMR independiente con slots e identificadores conocidos, comprobar APIs en la versión instalada y verificar la reproducción continua de DSD-neo. Ninguna de las propuestas anteriores está integrada por este informe.
+No se midieron sensibilidad RF, errores perceptuales de voz ni consumo M1 comparativo. La validación 0.12 aporta un corpus independiente TS1 con origen/destino conocidos, publicación PCM antes de EOF y renderizado de audio fuera de pantalla. Faltan dos llamadas simultáneas identificadas, calidad perceptual, interoperabilidad física Brown/SDR++ y comprobar la API de Brown en su versión instalada. La revisión estática original de Brown no acredita esas ejecuciones.

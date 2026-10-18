@@ -7,7 +7,15 @@ Este documento conserva el alcance solicitado; una propuesta no se marca como fu
 - [x] MT63 en seis variantes y ALE 2G: fuentes, pruebas, ejemplos, paquete 0.10.0 y comprobación de interfaz. Cambios incorporados al PR existente durante el cierre de 0.11.0.
 - [x] Reparar Guía de radios → Planificador HF: selección persistente, envío directo, datos parciales, procedencia y campos pendientes visibles.
 - [x] Auditar cálculo HF: unidades, dirección TX/RX, índices solares, condiciones por hemisferio, supuestos y pruebas de referencia.
-- [x] Comparar DMR de SDR++Brown con DSD-neo: arquitectura, slots, CC y límites documentados. Se aplicaron biblioteca, diagnóstico y entrada TCP de discriminador. Voz DMR continua, selector de slots y panel de llamada quedan para una fase con corpus DMR independiente.
+- [x] Comparar DMR de SDR++Brown con DSD-neo: arquitectura, slots, CC y límites documentados. Biblioteca, diagnóstico y entrada TCP de discriminador en 0.11; voz DMR durante recepción, selector de síntesis y panel por intervalo en 0.12. Falta contraste con dos llamadas simultáneas y recepción física.
+
+## Revisión y DMR · 0.12
+
+- [x] Guía: selección BBC de 9410 kHz y ficha observadas; el usuario confirmó BBC, 9,410 MHz y Escucha tras el envío directo al planificador. El control de pantalla falló al abrir esa vista.
+- [x] DMR: runtime oficial con una grabación independiente TS1; origen/destino/clase coinciden con el oráculo público. CC7 observado, sin oráculo independiente para ese campo.
+- [x] Voz DMR durante la recepción, TS1/TS2/ambos y panel con procedencia y antigüedad, conservando WAV.
+- [ ] Terminar el recorrido visual de biblioteca, DSC, mapas y otras herramientas en la nueva compilación.
+- [ ] Corpus identificado con dos conversaciones simultáneas y evaluación perceptual de voz; la prueba física sigue aplazada.
 
 ## Ampliaciones solicitadas, en este orden
 

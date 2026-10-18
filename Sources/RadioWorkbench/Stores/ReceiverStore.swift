@@ -29,6 +29,10 @@ final class ReceiverStore {
     var engineRecords: [AudioEngineRecord] = []
     var voiceURL: URL?
     var voiceFinalizing = false
+    var dmrStatus: DMRStatus?
+    var voiceFrames: UInt64 = 0
+    var voiceOutputDropped: UInt64 = 0
+    @ObservationIgnored private var dmrVoiceMonitor: DMRVoiceMonitor?
     @ObservationIgnored private var voiceFinalization: Task<Void, Never>?
     var engineDownloading = false
     var engineNotice = ""
@@ -153,11 +157,12 @@ final class ReceiverStore {
         let token = session, mode = mode, settings = settings
         task = Task {
             do {
-                try await worker.decodeFile(url: url, mode: mode, settings: settings) { [weak self] value in
+                let voiceOutput = try prepareDMRVoiceOutput()
+                try await worker.decodeFile(url: url, mode: mode, settings: settings, voiceOutput: voiceOutput) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
             } catch is CancellationError { }
-            catch { if session == token { self.error = error.localizedDescription; busy = false } }
+            catch { if session == token { self.error = error.localizedDescription; stop() } }
         }
     }
     func startLive() {
@@ -185,7 +190,8 @@ final class ReceiverStore {
                 guard session == token, !Task.isCancelled else { input.stop(); return }
                 sourceChannelCount = stream.channels; captureSampleRate = stream.sampleRate
                 detail = "Captura iniciada · \(Int(stream.sampleRate)) Hz · \(stream.channels) canal(es) · esperando audio"
-                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: inputName) { [weak self] value in
+                let voiceOutput = try prepareDMRVoiceOutput()
+                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: inputName, voiceOutput: voiceOutput) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
             } catch is CancellationError { }
@@ -209,7 +215,8 @@ final class ReceiverStore {
                 }
                 guard token == session, !Task.isCancelled else { return }
                 sourceChannelCount = stream.channels; captureSampleRate = stream.sampleRate
-                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: name) { [weak self] value in
+                let voiceOutput = try prepareDMRVoiceOutput()
+                try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: name, voiceOutput: voiceOutput) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
                 if session == token {
@@ -236,12 +243,20 @@ final class ReceiverStore {
         decode(url)
     }
     func clearVoice() {
+        dmrVoiceMonitor?.stop(); dmrVoiceMonitor = nil
+        dmrStatus = nil; voiceFrames = 0; voiceOutputDropped = 0
         voicePlayer?.stop(); voicePlayer = nil
         if let url = voiceURL, url.lastPathComponent.hasPrefix("RadioWorkbench-voice-") { let finishing = voiceFinalization; Task { await finishing?.value; try? FileManager.default.removeItem(at: url) } }
         voiceURL = nil
     }
+    private func prepareDMRVoiceOutput() throws -> (@Sendable (DigitalVoicePCMChunk) -> Void)? {
+        guard mode == .digitalVoice, settings.digitalVoiceProtocol == .dmr, settings.dmrMonitorVoice else { return nil }
+        let monitor = try DMRVoiceMonitor(); dmrVoiceMonitor = monitor
+        return { chunk in monitor.enqueue(chunk) }
+    }
     func playVoice() {
         guard !busy, !voiceFinalizing, let url = voiceURL else { return }
+        dmrVoiceMonitor?.stop(); dmrVoiceMonitor = nil
         do { voicePlayer = try AVAudioPlayer(contentsOf: url); voicePlayer?.play() } catch { self.error = "No hay voz reproducible en esta sesión: " + error.localizedDescription }
     }
     func exportVoice() {
@@ -255,9 +270,20 @@ final class ReceiverStore {
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; encoder.dateEncodingStrategy = .iso8601; try encoder.encode(engineRecords).write(to: url, options: .atomic) } catch { self.error = error.localizedDescription }
     }
+    func exportDMRStatus() {
+        guard let status = dmrStatus else { return }
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "estado-dmr.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; encoder.dateEncodingStrategy = .iso8601
+            try encoder.encode(status).write(to: url, options: .atomic)
+        } catch { self.error = error.localizedDescription }
+    }
     func stop() {
         let previous = task
         session = UUID(); let token = session
+        voiceOutputDropped = dmrVoiceMonitor?.snapshot.dropped ?? voiceOutputDropped
+        dmrVoiceMonitor?.stop(); dmrVoiceMonitor = nil
         task?.cancel(); task = nil; input.stop(); tcpInput.stop(); busy = false; live = false
         if previous != nil && voiceURL != nil {
             voiceFinalizing = true
@@ -295,6 +321,8 @@ final class ReceiverStore {
         if mode.isMultimon { multimonRecords = value.multimonRecords }
         engineRecords = value.engineRecords
         if let voice = value.voiceURL { voiceURL = voice }
+        dmrStatus = value.dmrStatus; voiceFrames = value.voiceFrames
+        voiceOutputDropped = dmrVoiceMonitor?.snapshot.dropped ?? voiceOutputDropped
         detail = value.detail; dropped = value.dropped; samplesReceived = value.samplesReceived
         sstvCalibration = value.sstvCalibration
         if let count = value.channelCount { sourceChannelCount = count }
@@ -307,7 +335,7 @@ final class ReceiverStore {
             rows.insert(row, at: 0); if rows.count > 80 { rows.removeLast() }
             waterfall = Self.image(rows)
         }
-        if value.finished { busy = false; live = false; task = nil }
+        if value.finished { dmrVoiceMonitor?.finish(); busy = false; live = false; task = nil }
     }
     func exportText() {
         let panel = NSSavePanel(); panel.allowedContentTypes = [.plainText]; panel.nameFieldStringValue = "\(mode.rawValue)-recepcion.txt"

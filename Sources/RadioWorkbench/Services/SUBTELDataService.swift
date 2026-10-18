@@ -75,7 +75,7 @@ actor SUBTELDataService {
 
     private func fetchHTML() async throws -> String {
         var request = URLRequest(url: Self.directoryURL, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 20)
-        request.setValue("RadioWorkbench/0.11.0 (SUBTEL amateur-radio lookup)", forHTTPHeaderField: "User-Agent")
+        request.setValue("RadioWorkbench/0.12.0 (SUBTEL amateur-radio lookup)", forHTTPHeaderField: "User-Agent")
         let (data, response) = try await transport(request)
         guard response.statusCode == 200, response.url?.scheme == "https", response.url?.host == "www.subtel.gob.cl",
               data.count <= 3_000_000, let text = String(data: data, encoding: .utf8) else { throw URLError(.badServerResponse) }
@@ -85,7 +85,7 @@ actor SUBTELDataService {
     private func fetchFile(_ url: URL, maximumBytes: Int) async throws -> Data {
         guard url.scheme == "https", url.host == "www.subtel.gob.cl", url.path.hasPrefix("/wp-content/uploads/") else { throw URLError(.badURL) }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 35)
-        request.setValue("RadioWorkbench/0.11.0 (SUBTEL amateur-radio lookup)", forHTTPHeaderField: "User-Agent")
+        request.setValue("RadioWorkbench/0.12.0 (SUBTEL amateur-radio lookup)", forHTTPHeaderField: "User-Agent")
         let (data, response) = try await transport(request)
         guard response.statusCode == 200, response.url?.scheme == "https", response.url?.host == "www.subtel.gob.cl",
               data.count > 100, data.count <= maximumBytes else { throw URLError(.badServerResponse) }

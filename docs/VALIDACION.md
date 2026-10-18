@@ -1,3 +1,32 @@
+# Validación de RadioWorkbench 0.12.0
+
+Suite Release arm64: **212 funciones registradas, 210 aprobadas, dos opcionales
+omitidas y cero fallos**, 13,572 s una vez compilada. Esta pasada sí incluye el
+runtime oficial DSD-neo y el corpus independiente DMR; se omiten descarga de
+satélites en vivo y benchmark de terreno en red. Se conservan los casos HF,
+relieve, biblioteca, DSC, imágenes, TCP y Rigctl de la versión anterior.
+
+DMR verifica PCM estéreo fragmentado, perfiles anteriores, máscara de síntesis
+TS1/TS2, parser con ANSI y errores, voz antes de EOF, cierre de entrada y WAV,
+cancelación sin EOF y cierre forzado de un proceso propio que ignora SIGTERM.
+El grafo AVAudioEngine se renderiza offline y se comprueba su límite de audio
+pendiente sin usar altavoces ni micrófono. Se corrigió una espera repetida al
+finalizar el motor y la espera del cierre queda fuera de la interfaz.
+
+El corpus externo confirma TS1, emisor 3025209, destino 9990 y llamada privada.
+CC7 es una observación del motor, sin oráculo independiente para ese campo.
+No se verificaron dos conversaciones simultáneas ni calidad perceptual. El
+audio externo se mantiene temporalmente y no se incluye en Git o en el paquete.
+
+Guía → HF: selección, ficha y botón de envío observados en 0.11; el usuario
+confirmó posteriormente BBC, 9,410 MHz y dirección Escucha. Esta confirmación
+es del usuario y no una captura de pantalla automatizada. La revisión visual
+de los otros flujos se registra por separado, sin sustituirla por los tests.
+
+[Suite completa](validation/release-0.12.0-tests.txt) ·
+[Resumen](validation/tests-0.12.0-summary.json) ·
+[Contrato independiente](validation/dmr-0.12-contract.md) · [Uso DMR](DMR-0.12.md).
+
 # Validación de RadioWorkbench 0.11.0
 
 Suite Release arm64: **202 funciones registradas, 198 aprobadas y cuatro opcionales omitidas**, cero fallos, 7,438 s una vez compilada. Las omisiones son dos pruebas que requieren el runtime DSD instalado, descarga satelital en vivo y el benchmark de terreno en red. No se inició micrófono, SDR++ ni sintonía del receptor físico.

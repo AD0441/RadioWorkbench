@@ -1,0 +1,69 @@
+{
+  "version": "0.12.0",
+  "build": 27,
+  "zip": "RadioWorkbench-0.12.0-macos-arm64.zip",
+  "bytes": 190841424,
+  "sha256": "5d4028b18333667f55abd52cf5dee1ecc624a3a30cf3b5d6cf7a8543f605c6a2",
+  "zip_integrity": true,
+  "extracted_codesign_deep_strict": true,
+  "signature": "ad hoc, not notarized",
+  "minimum_macos": "14.0",
+  "binaries": [
+    {
+      "file": "mt63-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "dsc-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libp372.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "propagation-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "multimon-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "RadioWorkbench",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libitm.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "ale-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "itm-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "ftx-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libp533.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "acars-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "cw-helper",
+      "architecture": "arm64"
+    }
+  ],
+  "dmr_document_matches": true,
+  "external_dmr_audio_in_package": false,
+  "extract_path": "/private/tmp/rwb-0.12-extract-hr2qp7co/RadioWorkbench.app",
+  "source_commit": null
+}
