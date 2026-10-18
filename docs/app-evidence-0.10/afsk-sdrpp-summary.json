@@ -1,0 +1,62 @@
+{
+  "tool": "REA 6.4.0 inspect-artifact",
+  "execution": "none",
+  "evidence": [
+    {
+      "name": "afsk",
+      "evidence_id": "ev_4240f4182adad57c862bd13648eb7c58fb36bbe48f1cf18b3c5fea1783baa7da",
+      "subject": {
+        "name": "AFSK1200 Decoder.app",
+        "digest": {
+          "sha256": "8df19653992f7375e8d74640b168605deda23aeab63d84b98c5e565b770ec24b"
+        },
+        "format": "directory",
+        "architecture": null
+      },
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ],
+      "manifest": {
+        "manifest_id": "agm_4e6739b9f215bf93a19daf4fc16801a28070a942163655ce594931f59ddf6d01",
+        "root_artifact_id": "art_9ebda2369317996f795377e39e982086038746253c89ae28cee02da5cc3fc0ca",
+        "root_sha256": "8df19653992f7375e8d74640b168605deda23aeab63d84b98c5e565b770ec24b",
+        "root_format": "directory"
+      },
+      "substeps": [
+        {
+          "operation": "inventory_artifact",
+          "status": "completed",
+          "evidence_id": "ev_500ddb88811ca7479918f014ab4889f20d66579960fd5a975e9369758d881ef5"
+        }
+      ]
+    },
+    {
+      "name": "sdrpp",
+      "evidence_id": "ev_5d5f90d7e7d189b9116349ec7f6708d49a638e4a4db940bedd2deb79ea4bcf63",
+      "subject": {
+        "name": "SDR++Brown.app",
+        "digest": {
+          "sha256": "75b8a2b994c9c067f18e11a9c30f147dffa74912663f78178cb2899be98641a8"
+        },
+        "format": "directory",
+        "architecture": null
+      },
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ],
+      "manifest": {
+        "manifest_id": "agm_4f17f629d3f496b8edde4a3d723d27dc7f5865649e27d6085f4d258e8b360739",
+        "root_artifact_id": "art_ca57af020bdd5bfb93ffd2a77c4e5cc303e890a39596ecb4161b0699d32053f2",
+        "root_sha256": "75b8a2b994c9c067f18e11a9c30f147dffa74912663f78178cb2899be98641a8",
+        "root_format": "directory"
+      },
+      "substeps": [
+        {
+          "operation": "inventory_artifact",
+          "status": "completed",
+          "evidence_id": "ev_6aa4742b391eb860d08fa247b07691e999c48b1177f11669d392ec7a75731b63"
+        }
+      ]
+    }
+  ]
+}

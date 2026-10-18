@@ -15,6 +15,7 @@ import RadioCore
     }
     var radiusKilometers = 50.0
     var positions: [RadioPosition] = []
+    var receivedPosition: ((RadioPosition) -> Void)?
     var selectedPositionID: String?
     var connected = false
     var status = "Conecta para consultar estaciones APRS cercanas por Internet."
@@ -35,6 +36,7 @@ import RadioCore
                    },
                    onPosition: { [weak self] position in
                        guard let self else { return }
+                       self.receivedPosition?(position)
                        if let index = self.positions.firstIndex(where: { $0.id == position.id }) { self.positions[index] = position }
                        else { self.positions.insert(position, at: 0) }
                        self.positions.sort { $0.receivedAt > $1.receivedAt }
@@ -103,7 +105,7 @@ import RadioCore
             if !loginSent {
                 let lat = String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"), latitude)
                 let lon = String(format: "%.2f", locale: Locale(identifier: "en_US_POSIX"), longitude)
-                let login = "user \(callsign) pass -1 vers RadioWorkbench 0.9.0 filter r/\(lat)/\(lon)/\(Int(radius))\r\n"
+                let login = "user \(callsign) pass -1 vers RadioWorkbench 0.10.0 filter r/\(lat)/\(lon)/\(Int(radius))\r\n"
                 connection.send(content: login.data(using: .utf8), completion: .contentProcessed { [weak self] error in
                     if let error { Task { @MainActor in self?.onStatus?("No se pudo enviar el filtro APRS: \(error.localizedDescription)") } }
                 })

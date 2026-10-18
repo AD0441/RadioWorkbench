@@ -226,15 +226,23 @@
     },
     {
       "path": "P533/Src/P533/CalculateCPParameters.c",
-      "size": 21256,
-      "sha": "cac976c8b63e1928fcc4dc0edd7452f5b2948108",
-      "sha256": "6673ebdc370f684b15c3f4cf239fe3ce7655d283b74e19b6afd8340ce0fb941c"
+      "size": 21257,
+      "sha": "8dc40421c7b1ba3b201224567ded873ca857c205",
+      "sha256": "b5bd07ed53b9e27b09b018d8b520b61830a10493a1692678f9dea67a580980c9",
+      "upstreamSize": 21256,
+      "upstreamSha": "cac976c8b63e1928fcc4dc0edd7452f5b2948108",
+      "upstreamSha256": "6673ebdc370f684b15c3f4cf239fe3ce7655d283b74e19b6afd8340ce0fb941c",
+      "localChanges": "LOCAL-CHANGES.md"
     },
     {
       "path": "P533/Src/P533/CircuitReliability.c",
-      "size": 33895,
-      "sha": "b55d2e5b2bea257398029307aaad3da8fddb8c3d",
-      "sha256": "011b532d6a2ef9a54990f24d67f749e7e10cdbeefaff66aae25c366627c919b3"
+      "size": 33890,
+      "sha": "9f59af9c75ee74a142d4dbb11184619ac0b51ace",
+      "sha256": "b8ef61605ef8934f5ce89972bce2bcbf59ab9ad7657289669b032a4855c23b8d",
+      "upstreamSize": 33895,
+      "upstreamSha": "b55d2e5b2bea257398029307aaad3da8fddb8c3d",
+      "upstreamSha256": "011b532d6a2ef9a54990f24d67f749e7e10cdbeefaff66aae25c366627c919b3",
+      "localChanges": "LOCAL-CHANGES.md"
     },
     {
       "path": "P533/Src/P533/Common.h",
@@ -353,8 +361,19 @@
     {
       "path": "P533/Src/P533/ValidatePath.c",
       "size": 3009,
-      "sha": "70d9ee43485a14b08b92ea8ed6f3bb9996fc2d31",
-      "sha256": "5bc798ff7871dc3ce2f720d23b5f7863533f69592ab8863684f6201e82484026"
+      "sha": "2d0740bfa939455c14c712c582f8e850cc365c4f",
+      "sha256": "3cc8327b747dd024f86412b9ba8962097a611d6a23351f91bb0b3df837590c3f",
+      "upstreamSize": 3009,
+      "upstreamSha": "70d9ee43485a14b08b92ea8ed6f3bb9996fc2d31",
+      "upstreamSha256": "5bc798ff7871dc3ce2f720d23b5f7863533f69592ab8863684f6201e82484026",
+      "localChanges": "LOCAL-CHANGES.md"
     }
-  ]
+  ],
+  "localFiles": {
+    "NOTICE.md": "642c031ef1166f4b6ec7cb7f7f613abdb883ecb9f83623097d62d5e8fd04b779",
+    "LOCAL-CHANGES.md": "b446b77178cb66b92f284d4934a88da8478045e0e93b6f82b9f09ecb92674b03",
+    "tests/hemisphere-tests.c": "2d8248ae3387aa1e710fa6e75c6d5668857b3dc65b39eba24a8064fae3e7cbaf",
+    "tests/validation-summary.json": "8a0bf23b777aaf302d8173ae98d9ea0afd65833fe6c1e8bd7df88fd7862006f8"
+  },
+  "localChanges": "Three narrowly scoped source corrections; original upstream hash fields retained per changed file. See LOCAL-CHANGES.md."
 }

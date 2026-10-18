@@ -93,6 +93,7 @@ final class PacketAFSK1200Decoder {
     }
 
     var text: String { receiver.text }
+    var receptions: [PacketReception] { receiver.receptions }
     var status: String { receiver.status }
     var acceptedFrames: Int { receiver.accepted }
     var rejectedCRC: Int { receiver.rejectedCRC }

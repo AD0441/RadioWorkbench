@@ -1,0 +1,22 @@
+{
+  "schema": "radioworkbench-satdump-offline-probe/1",
+  "date": "2026-10-18",
+  "runtime": "SatDump v1.2.3-943de7d",
+  "cli_sha256": "f066ac3a7a8f950d16638c829bae4e862a9bcf94d16997c3c0b2dcbea39d2a28",
+  "input": "100000 complex float32 zero samples, 1 Msps; synthetic negative",
+  "network": "denied by sandbox-exec",
+  "writes": "only private temporary job",
+  "tle_override": "explicit empty file; avoids automatic TLE update",
+  "exit_code": 1,
+  "image_count": 0,
+  "dataset": {
+    "products": [
+      "MSU-MR"
+    ],
+    "satellite": "Unknown Meteor",
+    "timestamp": 0.0
+  },
+  "progress_lines": [],
+  "result": "Pipeline stages executed. No image or reception claimed. Nonzero exit and invalid percentages are preserved as warnings.",
+  "source": "https://github.com/SatDump/SatDump/blob/943de7d/src-cli/offline.cpp"
+}

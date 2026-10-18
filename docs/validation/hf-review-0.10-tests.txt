@@ -1,0 +1,57 @@
+Building for production...
+[0/2] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'cw-helper' complete! (0.21s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+{"checks":21,"failures":0,"equatorialBCR":16.00535375,"polarBCR":21.26398679,"santiagoJuneFoEMHz":1.75548953}
+[0/1] Planning build
+Building for production...
+[0/7] Write sources
+[2/7] Write swift-version--1AB21518FC5DEDBE.txt
+[4/8] Compiling RadioCore ACARSAudioResampler.swift
+[5/9] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[5/9] Write Objects.LinkFileList
+[6/9] Linking RadioWorkbench
+[8/10] Compiling RadioCoreTests ACARSTests.swift
+[8/10] Write Objects.LinkFileList
+[9/10] Linking RadioWorkbenchPackageTests
+Build complete! (59.00s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test hfFrequencyCopiesKeepExplicitUnitsAndDoNotGuessUnitlessKHz() started.
+◇ Test hfccMatchRejectsAmbiguousRowsAndUsesLanguageWhenUnique() started.
+◇ Test propagationInvalidInputAndCancelledCalculation() started.
+◇ Test hfCandidatePowerIsAnExplicitAssumptionAndTracksManualChanges() started.
+◇ Test hfccFixedWidthScheduleKeepsDeclaredPowerDirectionAndMode() started.
+◇ Test hfSelectedPlanningTimeAndR12ZeroReachTheCalculation() started.
+◇ Test hfITUIndexParserKeepsSolarMinimumZero() started.
+◇ Test hfGuideHandoffUsesPhysicalTransmitterAndKeepsTXRXRoles() started.
+◇ Test propagationRejectsMalformedAndFutureData() started.
+◇ Test propagationParsesOfficialSpaceWeatherFixtures() started.
+◇ Test propagationMatchesPublishedITURReferenceNoise() started.
+◇ Test hfGuideSelectionSurvivesTableDetachingAndCopiesPartialData() started.
+◇ Test propagationDrapUsesActualGridAndWrapsDateLine() started.
+◇ Test propagationGeometryAndPowerBudget() started.
+◇ Test hfMultipleTransmitterSitesRequireAnExplicitChoice() started.
+◇ Test propagationPowerAndBandwidthHavePhysicalScaling() started.
+◇ Test propagationOfflineKeepsObservationDateAndPartialSources() started.
+✔ Test hfFrequencyCopiesKeepExplicitUnitsAndDoNotGuessUnitlessKHz() passed after 0.008 seconds.
+✔ Test hfccMatchRejectsAmbiguousRowsAndUsesLanguageWhenUnique() passed after 0.008 seconds.
+✔ Test hfccFixedWidthScheduleKeepsDeclaredPowerDirectionAndMode() passed after 0.008 seconds.
+✔ Test hfITUIndexParserKeepsSolarMinimumZero() passed after 0.008 seconds.
+✔ Test hfCandidatePowerIsAnExplicitAssumptionAndTracksManualChanges() passed after 0.009 seconds.
+✔ Test propagationGeometryAndPowerBudget() passed after 0.009 seconds.
+✔ Test hfGuideSelectionSurvivesTableDetachingAndCopiesPartialData() passed after 0.009 seconds.
+✔ Test propagationDrapUsesActualGridAndWrapsDateLine() passed after 0.012 seconds.
+✔ Test hfGuideHandoffUsesPhysicalTransmitterAndKeepsTXRXRoles() passed after 0.012 seconds.
+✔ Test hfMultipleTransmitterSitesRequireAnExplicitChoice() passed after 0.012 seconds.
+✔ Test propagationRejectsMalformedAndFutureData() passed after 0.012 seconds.
+✔ Test propagationInvalidInputAndCancelledCalculation() passed after 0.015 seconds.
+✔ Test propagationOfflineKeepsObservationDateAndPartialSources() passed after 0.049 seconds.
+✔ Test propagationParsesOfficialSpaceWeatherFixtures() passed after 0.119 seconds.
+✔ Test propagationMatchesPublishedITURReferenceNoise() passed after 0.598 seconds.
+✔ Test hfSelectedPlanningTimeAndR12ZeroReachTheCalculation() passed after 0.664 seconds.
+✔ Test propagationPowerAndBandwidthHavePhysicalScaling() passed after 0.928 seconds.
+✔ Test run with 17 tests in 0 suites passed after 0.928 seconds.

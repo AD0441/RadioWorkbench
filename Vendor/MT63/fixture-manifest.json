@@ -1,0 +1,74 @@
+{
+  "provenance": "Synthetic fldigi MT63tx waveform, received by standalone MT63rx adapter; source loopback, not an independent over-the-air recording.",
+  "upstream": "https://github.com/w1hkj/fldigi",
+  "revision": "61b97f4133c488063f3de1795c894d22d5032e8a",
+  "generator": "script/generate_mt63_fixtures.py + Vendor/MT63/fixture-generator.cpp",
+  "files": [
+    {
+      "file": "mt63_500_short_8000_clean.wav",
+      "sha256": "d474020c359860ebaa397eb9c0a42e640f8324ff5e9a77ab7cd25cd3cfbe9917",
+      "samples": 473600,
+      "seconds": 59.2,
+      "sampleRate": 8000,
+      "bandwidth": 500,
+      "interleave": "short",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    },
+    {
+      "file": "mt63_500_long_8000_clean.wav",
+      "sha256": "bcdacb38b1d452f6a40788b7eacc6b607b9543c4da818d694913bb274398eb5d",
+      "samples": 524800,
+      "seconds": 65.6,
+      "sampleRate": 8000,
+      "bandwidth": 500,
+      "interleave": "long",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    },
+    {
+      "file": "mt63_1000_short_8000_clean.wav",
+      "sha256": "5e2fe1dd9f96db4007fbd8a621520627fecbf6435114bcb7ae8dcf44b52c5f83",
+      "samples": 236800,
+      "seconds": 29.6,
+      "sampleRate": 8000,
+      "bandwidth": 1000,
+      "interleave": "short",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    },
+    {
+      "file": "mt63_1000_long_8000_clean.wav",
+      "sha256": "f88c3a4c2d644f72deb91322ec623477b66fee5feca6d0475bcff3e5dabefe14",
+      "samples": 262400,
+      "seconds": 32.8,
+      "sampleRate": 8000,
+      "bandwidth": 1000,
+      "interleave": "long",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    },
+    {
+      "file": "mt63_2000_short_8000_clean.wav",
+      "sha256": "3c48865bf85b51d659042dd7d117fbb02b75abcfba356f6602eb7f4a30150922",
+      "samples": 118400,
+      "seconds": 14.8,
+      "sampleRate": 8000,
+      "bandwidth": 2000,
+      "interleave": "short",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    },
+    {
+      "file": "mt63_2000_long_8000_clean.wav",
+      "sha256": "a36bf3a9b9ef6527264a6f83ea3db35e6503548d75adf99725bd155a16eb7dfb",
+      "samples": 131200,
+      "seconds": 16.4,
+      "sampleRate": 8000,
+      "bandwidth": 2000,
+      "interleave": "long",
+      "centerHz": 1500,
+      "expectedText": "CQ TEST MT63 123"
+    }
+  ]
+}

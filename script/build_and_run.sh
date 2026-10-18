@@ -4,7 +4,7 @@ MODE="${1:-run}"
 APP_NAME="RadioWorkbench"
 BUNDLE_ID="cl.sebastian.RadioWorkbench"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUTPUT_APP_BUNDLE="$ROOT_DIR/dist/$APP_NAME.app"
+OUTPUT_APP_BUNDLE="${RADIO_OUTPUT_APP_BUNDLE:-$ROOT_DIR/dist/$APP_NAME.app}"
 BUILD_PATH="${RADIO_BUILD_PATH:-$ROOT_DIR/.build}"
 BUILD_CONFIGURATION="${RADIO_BUILD_CONFIGURATION:-release}"
 if [[ "$MODE" == "--debug" || "$MODE" == "debug" ]]; then BUILD_CONFIGURATION=debug; fi
@@ -26,6 +26,23 @@ APP_MACOS="$APP_BUNDLE/Contents/MacOS"
 APP_BINARY="$APP_MACOS/$APP_NAME"
 mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
 cp "$BUILD_BINARY" "$APP_BINARY"
+for engine in mt63 ale dsc; do
+  bash "$ROOT_DIR/script/build_${engine}.sh" "$APP_MACOS/${engine}-helper"
+  codesign --force --sign - "$APP_MACOS/${engine}-helper"
+done
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/MT63-Sources.tar.gz" -C "$ROOT_DIR" Vendor/MT63 script/mt63-helper.cpp script/build_mt63.sh
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/ALE2G-Sources.tar.gz" -C "$ROOT_DIR" Vendor/ALE2G script/ale-helper.cpp script/build_ale.sh
+COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/DSC-Sources.tar.gz" -C "$ROOT_DIR" Vendor/DSC script/dsc-helper.cpp script/build_dsc.sh script/dsc-build-prototype.sh script/dsc-validate-prototype.py
+cp "$ROOT_DIR/Vendor/DSC/COPYING" "$APP_BUNDLE/Contents/Resources/DSC-LICENSE.txt"
+cp "$ROOT_DIR"/Tests/RadioCoreTests/Fixtures/dsc_*_48000_synthetic.wav "$APP_BUNDLE/Contents/Resources/Examples/"
+cp "$ROOT_DIR/Vendor/MT63/COPYING" "$APP_BUNDLE/Contents/Resources/MT63-License.txt"
+cp "$ROOT_DIR/Vendor/ALE2G/COPYING" "$APP_BUNDLE/Contents/Resources/ALE2G-License.txt"
+for example in "$ROOT_DIR"/Tests/RadioCoreTests/Fixtures/mt63_*_8000_clean.wav "$ROOT_DIR"/Tests/RadioCoreTests/Fixtures/ale2g_8000_synthetic.wav; do
+  cp "$example" "$APP_BUNDLE/Contents/Resources/Examples/"
+done
+cp "$ROOT_DIR/docs/INTEGRATIONS-0.10.md" "$APP_BUNDLE/Contents/Resources/Modos-0.10.md"
+cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.11.md"
+cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
 bash "$ROOT_DIR/script/build_ftx.sh" "$APP_MACOS/ftx-helper"
@@ -53,7 +70,7 @@ cp "$ROOT_DIR/Vendor/ITU-R-HF/NOTICE.md" "$APP_BUNDLE/Contents/Resources/Propaga
 cp "$ROOT_DIR/Vendor/ITU-R-HF/source-manifest.json" "$APP_BUNDLE/Contents/Resources/Propagation/source-manifest.json"
 COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/Propagation-Sources.tar.gz" -C "$ROOT_DIR" \
   Vendor/ITU-R-HF/P533/Src Vendor/ITU-R-HF/P372/Src Vendor/ITU-R-HF/ITURHFProp \
-  Vendor/ITU-R-HF/NOTICE.md Vendor/ITU-R-HF/source-manifest.json script/propagation-helper.c script/build_propagation.sh
+  Vendor/ITU-R-HF/NOTICE.md Vendor/ITU-R-HF/LOCAL-CHANGES.md Vendor/ITU-R-HF/tests Vendor/ITU-R-HF/source-manifest.json script/propagation-helper.c script/build_propagation.sh
 cp "$ROOT_DIR/Vendor/NTIA-ITM/LICENSE.md" "$APP_BUNDLE/Contents/Resources/NTIA-ITM-License.txt"
 COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/NTIA-ITM-Sources.tar.gz" -C "$ROOT_DIR" \
   Vendor/NTIA-ITM/include Vendor/NTIA-ITM/src Vendor/NTIA-ITM/LICENSE.md Vendor/NTIA-ITM/README.md \
@@ -88,8 +105,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.9.0</string>
-<key>CFBundleVersion</key><string>24</string>
+<key>CFBundleShortVersionString</key><string>0.11.0</string>
+<key>CFBundleVersion</key><string>26</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

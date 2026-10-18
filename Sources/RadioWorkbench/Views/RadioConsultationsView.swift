@@ -30,7 +30,7 @@ struct RadioConsultationsView: View {
         }
         .task { await store.activate(); await satellites.activate() }
         .onChange(of: localPosition) { _, _ in satellites.clearPasses() }
-        .onDisappear { aprs.stop() }
+        .onDisappear { if receiver.destination != .receptionMap { aprs.stop() } }
     }
 
     private var header: some View {
@@ -71,6 +71,14 @@ struct RadioConsultationsView: View {
                             .buttonStyle(.borderedProminent)
                             .disabled((RadioConsultationStore.parseFrequency(store.frequencyMHz) ?? 0) <= 0)
                     }
+                    Button("Preparar sintonía optativa en SDR++…") {
+                        if let frequency = RadioConsultationStore.parseFrequency(store.frequencyMHz) {
+                            receiver.stop()
+                            receiver.rigctl.prepare(mhz: frequency, modulation: store.selectedProfile.modulation,
+                                bandwidth: store.selectedProfile.rfBandwidth, source: "Consulta de frecuencia · \(store.chosenMode.title)")
+                            receiver.destination = .rigctl
+                        }
+                    }.disabled((RadioConsultationStore.parseFrequency(store.frequencyMHz) ?? 0) <= 0)
                     if let frequency = RadioConsultationStore.parseFrequency(store.frequencyMHz), frequency > 0 {
                         if store.matchedBands.isEmpty {
                             Label("La tabla consultada no identifica esta frecuencia como segmento de radioaficionados.", systemImage: "questionmark.circle")

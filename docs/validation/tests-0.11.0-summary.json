@@ -1,0 +1,27 @@
+{
+  "version": "0.11.0",
+  "date": "2026-10-18",
+  "configuration": "Release arm64",
+  "summary": "✔ Test run with 202 tests in 0 suites passed after 7.438 seconds.",
+  "hf_c_checks": {
+    "checks": 21,
+    "failures": 0
+  },
+  "dsc_checks": {
+    "checks": 18,
+    "failures": 0,
+    "asan_ubsan": true
+  },
+  "network_tests": "Loopback mock PCM and Rigctl only; no SDR tuning or microphone capture",
+  "satdump": "Isolated mock CLI and real zero-IQ negative; independent LRPT IQ validation pending",
+  "registered_functions": 202,
+  "passed_functions": 198,
+  "skipped_functions": 4,
+  "failures": 0,
+  "skips": [
+    "satelliteLiveDownloadFromOfficialProviders",
+    "terrainRealSantiagoBenchmark",
+    "integratedDSDReceivesM17PacketThroughPCMAndRejectsSilence",
+    "integratedDSDVoiceProducesPlayableWAV"
+  ]
+}

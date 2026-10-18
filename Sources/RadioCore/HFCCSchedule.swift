@@ -21,6 +21,25 @@ public struct HFCCTransmission: Codable, Hashable, Sendable, Identifiable {
 
     public var id: String { raw }
     public var scheduledPowerWatts: Double? { powerKW.map { Double($0) * 1_000 } }
+    /// HFCC numbers Sunday as 1; EiBi numbers Monday as 1. Do not pass these
+    /// strings to BroadcastCalendar.dayMatch, which follows EiBi conventions.
+    public func operates(on date: Date) -> Bool {
+        let calendar = BroadcastCalendar.utc
+        guard days.contains(String(calendar.component(.weekday, from: date))) else { return false }
+        func boundary(_ text: String) -> Date? {
+            guard text.count == 6, text.allSatisfy(\.isNumber) else { return nil }
+            let parts = Array(text)
+            guard let day = Int(String(parts[0..<2])), let month = Int(String(parts[2..<4])),
+                  let year = Int(String(parts[4..<6])) else { return nil }
+            let components = DateComponents(year: 2000 + year, month: month, day: day)
+            guard let result = calendar.date(from: components), calendar.component(.day, from: result) == day,
+                  calendar.component(.month, from: result) == month else { return nil }
+            return result
+        }
+        guard let first = boundary(startDate), let last = boundary(stopDate) else { return false }
+        let day = calendar.startOfDay(for: date)
+        return day >= first && day <= last
+    }
     public var modulation: String {
         switch modulationCode.uppercased() {
         case "D": "AM · DSB (HFCC)"
@@ -43,15 +62,15 @@ public struct HFCCScheduleSnapshot: Codable, Sendable {
         self.fetchedAt = fetchedAt
     }
 
-    /// Only returns a match when the schedule row can be associated with an
-    /// EiBi entry without guessing between multiple transmitters.
-    public func match(for entry: BroadcastEntry, candidates source: [HFCCTransmission]? = nil) -> HFCCTransmission? {
+    /// A frequency/time/language candidate is not proof of transmitter identity.
+    public func match(for entry: BroadcastEntry, candidates source: [HFCCTransmission]? = nil, on date: Date? = nil) -> HFCCTransmission? {
         guard let (entryStart, entryStop) = BroadcastCalendar.minutes(entry.time) else { return nil }
         func minutes(_ value: String, isStop: Bool = false) -> Int? {
             guard let raw = Int(value), value.count == 4, raw % 100 < 60 || (isStop && raw == 2400) else { return nil }
             return raw / 100 * 60 + raw % 100
         }
         let candidates = (source ?? transmissions).filter {
+            if let date, !$0.operates(on: date) { return false }
             guard abs($0.frequencyKHz - entry.frequencyKHz) <= 1.0,
                   let start = minutes($0.startUTC), let stop = minutes($0.stopUTC, isStop: true) else { return false }
             return abs(start - entryStart) <= 5 && abs(stop - entryStop) <= 15

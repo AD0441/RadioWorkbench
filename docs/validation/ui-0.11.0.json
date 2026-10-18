@@ -1,0 +1,9 @@
+{
+  "version": "0.11.0",
+  "date": "2026-10-18",
+  "status": "blocked",
+  "reason": "CUA reported: The Mac is locked and automatic unlock could not unlock it.",
+  "requested_user_action": "Unlock the Mac; asynchronous question pending.",
+  "microphone_started": false,
+  "sdr_connection_started": false
+}

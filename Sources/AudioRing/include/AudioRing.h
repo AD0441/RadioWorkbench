@@ -11,4 +11,7 @@ size_t radio_ring_write_mono(RadioRing *ring, const float *left, const float *ri
 size_t radio_ring_read(RadioRing *ring, float *output, size_t maximum);
 uint64_t radio_ring_dropped(RadioRing *ring);
 uint64_t radio_ring_written(RadioRing *ring);
+void radio_ring_finish(RadioRing *ring);
+int radio_ring_finished(RadioRing *ring);
+int radio_ring_drained(RadioRing *ring);
 #endif

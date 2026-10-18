@@ -1,5 +1,9 @@
 # Historial de RadioWorkbench
 
+**0.11.0:** repara Guía → Planificador HF y la descarga HFCC; corrige R12=0, procedencia por mes UTC y dos condiciones del modelo para el hemisferio sur. Añade biblioteca de audio/ajustes/fechas, diagnóstico, TCP local, DSC MF/HF/VHF con ECC e interpretación parcial, mapa de recepciones, SatDump LRPT offline, Rigctl optativo con lectura de confirmación, eventos externos y taller de referencias. [Alcance de los nueve módulos](NUEVE-MEJORAS.md) · [Notas](RELEASE-0.11.0.md).
+
+**0.10.0:** recepción MT63 500/1000/2000 Hz con entrelazado corto/largo, centro y guía de banda; ALE 2G con sondeos, llamadas y AMD. Helpers arm64/macOS 14, WAV y entrada en vivo, JSON, señales de ejemplo y fuentes/licencias incluidas. Revisión estática REA de cinco aplicaciones y propuestas de audio TCP, DSC, biblioteca de recepciones, mapas e I/Q/SatDump. [Uso y límites](INTEGRATIONS-0.10.md) · [Investigación y propuestas](REVISION-APPS-0.10.md).
+
 **0.9.0:** SGP4/SDP4 y Doppler; FT8/FT4 con LDPC/CRC; CWKit automático/neuronal (macOS 15+); ADS-C/CPDLC con reensamblado y mapa; DSD-neo oficial bajo demanda (macOS 26+). La app conserva mínimo macOS 14. [Detalles y limitaciones](INTEGRATIONS-0.9.md).
 
 **0.8.11: POCSAG sin capcodes falsos tras perder el sincronismo.** Exige el marcador periódico de bloque, reinicia el framing al adquirir señal y respeta el límite BCH para sincronismos. Vacía stdout al emitir avisos sin texto, consume la salida disponible del helper sin esperar 8 KB/EOF y publica los resultados aunque se pause el flujo de audio. Añade regresiones de silencio tras transmisión, recuperación, mensajes multibloque y publicación antes de cerrar la entrada. [Detalles](RELEASE-0.8.11.md).

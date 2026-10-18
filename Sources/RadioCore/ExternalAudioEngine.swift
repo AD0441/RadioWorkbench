@@ -19,7 +19,13 @@ public struct AudioEngineRecord: Codable, Identifiable, Sendable {
     public var frequencyHz: Double?, offsetSeconds: Double?, syncScore: Int?, crcValid: Bool?
     public var tentative: String?, toneHz: Double?, wpm: Double?, snrDB: Double?
     public var slotUTC: Date?
-    private enum CodingKeys: String, CodingKey { case text, frequencyHz, offsetSeconds, syncScore, crcValid, tentative, toneHz, wpm, snrDB, slotUTC }
+    public var locked: Bool?, confidence: Double?, decoder: String?
+    public var dscVariant: String?, eccValid: Bool?, origin: String?, destination: String?
+    public var rxChannel: Int?, txChannel: Int?, symbolErrors: Int?, interpretation: String?, symbols: [Int]?
+    private enum CodingKeys: String, CodingKey {
+        case dscVariant = "variant", eccValid = "ecc_ok", rxChannel = "rx_channel", txChannel = "tx_channel", symbolErrors = "symbol_errors"
+        case origin, destination, interpretation, symbols
+        case text, frequencyHz, offsetSeconds, syncScore, crcValid, tentative, toneHz, wpm, snrDB, slotUTC, locked, confidence, decoder }
     public var monitorLine: String {
         if let frequencyHz, let offsetSeconds { return String(format: "%.0f Hz · Δt %+.2f s · %@", frequencyHz, offsetSeconds, text) }
         return text
@@ -45,7 +51,7 @@ private final class EngineOutput: @unchecked Sendable {
         while let end = pending.firstIndex(of: 10) {
             if let record = try? JSONDecoder().decode(AudioEngineRecord.self, from: pending.prefix(upTo: end)) {
                 records.append(record); if records.count > 200 { records.removeFirst(records.count - 200) }
-                text = String((text + record.text).suffix(40000))
+                text = String((text + record.text + (record.dscVariant == nil ? "" : "\n")).suffix(40000))
             }
             pending.removeSubrange(...end)
         }
@@ -61,9 +67,20 @@ public final class ExternalAudioEngine: @unchecked Sendable {
     private let int16Input: Bool
     public let voiceURL: URL?
     public init(mode: RadioMode, settings: DecoderSettings, executableURL: URL? = nil, voiceURL: URL? = nil) throws {
-        int16Input = mode == .digitalVoice; self.voiceURL = voiceURL
+        int16Input = mode == .digitalVoice || mode == .gmdss; self.voiceURL = voiceURL
         let name: String, args: [String], override: String
         if mode == .ft8 || mode == .ft4 { name = "ftx-helper"; args = [mode.rawValue]; override = "FTX_HELPER_PATH" }
+        else if mode == .gmdss {
+            name = "dsc-helper"; override = "DSC_HELPER_PATH"
+            args = ["--variant", settings.dscVariant.rawValue, "--rate", "48000", "--center-hz", String(settings.frequency)] + (settings.inverted ? ["--inverted"] : []) + (settings.dscDeemphasized ? ["--deemphasized"] : [])
+        }
+        else if mode == .mt63 {
+            try settings.validated(sampleRate: 8000, mode: mode)
+            name = "mt63-helper"; override = "MT63_HELPER_PATH"
+            args = ["--bandwidth", String(settings.mt63Variant.bandwidth), "--interleave", settings.mt63Variant.interleave, "--center-hz", String(settings.frequency)]
+        } else if mode == .ale {
+            name = "ale-helper"; override = "ALE_HELPER_PATH"; args = []
+        }
         else if mode == .morse && settings.cwEngine != .manual {
             guard CWEngine.isSupported else { throw AudioEngineError.unavailable("CWKit requiere macOS 15. Elige Morse manual en este Mac.") }
             name = "cw-helper"; override = "CW_HELPER_PATH"

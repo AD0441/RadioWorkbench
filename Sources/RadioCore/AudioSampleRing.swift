@@ -51,6 +51,18 @@ public final class AudioSampleRing: @unchecked Sendable {
     public func read(into buffer: inout [Float]) -> Int {
         buffer.withUnsafeMutableBufferPointer { radio_ring_read(pointer, $0.baseAddress, $0.count) }
     }
+    /// A network/file producer can use the same bounded single-producer ring.
+    /// Never call this concurrently with an audio tap writing this instance.
+    public func writeMono(_ samples: [Float]) {
+        samples.withUnsafeBufferPointer { buffer in
+            _ = radio_ring_write_mono(pointer, buffer.baseAddress, nil, buffer.count)
+        }
+    }
     public var dropped: UInt64 { radio_ring_dropped(pointer) }
     public var written: UInt64 { radio_ring_written(pointer) }
+    /// The producer calls this after its final write; buffered samples remain
+    /// readable. Once empty, the consumer can flush its decoder normally.
+    public func finish() { radio_ring_finish(pointer) }
+    public var isFinished: Bool { radio_ring_finished(pointer) != 0 }
+    public var isDrained: Bool { radio_ring_drained(pointer) != 0 }
 }

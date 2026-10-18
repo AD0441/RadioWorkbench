@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.9.0
+# RadioWorkbench · 0.11.0
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -17,17 +17,19 @@ Extrae el ZIP, mueve `RadioWorkbench.app` a una carpeta local como Aplicaciones 
 
 El bundle tiene **firma local ad hoc**, sin Developer ID ni notarización. macOS puede bloquear su primera apertura; consulta el [procedimiento de Apple para abrir una app de un desarrollador no identificado](https://support.apple.com/es-cl/102445). La verificación estricta se realizó sobre el ZIP extraído en una carpeta temporal, porque File Provider puede añadir metadatos Finder a un bundle ubicado en el Escritorio.
 
-El código **0.9.0** integra SGP4/SDP4 con Doppler, FT8/FT4, CWKit automático/neuronal y aplicaciones ACARS ADS-C/CPDLC. Añade recepción DSD-neo mediante descarga verificada de su motor oficial; este paquete requiere macOS 26, y CWKit requiere 15. La app y el resto de modos conservan macOS 14. La descarga pública de arriba sigue siendo 0.8.8. [Motores, requisitos y uso](docs/INTEGRATIONS-0.9.md) · [Notas 0.9.0](docs/RELEASE-0.9.0.md) · [Revisión del terreno](docs/TERRAIN-COVERAGE.md) · [Historial](docs/HISTORIAL.md).
+El código **0.11.0** repara la transferencia de emisoras al Planificador HF, revisa el modelo por hemisferio y mes UTC, e incorpora las nueve herramientas acordadas: biblioteca, diagnóstico, audio TCP local, DSC MF/HF/VHF, mapa común, LRPT offline con SatDump, Rigctl optativo, eventos externos y taller de señales. Incluye MT63 en seis variantes y ALE 2G de 0.10.0. DSD-neo requiere macOS 26 y descarga separada; CWKit requiere 15. La app principal conserva macOS 14. **La descarga pública de arriba sigue siendo 0.8.8**; este código y el paquete local corresponden a la rama de desarrollo. [Nueve mejoras y límites](docs/NUEVE-MEJORAS.md) · [Notas 0.11.0](docs/RELEASE-0.11.0.md) · [MT63/ALE](docs/INTEGRATIONS-0.10.md) · [DMR de Brown](docs/DMR-BROWN-0.10.md) · [Historial](docs/HISTORIAL.md).
 
 ## Funciones incluidas
 
 | Área | Funciones disponibles |
 |---|---|
-| Texto y tonos | FT8/FT4, Morse/CW manual o CWKit automático/neuronal, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
-| Mensajes | POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
+| Texto y tonos | MT63 500/1000/2000 corto/largo, FT8/FT4, Morse/CW manual o CWKit automático/neuronal, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
+| Mensajes | DSC MF/HF y VHF con ECC e interpretación parcial; ALE 2G (sondeos, llamadas y AMD), POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
 | Voz digital | DSD-neo descargable: DMR, P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR; un canal, voz WAV |
 | Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
-| Entrada | Micrófono, dispositivo USB o virtual seleccionable, canales individuales/mezcla y perfiles persistentes |
+| Entrada | Micrófono, USB o cable virtual; audio TCP local con formato explícito; mezcla/canal individual y diagnóstico medido |
+| Biblioteca y taller | Copia de audio/ajustes/fechas, repetición de decodificación, papelera recuperable y referencias CW/RTTY/BPSK31 |
+| Mapas e I/Q | Mapa de recepciones con procedencia/trazas, eventos externos y SatDump LRPT offline identificado |
 | Guía de radios | Horarios EiBi, cruce técnico HFCC, favoritas y avisos de inicio |
 | Condiciones HF | NOAA, D-RAP, Band Info, ionosondas y pronóstico NOAA de tres días |
 | Propagación | ITU-R P.533/P.372 para HF; NTIA ITM con perfiles de terreno para VHF/UHF |
@@ -38,7 +40,7 @@ El código **0.9.0** integra SGP4/SDP4 con Doppler, FT8/FT4, CWKit automático/n
 
 1. Elige el decodificador. **Ejemplo** carga una señal sintética incluida para familiarizarte con los controles.
 2. En **Entrada de audio**, selecciona micrófono, receptor USB o cable virtual. Elige mezcla o el canal que contiene la señal; mezclar canales con señales distintas o fases opuestas puede corromperla.
-3. Ajusta en SDR++ la demodulación RF y el ancho del filtro recomendados para el modo. En RadioWorkbench estos campos son una guía para la sintonía manual; la app no controla SDR++ por red.
+3. Ajusta en SDR++ la demodulación RF y el ancho del filtro recomendados para el modo. Los campos del receptor son una guía para sintonía manual. La pantalla separada Rigctl permite enviar frecuencia/modo/ancho solo después de habilitarla y pulsar el botón de envío; verifica la lectura de vuelta.
 4. Pulsa **Escuchar**, o usa **Abrir audio** para WAV, AIFF u otro formato que AVFoundation pueda leer. Exporta texto/JSON según el modo o guarda la imagen como PNG.
 
 Para un cable virtual como VB-Cable, selecciona su salida en el módulo Audio/New Audio de SDR++, preferentemente a **48 kHz**, y el mismo dispositivo como entrada en RadioWorkbench. El cable debe estar instalado por separado. La app cambia la entrada de su propio motor, sin modificar el dispositivo predeterminado del sistema. Una desconexión o un cambio de formato detiene la sesión y permite reiniciarla.
@@ -46,6 +48,10 @@ Para un cable virtual como VB-Cable, selecciona su salida en el módulo Audio/Ne
 | Recepción | Demodulación en SDR++ | Filtro RF inicial | Audio que conservar |
 |---|---|---|---|
 | CW, RTTY, BPSK31 | CW/USB; polaridad según la señal | Ajustable, hasta unos 2,4–3 kHz | Portadora/tonos del modo y centro configurado |
+| MT63 | USB | 3 kHz inicial; ampliar si se desplaza el centro | Bloque de 500/1000/2000 Hz centrado inicialmente en 1500 Hz; mismo entrelazado que el emisor |
+| ALE 2G | USB | 3 kHz | Ocho tonos completos 750–2500 Hz; sintonía en SDR++ |
+| DSC MF/HF | USB; inversión según polaridad | 2,4 kHz | 100 baud, shift 170 Hz; centro de audio ajustable |
+| DSC VHF | NFM, discriminador plano | 16 kHz inicial | 1300/2100 Hz, 1200 baud; preservar pre-emphasis o indicar audio ya compensado |
 | NAVTEX/SITOR-B | USB; LSB con inversión | 2,4 kHz | 1615/1785 Hz; centro 1700 Hz, 100 baud, shift 170 Hz |
 | AX.25/APRS 1200 | FM/NFM | 12–15 kHz | 1200/2200 Hz; conservar el paquete completo |
 | CTCSS | FM/NFM | 12,5 kHz | 50–300 Hz; desactivar el pasa-altos de voz |
@@ -62,6 +68,7 @@ Son ajustes iniciales, no anchos universales de todos los servicios. Desactiva e
 
 ## Decodificadores y alcance actual
 
+- **MT63 y ALE 2G:** seis variantes MT63 con centro ajustable y controles de adquisición; ALE 2G con sondeos, llamadas y AMD. Helpers ligeros, audio/WAV y JSON. No aportan CRC de mensaje ni SNR calibrado. ALE 3G sigue pendiente. [Uso, pruebas y límites](docs/INTEGRATIONS-0.10.md).
 - **CW, RTTY, BPSK31:** Morse con velocidad manual, RTTY ITA2 con letras/cifras e inversión, ASCII de 7/8 bits sin paridad y BPSK31 con Varicode ASCII. El modo ASCII 8 conserva el subconjunto ASCII imprimible, no implementa Latin-1. CHU, alfabetos nacionales y QPSK31 siguen pendientes.
 - **DTMF y CTCSS:** detección de pares DTMF y 51 tonos CTCSS con confirmación temporal. [Tonos](docs/TONOS.md).
 - **POCSAG y Selcall:** helper multimon-ng arm64 incluido; POCSAG 512/1200/2400 automático o fijo, BCH de 0–2 bits, capcode/función/texto y JSON. Selcall reconoce ZVEI1/2/3, PZVEI, DZVEI, EEA, EIA y CCIR, conservando los códigos especiales originales. FLEX y DCS siguen pendientes. [Implementación y audio requerido](docs/DECODIFICADORES-0.8.10.md).
@@ -76,15 +83,15 @@ Son ajustes iniciales, no anchos universales de todos los servicios. Desactiva e
 
 Las 41 variantes tienen pruebas matemáticas; una recepción acústica Robot36C se completó usando el micrófono del Mac. Eso no valida todos los transmisores ni todos los modos en RF. La opción de compatibilidad Robot36C permite exclusivamente la paridad VIS no estándar observada en esa prueba. Las fotografías y el audio personal de esa sesión se conservan localmente y **no se publican**. [Catálogo SSTV](docs/SSTV-MODOS.md) · [Prueba del micrófono](docs/MICROFONO.md).
 
-El catálogo de investigación contiene 103 entradas con fuentes y estado de disponibilidad. FT8/FT4 y DSD-neo ya tienen recepción integrada con los requisitos descritos arriba. DRM, WSPR y otros modos WSJT-X, AIS, RDS, DAB y SatDump continúan como candidatos. [Decodificadores candidatos](docs/DECODIFICADORES-EXTRA.md) · [Motores en GitHub](docs/GITHUB-MOTORES.md).
+El catálogo de investigación contiene 103 entradas con fuentes y estado de disponibilidad. FT8/FT4 y DSD-neo ya tienen recepción integrada con los requisitos descritos arriba. DSC ya recibe MF/HF y VHF con interpretación parcial; SatDump ya tiene un adaptador LRPT offline para I/Q, con calidad de extremo a extremo pendiente de una captura independiente. DRM, WSPR y otros modos WSJT-X, AIS, RDS y DAB continúan como candidatos. [Decodificadores candidatos](docs/DECODIFICADORES-EXTRA.md) · [Motores en GitHub](docs/GITHUB-MOTORES.md).
 
 ## Guía de radios, condiciones y propagación
 
-**Guía de radios:** consulta EiBi con conexión y conserva la última copia sin conexión. Muestra horarios UTC, filtros, favoritas y avisos de inicio. Cruza HFCC para añadir potencia, rumbo y zona programados solo cuando la asociación es inequívoca. Una potencia declarada en un horario no es una medición en tiempo real. [Guía y revisión de RADIO BUNKER SWL](docs/RADIO-BUNKER-REA.md).
+**Guía de radios:** consulta EiBi con conexión y conserva la última copia sin conexión. Muestra horarios UTC, filtros, favoritas y avisos de inicio. HFCC aporta un candidato por frecuencia/horario/idioma con sitio y potencia programados. Eso no demuestra la misma instalación física. El planificador ofrece esa potencia como supuesto explícito, conserva la procedencia y pide los datos que faltan. Una potencia de horario no es medición en tiempo real. **Enviar al Planificador HF** copia nombre y frecuencia aunque no se conozcan las coordenadas. [Guía y revisión de RADIO BUNKER SWL](docs/RADIO-BUNKER-REA.md).
 
 **Condiciones HF:** datos NOAA Kp/F10.7 y escalas R/S/G; pronóstico de tres días; absorción D-RAP en la celda correspondiente a la ubicación; Band Info día/noche con avisos; e ionosondas cercanas con foF2, MUF a 3000 km, fecha y confianza. Cada fuente conserva su fecha y su procedencia.
 
-**Planificador HF:** ITU-R P.533/P.372 estima enlaces y contactos para ubicación, banda, potencia y rumbo. El cálculo describe condiciones mensuales y presupuesto de radio; se presenta separado de las observaciones solares y los spots recientes. Cambiar potencia no garantiza un contacto: ruido, antenas, modo y condiciones del trayecto influyen en el resultado.
+**Planificador HF:** fecha/hora UTC seleccionable, R12 0–311 con control de mes y campos pendientes visibles. ITU-R P.533/P.372 estima enlaces y contactos para ubicación, banda, potencia y rumbo. El cálculo describe condiciones mensuales y presupuesto de radio; se presenta separado de las observaciones solares y los spots recientes. Cambiar potencia no garantiza un contacto: ruido, antenas, modo y condiciones del trayecto influyen en el resultado.
 
 **VHF/UHF con terreno:** origen y destino editables o seleccionables en Apple Maps, alturas AGL, frecuencia, potencia, ganancias y umbral RX. NTIA ITM calcula cada celda de una malla 65 × 65 o 129 × 129 con el perfil DEM completo TX→celda; conserva sombras detrás de crestas y recuperaciones en cumbres. Las elevaciones AMSL y alturas AGL se combinan dentro del modelo. El enlace exacto reutiliza el DEM de la malla o descarga su corredor de teselas. El horizonte de Tierra lisa es una referencia opcional apagada inicialmente. Apple Maps aporta contexto visual y las alturas proceden de Mapzen Terrain Tiles; se muestran resolución y avisos. [Método y validación geográfica](docs/TERRAIN-COVERAGE.md).
 
@@ -120,7 +127,9 @@ open dist/RadioWorkbench.app
 
 `dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
-La pasada 0.9.0, con `DSD_NEO_PATH` apuntando al runtime oficial verificado, tiene **148 funciones registradas: 146 aprobadas y dos comprobaciones opcionales de red omitidas**. Sin ese motor se omiten también sus dos pruebas. Añade FT8/FT4 con CRC, CWKit manual/neuronal y seguimiento de tono/WPM, aplicaciones ACARS y reensamblado bajo carga, M17/Codec2 a WAV, SGP4 de referencia y caché anterior. Incluye todos los modos previos, los fixtures de POCSAG/Selcall/RTTY ASCII/Hell y las regresiones POCSAG de silencio, sincronismo y publicación en vivo/WAV a 48 kHz. La prueba real HTTPS de satélites pasó por separado: 97 satélites, 402 registros de frecuencias y 500 reportes. El benchmark con terreno real de Santiago fue validado en 0.8.9. [Evidencia y alcance](docs/VALIDACION.md).
+La pasada **0.11.0** registra **202 funciones: 198 aprobadas y cuatro opcionales omitidas**, sin fallos. Añade pruebas de biblioteca/integridad, PCM/TCP/EOF, DSC, mapa/eventos, SatDump aislado, Rigctl y taller. El ZIP extraído pasó integridad y firma estricta, con todos sus ejecutables arm64. La revisión visual 0.11 está pendiente del desbloqueo del Mac. [Notas y límites](docs/RELEASE-0.11.0.md).
+
+La pasada **0.10.0** registra **159 funciones: 155 aprobadas y cuatro opcionales omitidas**, sin fallos. Añade las seis variantes MT63, ALE con señales sintéticas y grabaciones públicas de contraste, audio estéreo a 48 kHz, selección de canal y publicación en vivo simulada. Los dos casos DSD requieren su runtime externo; los otros dos omitidos consultan red/terreno real. La pasada anterior 0.9.0 sí verificó DSD con su runtime oficial: 146 aprobadas y dos opcionales omitidas. Las señales MT63 son un contraste TX/RX del mismo upstream; falta una captura independiente. No se hizo una nueva prueba física de micrófono o SDR++/VB-Cable. [Evidencia y alcance](docs/VALIDACION.md).
 
 | Carpeta | Contenido |
 |---|---|
@@ -140,6 +149,7 @@ El callback de audio copia/mezcla al ring; los decodificadores y archivos se pro
 - **DSD-neo:** runtime oficial opcional descargado de GitHub, con SHA-256 y versión fijados; no redistribuido por este proyecto. Conserva sus avisos GPL y los de sus dependencias.
 - **acarsdec:** helper separado bajo [GPL v2](Vendor/acarsdec/LICENSE.md), con fuentes y wrapper incluidos en el bundle.
 - **multimon-ng:** helper separado bajo [GPL v2 o posterior](Vendor/MultimonNG/COPYING), fijado a un commit con [parches locales documentados](Vendor/MultimonNG/LOCAL-CHANGES.md) y compilado para PCM por stdin, con fuentes, script y licencia incluidos en el bundle.
+- **fldigi MT63 y KiwiSDR ALE 2G:** helpers separados bajo GPL v3 o posterior, con [cambios MT63](Vendor/MT63/LOCAL-CHANGES.md), [cambios ALE](Vendor/ALE2G/LOCAL-CHANGES.md), hashes fijados y código correspondiente incluido en el bundle.
 - **ITU-R HF:** modelos P.533/P.372 y sus datos, con el [aviso upstream preservado](Vendor/ITU-R-HF/NOTICE.md).
 - **NTIA ITM:** fuentes originales y [licencia/avisos NTIA](Vendor/NTIA-ITM/LICENSE.md), con manifiesto de procedencia.
 - **DEM Mapzen Terrain Tiles:** datos consultados bajo demanda, con [fuentes y atribuciones regionales](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).

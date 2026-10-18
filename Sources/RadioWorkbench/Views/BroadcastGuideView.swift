@@ -3,6 +3,7 @@ import RadioCore
 
 struct BroadcastGuideView: View {
     @Bindable var guide: BroadcastStore
+    let onPlanHF: (BroadcastEntry) -> Void
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let rows = guide.results(at: context.date)
@@ -54,12 +55,13 @@ struct BroadcastGuideView: View {
                         if let id = ids.first, let e = rows.first(where: { $0.id == id }) {
                             Button(guide.favorites.contains(id) ? "Quitar de favoritos" : "Guardar favorito") { guide.toggleFavorite(e) }
                             Button("Copiar frecuencia") { copyFrequency(e) }
+                            Button("Enviar al Planificador HF") { onPlanHF(e) }
                         }
                     }
                     .frame(minHeight: 180)
                 }
-                if let id = guide.selectedID, let e = guide.snapshot?.entries.first(where: { $0.id == id }) {
-                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide)
+                if let e = guide.selectedEntry {
+                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide, onPlanHF: onPlanHF)
                         .frame(maxHeight: 300)
                 }
                 HStack {
@@ -75,7 +77,7 @@ struct BroadcastGuideView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 3) {
                 Text("Guía de radios").font(.largeTitle.weight(.semibold))
-                Text("Horarios EiBi con potencia, rumbo y cobertura HFCC cuando existe una coincidencia fiable").foregroundStyle(.secondary)
+                Text("Horarios EiBi y coincidencias técnicas HFCC de frecuencia y horario; revisa el transmisor").foregroundStyle(.secondary)
             }
             Spacer()
             VStack(alignment: .trailing) {
@@ -118,6 +120,7 @@ struct BroadcastDetailView: View {
     let entry: BroadcastEntry
     let hfcc: HFCCTransmission?
     @Bindable var guide: BroadcastStore
+    let onPlanHF: (BroadcastEntry) -> Void
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
@@ -126,6 +129,7 @@ struct BroadcastDetailView: View {
                     Text("\(entry.frequencyKHz, specifier: "%.2f") kHz · \(entry.broadcastBand)").monospacedDigit()
                     Spacer()
                     Button("Copiar kHz") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(String(entry.frequencyKHz), forType: .string) }
+                    Button("Copiar MHz") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(String(entry.frequencyKHz / 1000), forType: .string) }
                     Button { guide.toggleFavorite(entry) } label: { Label(guide.favorites.contains(entry.id) ? "Guardada" : "Favorito", systemImage: guide.favorites.contains(entry.id) ? "star.fill" : "star") }
                     Toggle("Avisarme", isOn: Binding(
                         get: { guide.alertFavorites.contains(entry.id) },
@@ -139,6 +143,15 @@ struct BroadcastDetailView: View {
                     }.frame(width: 130)
                 }
                 let ref = guide.snapshot?.reference ?? BroadcastReference()
+                HStack {
+                    Button("Enviar al Planificador HF", systemImage: "arrow.up.right.square") { onPlanHF(entry) }
+                    Button("Copiar ficha") {
+                        let site = ref.site(for: entry)
+                        let text = "\(entry.station)\n\(entry.frequencyKHz) kHz · \(entry.modulation)\n\(entry.time) UTC · días \(entry.days)\nSitio: \(site?.name ?? entry.site)\n" + (site.map { "Coordenadas EiBi: \($0.latitude), \($0.longitude)\n" } ?? "Coordenadas: pendientes\n") + "Potencia HFCC candidata: \(hfcc?.powerKW.map { "\($0) kW" } ?? "sin dato") · sitio \(hfcc?.siteCode ?? "sin verificar")\nFuente: EiBi · \(guide.snapshot?.season ?? "")"
+                        NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
+                    }
+                    Text("El planificador copia lo disponible y señala los campos pendientes.").font(.caption).foregroundStyle(.secondary)
+                }
                 HStack(alignment: .top, spacing: 24) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("País: \(ref.countries[entry.country] ?? entry.country) [\(entry.country)]")
@@ -167,7 +180,7 @@ struct BroadcastDetailView: View {
                     .font(.caption2).foregroundStyle(.secondary)
                 if let hfcc {
                     VStack(alignment: .leading, spacing: 3) {
-                        Label("HFCC · horario técnico declarado", systemImage: "checkmark.seal")
+                        Label("HFCC · coincidencia de frecuencia/horario; revisa el sitio \(hfcc.siteCode)", systemImage: "info.circle")
                             .font(.caption.weight(.semibold))
                         HStack(spacing: 16) {
                             Text("Potencia TX: \(hfcc.powerKW.map { "\($0) kW (\($0 * 1_000) W)" } ?? "sin dato")")

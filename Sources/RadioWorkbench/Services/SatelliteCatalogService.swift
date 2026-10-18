@@ -38,7 +38,7 @@ actor SatelliteCatalogService {
     }
     private func fetch(_ url: URL, maximumBytes: Int, rawGitHub: Bool = false) async throws -> Data {
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
-        request.setValue("RadioWorkbench/0.9.0 (receive-only satellite planning)", forHTTPHeaderField: "User-Agent")
+        request.setValue("RadioWorkbench/0.11.0 (receive-only satellite planning)", forHTTPHeaderField: "User-Agent")
         if rawGitHub { request.setValue("application/vnd.github.raw+json", forHTTPHeaderField: "Accept") }
         let (data, response) = try await transport(request)
         guard response.statusCode == 200 else { throw CatalogError.http(url.host ?? "fuente", response.statusCode) }

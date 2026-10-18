@@ -2,6 +2,8 @@ import Accelerate
 import Foundation
 
 public struct SpectrumFrame: Sendable {
+    public let sampleRate: Double
+    public let quality: AudioBlockQuality
     public let bins: [Float]
     public let upperFrequency: Double
     public let levelDB: Double
@@ -23,6 +25,8 @@ public final class SpectrumAnalyzer {
     }
     deinit { vDSP_DFT_DestroySetup(setup) }
     public func analyze(_ samples: [Float], sampleRate: Double) -> SpectrumFrame {
+        let quality = AudioBlockQuality(samples: samples)
+        let samples = quality.invalidCount == 0 && quality.peak <= 1 ? samples : samples.map { $0.isFinite ? min(1, max(-1, $0)) : 0 }
         let n = min(size, samples.count)
         var rms: Float = 0
         if !samples.isEmpty { vDSP_rmsqv(samples, 1, &rms, vDSP_Length(samples.count)) }
@@ -40,8 +44,8 @@ public final class SpectrumAnalyzer {
             if bins[i] > bins[peak] { peak = i }
         }
         bins[0] = -100
-        return SpectrumFrame(bins: bins, upperFrequency: Double(count) * binHz,
-                             levelDB: 20 * log10(max(0.00001, Double(rms))),
+        return SpectrumFrame(sampleRate: sampleRate, quality: quality, bins: bins, upperFrequency: Double(count) * binHz,
+                             levelDB: 20 * log10(max(0.00001, quality.rms)),
                              peakFrequency: Double(peak) * binHz,
                              clipped: samples.contains { abs($0) >= 0.999 })
     }

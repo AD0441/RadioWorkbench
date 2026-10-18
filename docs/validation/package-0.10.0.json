@@ -1,0 +1,99 @@
+{
+  "version": "0.10.0",
+  "build": "25",
+  "platform": "macOS Apple Silicon",
+  "bundleMinimumOS": "14.0",
+  "zip": "RadioWorkbench-0.10.0-macos-arm64.zip",
+  "bytes": 190104204,
+  "sha256": "dcc8bc2709082e06bb799e1c868b1d262b0e41d3bec36aa836f765343da1c52e",
+  "zipIntegrity": "passed",
+  "strictDeepSignature": "passed, ad hoc",
+  "notarized": false,
+  "newSourceArchives": "complete recipes/licenses present",
+  "newExampleCount": 7,
+  "binaries": [
+    {
+      "name": "RadioWorkbench",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "e69f9f21102363c887d4e1859318008040ba09b0469362918794c2082352a484"
+    },
+    {
+      "name": "acars-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "e22cab62b8fca487ace8918e21c5a4a856b2b172d86352cde17cd06bc1449fff"
+    },
+    {
+      "name": "ale-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "281fc11f6427b76f0a1e27ee8c8e27d0972718e91b9b569de42e594e51080c80"
+    },
+    {
+      "name": "cw-helper",
+      "architecture": "arm64",
+      "minimumOS": "15.0",
+      "sha256": "cdba492d1426be27719086404d0d202de9683bd463a4a62e26e00055a26e8c34"
+    },
+    {
+      "name": "ftx-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "1acdb6e398282e86594f4bc54e384854f1c21296cd1f1fc503c5bdcd46a98ac3"
+    },
+    {
+      "name": "itm-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "b8ee2bc40ec90eb9971064490c3ca78694607bb84a65db9bb65d5ce767d2063f"
+    },
+    {
+      "name": "libitm.dylib",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "84a18f1a135800a8c4afd5a2367ada73e1945a50ac68ec8df06bd66e7e7adb56"
+    },
+    {
+      "name": "libp372.dylib",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "10d31435c4e842a3e4fe5d16f614b5cd3967c09952d23b12d5ed8119c996f5d0"
+    },
+    {
+      "name": "libp533.dylib",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "2fd5ab203c42fce2a967b16eeaf9971b9103868b34a2e9073685801b1a43b3bf"
+    },
+    {
+      "name": "mt63-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "596a049e87c870ad9826385d6fbcaa7bce417b95eaf37f52f8da50cc75198d3d"
+    },
+    {
+      "name": "multimon-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "cece5cb5bb6c0edfae83b74cb457351c0f6110d31b4c35c77b9f25c6342d5a9a"
+    },
+    {
+      "name": "propagation-helper",
+      "architecture": "arm64",
+      "minimumOS": "14.0",
+      "sha256": "ee591ba74f1d22de0f71b64cc27ef77deaaea96451b3a78f477cbb07c500c06c"
+    }
+  ],
+  "packagedHelperSmoke": {
+    "mt63-helper": {
+      "text": "CQ TEST MT63 123",
+      "recordCount": 47
+    },
+    "ale-helper": {
+      "text": "[00:00:09] [MSG] [AMD: \"RADIOWORKBENCH TEST\"] [His BER: 6]\n",
+      "recordCount": 1
+    }
+  },
+  "privatePhoneMediaIncluded": false
+}

@@ -1,5 +1,11 @@
 import Foundation
 
+public struct PacketReception: Sendable, Identifiable {
+    public let id: UUID
+    public let receivedAt: Date
+    public let monitorLine: String
+    public let position: RadioPosition?
+}
 struct PacketAX25Address: Equatable, Sendable {
     let callsign: String
     let ssid: UInt8
@@ -79,6 +85,7 @@ final class PacketHDLCReceiver {
     private var inFrame = false
     private var rawBits: [Bool] = []
     private(set) var frames: [PacketAX25Frame] = []
+    private(set) var receptions: [PacketReception] = []
     private(set) var text = ""
     private(set) var accepted = 0, rejectedCRC = 0, rejectedFormat = 0, aborted = 0
 
@@ -132,6 +139,10 @@ final class PacketHDLCReceiver {
         bytes.removeLast(2)
         guard let frame = PacketAX25Frame.parse(bytes) else { rejectedFormat += 1; return }
         accepted += 1
+        let now = Date()
+        receptions.append(PacketReception(id: UUID(), receivedAt: now, monitorLine: frame.monitorLine,
+            position: APRSPositionParser.parse(frame.monitorLine, receivedAt: now)))
+        if receptions.count > 64 { receptions.removeFirst(receptions.count - 64) }
         frames.append(frame)
         if frames.count > 64 { frames.removeFirst(frames.count - 64) }
         text.append(frame.monitorLine + "\n")

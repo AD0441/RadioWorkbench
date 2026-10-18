@@ -50,3 +50,9 @@ Los datos de frecuencia derivados de SatNOGS se atribuyen en la interfaz y se di
 - [CelesTrak · formatos de elementos orbitales GP](https://celestrak.org/NORAD/documentation/gp-data-formats.php)
 - [AMSAT · elementos Keplerianos y TLE](https://www.amsat.org/keplerian-elements-resources/)
 - [Catálogo de datos de frecuencia · CC BY-SA 4.0](https://github.com/palewire/amateur-satellite-database/tree/main/data)
+
+## Sintonía y mapa en 0.11
+
+La consulta por frecuencia permite preparar una propuesta Rigctl con frecuencia, modo y ancho. La conexión local se habilita aparte; comprobar solo lee, y enviar requiere pulsar un botón. El servidor se vuelve a leer para confirmar los tres ajustes. No se envían PTT ni seguimiento automático.
+
+El mapa común conserva posiciones APRS/ACARS con su procedencia. Una conexión APRS-IS ya iniciada puede continuar al entrar al mapa, con botón Desconectar visible; se detiene al salir hacia otras herramientas. El mapa no inicia conexiones ni obtiene ubicación por sí solo. Una recepción de audio ya iniciada también puede seguir mientras se consulta el mapa, con su botón Detener visible.

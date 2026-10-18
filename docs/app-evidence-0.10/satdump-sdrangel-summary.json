@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-17",
+  "scope": "Static, read-only inventory of the two explicitly supplied bundles; no GUI, RF acquisition, runtime decoder test, decompilation or target execution.",
+  "rea_version": "6.4.0",
+  "targets": [
+    {
+      "name": "SatDump.app",
+      "reported_version": "1.2.3",
+      "bundle_identifier": "com.altillimity.satdump",
+      "architecture_observation": "Mach-O 64-bit executable arm64",
+      "main_executable_sha256": "82ca066fc01a0412f2486e983377105b491a8b915c73caed216bc3e49ebc680f",
+      "rea_evidence_id": "ev_a826f2cd0e4ca674f3b84965016775a3f399417ef3085feef5db70802cd78b5d",
+      "rea_inventory_evidence_id": "ev_4a797ed1edb8ee4891e327bec8dd42fa6de0c1220c431a4372532ad41179249b",
+      "directory_sha256": "247e7cccf6606e6f5750a0460b44449b36a1d2c4c33d3ac3d407d3d74c741644",
+      "manifest": {
+        "manifest_id": "agm_139f7875abf7c78e9207f7994678cf847778cf1ebab18bd4cfff191afe88b80c",
+        "root_artifact_id": "art_2aafb5d29e14d1fefd9c540653f1afb2bb4a31172fe86429bc70509c0d892650",
+        "root_sha256": "247e7cccf6606e6f5750a0460b44449b36a1d2c4c33d3ac3d407d3d74c741644",
+        "root_format": "directory",
+        "graph_sha256": "6d077b012ed981935cc76c5101a80102af0619b0d9902adf2c4c85f3fefa744f",
+        "node_count": 523,
+        "occurrence_count": 525,
+        "edge_count": 524
+      },
+      "selected_artifacts": [
+        {
+          "path": "Contents/Info.plist",
+          "artifact_id": "art_50c80c9ff1ab3335f6d201823c305a584b71d33ea65b06ed3c2a55f8c3459e3f",
+          "sha256": "8d55f7232e3efca5d042a9f77e9c91be55b2f54ca1bfb059ece92c5e8966fc64",
+          "size": 942,
+          "occurrence_id": "occ_e3acc8e43cd2fc519d72cdb482997e5199f5c689ff81a8a4fabc0de3ab9e8ea6"
+        },
+        {
+          "path": "Contents/MacOS/satdump",
+          "artifact_id": "art_25381995cbebe105eae18e420b4802416df84be27f6fa74c8fa06062d0dc3df5",
+          "sha256": "f066ac3a7a8f950d16638c829bae4e862a9bcf94d16997c3c0b2dcbea39d2a28",
+          "size": 579376,
+          "occurrence_id": "occ_21943c8cae23dcfe408582b91993a08b5dfe80d7d28c39d1d4b40a8843a09722"
+        },
+        {
+          "path": "Contents/MacOS/satdump-ui",
+          "artifact_id": "art_0b22d8e9a018772461c364ef1bf66a28ae7d8d2a90b8a14aa5c8f62fe35a889f",
+          "sha256": "82ca066fc01a0412f2486e983377105b491a8b915c73caed216bc3e49ebc680f",
+          "size": 334496,
+          "occurrence_id": "occ_5154998834b52386830a961e0b260bc3bba828be953d308b054ae42546beb5de"
+        },
+        {
+          "path": "Contents/Resources/pipelines/Inmarsat.json",
+          "artifact_id": "art_0e620b4480c393b8def691c10609677ab87f9dcc55018ffa6bab41bb3767de23",
+          "sha256": "4e6ca7ad154ddf6ea17fc3b45a99e7fe700aa0e838e901ae6cb91f8c6fb73b0d",
+          "size": 6218,
+          "occurrence_id": "occ_13de0fbdac3276ae5e80a2fac9a19d944f0e41d119b1ba767a9368b687d1bc44"
+        },
+        {
+          "path": "Contents/Resources/pipelines/Meteor-M.json",
+          "artifact_id": "art_9691f823f31abe4e34a0976bb4daa451a1ec31a49421d4f7913655eca5fcd309",
+          "sha256": "0eed0e52d4615539b65873471a15abc376a442d8a604865ea19b50cdd0c8f550",
+          "size": 11903,
+          "occurrence_id": "occ_7f4469cd909f2a320e7153089f7151b731c2fd505c4c17956716d22691415692"
+        },
+        {
+          "path": "Contents/Resources/pipelines/NOAA.json",
+          "artifact_id": "art_6cb7ac9fe3c44e5285753d8fcb1e9479fe5907bd95968611e49d68b61e74261b",
+          "sha256": "99bcf3245a73050ed29a7dfddc1b3aeb84239c84cf1407b30f44ce522bfbe8a5",
+          "size": 7392,
+          "occurrence_id": "occ_6cc1288fd5eb78c6302de915c3940e1877c3ffa726150b7514480093f51b4bf7"
+        },
+        {
+          "path": "Contents/Resources/plugins/libsdrpp_server_support.dylib",
+          "artifact_id": "art_fbad3f3d223663bc37a46ed5533a60dfe6e464ef625ed054408bb8c3a2189bbf",
+          "sha256": "6b75e7898710a94b8d4399ee2fa56f7068414d9fb4c049d207a073f20f8f77d7",
+          "size": 207856,
+          "occurrence_id": "occ_f57a31f1f511238dbc5fcd9843600852511057f8047d64859475ad33256dcfb0"
+        }
+      ],
+      "raw_evidence_path": "local/satdump-sdrangel/satdump-rea.json",
+      "raw_evidence_file_sha256": "fdd7f510187eebd4c99430fb2a14dc633aff629c22a290878862e63eb41fec3f",
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ]
+    },
+    {
+      "name": "SDRangel.app",
+      "reported_version": "7.27.1",
+      "bundle_identifier": "com.f4exb.SDRangel",
+      "architecture_observation": "Mach-O 64-bit executable arm64",
+      "main_executable_sha256": "8afeb0e6667c2ec23e1d1a04a6e0524c95d3636d7013813ac765de49b1b0471b",
+      "rea_evidence_id": "ev_01787d16a2c0d3792c6a2324eff217dbc0a0ffda1af06559ac809f6bfcc3bbe8",
+      "rea_inventory_evidence_id": "ev_af36007e27afd5cd37cdf6456d1b8ba58ef91cd9f5777aa3a41415a3501ff168",
+      "directory_sha256": "d0bda496d2d207b1498329b74501ac56500c85d68f273c8cc26b99c84476879d",
+      "manifest": {
+        "manifest_id": "agm_8d5d35eb7c2766930542e3f607c35328a0a962c65749d1b3d4fdd07f765e4382",
+        "root_artifact_id": "art_8ebd3d3be68807900378ab310a90dc40cef9d19ad0314f9ec745199340f43f3f",
+        "root_sha256": "d0bda496d2d207b1498329b74501ac56500c85d68f273c8cc26b99c84476879d",
+        "root_format": "directory",
+        "graph_sha256": "5061126b4868450a7c339838b37e6c2656b5414e64b6789630c52b829d7933ec",
+        "node_count": 2102,
+        "occurrence_count": 2924,
+        "edge_count": 2676
+      },
+      "selected_artifacts": [
+        {
+          "path": "Contents/Info.plist",
+          "artifact_id": "art_22e84b9d4e4c2fbc9f30f457bde37c88b1004bca1a649383dfa96625778f9265",
+          "sha256": "6eff7b304e4e1cd94d6a637c4e43edd0aca53df49020f2a410489cd00c3f8347",
+          "size": 1643,
+          "occurrence_id": "occ_0ff30bd193bbdfb783a6668dfb4b4a1030446c2eadc442a195c1c66f710dbaa9"
+        },
+        {
+          "path": "Contents/MacOS/SDRangel",
+          "artifact_id": "art_eaf0dbaafec96ff3845632608cef00123224ce23207706841a2c7e46fee2c8cd",
+          "sha256": "8afeb0e6667c2ec23e1d1a04a6e0524c95d3636d7013813ac765de49b1b0471b",
+          "size": 141280,
+          "occurrence_id": "occ_6c5fab17441fd80e4cff5f96b120043cb4cb77d8ddf0ae604b7791ad78030e25"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemodais.dylib",
+          "artifact_id": "art_72ef18c803b1fba696d27ebdfac04d5c03ad317e7fc9186a2eb78a06b0d3734b",
+          "sha256": "292416f785ad146ac49a74fe6e273a4667ef391fd894b93853889b48251c208f",
+          "size": 339584,
+          "occurrence_id": "occ_491116387a82a712629ae71c74f6c9e5bed85dd0ab70d9e5b89ca4a5d8a4ead8"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemoddsc.dylib",
+          "artifact_id": "art_fff1484135267d59a3a9ed67c815c982c59f62b66d9bcc76e14e3a17308dfc93",
+          "sha256": "5246fd26e18cbe7632f83053398c8d88f5a2481481fa26863151f6301dd6009a",
+          "size": 491936,
+          "occurrence_id": "occ_4b3708ecccbc3a5bf52275366b968cddb6b80368fcd1389a2b4631109c92adc2"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemodinmarsat.dylib",
+          "artifact_id": "art_3d6d30100655018c45057035341ec3d723a8a21be421edc7a59f427496e930c9",
+          "sha256": "b1889d22283f1a09e4666d3bc1a44b2a9955be22825bb3bcfb7e36837375c207",
+          "size": 454456,
+          "occurrence_id": "occ_c0101d48961c45d5292e067a0fc58593c7b9989fe8752e23af5e8adb31663418"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemodmeshcore.dylib",
+          "artifact_id": "art_3d1bf5784d06a20c2333b229ef045417204c4bfb1e4dd67dd3ff5cfd28cea927",
+          "sha256": "4fec744c6d8c674e1b6c5fde5cd5e04cea55d48e08bbdfc6e1ce5293f56c21d9",
+          "size": 579960,
+          "occurrence_id": "occ_4ec7eb00e25d14da0960b496a9bd3e6ab09d38590da85b5da14a47a753495136"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemodmeshtastic.dylib",
+          "artifact_id": "art_3b69a84186360f1d9b2b25ec0a02b809684ef2b4b22ab32423777a025161bd0d",
+          "sha256": "981d7c53ceb82906b3f002f43ed6957c53e79ad802b24d3e66fd9b206ac34177",
+          "size": 580840,
+          "occurrence_id": "occ_67fb139dd0b3daf625bbb0d824041b42e9b5f48000b770ed4e091f3a71b309b5"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libdemodradiosonde.dylib",
+          "artifact_id": "art_ece0cb7f583e3fda7cc6f897be32305077357e6646c0e54021c1fbdc28c9a2c2",
+          "sha256": "e08efff58a6b9813298920af735909b3461a05cd84603abf2ff478db18e6df0b",
+          "size": 357416,
+          "occurrence_id": "occ_3b162639fa9562b31cc34d765318ba04fdf11b8d66d2ccb00173c5b850367a92"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libinputsigmffileinput.dylib",
+          "artifact_id": "art_fea37d3536023dbb5950ba78287a9dcaf2b708965997e78bb6fba3228bf7d9ae",
+          "sha256": "f8ec1e04c2bd432a482d38a7244d8596ff0ba6ec012a77ff98e5dbb35b89d62e",
+          "size": 491152,
+          "occurrence_id": "occ_05ae88df7b0cafffadd0d2a970e716dab01d62ba8650db7c68dbde508347a10c"
+        },
+        {
+          "path": "Contents/Resources/lib/plugins/libsigmffilesink.dylib",
+          "artifact_id": "art_1a3a43cbb13ee19b40243f652f727f9cc1d4af7cca3e67d4903411aef00d6ec0",
+          "sha256": "644bbbbea798e82cadb734d0dee1b56ee6e28c80af495eb08b46a45072466c9c",
+          "size": 265800,
+          "occurrence_id": "occ_f1de672ef0138612deb2f24ce252f5e2a5258a0be8908dba9e48268de7d2f2b5"
+        }
+      ],
+      "raw_evidence_path": "local/satdump-sdrangel/sdrangel-rea.json",
+      "raw_evidence_file_sha256": "f85ada7c304d2caea84e58448746e5941711041c94ca13d4b1d74d5068d83ee0",
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/f4exb/sdrangel/blob/master/plugins/channelrx/demoddsc/readme.md",
+      "purpose": "DSC modes, framing/validation UI, UDP and CSV workflow; current upstream documentation, not proof of installed execution."
+    },
+    {
+      "url": "https://github.com/f4exb/sdrangel/blob/master/plugins/channelrx/demoddsc/dscdemodsink.cpp",
+      "purpose": "Qt/DSP integration boundary and per-file GPL-3.0-or-later header."
+    },
+    {
+      "url": "https://github.com/f4exb/sdrangel/blob/master/plugins/channelrx/demodais/readme.md",
+      "purpose": "AIS GMSK and NMEA UDP integration contract."
+    },
+    {
+      "url": "https://github.com/f4exb/sdrangel/blob/master/plugins/channelrx/demodradiosonde/readme.md",
+      "purpose": "RS41 GFSK, telemetry and map/chart concepts."
+    },
+    {
+      "url": "https://github.com/f4exb/sdrangel/blob/master/json_udp_data_format.readme.md",
+      "purpose": "Current Meshtastic JSON UDP schema; exact compatibility with installed build untested."
+    },
+    {
+      "url": "https://github.com/SatDump/SatDump",
+      "purpose": "Official project and GPL-3.0 license declaration."
+    },
+    {
+      "url": "https://docs.satdump.org/md_docs_2pages_2Pipelines.html",
+      "purpose": "Official pipeline model; installed configuration is the version-specific local evidence."
+    },
+    {
+      "url": "https://ospo.noaa.gov/operations/poes/status.html",
+      "purpose": "NOAA 15/18/19 are retired; pipeline presence does not establish active transmission."
+    },
+    {
+      "url": "https://github.com/csete/qtmm",
+      "purpose": "Archived reference project; existing native AX.25 need not be replaced."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/sannysanoff/SDRPlusPlusBrown/master/sink_modules/network_sink/src/main.cpp",
+      "purpose": "Current source PCM/TCP/UDP contract; installed binary runtime compatibility unverified."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/sannysanoff/SDRPlusPlusBrown/master/misc_modules/rigctl_server/src/main.cpp",
+      "purpose": "Opt-in local tuning handoff feasibility; no control command sent."
+    },
+    {
+      "url": "https://www.itu.int/rec/R-REC-M.476/en",
+      "purpose": "SITOR specification reference; SITOR-A still requires a dedicated implementation and corpus."
+    },
+    {
+      "url": "https://github.com/on1arf/dgps",
+      "purpose": "DGPS candidate, GNU Radio/Python, no release."
+    },
+    {
+      "url": "https://github.com/cruvolo/gr-dgps",
+      "purpose": "DGPS candidate, GNU Radio, AGPL-3.0."
+    },
+    {
+      "url": "https://github.com/jks-prv/KiwiSDR/tree/master/extensions/Loran_C",
+      "purpose": "Pulse monitor candidate; not a validated navigation solution."
+    },
+    {
+      "url": "https://github.com/eugenyh/iq_broadcast",
+      "purpose": "Globe Wireless generator does not prove receiver support."
+    }
+  ],
+  "observations": [
+    {
+      "id": "APP-01",
+      "type": "REA inventory + plist/file/otool parsing",
+      "finding": "SatDump 1.2.3 and SDRangel 7.27.1 include arm64 executables. CLI satdump LC_BUILD_VERSION minos=11.0; SDRangel main executable minos=14.0. This does not establish every nested dependency minimum."
+    },
+    {
+      "id": "APP-02",
+      "type": "Bounded format-aware resource parse",
+      "finding": "76 SatDump pipeline JSONC files parse to 194 top-level pipeline definitions. METEOR LRPT pipelines start at complex baseband, not narrow demodulated audio."
+    },
+    {
+      "id": "APP-03",
+      "type": "Resource parse + NOAA current primary source",
+      "finding": "Installed NOAA APT pipeline remains marked live=true and names NOAA 15/18/19. Those satellites are retired; use historical recordings and do not import live status blindly."
+    },
+    {
+      "id": "APP-04",
+      "type": "REA inventory + shell symbol lookup + current upstream docs",
+      "finding": "SDRangel includes DSC, AIS, RS41, Inmarsat, Meshtastic and MeshCore plugins. DSC exposes receiveBit/processOneSample and Qt-bound interfaces; it is not a standalone PCM helper."
+    },
+    {
+      "id": "APP-05",
+      "type": "Design proposal",
+      "finding": "Separate audio, flat discriminator, complex I/Q and decoded-event inputs. Record RF metadata and decoder versions; network decoded feeds must retain external-source attribution."
+    }
+  ],
+  "parallel_review": {
+    "scope": "AFSK1200/SDR++Brown facts contributed by the parallel read-only artifact investigation; no app execution.",
+    "raw_evidence_directory": "local/afsk-sdrpp/",
+    "targets": [
+      {
+        "name": "afsk",
+        "evidence_id": "ev_4240f4182adad57c862bd13648eb7c58fb36bbe48f1cf18b3c5fea1783baa7da",
+        "subject": {
+          "name": "AFSK1200 Decoder.app",
+          "digest": {
+            "sha256": "8df19653992f7375e8d74640b168605deda23aeab63d84b98c5e565b770ec24b"
+          },
+          "format": "directory",
+          "architecture": null
+        },
+        "limitations": [
+          "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+        ],
+        "manifest": {
+          "manifest_id": "agm_4e6739b9f215bf93a19daf4fc16801a28070a942163655ce594931f59ddf6d01",
+          "root_artifact_id": "art_9ebda2369317996f795377e39e982086038746253c89ae28cee02da5cc3fc0ca",
+          "root_sha256": "8df19653992f7375e8d74640b168605deda23aeab63d84b98c5e565b770ec24b",
+          "root_format": "directory"
+        },
+        "substeps": [
+          {
+            "operation": "inventory_artifact",
+            "status": "completed",
+            "evidence_id": "ev_500ddb88811ca7479918f014ab4889f20d66579960fd5a975e9369758d881ef5"
+          }
+        ]
+      },
+      {
+        "name": "sdrpp",
+        "evidence_id": "ev_5d5f90d7e7d189b9116349ec7f6708d49a638e4a4db940bedd2deb79ea4bcf63",
+        "subject": {
+          "name": "SDR++Brown.app",
+          "digest": {
+            "sha256": "75b8a2b994c9c067f18e11a9c30f147dffa74912663f78178cb2899be98641a8"
+          },
+          "format": "directory",
+          "architecture": null
+        },
+        "limitations": [
+          "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+        ],
+        "manifest": {
+          "manifest_id": "agm_4f17f629d3f496b8edde4a3d723d27dc7f5865649e27d6085f4d258e8b360739",
+          "root_artifact_id": "art_ca57af020bdd5bfb93ffd2a77c4e5cc303e890a39596ecb4161b0699d32053f2",
+          "root_sha256": "75b8a2b994c9c067f18e11a9c30f147dffa74912663f78178cb2899be98641a8",
+          "root_format": "directory"
+        },
+        "substeps": [
+          {
+            "operation": "inventory_artifact",
+            "status": "completed",
+            "evidence_id": "ev_6aa4742b391eb860d08fa247b07691e999c48b1177f11669d392ec7a75731b63"
+          }
+        ]
+      }
+    ],
+    "findings": [
+      {
+        "target": "AFSK1200 Decoder.app",
+        "version": "not supplied by inspected plist",
+        "architecture": "x86_64",
+        "executable_sha256": "521d4907cefce1c5615cfb652690aa8ec8b3bc818785a781f254e6c500319537",
+        "interpretation": "Qtmm soundcard AX.25/APRS, device selection, save packets and CRC failure strings; no runtime reception established."
+      },
+      {
+        "target": "SDR++Brown.app",
+        "version": "1.2.1 from plist; 1.2.1-brown internal version text",
+        "architecture": "arm64",
+        "executable_sha256": "547e193c66f37966953457759dfb2ec88fb238aa5187392a9cecd733f5f24c6d",
+        "interpretation": "Packaged Network Sink, Network Source, Rigctl Server, Recorder and decoder modules; enabled runtime state and source/build match unverified."
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@ struct RadioRing {
     size_t capacity;
     _Atomic size_t write_index, read_index;
     _Atomic uint64_t dropped;
+    _Atomic int finished;
 };
 RadioRing *radio_ring_create(size_t capacity) {
     if (!capacity || capacity > 16777216) return NULL;
@@ -14,12 +15,12 @@ RadioRing *radio_ring_create(size_t capacity) {
     ring->samples = calloc(capacity, sizeof(float));
     if (!ring->samples) { free(ring); return NULL; }
     ring->capacity = capacity;
-    atomic_init(&ring->write_index, 0); atomic_init(&ring->read_index, 0); atomic_init(&ring->dropped, 0);
+    atomic_init(&ring->write_index, 0); atomic_init(&ring->read_index, 0); atomic_init(&ring->dropped, 0); atomic_init(&ring->finished, 0);
     return ring;
 }
 void radio_ring_destroy(RadioRing *ring) { if (ring) { free(ring->samples); free(ring); } }
 size_t radio_ring_write(RadioRing *ring, const float * const *channels, size_t channel_count, size_t count) {
-    if (!ring || !channels || !channel_count) return 0;
+    if (!ring || !channels || !channel_count || atomic_load_explicit(&ring->finished, memory_order_acquire)) return 0;
     for (size_t channel = 0; channel < channel_count; ++channel) if (!channels[channel]) return 0;
     size_t write = atomic_load_explicit(&ring->write_index, memory_order_relaxed);
     size_t read = atomic_load_explicit(&ring->read_index, memory_order_acquire);
@@ -50,3 +51,12 @@ size_t radio_ring_write_mono(RadioRing *ring, const float *left, const float *ri
 }
 uint64_t radio_ring_dropped(RadioRing *ring) { return atomic_load_explicit(&ring->dropped, memory_order_relaxed); }
 uint64_t radio_ring_written(RadioRing *ring) { return atomic_load_explicit(&ring->write_index, memory_order_acquire); }
+void radio_ring_finish(RadioRing *ring) { atomic_store_explicit(&ring->finished, 1, memory_order_release); }
+int radio_ring_finished(RadioRing *ring) { return atomic_load_explicit(&ring->finished, memory_order_acquire); }
+int radio_ring_drained(RadioRing *ring) {
+    // Acquire the final producer publication before checking the indices.
+    // A previous empty read alone may have raced with the final write.
+    if (!atomic_load_explicit(&ring->finished, memory_order_acquire)) return 0;
+    return atomic_load_explicit(&ring->write_index, memory_order_acquire) ==
+           atomic_load_explicit(&ring->read_index, memory_order_acquire);
+}

@@ -42,6 +42,7 @@ public final class DecoderEngine {
     }
     public func finish() { cw?.finish(); imageDecoder?.finish(); hell?.finish() }
     public var image: RadioImage? { imageDecoder?.image ?? hell?.image }
+    public var packetReceptions: [PacketReception] { packet?.receptions ?? [] }
     public var sstvCalibration: SSTVCalibration? { imageDecoder?.calibration }
     public var status: String { sitorB?.status ?? packet?.status ?? selective?.status ?? hell?.status ?? "" }
     public var text: String {

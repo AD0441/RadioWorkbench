@@ -23,8 +23,22 @@ import RadioCore
     var targetLatitude = ""
     var targetLongitude = ""
     var targetName = "Destino del enlace"
+    var stationTransferNotice = ""
+    var stationSites: [BroadcastSite] = []
+    var selectedStationSite: Int?
+    var stationPowerCandidate: HFCCTransmission?
+    var planningDate = Date()
+    var usesCurrentPlanningTime = true
     var watts = "100"
-    var wattsSource = "Potencia TX manual; introduce un valor conocido o un supuesto explícito."
+    private var wattsReference: Double?
+    private var wattsDescription = "Potencia TX manual; introduce un valor conocido o un supuesto explícito."
+    var wattsSource: String {
+        get {
+            if let wattsReference, number(watts) != wattsReference { return "Potencia TX modificada manualmente; ya no coincide con el supuesto HFCC elegido." }
+            return wattsDescription
+        }
+        set { wattsDescription = newValue }
+    }
     var bandwidth = "2400"
     var requiredSNR = "10"
     var txGain = "0"
@@ -32,6 +46,7 @@ import RadioCore
     var frequencyMHz = "7.1"
     var r12 = ""
     private var r12Reference: Double?
+    private var r12Month: String?
     private var r12Description = "Introduce R12 o usa la circular mensual de ITU."
     var r12Source: String {
         if let value = number(r12), value != r12Reference { return "R12 introducido manualmente; comprueba su mes y procedencia." }
@@ -219,7 +234,18 @@ import RadioCore
         }
         r12 = String(index.r12)
         r12Reference = index.r12
+        r12Month = index.id
         r12Description = "ITU · \(index.id) · \(index.predicted ? "pronosticado" : "observado suavizado") · consulta \(weather.indicesFetchedAt?.formatted(date: .abbreviated, time: .shortened) ?? "sin fecha")"
+    }
+    func useManualR12() {
+        r12Reference = nil; r12Month = nil
+        r12Description = "R12 manual elegido como supuesto; documenta su mes y procedencia."
+    }
+    func r12MonthMismatch(at date: Date) -> Bool {
+        guard let reference = r12Reference, number(r12) == reference, let month = r12Month else { return false }
+        let calendar = BroadcastCalendar.utc
+        let selected = String(format: "%04d-%02d", calendar.component(.year, from: date), calendar.component(.month, from: date))
+        return month != selected
     }
     func setPSKGridSharing(_ enabled: Bool) {
         shareGridWithPSKReporter = enabled
@@ -248,40 +274,82 @@ import RadioCore
             pskStatus = "PSK Reporter no disponible: \(error.localizedDescription). Se mantiene la condición modelada por separado."
         }
     }
-    func useSelectedStation(_ guide: BroadcastStore) {
-        guard let id = guide.selectedID, let snapshot = guide.snapshot,
-              let entry = snapshot.entries.first(where: { $0.id == id }), let site = snapshot.reference.site(for: entry) else {
-            calculationError = "Selecciona una emisora con coordenadas resueltas en la Guía de radios."; return
+    func planningTime(at now: Date) -> Date { usesCurrentPlanningTime ? now : planningDate }
+    @discardableResult func useSelectedStation(_ guide: BroadcastStore) -> Bool {
+        guard let entry = guide.selectedEntry else {
+            stationTransferNotice = "Elige una fila en la Guía de radios o pulsa Enviar al Planificador HF en su detalle."
+            calculationError = stationTransferNotice; return false
         }
-        targetLatitude = String(site.latitude); targetLongitude = String(site.longitude)
-        targetName = "\(entry.station) · \(site.name)"
+        useStation(entry, guide: guide); return true
+    }
+    func useStation(_ entry: BroadcastEntry, guide: BroadcastStore) {
+        cancelCalculation(); report = nil
+        guide.selectedID = entry.id
+        targetLatitude = ""; targetLongitude = ""; targetCountry = ""
+        targetName = "\(entry.station) · \(entry.frequencyKHz) kHz · \(entry.time) UTC"
         frequencyMHz = String(entry.frequencyKHz / 1000)
-        if let transmission = guide.hfccMatch(for: entry), let scheduledWatts = transmission.scheduledPowerWatts {
-            watts = String(Int(scheduledWatts))
-            wattsSource = "\(transmission.powerKW ?? 0) kW declarados en HFCC para esta frecuencia y horario; no es potencia medida ni ERP."
-            switch transmission.modulationCode.uppercased() {
-            case "D": bandwidth = "9000"
-            case "T": bandwidth = "2700"
-            case "N": bandwidth = "10000"
-            default: break
-            }
-        } else {
-            watts = ""
-            wattsSource = "HFCC no aporta una potencia inequívoca para esta emisora. Introduce un valor si lo conoces; no se asumirá 100 W."
+        stationSites = guide.snapshot?.reference.siteCandidates(for: entry) ?? []
+        selectedStationSite = nil
+        if let site = guide.snapshot?.reference.site(for: entry) {
+            targetLatitude = Self.coordinateText(site.latitude); targetLongitude = Self.coordinateText(site.longitude)
+            selectedStationSite = stationSites.firstIndex(of: site)
         }
+        stationPowerCandidate = guide.hfccMatch(for: entry)
+        watts = ""; wattsReference = nil
+        wattsSource = "Falta potencia TX: introduce un dato conocido o un supuesto. Una coincidencia de frecuencia y horario HFCC no demuestra por sí sola el mismo transmisor."
+        txGain = "0"
+        if entry.modulation.hasPrefix("AM") { bandwidth = "9000" }
+        else if entry.modulation == "USB" || entry.modulation == "LSB" { bandwidth = "2700" }
+        else if entry.modulation.hasPrefix("CW") { bandwidth = "500" }
+        else if entry.modulation.hasPrefix("DRM") { bandwidth = "10000" }
         listening = true
+        stationTransferNotice = "Copiados nombre, frecuencia y modo de escucha. " + (targetLatitude.isEmpty ? "El sitio EiBi no es único o no tiene coordenadas: elige un sitio o completa el emisor remoto. " : "Coordenadas del transmisor tomadas de EiBi. ") + "Potencia pendiente; TX 0 dBi es un supuesto. El ancho RX es inicial, ajustable al receptor."
         calculationError = nil
     }
+    func useChosenStationSite() {
+        guard let index = selectedStationSite, stationSites.indices.contains(index) else { return }
+        cancelCalculation(); report = nil
+        let site = stationSites[index]
+        targetLatitude = Self.coordinateText(site.latitude); targetLongitude = Self.coordinateText(site.longitude)
+        stationTransferNotice = "Sitio elegido: \(site.name). Revisa la potencia, el ancho de ruido RX y el R12 antes de calcular."
+    }
+    func useCandidatePowerAsAssumption() {
+        guard let tx = stationPowerCandidate, let value = tx.scheduledPowerWatts else { return }
+        watts = String(Int(value))
+        wattsReference = value
+        wattsSource = "Supuesto elegido: \(tx.powerKW ?? 0) kW declarados por HFCC, sitio \(tx.siteCode), \(tx.startUTC)–\(tx.stopUTC) UTC. Verifica que sea el transmisor correcto; no es potencia medida ni ERP."
+    }
+    func hfPlanningDataText(origin: RadioLocation?, date: Date) -> String {
+        let local = origin.map { "\($0.latitude), \($0.longitude)" } ?? "pendiente"
+        let remote = "\(targetLatitude), \(targetLongitude)"
+        let frequency = RadioNumericText.frequencyMHz(frequencyMHz).map { String($0) } ?? frequencyMHz
+        return "\(listening ? "Escucha" : "Emisión") · \(targetName)\nTX: \(listening ? remote : local)\nRX: \(listening ? local : remote)\nFecha UTC: \(ISO8601DateFormatter().string(from: date))\nFrecuencia: \(frequency) MHz\nPotencia TX: \(watts.isEmpty ? "pendiente" : watts) W\nAncho de ruido RX: \(bandwidth) Hz · SNR requerido: \(requiredSNR) dB\nGanancias TX/RX: \(txGain)/\(rxGain) dBi · R12: \(r12)\n\(r12Source)\n\(wattsSource)\nP.533: estimación mensual por hora UTC, antenas de ganancia constante."
+    }
+    func inputProblems(origin: RadioLocation?, date: Date) -> [String] {
+        var problems: [String] = []
+        if r12MonthMismatch(at: date) { problems.append("R12 ITU pertenece a \(r12Month ?? "otro mes"); usa el índice del mes UTC elegido o conviértelo explícitamente en un supuesto manual.") }
+        if origin == nil { problems.append("Tu ubicación: latitud y longitud válidas.") }
+        let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude)
+        if target == nil { problems.append("\(listening ? "Emisor remoto" : "Destino"): completa coordenadas válidas.") }
+        if let origin, let target, origin.distance(to: target) < 10 { problems.append("El trayecto debe medir al menos 10 km.") }
+        if RadioNumericText.frequencyMHz(frequencyMHz).map({ !(1.6...30).contains($0) }) ?? true { problems.append("Frecuencia HF: 1,6–30 MHz; puedes pegar un valor con kHz o MHz.") }
+        for (label, value, range) in [("Potencia TX", watts, 1.0...1_000_000), ("Ancho de ruido RX (Hz)", bandwidth, 1.0...100_000), ("SNR requerido (dB)", requiredSNR, -30.0...100), ("R12 mensual", r12, 0.0...311), ("Ganancia TX (dBi)", txGain, -40.0...40), ("Ganancia RX (dBi)", rxGain, -40.0...40)] {
+            if number(value).map({ !range.contains($0) }) ?? true { problems.append("\(label): introduce un valor entre \(range.lowerBound) y \(range.upperBound).") }
+        }
+        if !(1900...2100).contains(BroadcastCalendar.utc.component(.year, from: date)) { problems.append("La fecha debe estar entre 1900 y 2100.") }
+        return problems
+    }
     func input(origin: RadioLocation?, date: Date) -> HFPropagationInput? {
-        guard let origin, let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude),
+        guard !r12MonthMismatch(at: date), let origin, let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude),
               let r = number(r12), let p = number(watts), let bw = number(bandwidth), let snr = number(requiredSNR),
-              let tx = number(txGain), let rx = number(rxGain), let f = number(frequencyMHz) else { return nil }
+              let tx = number(txGain), let rx = number(rxGain), let f = RadioNumericText.frequencyMHz(frequencyMHz) else { return nil }
         let input = HFPropagationInput(origin: listening ? target : origin, target: listening ? origin : target, date: date, r12: r, watts: p, bandwidth: bw, requiredSNR: snr, txGain: tx, rxGain: rx, noise: noise, frequencyMHz: f)
         return input.isValid ? input : nil
     }
     func calculate(origin: RadioLocation?, date: Date) {
-        guard let input = input(origin: origin, date: date) else {
-            calculationError = "Completa ubicación y destino separados al menos 10 km, 1–1.000.000 W, 1,6–30 MHz, R12 1–311, ancho 1–100.000 Hz y SNR −30 a 100 dB. Ganancias: −40 a 40 dBi."; return
+        let problems = inputProblems(origin: origin, date: date)
+        guard problems.isEmpty, let input = input(origin: origin, date: date) else {
+            calculationError = problems.joined(separator: "\n"); return
         }
         cancelCalculation(); calculationBusy = true; calculationError = nil
         let token = generation
@@ -400,8 +468,7 @@ import RadioCore
         }
     }
     func number(_ value: String) -> Double? {
-        guard let n = Double(value.replacingOccurrences(of: ",", with: ".")), n.isFinite else { return nil }
-        return n
+        RadioNumericText.number(value)
     }
     var horizon: Double? {
         guard let tx = number(txHeight), let rx = number(rxHeight), tx <= 10_000, rx <= 10_000 else { return nil }

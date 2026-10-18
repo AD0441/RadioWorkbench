@@ -1,0 +1,77 @@
+{
+  "repository": "https://github.com/f4exb/sdrangel",
+  "commit": "137c608fa908ac1e942e323357398c8e98399dde",
+  "license": "GPL-3.0-or-later",
+  "upstreamFiles": [
+    {
+      "path": "upstream/dsc.cpp",
+      "upstreamPath": "sdrbase/util/dsc.cpp",
+      "size": 33713,
+      "sha256": "d226ee017324a9e88e62825739d5a1fd3e39095492cbcfc9c737a3b3a07d6847"
+    },
+    {
+      "path": "upstream/dsc.h",
+      "upstreamPath": "sdrbase/util/dsc.h",
+      "size": 8057,
+      "sha256": "3b2bdc7e7fb589f51a2ccf73ad6dac7f7a804c6a2525c52514212aa1371bcde9"
+    },
+    {
+      "path": "upstream/dscdemodsink.cpp",
+      "upstreamPath": "plugins/channelrx/demoddsc/dscdemodsink.cpp",
+      "size": 18128,
+      "sha256": "0eae4145cc7dd16059d8dab3d160a0f9dd0d901873813d00b198f6238746792a"
+    },
+    {
+      "path": "upstream/dscdemodsink.h",
+      "upstreamPath": "plugins/channelrx/demoddsc/dscdemodsink.h",
+      "size": 6247,
+      "sha256": "e1556a2a52a51c0191913dc8b5dfb3470f25c38b51ffda80207e435ae398b7c6"
+    },
+    {
+      "path": "upstream/dscdemodsettings.h",
+      "upstreamPath": "plugins/channelrx/demoddsc/dscdemodsettings.h",
+      "size": 4505,
+      "sha256": "f04ee81d81078270cf96ee72e5b1f6ef3059ef33ccf972ad5f31af3359b27358"
+    },
+    {
+      "path": "upstream/readme.md",
+      "upstreamPath": "plugins/channelrx/demoddsc/readme.md",
+      "size": 6478,
+      "sha256": "5b799303f70373b023884974b82a067bb8810304ee0b9648eedbb3b686d1ad67"
+    }
+  ],
+  "localFiles": [
+    {
+      "path": "Vendor/DSC/decoder.h",
+      "sha256": "78f52e94715c43971ffde6b5ad2f64095a8bbc3906b3c3ba414fcc9663238faf"
+    },
+    {
+      "path": "Vendor/DSC/decoder.cpp",
+      "sha256": "34af82cb4ebd322c99d7151f8d42593645204ef79d5b5cf934ee6130d0151c94"
+    },
+    {
+      "path": "Vendor/DSC/NOTICE.md",
+      "sha256": "577ab24f7631693928918743aaf2186b4a92554dd09ed23241a66691bee8035a"
+    },
+    {
+      "path": "Vendor/DSC/LOCAL-CHANGES.md",
+      "sha256": "1aea5fa475641aeff61d5b973010cc09e4c2eb4f79a9dd6216c0b5c54eb1a5cd"
+    },
+    {
+      "path": "script/dsc-helper.cpp",
+      "sha256": "9d90a5d129b0b00018489bf47237aa26c5cbbe5ee1a15564eb7840118ee4a256"
+    },
+    {
+      "path": "script/build_dsc.sh",
+      "sha256": "76369fd5e8319482ca37f62abe338aea54865efb5b579d96f2952a827bc5be08"
+    },
+    {
+      "path": "script/dsc-build-prototype.sh",
+      "sha256": "22b6872a7866f8d21ce17be334055de0d009758f274909b9ea418005cfabe5c4"
+    },
+    {
+      "path": "script/dsc-validate-prototype.py",
+      "sha256": "954254a94b55fd9dae6fa381d66ebb5db072cadde3a3d8cb78bb8e754ddefa84"
+    }
+  ]
+}

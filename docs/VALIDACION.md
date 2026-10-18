@@ -1,4 +1,28 @@
+# Validación de RadioWorkbench 0.11.0
+
+Suite Release arm64: **202 funciones registradas, 198 aprobadas y cuatro opcionales omitidas**, cero fallos, 7,438 s una vez compilada. Las omisiones son dos pruebas que requieren el runtime DSD instalado, descarga satelital en vivo y el benchmark de terreno en red. No se inició micrófono, SDR++ ni sintonía del receptor físico.
+
+Se verificaron biblioteca/SHA-256/papelera, calidad PCM, fragmentación y EOF TCP, cierre concurrente sin perder el último bloque, servidores Rigctl simulados (incluido éxito sin sintonizar y cancelación), DSC con ECC y exportación de símbolos, mapa/eventos con fechas y trazas, SatDump aislado con importación y cancelación, y referencias del taller. La revisión HF incorpora 21 comprobaciones C y conserva la referencia pública y las escalas de potencia/ancho. DSC pasó 18 comprobaciones aisladas, repetidas con ASan/UBSan y muestras públicas identificadas.
+
+[Suite](validation/release-0.11.0-tests.txt) · [Resumen](validation/tests-0.11.0-summary.json) · [HF](validation/hf-review-0.10-tests.txt) · [DSC](validation/dsc-prototype-0.10.json) · [Sanitizadores DSC](validation/dsc-sanitizers-0.10.json) · [SatDump real con I/Q cero](validation/satdump-offline-0.11.json) · [Límites](NUEVE-MEJORAS.md).
+
+La prueba física SDR++ → VB-Cable y una captura LRPT independiente siguen pendientes. El procesamiento real de I/Q cero produjo descriptores vacíos y ninguna imagen; no se interpreta como recepción. La firma es local ad hoc, sin notarización. El [paquete 0.11.0](validation/package-0.11.0.json) extraído pasó integridad y firma estricta; sus ejecutables son arm64 y los ejemplos DSC/MT63/ALE decodificaron con los helpers distribuidos. ZIP: 190.779.871 bytes, SHA-256 `ab2a4b05a0324a2112e671c88ab1f5c6e066b2086f1ebe90c535b0432e420961`. La comprobación visual 0.11 está pendiente porque CUA informó que el Mac está bloqueado; no se presenta como completada.
+
 # Validación de RadioWorkbench 0.8.11
+
+## 0.10.0
+
+La suite release registra **159 funciones: 155 aprobadas y cuatro opcionales omitidas**, ejecución 7,618 s. Se omitieron las dos pruebas de DSD que exigen su runtime externo y dos comprobaciones de red/terreno real. No hubo fallos. [Salida completa](validation/release-0.10.0-tests.txt) · [Resumen](validation/tests-0.10.0-summary.json).
+
+La ampliación verifica las seis variantes MT63; ALE 2G con modulador aritmético independiente, AMD y sondeos; silencio, ruido y floats no finitos; publicación con stdin abierto; enrutamiento del worker, remuestreo de WAV estéreo a 48 kHz con el canal derecho seleccionado, recepción simulada en vivo y persistencia de ajustes anteriores. Un caso comprueba que la guía RF MT63 conserve el bloque al desplazar su centro.
+
+Las comprobaciones nativas de MT63 añaden ruido a 12 dB en los seis modos, 60 s de silencio/ruido, entradas fragmentadas, escape JSON, argumentos inválidos y ASan/UBSan en TX/RX y doce centros extremos. Corrigen fallos heredados de asignación y de índice FFT. [Resultados](../Vendor/MT63/validation-summary.json) · [Cambios](../Vendor/MT63/LOCAL-CHANGES.md). Los fixtures usan TX/RX del mismo upstream: falta una grabación MT63 independiente.
+
+ALE se contrastó además con dos AU públicos del repositorio KiwiSDR, identificados por SHA-256 y conservados solo para comprobación local; recupera XSS y el AMD de referencia. [Once comprobaciones nativas y procedencia](validation/ale2g-0.10.json). El caso sintético con +25 Hz y ruido recupera AMD completo; +65 Hz no garantiza el mensaje. Se documenta la sensibilidad limitada en lugar de generalizarla.
+
+Una ejecución inicial dentro del aislamiento del agente quedó esperando la enumeración de formatos de AudioToolbox. La muestra del proceso localizó esa espera; se detuvieron únicamente los procesos de esa prueba y se repitió la suite con acceso al servicio de audio de macOS. Esa repetición es la pasada indicada arriba. No fue una caída de RadioWorkbench.
+
+No se realizó captura de micrófono ni prueba física de SDR++/VB-Cable en esta ampliación. La inspección REA de las cinco aplicaciones fue estática: [cobertura, identidades y límites](REVISION-APPS-0.10.md).
 
 ## 0.9.0
 

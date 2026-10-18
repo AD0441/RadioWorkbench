@@ -1,0 +1,41 @@
+{
+  "generatedLocally": true,
+  "noRFTransmission": true,
+  "license": "CC0-1.0 synthetic signals and messages",
+  "encoder": "independent Python polynomial Golay/FEC/8FSK arithmetic; no decoder lookup tables imported",
+  "fixtures": [
+    {
+      "file": "ale2g_8000_synthetic.wav",
+      "sha256": "31aa7bd7a1f6c1544e4dfb59fc5860b1eb88486425faee49407f1e042f6245a4",
+      "sampleRate": 8000,
+      "offsetHz": 0,
+      "noiseStandardDeviation": 0,
+      "expected": [
+        "RADIOWORKBENCH TEST"
+      ],
+      "durationSeconds": 10.498
+    },
+    {
+      "file": "ale2g_8000_noisy_offset.wav",
+      "sha256": "fe543676e37e9dbdeb6357b974008175f527df4e059006282afa04166b02318b",
+      "sampleRate": 8000,
+      "offsetHz": 25,
+      "noiseStandardDeviation": 0.025,
+      "expected": [
+        "RADIOWORKBENCH TEST"
+      ],
+      "durationSeconds": 10.498
+    },
+    {
+      "file": "ale2g_sounding_8000_synthetic.wav",
+      "sha256": "26f6c90465ea8a1d039d70d6117f7760496f3cccf1074ee5f9f1f26343eaeeb9",
+      "sampleRate": 8000,
+      "offsetHz": 0,
+      "noiseStandardDeviation": 0,
+      "expected": [
+        "LAB"
+      ],
+      "durationSeconds": 7.754
+    }
+  ]
+}

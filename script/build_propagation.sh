@@ -7,7 +7,7 @@ OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd)"
 STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/radio-p533-source.XXXXXX")"
 trap 'rm -rf "$STAGING_DIR"' EXIT
 cp "$ROOT_DIR"/Vendor/ITU-R-HF/P533/Src/P533/*.[ch] "$STAGING_DIR/"
-# Load only the bundled noise library. Equations and datasets remain upstream.
+# Load the bundled noise library; local model corrections are documented in Vendor.
 sed -i '' 's/"libp372.so"/"@executable_path\/libp372.dylib"/g' "$STAGING_DIR/P533.c" "$STAGING_DIR/PathMemory.c"
 COMMON_FLAGS=(-arch arm64 -O2 -std=c99 -fcommon -include errno.h -mmacosx-version-min=14.0)
 NOISE_DIR="$ROOT_DIR/Vendor/ITU-R-HF/P372/Src/P372"

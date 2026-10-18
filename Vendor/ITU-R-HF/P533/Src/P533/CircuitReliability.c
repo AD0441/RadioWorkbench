@@ -177,13 +177,13 @@ void CircuitReliability(struct PathData *path) {
 		// Note: There may be a degenerate case that looking at only three locations may not determine correctly
 		// Check the mid-path 
 		GeomagneticCoords(path->CP[MP].L, &Geomag);
-		if(Geomag.lat >= 60.0*D2R) gt60deg = 1; // 1 means a location is greater than 60 degrees 
+		if(fabs(Geomag.lat) >= 60.0*D2R) gt60deg = 1; // Magnitude applies in both hemispheres.
 		// Check the control point 1000 km from the transmitter
 		GeomagneticCoords(path->CP[T1k].L, &Geomag);
-		if(Geomag.lat >= 60.0*D2R) gt60deg = 1; // 1 means a location is greater than 60 degrees
+		if(fabs(Geomag.lat) >= 60.0*D2R) gt60deg = 1; // Magnitude applies in both hemispheres.
 		// Check the control point 1000 km from the receiver
 		GeomagneticCoords(path->CP[R1k].L, &Geomag);
-		if(Geomag.lat >= 60.0*D2R) gt60deg = 1; // 1 means a location is greater than 60 degrees 
+		if(fabs(Geomag.lat) >= 60.0*D2R) gt60deg = 1; // Magnitude applies in both hemispheres.
 	}
 
     // Find the basic MUF index to retrieve the values from P.842-4 Table 2

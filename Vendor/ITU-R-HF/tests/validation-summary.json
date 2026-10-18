@@ -1,0 +1,123 @@
+{
+  "upstreamRevision": "82017594a1c6cacfaa7e86954c4ae7b3a5825a3d",
+  "nativeChecks": 21,
+  "correctedFailures": 0,
+  "originalFailures": 11,
+  "foEIsolatedCase": {
+    "latitude": -33.45,
+    "longitude": -70.67,
+    "month": 6,
+    "hourUTC": 11,
+    "R12": 75,
+    "originalMHz": 0.908776241502,
+    "correctedMHz": 1.75548953
+  },
+  "tableCase": {
+    "originalSouthernBCR": 16.005353754153,
+    "correctedSouthernBCR": 21.263986787193,
+    "northernBCR": 21.263986787193
+  },
+  "pathCases": [
+    {
+      "case": "Santiago\u2192Valdivia",
+      "stdin": "2026 6 75 -33.45 -70.67 1000 1000 10 0 0 2\n0 11 -39.8 -73.25 7.1\n",
+      "original": {
+        "id": 0,
+        "hour": 11,
+        "frequencyMHz": 7.1,
+        "distanceKm": 742.5795954,
+        "snrDB": 39.87887372,
+        "reliability": 100.0,
+        "muf50MHz": 7.86274185,
+        "receivedDBm": -59.1849625,
+        "noiseFactorDB": 45.37611043,
+        "atmosphericNoiseDB": 38.06175279,
+        "manMadeNoiseDB": 43.62014374,
+        "galacticNoiseDB": 32.42105798
+      },
+      "corrected": {
+        "id": 0,
+        "hour": 11,
+        "frequencyMHz": 7.1,
+        "distanceKm": 742.5795954,
+        "snrDB": 39.88166341,
+        "reliability": 100.0,
+        "muf50MHz": 7.92210328,
+        "receivedDBm": -59.18217281,
+        "noiseFactorDB": 45.37611043,
+        "atmosphericNoiseDB": 38.06175279,
+        "manMadeNoiseDB": 43.62014374,
+        "galacticNoiseDB": 32.42105798
+      }
+    },
+    {
+      "case": "South polar",
+      "stdin": "2026 10 75 -60 60 1000 1000 10 0 0 2\n0 12 -60 160 10.1\n",
+      "original": {
+        "id": 0,
+        "hour": 12,
+        "frequencyMHz": 10.1,
+        "distanceKm": 5008.45165605,
+        "snrDB": 14.35421229,
+        "reliability": 66.41135262,
+        "muf50MHz": 10.34903066,
+        "receivedDBm": -89.60393752,
+        "noiseFactorDB": 39.84505708,
+        "atmosphericNoiseDB": 28.13087033,
+        "manMadeNoiseDB": 39.38029795,
+        "galacticNoiseDB": 28.9006084
+      },
+      "corrected": {
+        "id": 0,
+        "hour": 12,
+        "frequencyMHz": 10.1,
+        "distanceKm": 5008.45165605,
+        "snrDB": 14.35421229,
+        "reliability": 64.35261514,
+        "muf50MHz": 10.34903066,
+        "receivedDBm": -89.60393752,
+        "noiseFactorDB": 39.84505708,
+        "atmosphericNoiseDB": 28.13087033,
+        "manMadeNoiseDB": 39.38029795,
+        "galacticNoiseDB": 28.9006084
+      }
+    },
+    {
+      "case": "Reference",
+      "stdin": "1985 5 18 49.6666666667 6.31666666667 1000 1000 10 0 0 2\n0 19 51.1166666667 7.26666666667 6.1\n",
+      "original": {
+        "id": 0,
+        "hour": 19,
+        "frequencyMHz": 6.1,
+        "distanceKm": 174.72894093,
+        "snrDB": 36.50833187,
+        "reliability": 98.85765767,
+        "muf50MHz": 6.46990088,
+        "receivedDBm": -56.18143328,
+        "noiseFactorDB": 51.30934349,
+        "atmosphericNoiseDB": 49.89862515,
+        "manMadeNoiseDB": 45.44636357,
+        "galacticNoiseDB": 33.93741379
+      },
+      "corrected": {
+        "id": 0,
+        "hour": 19,
+        "frequencyMHz": 6.1,
+        "distanceKm": 174.72894093,
+        "snrDB": 36.50833187,
+        "reliability": 98.85765767,
+        "muf50MHz": 6.46990088,
+        "receivedDBm": -56.18143328,
+        "noiseFactorDB": 51.30934349,
+        "atmosphericNoiseDB": 49.89862515,
+        "manMadeNoiseDB": 45.44636357,
+        "galacticNoiseDB": 33.93741379
+      }
+    }
+  ],
+  "modelLimits": [
+    "Monthly median/variability model; no current storm corrections.",
+    "Three geomagnetic control points retained; not an exhaustive great-circle interior search.",
+    "Analog noise-based BCR; not a two-way contact or decoder-specific digital reliability."
+  ]
+}

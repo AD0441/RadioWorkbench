@@ -1,10 +1,12 @@
 import SwiftUI
+import AppKit
 import RadioCore
 
 struct PropagationView: View {
     @Bindable var store: PropagationStore
     @Bindable var guide: BroadcastStore
     @Bindable var rbnStore: RBNStore
+    let onOpenGuide: () -> Void
     private var location: RadioLocation? { RadioLocation(latitude: guide.latitude, longitude: guide.longitude) }
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
@@ -18,11 +20,11 @@ struct PropagationView: View {
                     IonosondePanel(snapshot: store.ionosphere, status: store.ionosphereStatus, location: location, date: context.date)
                     PSKReporterPanel(store: store, location: location, date: context.date)
                     RBNPanel(store: rbnStore)
-                    predictionForm(at: context.date)
+                    predictionForm(at: store.planningTime(at: context.date))
                     if let error = store.calculationError { Text(error).foregroundStyle(.red).textSelection(.enabled) }
                     if let report = store.report {
                         let current = store.input(origin: location, date: report.input.date) == report.input
-                            && Calendar.current.isDate(context.date, equalTo: report.input.date, toGranularity: .hour)
+                            && BroadcastCalendar.utc.isDate(store.planningTime(at: context.date), equalTo: report.input.date, toGranularity: .hour)
                         HFPredictionPanel(report: report, current: current, originCountry: store.originCountry, targetCountry: store.targetCountry)
                     }
                     RadioActivityMapPanel(report: store.report, pskSpots: store.pskSnapshot?.spots ?? [], rbnSpots: rbnStore.spots)
@@ -69,15 +71,35 @@ struct PropagationView: View {
     private func predictionForm(at date: Date) -> some View {
         GroupBox("Planificador HF · ITU-R P.533") {
             VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Toggle("Usar hora actual", isOn: $store.usesCurrentPlanningTime)
+                    DatePicker("Fecha y hora UTC", selection: $store.planningDate, displayedComponents: [.date, .hourAndMinute])
+                        .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!).disabled(store.usesCurrentPlanningTime)
+                    Spacer()
+                }
                 Picker("Dirección", selection: $store.listening) {
                     Text("Emisión desde tu ubicación").tag(false)
                     Text("Escucha del emisor remoto").tag(true)
                 }.pickerStyle(.segmented)
                 HStack {
-                    field("Destino · latitud", text: $store.targetLatitude, hint: "Grados", width: 155)
-                    field("Destino · longitud", text: $store.targetLongitude, hint: "Grados", width: 155)
+                    field(store.listening ? "Emisor remoto · latitud" : "Destino · latitud", text: $store.targetLatitude, hint: "Grados", width: 165)
+                    field(store.listening ? "Emisor remoto · longitud" : "Destino · longitud", text: $store.targetLongitude, hint: "Grados", width: 165)
                     Button("Usar emisora seleccionada") { store.useSelectedStation(guide) }
+                        .disabled(guide.selectedEntry == nil)
+                    Button("Abrir guía") { onOpenGuide() }
                     Spacer()
+                }
+                if let entry = guide.selectedEntry { Text("De la guía: \(entry.station) · \(entry.frequencyKHz, specifier: "%.2f") kHz · \(entry.time) UTC").font(.caption).foregroundStyle(.secondary) }
+                else { Text("Elige una emisora en la guía o completa el destino manualmente.").font(.caption).foregroundStyle(.secondary) }
+                if !store.stationTransferNotice.isEmpty { Text(store.stationTransferNotice).font(.callout).textSelection(.enabled) }
+                if !store.stationSites.isEmpty {
+                    HStack {
+                        Picker("Sitio del transmisor", selection: $store.selectedStationSite) {
+                            Text("Elegir sitio / entrada manual").tag(Int?.none)
+                            ForEach(store.stationSites.indices, id: \.self) { index in Text(store.stationSites[index].name).tag(Optional(index)) }
+                        }.frame(maxWidth: 450)
+                        Button("Usar coordenadas de este sitio") { store.useChosenStationSite() }.disabled(store.selectedStationSite == nil)
+                    }
                 }
                 Text(store.targetName).font(.caption).foregroundStyle(.secondary)
                 HStack {
@@ -88,12 +110,27 @@ struct PropagationView: View {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 145), alignment: .leading)], alignment: .leading, spacing: 12) {
                     field("Potencia TX · W", text: $store.watts, hint: "100", width: 125)
                     field("Frecuencia · MHz", text: $store.frequencyMHz, hint: "7,1", width: 135)
-                    field("Ancho · Hz", text: $store.bandwidth, hint: "2400", width: 110)
+                    field("Ancho de ruido RX · Hz", text: $store.bandwidth, hint: "2400", width: 145)
                     field("SNR requerido · dB", text: $store.requiredSNR, hint: "10", width: 135)
-                    field("R12 mensual", text: $store.r12, hint: "1–311", width: 100)
+                    field("R12 mensual", text: $store.r12, hint: "0–311", width: 100)
                     Button("Usar R12 ITU") { store.useITUIndex(at: date) }
+                    if store.r12MonthMismatch(at: date) { Button("Utilizar este valor como R12 manual") { store.useManualR12() } }
                 }
                 Text(store.wattsSource).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text("Frecuencia: admite 9655 kHz o 9,655 MHz. Sin unidad se interpreta en MHz. La transferencia desde la guía convierte kHz automáticamente.").font(.caption).foregroundStyle(.secondary)
+                if let candidate = store.stationPowerCandidate, let power = candidate.powerKW {
+                    HStack {
+                        Text("Candidato HFCC: \(power) kW · sitio \(candidate.siteCode) · \(candidate.startUTC)–\(candidate.stopUTC) UTC. Comprueba que corresponda al emisor.").font(.caption)
+                        Button("Usar esta potencia como supuesto") { store.useCandidatePowerAsAssumption() }
+                    }
+                }
+                let missing = store.inputProblems(origin: location, date: date)
+                if !missing.isEmpty {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Falta completar o revisar").font(.caption.weight(.semibold))
+                        ForEach(missing, id: \.self) { Text("• " + $0).font(.caption) }
+                    }.foregroundStyle(.orange)
+                }
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 190), alignment: .leading)], alignment: .leading, spacing: 12) {
                     field("Ganancia TX · dBi", text: $store.txGain, hint: "0", width: 140)
                     field("Ganancia RX · dBi", text: $store.rxGain, hint: "0", width: 140)
@@ -108,6 +145,8 @@ struct PropagationView: View {
                     }
                 }
                 Text(store.r12Source).font(.caption).foregroundStyle(.secondary)
+                Button("Copiar datos del enlace") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(store.hfPlanningDataText(origin: location, date: date), forType: .string) }
+                Text("El ancho corresponde al ruido equivalente en RX, no necesariamente al ancho de audio del decodificador. Los anchos propuestos son supuestos editables. P.533 calcula un enlace analógico genérico: no valida BER, audio AM demodulado ni decodificación DRM.").font(.caption).foregroundStyle(.secondary)
                 Text("Predicción mensual por hora UTC, con antenas isotrópicas y ganancia constante; el ancho y SNR son requisitos de tu sistema. En Escucha, TX es el emisor remoto y RX tu ubicación: introduce su potencia como dato conocido o supuesto y el ruido de tu receptor.").font(.caption).foregroundStyle(.secondary)
                 Text("Las frecuencias son puntos de cálculo. Elige frecuencia, modo y ancho que correspondan a tu estación. El modelo no mide potencia radiada ni confirma que una emisora esté transmitiendo.").font(.caption).foregroundStyle(.secondary)
             }.padding(8)

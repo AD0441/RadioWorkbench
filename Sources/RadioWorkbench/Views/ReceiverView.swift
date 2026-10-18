@@ -5,7 +5,7 @@ struct ReceiverView: View {
     @Bindable var receiver: ReceiverStore
     private var spectrum: some View {
         SpectrumView(frame: receiver.frame, waterfall: receiver.waterfall, frequency: receiver.settings.frequency, shift: receiver.mode == .navtex ? 170 : receiver.mode == .rtty ? receiver.settings.shift : 0) { value in
-            if !receiver.busy && receiver.mode != .selectiveTones && receiver.mode != .acars { receiver.settings.frequency = value }
+            if !receiver.busy && ![.selectiveTones, .acars, .ale].contains(receiver.mode) { receiver.settings.frequency = value }
         }
     }
     var body: some View {
@@ -91,7 +91,7 @@ struct DecoderControls: View {
     @Bindable var receiver: ReceiverStore
     var body: some View {
         HStack(alignment: .bottom, spacing: 14) {
-            if receiver.mode != .dtmf && receiver.mode != .selectiveTones && receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) {
+            if receiver.mode != .dtmf && receiver.mode != .selectiveTones && receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice, .ale, .gmdss].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) {
                 number("Audio (Hz)", value: $receiver.settings.frequency, width: 100)
             }
             if receiver.mode == .morse && receiver.settings.cwEngine == .manual { number("Velocidad (WPM)", value: $receiver.settings.wordsPerMinute, width: 100) }
@@ -129,7 +129,7 @@ struct DecoderControls: View {
                 Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
             }
             Spacer(minLength: 0)
-            if receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) { VStack(alignment: .leading, spacing: 6) {
+            if receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice, .ale, .mt63, .gmdss].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) { VStack(alignment: .leading, spacing: 6) {
                 Text("Umbral \(Int(receiver.settings.threshold * 100)) %").font(.caption).foregroundStyle(.secondary)
                 Slider(value: $receiver.settings.threshold, in: 0.01...0.5).frame(width: 150)
             } }
