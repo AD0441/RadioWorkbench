@@ -18,6 +18,13 @@ existente estaba inactiva y no se usa como perfil de carga en vivo.
 [Resumen](validation/tests-0.12.1-summary.json) ·
 [Mediciones y reproducción](RELEASE-0.12.1.md).
 
+El ZIP 0.12.1/build 28 extraído pasó integridad y firma estricta; los 13 binarios
+son arm64, sin dependencias del checkout o Homebrew. La app se abrió por separado
+en CW; tras desplazar la barra lateral, captura y lectura de interfaz fallaron
+por timeout. Su proceso continuó activo. La presentación del waterfall con la
+entrada real sigue pendiente. [Paquete](validation/package-0.12.1.json) ·
+[Revisión visual parcial](validation/ui-0.12.1.json).
+
 # Validación de RadioWorkbench 0.12.0
 
 Suite Release arm64: **212 funciones registradas, 210 aprobadas, dos opcionales
