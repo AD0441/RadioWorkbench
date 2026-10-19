@@ -1,0 +1,20 @@
+{
+  "version": "0.12.1",
+  "date": "2026-10-18",
+  "registered_functions": 218,
+  "passed_functions": 216,
+  "skipped_functions": [
+    "satelliteLiveDownloadFromOfficialProviders",
+    "terrainRealSantiagoBenchmark"
+  ],
+  "failures": 0,
+  "summary": "\u2714 Test run with 218 tests in 0 suites passed after 14.531 seconds.",
+  "dsd_runtime": "Official 2.10.0 arm64, SHA dff6a26e4fb1bd6bc67dc408b4e06352ca875376135681aa2d17bda02c26efe7",
+  "independent_dmr_reference": "SDRTrunk issue 1803, private call TS1, source 3025209, target 9990",
+  "physical_audio_capture": false,
+  "sdr_tuning": false,
+  "speaker_playback": false,
+  "offline_audio_output_graph_rendered": true,
+  "visualization_benchmark_enabled": true,
+  "parser_note": "Removes the exact compiler deprecation warning if interleaved in a passing test name; original log preserved."
+}

@@ -1,0 +1,53 @@
+{
+  "version": "0.12.1",
+  "build": 28,
+  "date": "2026-10-18",
+  "architecture": "arm64",
+  "baseline_source_commit": "fc8a642124af0f6a9a29f5f49ed7d160a50bc9f7",
+  "source": "Paced synthetic 1500 Hz audio; mono Float32, 48000 Hz, 72 blocks of 2048 samples through the actual DMR live worker and official DSD-neo 2.10.0. No microphone or speakers.",
+  "before": {
+    "elapsed_seconds": 3.4558796666678973,
+    "frames": 10,
+    "frames_per_input_second": 3.2552083333333335,
+    "input_seconds": 3.072,
+    "max_gap_ms": 835.5799167184159,
+    "median_gap_ms": 212.90995832532644,
+    "samples_dropped": 0,
+    "samples_written": 147456
+  },
+  "after_isolated": {
+    "elapsed_seconds": 3.2973285416373983,
+    "frames": 59,
+    "frames_per_input_second": 19.205729166666668,
+    "input_seconds": 3.072,
+    "max_gap_ms": 130.59212500229478,
+    "median_gap_ms": 47.196333296597004,
+    "samples_dropped": 0,
+    "samples_written": 147456
+  },
+  "after_parallel_suite": {
+    "elapsed_seconds": 3.3227956666378304,
+    "frames": 52,
+    "frames_per_input_second": 16.927083333333332,
+    "input_seconds": 3.072,
+    "max_gap_ms": 70.3746666549705,
+    "median_gap_ms": 45.64712499268353,
+    "samples_dropped": 0,
+    "samples_written": 147456
+  },
+  "delivery_rate_ratio": 5.9,
+  "raster_cpu_ratio": 22.122542854524937,
+  "visual_pending_capacity": 1,
+  "analysis_history_samples": 2048,
+  "analysis_rate_ceiling_hz": 25,
+  "raster_dimensions": [
+    256,
+    80
+  ],
+  "limits": [
+    "Frame delivery cadence, not display-presented FPS or RF-to-speaker latency.",
+    "Raster benchmark excludes SwiftUI layout and GPU presentation.",
+    "The process sample taken from the existing application was idle and cannot establish a live CPU bottleneck.",
+    "Physical SDR/cable and perceptual DMR voice tests remain pending."
+  ]
+}

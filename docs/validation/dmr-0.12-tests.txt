@@ -1,0 +1,42 @@
+Building for production...
+[0/2] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'cw-helper' complete! (0.22s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+{"checks":21,"failures":0,"equatorialBCR":16.00535375,"polarBCR":21.26398679,"santiagoJuneFoEMHz":1.75548953}
+Building for production...
+[0/8] Write sources
+[3/8] Write swift-version--1AB21518FC5DEDBE.txt
+[5/9] Compiling RadioCore ACARSAudioResampler.swift
+[6/10] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[6/10] Write Objects.LinkFileList
+[7/10] Linking RadioWorkbench
+[9/11] Compiling RadioCoreTests ACARSTests.swift
+[10/12] Compiling RadioWorkbenchPackageTests runner.swift
+[10/12] Write Objects.LinkFileList
+[11/12] Linking RadioWorkbenchPackageTests
+Build complete! (68.36s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Test dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF() started.
+◇ Test dmrConsoleRejectsBadOrUnrelatedIdentitiesAndUnknownColor() started.
+◇ Test dmrSettingsRemainCompatibleWithSavedReceptions() started.
+◇ Test dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:) started.
+◇ Test dmrConsoleHandlesANSIByteFragmentsAndSeparatesSlots() started.
+◇ Test dmrOutputGraphRendersStereoAndBoundsPendingAudioWithoutSpeakers() started.
+◇ Test dmrTransportSeparatesBinaryVoiceFromFragmentedConsoleBeforeEOF() started.
+◇ Test dmrPCMRecoversStereoAcrossUnalignedReadsAndSignedExtremes() started.
+◇ Test case passing 1 argument slot → .both to dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:) started.
+◇ Test case passing 1 argument slot → .ts1 to dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:) started.
+◇ Test case passing 1 argument slot → .ts2 to dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:) started.
+✔ Test dmrPCMRecoversStereoAcrossUnalignedReadsAndSignedExtremes() passed after 0.005 seconds.
+✔ Test dmrSettingsRemainCompatibleWithSavedReceptions() passed after 0.005 seconds.
+✔ Test dmrConsoleRejectsBadOrUnrelatedIdentitiesAndUnknownColor() passed after 0.005 seconds.
+✔ Test dmrConsoleHandlesANSIByteFragmentsAndSeparatesSlots() passed after 0.005 seconds.
+✔ Test dmrOutputGraphRendersStereoAndBoundsPendingAudioWithoutSpeakers() passed after 0.359 seconds.
+✔ Test dmrTransportSeparatesBinaryVoiceFromFragmentedConsoleBeforeEOF() passed after 0.603 seconds.
+✔ Test dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:) with 3 test cases passed after 3.361 seconds.
+✔ Test dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF() passed after 7.410 seconds.
+✔ Test run with 8 tests in 0 suites passed after 7.411 seconds.

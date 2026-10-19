@@ -1,0 +1,28 @@
+{
+  "version": "0.12.1",
+  "build": 28,
+  "date": "2026-10-18",
+  "status": "partial",
+  "observed": [
+    "The separately packaged 0.12.1 application opened to idle CW, with input selector, toolbar and spectrum placeholder.",
+    "The sidebar accessibility scroll action reached the bottom."
+  ],
+  "not_verified_in_ui": [
+    "Live waterfall presentation with the user input",
+    "DMR controls and panel in this packaged build",
+    "Remaining library/DSC/map flows"
+  ],
+  "blocker": {
+    "service": "Computer Use",
+    "error": "timeoutReached (-10005)",
+    "actions": [
+      "Screenshot after sidebar scroll",
+      "Read accessibility state after timeout"
+    ],
+    "application_process_alive_after_tool_failure": true,
+    "process_path_version": "0.12.1"
+  },
+  "microphone_started": false,
+  "speaker_playback_started": false,
+  "physical_sdr_connection_started": false
+}

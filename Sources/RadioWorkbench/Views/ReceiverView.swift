@@ -4,9 +4,7 @@ import RadioCore
 struct ReceiverView: View {
     @Bindable var receiver: ReceiverStore
     private var spectrum: some View {
-        SpectrumView(frame: receiver.frame, waterfall: receiver.waterfall, frequency: receiver.settings.frequency, shift: receiver.mode == .navtex ? 170 : receiver.mode == .rtty ? receiver.settings.shift : 0) { value in
-            if !receiver.busy && ![.selectiveTones, .acars, .ale].contains(receiver.mode) { receiver.settings.frequency = value }
-        }
+        ReceiverSpectrumView(receiver: receiver)
     }
     var body: some View {
         ScrollView {
@@ -30,10 +28,7 @@ struct ReceiverView: View {
             HStack {
                 Label(receiver.source, systemImage: receiver.live ? "mic" : "waveform")
                 Spacer()
-                if let frame = receiver.frame {
-                    Text("\(frame.levelDB, specifier: "%.1f") dBFS").monospacedDigit()
-                    if frame.clipped { Label("Saturación", systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
-                }
+                ReceiverLevelView(visualization: receiver.visualization)
             }.font(.caption).foregroundStyle(.secondary)
             if receiver.busy && !receiver.live { ProgressView(value: receiver.progress) }
             Text(receiver.detail).font(.caption).foregroundStyle(.secondary)

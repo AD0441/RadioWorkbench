@@ -1,6 +1,40 @@
 import SwiftUI
 import RadioCore
 
+struct ReceiverSpectrumView: View {
+    let receiver: ReceiverStore
+    var body: some View {
+        SpectrumView(frame: receiver.visualization.frame, waterfall: receiver.visualization.waterfall,
+                     frequency: receiver.settings.frequency, shift: shift) { frequency in
+            if !receiver.busy && ![.selectiveTones, .acars, .ale].contains(receiver.mode) {
+                receiver.settings.frequency = frequency
+            }
+        }
+    }
+    private var shift: Double {
+        switch receiver.mode {
+        case .navtex: 170
+        case .rtty: receiver.settings.shift
+        case .wefax: 800
+        default: 0
+        }
+    }
+}
+
+struct ReceiverLevelView: View {
+    let visualization: ReceiverVisualization
+    var imageMode = false
+    var body: some View {
+        if let frame = visualization.frame {
+            Text("\(frame.levelDB, specifier: "%.1f") dBFS").monospacedDigit()
+            if frame.clipped {
+                Label(imageMode ? "Saturación: baja el volumen" : "Saturación", systemImage: "exclamationmark.triangle")
+                    .foregroundStyle(.orange)
+            }
+        }
+    }
+}
+
 struct SpectrumView: View {
     let frame: SpectrumFrame?
     let waterfall: CGImage?

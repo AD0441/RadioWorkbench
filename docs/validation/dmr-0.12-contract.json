@@ -1,0 +1,634 @@
+{
+  "schema": 1,
+  "tested_utc": "2026-10-18T21:12:45Z",
+  "runtime": {
+    "version": "2.10.0",
+    "executable_sha256": "dff6a26e4fb1bd6bc67dc408b4e06352ca875376135681aa2d17bda02c26efe7",
+    "release_commit": "ff5843f"
+  },
+  "corpus": {
+    "url": "https://adryd.co/public/20240122_141253_446800000_BrandMeister_UP_24_baseband.wav",
+    "source": "https://github.com/DSheirer/sdrtrunk/issues/1803",
+    "bytes": 6438956,
+    "sha256": "5cc14eb12ce0d2fb452582484f415dc873b8b6c5df8d7a3186bcdd183986e675",
+    "format": {
+      "rate": 50000,
+      "channels": 2,
+      "width": 2,
+      "frames": 1609728
+    },
+    "license": "No redistribution license stated; original and derived audio not committed or bundled.",
+    "independent_oracle": {
+      "slot": 1,
+      "target": 9990,
+      "source": 3025209,
+      "call": "Private",
+      "color_code": null,
+      "evidence": "lwvmobile's public DSD-FME decode in SDRTrunk issue #1803 (2024-01-24). Color code 07 is observed here, not part of that independent oracle."
+    }
+  },
+  "conversion": {
+    "description": "IQ phase difference; 129-tap Hann-windowed sinc lowpass at6kHz; linear resample50k→48k; scaling .75/pi→s16LE.",
+    "discriminator_wav_sha256": "9113ec7ddedc68962646e6bec42b46cc856a57599f2fd50f3401b9fd6d6caa1b",
+    "raw_pcm_sha256": "97317098505230b34e403db39691fc9a28849d97d5c55a0c8a081cae26b585bc"
+  },
+  "cases": [
+    {
+      "name": "both-auto",
+      "mode": "-fs",
+      "voice": 3,
+      "preference": 2,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8768,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:22 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:22 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:24 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "slot1",
+      "mode": "-fs",
+      "voice": 1,
+      "preference": 2,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8604,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:25 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:25 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:27 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "slot2",
+      "mode": "-fs",
+      "voice": 2,
+      "preference": 2,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 3.2636,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "9a366b921fd6542efffd3536c34a9b2a333580229ce9c1bc970808188208b044",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          0,
+          0
+        ],
+        "rms": [
+          0.0,
+          0.0
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:27 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:27 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:30 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "voice-off",
+      "mode": "-fs",
+      "voice": 0,
+      "preference": 2,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8756,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "frames_stereo": 0,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          0,
+          0
+        ],
+        "rms": [
+          0,
+          0
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 0
+      },
+      "stdout_equals_wav_pcm": true,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:31 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:31 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:33 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "prefer1",
+      "mode": "-fs",
+      "voice": 3,
+      "preference": 0,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8632,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:34 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:34 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:36 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "prefer2",
+      "mode": "-fs",
+      "voice": 3,
+      "preference": 1,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8588,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:36 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:36 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:38 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "single-slot-decoder",
+      "mode": "-fr",
+      "voice": 3,
+      "preference": 2,
+      "floating": false,
+      "exit": 0,
+      "elapsed_seconds": 2.8577,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 316800
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:39 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:39 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:41 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    },
+    {
+      "name": "float-output",
+      "mode": "-fs",
+      "voice": 3,
+      "preference": 2,
+      "floating": true,
+      "exit": 0,
+      "elapsed_seconds": 2.8585,
+      "stdout": {
+        "bytes": 1267200,
+        "sha256": "0662f5f1ab17a9c9e49212b033baa5baf358c07d4e0d2690dee8992756bfd7f1",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          158184,
+          0
+        ],
+        "rms": [
+          0.11541767095653915,
+          0.0
+        ],
+        "channels_equal": false,
+        "finite": true
+      },
+      "wav": {
+        "rate": 8000,
+        "channels": 2,
+        "width": 2,
+        "frames": 0
+      },
+      "stdout_equals_wav_pcm": false,
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      },
+      "event_log": "2026-10-18 18:12:42 DSD-neo Started and Event History Initialized; \n2026-10-18 18:12:42 Any decoded voice calls or data calls display here; \n2026-10-18 18:12:44 DMR TGT: 00009990; SRC: 03025209; CC: 07; Private;  \n"
+    }
+  ],
+  "streams": [
+    {
+      "cancel": false,
+      "silence": false,
+      "close_before_cancel": false,
+      "was_alive_before_end": true,
+      "bytes_before_end": {
+        "stdout": 633600,
+        "stderr": 10819
+      },
+      "first_read_seconds": {
+        "stderr": 0.018284125020727515,
+        "stdout": 0.3959072500001639
+      },
+      "exit": 0,
+      "shutdown_seconds": 0.3165,
+      "required_sigkill": false,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      }
+    },
+    {
+      "cancel": true,
+      "silence": false,
+      "close_before_cancel": false,
+      "was_alive_before_end": true,
+      "bytes_before_end": {
+        "stdout": 633600,
+        "stderr": 10819
+      },
+      "first_read_seconds": {
+        "stderr": 0.03824587498093024,
+        "stdout": 0.4374670410179533
+      },
+      "exit": -9,
+      "shutdown_seconds": 3.0088,
+      "required_sigkill": true,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": false
+      }
+    },
+    {
+      "cancel": true,
+      "silence": false,
+      "close_before_cancel": true,
+      "was_alive_before_end": true,
+      "bytes_before_end": {
+        "stdout": 633600,
+        "stderr": 10819
+      },
+      "first_read_seconds": {
+        "stderr": 0.03696216701064259,
+        "stdout": 0.41020920797018334
+      },
+      "exit": 0,
+      "shutdown_seconds": 0.4202,
+      "required_sigkill": false,
+      "stdout": {
+        "bytes": 633600,
+        "sha256": "0366bbb7160bb25aa4dafb57ac8f4c2d574f47e36f9da5becc0cca028272378e",
+        "frames_stereo": 158400,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          157903,
+          157903
+        ],
+        "rms": [
+          2278.326156211679,
+          2278.326156211679
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "protocol": {
+        "color_codes": [
+          "07",
+          "XX"
+        ],
+        "calls": [
+          [
+            "1",
+            "9990",
+            "3025209",
+            "Private"
+          ]
+        ],
+        "sync_losses": 2,
+        "flco_fec_errors": 13,
+        "shutdown_seen": true
+      }
+    },
+    {
+      "cancel": false,
+      "silence": true,
+      "close_before_cancel": false,
+      "was_alive_before_end": true,
+      "bytes_before_end": {
+        "stdout": 0,
+        "stderr": 596
+      },
+      "first_read_seconds": {
+        "stderr": 0.026804958994034678
+      },
+      "exit": 0,
+      "shutdown_seconds": 0.1399,
+      "required_sigkill": false,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "frames_stereo": 0,
+        "whole_stereo_frames": true,
+        "nonzero_samples": [
+          0,
+          0
+        ],
+        "rms": [
+          0,
+          0
+        ],
+        "channels_equal": true,
+        "finite": true
+      },
+      "protocol": {
+        "color_codes": [],
+        "calls": [],
+        "sync_losses": 0,
+        "flco_fec_errors": 0,
+        "shutdown_seen": true
+      }
+    }
+  ],
+  "limits": [
+    "Single-slot MS/DM sample does not validate simultaneous independent TS1 and TS2 calls.",
+    "Nonzero decoded PCM and framing are verified; speech quality is not independently scored.",
+    "No microphone, hardware, remote TCP or on-air reception.",
+    "Runtime measurements are ordinary subprocess evidence; no new REA Evidence ID is claimed."
+  ]
+}

@@ -1,3 +1,67 @@
+# Validación de RadioWorkbench 0.12.1
+
+Suite Release arm64: **218 funciones registradas, 216 aprobadas, dos opcionales
+omitidas y cero fallos**, 14,531 s una vez compilada. Se habilitó la medición de
+entrada sintética; las omisiones siguen siendo satélites y terreno con red.
+Se conservan las comprobaciones DMR independientes y del grafo de salida offline.
+
+La regresión visual verifica historial de 2048 muestras con paquetes pequeños,
+sondeos vacíos, pausas/reinicio, límite de frecuencia, cola con el cuadro más
+reciente, rechazo de una sesión anterior, colores/orden del raster y snapshots
+inmutables. La comparación aislada de entrada DMR sintética a velocidad real
+pasó de 10 a 59 cuadros en 3,072 s (3,26 → 19,21 actualizaciones/s), sin pérdida
+de muestras. El raster pasó de 104 a 4,7 µs de media. No mide FPS de pantalla,
+latencia RF a voz ni la recepción física del usuario. La captura del proceso
+existente estaba inactiva y no se usa como perfil de carga en vivo.
+
+[Suite](validation/release-0.12.1-tests.txt) ·
+[Resumen](validation/tests-0.12.1-summary.json) ·
+[Mediciones y reproducción](RELEASE-0.12.1.md).
+
+El ZIP 0.12.1/build 28 extraído pasó integridad y firma estricta; los 13 binarios
+son arm64, sin dependencias del checkout o Homebrew. La app se abrió por separado
+en CW; tras desplazar la barra lateral, captura y lectura de interfaz fallaron
+por timeout. Su proceso continuó activo. La presentación del waterfall con la
+entrada real sigue pendiente. [Paquete](validation/package-0.12.1.json) ·
+[Revisión visual parcial](validation/ui-0.12.1.json).
+
+# Validación de RadioWorkbench 0.12.0
+
+Suite Release arm64: **212 funciones registradas, 210 aprobadas, dos opcionales
+omitidas y cero fallos**, 13,572 s una vez compilada. Esta pasada sí incluye el
+runtime oficial DSD-neo y el corpus independiente DMR; se omiten descarga de
+satélites en vivo y benchmark de terreno en red. Se conservan los casos HF,
+relieve, biblioteca, DSC, imágenes, TCP y Rigctl de la versión anterior.
+
+DMR verifica PCM estéreo fragmentado, perfiles anteriores, máscara de síntesis
+TS1/TS2, parser con ANSI y errores, voz antes de EOF, cierre de entrada y WAV,
+cancelación sin EOF y cierre forzado de un proceso propio que ignora SIGTERM.
+El grafo AVAudioEngine se renderiza offline y se comprueba su límite de audio
+pendiente sin usar altavoces ni micrófono. Se corrigió una espera repetida al
+finalizar el motor y la espera del cierre queda fuera de la interfaz.
+
+El corpus externo confirma TS1, emisor 3025209, destino 9990 y llamada privada.
+CC7 es una observación del motor, sin oráculo independiente para ese campo.
+No se verificaron dos conversaciones simultáneas ni calidad perceptual. El
+audio externo se mantiene temporalmente y no se incluye en Git o en el paquete.
+
+Guía → HF: selección, ficha y botón de envío observados en 0.11; el usuario
+confirmó posteriormente BBC, 9,410 MHz y dirección Escucha. Esta confirmación
+es del usuario y no una captura de pantalla automatizada. La revisión visual
+de los otros flujos se registra por separado, sin sustituirla por los tests.
+
+[Suite completa](validation/release-0.12.0-tests.txt) ·
+[Resumen](validation/tests-0.12.0-summary.json) ·
+[Contrato independiente](validation/dmr-0.12-contract.md) · [Uso DMR](DMR-0.12.md).
+
+El paquete 0.12.0/build 27 extraído pasó integridad ZIP y firma ad hoc estricta;
+sus ejecutables son arm64, sin dependencias Homebrew o del checkout. La nueva
+app abrió en CW. SkyComputerUseService volvió a cerrarse al intentar cambiar
+a DSC y al reconectar; RadioWorkbench permaneció activa, sin un nuevo informe
+de cierre. El panel DMR y los otros flujos no se presentan como observados en
+la interfaz por esta pasada. [Verificación de paquete](validation/package-0.12.0.json) ·
+[Límite de revisión visual](validation/ui-0.12.0.json).
+
 # Validación de RadioWorkbench 0.11.0
 
 Suite Release arm64: **202 funciones registradas, 198 aprobadas y cuatro opcionales omitidas**, cero fallos, 7,438 s una vez compilada. Las omisiones son dos pruebas que requieren el runtime DSD instalado, descarga satelital en vivo y el benchmark de terreno en red. No se inició micrófono, SDR++ ni sintonía del receptor físico.

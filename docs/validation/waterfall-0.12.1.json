@@ -1,0 +1,16 @@
+{
+  "checksum" : 480000,
+  "incremental" : {
+    "iterations" : 3000,
+    "mean_us" : 4.6992776915431023,
+    "median_us" : 4.666624590754509,
+    "p95_us" : 4.916684702038765
+  },
+  "previous" : {
+    "iterations" : 3000,
+    "mean_us" : 103.9599721164753,
+    "median_us" : 104.29165558889508,
+    "p95_us" : 126.20835332199931
+  },
+  "scope" : "CPU raster construction, 256x80 RGBA; excludes SwiftUI layout and display presentation"
+}

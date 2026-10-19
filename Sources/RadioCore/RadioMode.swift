@@ -143,6 +143,8 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     public var cwEngine: CWEngine = .manual
     public var ftxStartSeconds = 0.0
     public var digitalVoiceProtocol: DigitalVoiceProtocol = .dmr
+    public var dmrSlotSelection: DMRSlotSelection = .both
+    public var dmrMonitorVoice = false
     public var mt63Variant: MT63Variant = .b1000Long
     public var dscVariant: DSCVariant = .mfHF
     public var dscDeemphasized = false
@@ -173,7 +175,7 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case frequency, wordsPerMinute, baud, shift, threshold, inverted, audioChannel, sstvFormat, sstvColorRange,
             sstvRobot36Compatibility, sstvAutoCalibrate, sstvNoiseReduction, imageAutoSync, imageStartSeconds,
-            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, fiveToneStandard, rttyEncoding, hellVariant, cwEngine, ftxStartSeconds, digitalVoiceProtocol, mt63Variant, dscVariant, dscDeemphasized
+            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, fiveToneStandard, rttyEncoding, hellVariant, cwEngine, ftxStartSeconds, digitalVoiceProtocol, dmrSlotSelection, dmrMonitorVoice, mt63Variant, dscVariant, dscDeemphasized
     }
     public init(from decoder: Decoder) throws {
         self.init()
@@ -204,6 +206,8 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
         cwEngine = try c.decodeIfPresent(CWEngine.self, forKey: .cwEngine) ?? cwEngine
         ftxStartSeconds = try c.decodeIfPresent(Double.self, forKey: .ftxStartSeconds) ?? 0
         digitalVoiceProtocol = try c.decodeIfPresent(DigitalVoiceProtocol.self, forKey: .digitalVoiceProtocol) ?? .dmr
+        dmrSlotSelection = try c.decodeIfPresent(DMRSlotSelection.self, forKey: .dmrSlotSelection) ?? .both
+        dmrMonitorVoice = try c.decodeIfPresent(Bool.self, forKey: .dmrMonitorVoice) ?? false
         mt63Variant = try c.decodeIfPresent(MT63Variant.self, forKey: .mt63Variant) ?? .b1000Long
         dscVariant = try c.decodeIfPresent(DSCVariant.self, forKey: .dscVariant) ?? .mfHF
         dscDeemphasized = try c.decodeIfPresent(Bool.self, forKey: .dscDeemphasized) ?? false

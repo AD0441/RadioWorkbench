@@ -1,0 +1,31 @@
+[0/1] Planning build
+Building for production...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[2/4] Compiling SatelliteKit Astronomy.swift
+[3/5] Compiling RadioCore ACARSAudioResampler.swift
+[4/6] Compiling RadioWorkbench RadioWorkbenchApp.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking RadioWorkbench
+Build complete! (48.59s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/mt63-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/ale-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/dsc-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/acars-helper: replacing existing signature
+[0/1] Planning build
+Building for production...
+[0/2] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'cw-helper' complete! (0.20s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/ftx-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/cw-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/multimon-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/libp372.dylib: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/libp533.dylib: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/propagation-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/itm-helper: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app/Contents/MacOS/libitm.dylib: replacing existing signature
+/var/folders/6w/n11_zcn55_7b5pxns6hbnx9h0000gn/T//radioworkbench-stage.J2bboT/RadioWorkbench.app: replacing existing signature
+/Users/sebastian/Desktop/Mis Documentos/CODEX/Aplicaciones_mias/RadioWorkbench/dist/RadioWorkbench-0.12.1.app
