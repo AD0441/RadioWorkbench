@@ -130,7 +130,9 @@ bash script/build_and_run.sh --build-only
 open dist/RadioWorkbench.app
 ```
 
-`dist/RadioWorkbench.app` y `dist/RadioWorkbench-arm64.zip` son salidas de compilación y están excluidas de Git. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
+`dist/RadioWorkbench.app` (o el bundle elegido mediante `RADIO_OUTPUT_APP_BUNDLE`) y `dist/RadioWorkbench-<versión>-macos-arm64.zip` son salidas de compilación y están excluidas de Git. Se genera un único ZIP por versión. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
+
+**Retención local:** conservar únicamente la entrega actual y la anterior, con una sola app por versión y sin ZIP duplicados. Al cerrar una entrega, retirar las versiones más antiguas, cachés regenerables, extracciones temporales y registros de intentos descartados. Conservar código, dependencias, pruebas, documentación y evidencias finales; evitar crear nuevos informes por cada intento intermedio.
 
 La pasada **0.12.1** registra **218 funciones: 216 aprobadas y dos opcionales de red omitidas**, sin fallos. Incluye actualización visual, el runtime DSD-neo oficial, una grabación DMR independiente, TS1/TS2, voz antes de EOF, cancelación, conservación del WAV y el grafo de audio renderizado offline sin altavoces. [Resultados y límites](docs/VALIDACION.md).
 

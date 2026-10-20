@@ -129,7 +129,9 @@ if [[ -d "$OUTPUT_APP_BUNDLE" ]]; then mv "$OUTPUT_APP_BUNDLE" "$PUBLISH_STAGING
 mv "$PUBLISH_STAGING_DIR/$APP_NAME.app" "$OUTPUT_APP_BUNDLE"
 rm -rf "$PUBLISH_STAGING_DIR"
 xattr -d com.apple.FinderInfo "$OUTPUT_APP_BUNDLE" 2>/dev/null || true
-/usr/bin/ditto --norsrc --noextattr -c -k --keepParent "$APP_BUNDLE" "$ROOT_DIR/dist/$APP_NAME-arm64.zip"
+# One versioned archive per delivery; do not also create an unversioned copy.
+RADIO_ZIP_VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_BUNDLE/Contents/Info.plist")"
+/usr/bin/ditto --norsrc --noextattr -c -k --keepParent "$APP_BUNDLE" "$ROOT_DIR/dist/$APP_NAME-$RADIO_ZIP_VERSION-macos-arm64.zip"
 open_app() { /usr/bin/open -n "$OUTPUT_APP_BUNDLE"; }
 open_microphone_test() {
   MICROPHONE_TEST_ARGS=(--sstv-microphone-test --diagnostics-path "${RADIO_DIAGNOSTICS_PATH:-$ROOT_DIR/docs/validation/microphone-live.json}" --probe-seconds "${RADIO_PROBE_SECONDS:-15}")
