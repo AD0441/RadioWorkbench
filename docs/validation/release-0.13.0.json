@@ -1,0 +1,27 @@
+{
+  "version": "0.13.0",
+  "build": "29",
+  "date": "2026-10-24",
+  "tests": {
+    "registered": 240,
+    "passed": 234,
+    "skipped": [
+      "satelliteLiveDownloadFromOfficialProviders()",
+      "liveVisualizationBenchmark()",
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:)",
+      "terrainRealSantiagoBenchmark()",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF()",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF()"
+    ],
+    "failed": 0,
+    "seconds": 7.795,
+    "c_hf_checks": 21,
+    "c_hf_failures": 0,
+    "log_sha256": "d1b070f912c2cafc9ee13fa353f4030e68022b2765a449bde7d67f620ea6f5ea",
+    "command": "RADIO_BUILD_PATH=<temporary build> DSD_NEO_PATH=<official installed runtime> bash script/test.sh -c release",
+    "physical_audio_started": false
+  },
+  "package": null,
+  "installation": null,
+  "ui": null
+}

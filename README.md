@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.12.1
+# RadioWorkbench · 0.13.0
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -8,9 +8,7 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 
 **Estado:** aplicación experimental en desarrollo. Las señales sintéticas y las pruebas unitarias validan el comportamiento implementado, pero no garantizan recepción RF bajo cualquier condición.
 
-**Nuevo en el código 0.12:** DMR con voz durante la recepción, selección TS1/TS2/ambos y panel con CC, identificadores, clase de llamada, procedencia y antigüedad. Contraste con una grabación independiente TS1; faltan dos conversaciones simultáneas identificadas y evaluación perceptual de voz. [Uso y límites](docs/DMR-0.12.md) · [Contrato medido](docs/validation/dmr-0.12-contract.md). La descarga enlazada abajo corresponde a la versión publicada indicada.
-
-**Corrección 0.12.1:** espectro y waterfall en vivo con actualización independiente del texto, un solo cuadro visual pendiente e historial incremental. Una entrada sintética a velocidad real pasó de 3,26 a 19,21 actualizaciones/s, sin perder audio; son cuadros entregados, no FPS de pantalla. [Medición y límites](docs/RELEASE-0.12.1.md).
+**Nuevo en 0.13.0:** registro explícito de escuchas sin audio, biblioteca y mapa con fechas/antenas y trayectos TX → RX; separación de escucha HF y enlace bilateral; pantalla propia de voz digital; búsqueda global de pases en los próximos 60 minutos; taller con 74 referencias y ficha SDR común. [Uso, migración y límites](docs/RELEASE-0.13.0.md). El waterfall conserva la actualización acotada de 0.12.1.
 
 ## Descargar y abrir
 
@@ -33,8 +31,8 @@ La versión preliminar **0.11.0** repara la transferencia de emisoras al Planifi
 | Voz digital | DSD-neo descargable: DMR con escucha durante recepción, TS1/TS2 y panel; P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR con voz WAV; un canal RF |
 | Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
 | Entrada | Micrófono, USB o cable virtual; audio TCP local con formato explícito; mezcla/canal individual y diagnóstico medido |
-| Biblioteca y taller | Copia de audio/ajustes/fechas, repetición de decodificación, papelera recuperable y referencias CW/RTTY/BPSK31 |
-| Mapas e I/Q | Mapa de recepciones con procedencia/trazas, eventos externos y SatDump LRPT offline identificado |
+| Biblioteca y taller | Escuchas manuales con audio opcional, instantáneas de RX/antena, papelera y 74 referencias de laboratorio con espectro/waterfall |
+| Mapas e I/Q | Trayectos históricos de escucha, filtros por fecha/hora/antena/banda/origen, trazas de eventos y SatDump LRPT offline |
 | Guía de radios | Horarios EiBi, cruce técnico HFCC, favoritas y avisos de inicio |
 | Condiciones HF | NOAA, D-RAP, Band Info, ionosondas y pronóstico NOAA de tres días |
 | Propagación | ITU-R P.533/P.372 para HF; NTIA ITM con perfiles de terreno para VHF/UHF |
@@ -92,11 +90,11 @@ El catálogo de investigación contiene 103 entradas con fuentes y estado de dis
 
 ## Guía de radios, condiciones y propagación
 
-**Guía de radios:** consulta EiBi con conexión y conserva la última copia sin conexión. Muestra horarios UTC, filtros, favoritas y avisos de inicio. HFCC aporta un candidato por frecuencia/horario/idioma con sitio y potencia programados. Eso no demuestra la misma instalación física. El planificador ofrece esa potencia como supuesto explícito, conserva la procedencia y pide los datos que faltan. Una potencia de horario no es medición en tiempo real. **Enviar al Planificador HF** copia nombre y frecuencia aunque no se conozcan las coordenadas. [Guía y revisión de RADIO BUNKER SWL](docs/RADIO-BUNKER-REA.md).
+**Guía de radios:** consulta EiBi con conexión y conserva la última copia sin conexión. Muestra horarios UTC, filtros, favoritas y avisos de inicio. HFCC aporta un candidato por frecuencia/horario/idioma con sitio y potencia programados. Eso no demuestra la misma instalación física. El planificador ofrece esa potencia como supuesto explícito, conserva la procedencia y pide los datos que faltan. Una potencia de horario no es medición en tiempo real. **Planificar escucha** copia nombre y frecuencia aunque no se conozcan las coordenadas. **Registrar escucha en biblioteca…** permite anotar un resultado real con fecha, antena y audio opcional. [Guía y revisión de RADIO BUNKER SWL](docs/RADIO-BUNKER-REA.md).
 
 **Condiciones HF:** datos NOAA Kp/F10.7 y escalas R/S/G; pronóstico de tres días; absorción D-RAP en la celda correspondiente a la ubicación; Band Info día/noche con avisos; e ionosondas cercanas con foF2, MUF a 3000 km, fecha y confianza. Cada fuente conserva su fecha y su procedencia.
 
-**Planificador HF:** fecha/hora UTC seleccionable, R12 0–311 con control de mes y campos pendientes visibles. ITU-R P.533/P.372 estima enlaces y contactos para ubicación, banda, potencia y rumbo. El cálculo describe condiciones mensuales y presupuesto de radio; se presenta separado de las observaciones solares y los spots recientes. Cambiar potencia no garantiza un contacto: ruido, antenas, modo y condiciones del trayecto influyen en el resultado.
+**Planificador HF:** dos flujos separados: escucha con geometría/horario sin exigir potencia y estimación P.533 opcional; enlace A → B y B → A con potencia, ganancias y requisitos RX propios. Fecha/hora UTC seleccionable, R12 0–311 con control de mes y campos pendientes visibles. ITU-R P.533/P.372 estima enlaces y contactos para ubicación, banda, potencia y rumbo. El cálculo describe condiciones mensuales y presupuesto de radio; se presenta separado de las observaciones solares y los spots recientes. Cambiar potencia no garantiza un contacto: ruido, antenas, modo y condiciones del trayecto influyen en el resultado.
 
 **VHF/UHF con terreno:** origen y destino editables o seleccionables en Apple Maps, alturas AGL, frecuencia, potencia, ganancias y umbral RX. NTIA ITM calcula cada celda de una malla 65 × 65 o 129 × 129 con el perfil DEM completo TX→celda; conserva sombras detrás de crestas y recuperaciones en cumbres. Las elevaciones AMSL y alturas AGL se combinan dentro del modelo. El enlace exacto reutiliza el DEM de la malla o descarga su corredor de teselas. El horizonte de Tierra lisa es una referencia opcional apagada inicialmente. Apple Maps aporta contexto visual y las alturas proceden de Mapzen Terrain Tiles; se muestran resolución y avisos. [Método y validación geográfica](docs/TERRAIN-COVERAGE.md).
 

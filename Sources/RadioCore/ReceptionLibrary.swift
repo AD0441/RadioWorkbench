@@ -60,7 +60,7 @@ public enum ReceptionLibraryError: LocalizedError {
         case .missingAudio: "Falta el audio guardado de esta recepción. Su ficha se conserva; puedes volver a importar el original."
         case .unsafePath: "La ruta de la biblioteca o del audio no es válida. No se modificó la ficha guardada."
         case .invalidIndex: "No se pudo leer la biblioteca. El índice existente se conserva para poder recuperarlo."
-        case .full: "La biblioteca alcanzó el máximo de 1.000 recepciones, incluidas las de la papelera."
+        case .full: "La biblioteca admite 1.000 audios y 5.000 escuchas anotadas, incluidas las de la papelera."
         case .unsupportedSource: "Esta ficha corresponde a I/Q. La biblioteca de esta versión abre grabaciones de audio."
         }
     }
@@ -73,9 +73,15 @@ public actor ReceptionLibraryRepository {
     public nonisolated let maximumAudioBytes: Int64
     private let manager = FileManager.default
     private var sessions: [ReceptionSession] = []
+    private var observations: [ListeningObservation] = []
     private var loaded = false
+    private var loadedSchemaVersion = 2
     private let maximumIndexBytes = 10_000_000
-    private struct Document: Codable { let schemaVersion: Int; let sessions: [ReceptionSession] }
+    private struct Document: Codable {
+        let schemaVersion: Int
+        let sessions: [ReceptionSession]
+        let observations: [ListeningObservation]?
+    }
     private var indexURL: URL { directory.appendingPathComponent("library.json") }
     private var audioDirectory: URL { directory.appendingPathComponent("Audio", isDirectory: true) }
 
@@ -95,11 +101,41 @@ public actor ReceptionLibraryRepository {
         let document: Document
         do { document = try decoder.decode(Document.self, from: bytes) }
         catch { throw ReceptionLibraryError.invalidIndex }
-        guard document.schemaVersion == 1, document.sessions.count <= 1000,
+        guard (1...2).contains(document.schemaVersion), document.sessions.count <= 1000,
               Set(document.sessions.map(\.id)).count == document.sessions.count,
-              document.sessions.allSatisfy(validSession) else { throw ReceptionLibraryError.invalidIndex }
-        sessions = document.sessions; loaded = true
+              document.sessions.allSatisfy(validSession),
+              (document.observations?.count ?? 0) <= 5000,
+              Set((document.observations ?? []).map(\.id)).count == (document.observations?.count ?? 0),
+              Set(document.sessions.map(\.id)).isDisjoint(with: (document.observations ?? []).map(\.id)),
+              (document.observations ?? []).allSatisfy(\.isValid) else { throw ReceptionLibraryError.invalidIndex }
+        sessions = document.sessions; observations = document.observations ?? []; loadedSchemaVersion = document.schemaVersion; loaded = true
         return ordered(sessions)
+    }
+
+    public func loadObservations() throws -> [ListeningObservation] {
+        _ = try load()
+        return observations.sorted { $0.observedAt == $1.observedAt ? $0.id.uuidString < $1.id.uuidString : $0.observedAt > $1.observedAt }
+    }
+    public func saveObservation(_ observation: ListeningObservation) throws {
+        _ = try load()
+        guard observation.isValid, !sessions.contains(where: { $0.id == observation.id }),
+              observation.audioSessionID.map({ id in sessions.contains { $0.id == id } }) ?? true else {
+            throw ReceptionLibraryError.invalidMetadata
+        }
+        var updated = observations
+        if let index = updated.firstIndex(where: { $0.id == observation.id }) { updated[index] = observation }
+        else {
+            guard updated.count < 5000 else { throw ReceptionLibraryError.full }
+            updated.append(observation)
+        }
+        try persist(sessions, observations: updated)
+        observations = updated
+    }
+    public func trashObservation(id: UUID, restore: Bool = false) throws {
+        _ = try load()
+        guard var item = observations.first(where: { $0.id == id }) else { throw ReceptionLibraryError.invalidMetadata }
+        item.trashedAt = restore ? nil : Self.seconds(Date())
+        try saveObservation(item)
     }
 
     public func importAudio(from source: URL, title: String, mode: RadioMode, settings: DecoderSettings,
@@ -220,13 +256,19 @@ public actor ReceptionLibraryRepository {
         try output.synchronize()
         return (total, hash.finalize().map { String(format: "%02x", $0) }.joined())
     }
-    private func persist(_ updated: [ReceptionSession]) throws {
+    private func persist(_ updated: [ReceptionSession], observations replacement: [ListeningObservation]? = nil) throws {
         try prepareDirectories()
         if manager.fileExists(atPath: indexURL.path) { try requireRegularFile(indexURL) }
         let encoder = JSONEncoder(); encoder.dateEncodingStrategy = .iso8601; encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let bytes = try encoder.encode(Document(schemaVersion: 1, sessions: updated))
+        let bytes = try encoder.encode(Document(schemaVersion: 2, sessions: updated, observations: replacement ?? observations))
         guard bytes.count <= maximumIndexBytes else { throw ReceptionLibraryError.invalidIndex }
+        if loadedSchemaVersion == 1, manager.fileExists(atPath: indexURL.path) {
+            let backup = directory.appendingPathComponent("library-schema-1-backup.json")
+            if manager.fileExists(atPath: backup.path) { try requireRegularFile(backup) }
+            else { try boundedIndexData().write(to: backup, options: .atomic) }
+        }
         try bytes.write(to: indexURL, options: .atomic)
+        loadedSchemaVersion = 2
     }
     private func validSession(_ session: ReceptionSession) -> Bool {
         let audio = session.audio

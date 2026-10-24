@@ -7,6 +7,9 @@ struct ReceiverView: View {
         ReceiverSpectrumView(receiver: receiver)
     }
     var body: some View {
+        if receiver.mode == .digitalVoice {
+            DigitalVoiceView(receiver: receiver)
+        } else {
         ScrollView {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
@@ -78,6 +81,7 @@ struct ReceiverView: View {
             Text("Decodificadores experimentales: verifica la sintonía y contrasta señales difíciles. CWKit estima tono y velocidad; el motor Manual conserva sus ajustes. PSK31 requiere frecuencia estable.")
                 .font(.caption).foregroundStyle(.secondary)
         }.padding(24)
+        }
         }
     }
 }

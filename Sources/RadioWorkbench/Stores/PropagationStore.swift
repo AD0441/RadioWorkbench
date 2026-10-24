@@ -19,7 +19,26 @@ import RadioCore
     var bandChangesAt: Date?
     var originCountry = ""
     var targetCountry = ""
-    var listening = false
+    var listening = true {
+        didSet { if oldValue != listening { cancelCalculation(); report = nil; returnReport = nil } }
+    }
+    var estimatesReception = false {
+        didSet { if listening && !estimatesReception { cancelCalculation() } }
+    }
+    var returnReport: HFPropagationReport?
+    var planningBroadcast: BroadcastEntry?
+    private struct Assumptions {
+        var watts = "100", bandwidth = "2400", requiredSNR = "10", txGain = "0", rxGain = "0"
+        var noise = 2
+    }
+    private var receiveAssumptions = Assumptions(watts: "")
+    private var linkAssumptions = Assumptions()
+    var returnWatts = "100"
+    var returnTXGain = "0"
+    var returnRXGain = "0"
+    var returnBandwidth = "2400"
+    var returnRequiredSNR = "10"
+    var returnNoise = 2
     var targetLatitude = ""
     var targetLongitude = ""
     var targetName = "Destino del enlace"
@@ -29,20 +48,36 @@ import RadioCore
     var stationPowerCandidate: HFCCTransmission?
     var planningDate = Date()
     var usesCurrentPlanningTime = true
-    var watts = "100"
+    var watts: String {
+        get { listening ? receiveAssumptions.watts : linkAssumptions.watts }
+        set { if listening { receiveAssumptions.watts = newValue } else { linkAssumptions.watts = newValue } }
+    }
     private var wattsReference: Double?
     private var wattsDescription = "Potencia TX manual; introduce un valor conocido o un supuesto explícito."
     var wattsSource: String {
         get {
+            if !listening { return "Potencia de la estación A; ganancias, ruido y requisitos de B se introducen para A → B. El regreso usa parámetros propios." }
             if let wattsReference, number(watts) != wattsReference { return "Potencia TX modificada manualmente; ya no coincide con el supuesto HFCC elegido." }
             return wattsDescription
         }
         set { wattsDescription = newValue }
     }
-    var bandwidth = "2400"
-    var requiredSNR = "10"
-    var txGain = "0"
-    var rxGain = "0"
+    var bandwidth: String {
+        get { listening ? receiveAssumptions.bandwidth : linkAssumptions.bandwidth }
+        set { if listening { receiveAssumptions.bandwidth = newValue } else { linkAssumptions.bandwidth = newValue } }
+    }
+    var requiredSNR: String {
+        get { listening ? receiveAssumptions.requiredSNR : linkAssumptions.requiredSNR }
+        set { if listening { receiveAssumptions.requiredSNR = newValue } else { linkAssumptions.requiredSNR = newValue } }
+    }
+    var txGain: String {
+        get { listening ? receiveAssumptions.txGain : linkAssumptions.txGain }
+        set { if listening { receiveAssumptions.txGain = newValue } else { linkAssumptions.txGain = newValue } }
+    }
+    var rxGain: String {
+        get { listening ? receiveAssumptions.rxGain : linkAssumptions.rxGain }
+        set { if listening { receiveAssumptions.rxGain = newValue } else { linkAssumptions.rxGain = newValue } }
+    }
     var frequencyMHz = "7.1"
     var r12 = ""
     private var r12Reference: Double?
@@ -52,7 +87,10 @@ import RadioCore
         if let value = number(r12), value != r12Reference { return "R12 introducido manualmente; comprueba su mes y procedencia." }
         return r12Description
     }
-    var noise = 2
+    var noise: Int {
+        get { listening ? receiveAssumptions.noise : linkAssumptions.noise }
+        set { if listening { receiveAssumptions.noise = newValue } else { linkAssumptions.noise = newValue } }
+    }
     var report: HFPropagationReport?
     var calculationBusy = false
     var calculationError: String?
@@ -284,6 +322,8 @@ import RadioCore
     }
     func useStation(_ entry: BroadcastEntry, guide: BroadcastStore) {
         cancelCalculation(); report = nil
+        listening = true; estimatesReception = false; planningBroadcast = entry
+        returnReport = nil
         guide.selectedID = entry.id
         targetLatitude = ""; targetLongitude = ""; targetCountry = ""
         targetName = "\(entry.station) · \(entry.frequencyKHz) kHz · \(entry.time) UTC"
@@ -302,8 +342,9 @@ import RadioCore
         else if entry.modulation == "USB" || entry.modulation == "LSB" { bandwidth = "2700" }
         else if entry.modulation.hasPrefix("CW") { bandwidth = "500" }
         else if entry.modulation.hasPrefix("DRM") { bandwidth = "10000" }
+        else { bandwidth = "" }
         listening = true
-        stationTransferNotice = "Copiados nombre, frecuencia y modo de escucha. " + (targetLatitude.isEmpty ? "El sitio EiBi no es único o no tiene coordenadas: elige un sitio o completa el emisor remoto. " : "Coordenadas del transmisor tomadas de EiBi. ") + "Potencia pendiente; TX 0 dBi es un supuesto. El ancho RX es inicial, ajustable al receptor."
+        stationTransferNotice = "Preparada escucha de emisora: nombre, frecuencia y sintonía. " + (targetLatitude.isEmpty ? "El sitio EiBi no es único o no tiene coordenadas: elige un sitio o completa el emisor remoto. " : "Coordenadas del transmisor tomadas de EiBi. ") + "Distancia y geometría disponibles sin potencia. Activa P.533 solo si conoces la potencia remota o eliges un supuesto explícito."
         calculationError = nil
     }
     func useChosenStationSite() {
@@ -323,7 +364,8 @@ import RadioCore
         let local = origin.map { "\($0.latitude), \($0.longitude)" } ?? "pendiente"
         let remote = "\(targetLatitude), \(targetLongitude)"
         let frequency = RadioNumericText.frequencyMHz(frequencyMHz).map { String($0) } ?? frequencyMHz
-        return "\(listening ? "Escucha" : "Emisión") · \(targetName)\nTX: \(listening ? remote : local)\nRX: \(listening ? local : remote)\nFecha UTC: \(ISO8601DateFormatter().string(from: date))\nFrecuencia: \(frequency) MHz\nPotencia TX: \(watts.isEmpty ? "pendiente" : watts) W\nAncho de ruido RX: \(bandwidth) Hz · SNR requerido: \(requiredSNR) dB\nGanancias TX/RX: \(txGain)/\(rxGain) dBi · R12: \(r12)\n\(r12Source)\n\(wattsSource)\nP.533: estimación mensual por hora UTC, antenas de ganancia constante."
+        let returning = listening ? "" : "\nB → A · potencia TX B: \(returnWatts) W · ganancia TX B: \(returnTXGain) dBi · ganancia RX A: \(returnRXGain) dBi · ancho RX A: \(returnBandwidth) Hz · SNR requerido A: \(returnRequiredSNR) dB · ruido RX A: \(returnNoise)"
+        return "\(listening ? "Escucha" : "Enlace A → B y B → A") · \(targetName)\nTX: \(listening ? remote : local)\nRX: \(listening ? local : remote)\nFecha UTC: \(ISO8601DateFormatter().string(from: date))\nFrecuencia: \(frequency) MHz\nPotencia TX: \(watts.isEmpty ? "pendiente" : watts) W\nAncho de ruido RX: \(bandwidth) Hz · SNR requerido: \(requiredSNR) dB\nGanancias TX/RX: \(txGain)/\(rxGain) dBi · R12: \(r12)\n\(r12Source)\n\(wattsSource)\nP.533: estimación mensual por hora UTC, antenas de ganancia constante.\(returning)"
     }
     func inputProblems(origin: RadioLocation?, date: Date) -> [String] {
         var problems: [String] = []
@@ -346,18 +388,46 @@ import RadioCore
         let input = HFPropagationInput(origin: listening ? target : origin, target: listening ? origin : target, date: date, r12: r, watts: p, bandwidth: bw, requiredSNR: snr, txGain: tx, rxGain: rx, noise: noise, frequencyMHz: f)
         return input.isValid ? input : nil
     }
+    func reverseInput(origin: RadioLocation?, date: Date) -> HFPropagationInput? {
+        guard !listening, let forward = input(origin: origin, date: date),
+              let power = number(returnWatts), let tx = number(returnTXGain), let rx = number(returnRXGain),
+              let bw = number(returnBandwidth), let snr = number(returnRequiredSNR) else { return nil }
+        return forward.reversed(watts: power, bandwidth: bw, requiredSNR: snr, txGain: tx, rxGain: rx, noise: returnNoise)
+    }
+    func pathSummary(origin: RadioLocation?, date: Date) -> String {
+        guard let origin, let target = RadioLocation(latitude: targetLatitude, longitude: targetLongitude) else {
+            return "Completa ubicación RX y sitio remoto para distancia, rumbo e iluminación. La potencia no es necesaria para esta ficha."
+        }
+        let midpoint = origin.destination(km: origin.distance(to: target) / 2, bearing: origin.bearing(to: target))
+        let sun = [origin.solarElevation(at: date), midpoint?.solarElevation(at: date) ?? 0, target.solarElevation(at: date)]
+        return String(format: "%.0f km · rumbo local → remoto %.0f° · Sol local / punto medio / remoto: %.1f° / %.1f° / %.1f°", origin.distance(to: target), origin.bearing(to: target), sun[0], sun[1], sun[2])
+    }
+    var limitingDirection: String? {
+        guard let a = report, let b = returnReport,
+              let ar = a.hourly.first(where: { $0.hour == a.hourUTC })?.reliability,
+              let br = b.hourly.first(where: { $0.hour == b.hourUTC })?.reliability else { return nil }
+        return "Dirección limitante por BCR mensual: \(ar <= br ? "A → B" : "B → A") · \(min(ar, br).formatted(.number.precision(.fractionLength(1)))) %. No es una probabilidad de contacto bilateral en tiempo real."
+    }
     func calculate(origin: RadioLocation?, date: Date) {
-        let problems = inputProblems(origin: origin, date: date)
+        var problems = inputProblems(origin: origin, date: date)
+        if !listening && reverseInput(origin: origin, date: date) == nil {
+            problems.append("Completa los parámetros de regreso B → A: potencia B, ganancia TX B, ganancia RX A, ancho/SNR y ruido RX A.")
+        }
         guard problems.isEmpty, let input = input(origin: origin, date: date) else {
             calculationError = problems.joined(separator: "\n"); return
         }
         cancelCalculation(); calculationBusy = true; calculationError = nil
         let token = generation
+        let reverse = listening ? nil : reverseInput(origin: origin, date: date)
+        report = nil; returnReport = nil
         calculationTask = Task {
             do {
                 let result = try await engine.predict(input)
                 guard token == generation else { return }
-                report = result
+                var returning: HFPropagationReport?
+                if let reverse { returning = try await engine.predict(reverse) }
+                guard token == generation, !Task.isCancelled else { return }
+                report = result; returnReport = returning
             } catch is CancellationError { }
             catch { if token == generation { calculationError = error.localizedDescription } }
             if token == generation { calculationBusy = false }

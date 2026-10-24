@@ -28,6 +28,13 @@ import RadioCore
     var alertFavorites: Set<String>
     var alertLeadMinutes: Int
     var alertStatus = "Activa avisos en el detalle de una emisora favorita."
+    var receiverName = UserDefaults.standard.string(forKey: "stationReceiverName") ?? ""
+    var antennaName = UserDefaults.standard.string(forKey: "stationAntennaName") ?? ""
+    var listeningOrigin = ListeningOrigin(rawValue: UserDefaults.standard.string(forKey: "stationListeningOrigin") ?? "") ?? .local
+    var stationSnapshot: ListeningStation {
+        ListeningStation(location: RadioLocation(latitude: latitude, longitude: longitude), receiver: receiverName,
+                         antenna: antennaName, origin: listeningOrigin)
+    }
     var latitude: String
     var longitude: String
     private let service = BroadcastService()
@@ -139,6 +146,9 @@ import RadioCore
         } catch { alertStatus = "No se pudieron programar avisos: \(error.localizedDescription)" }
     }
     func saveLocation() {
+        UserDefaults.standard.set(receiverName, forKey: "stationReceiverName")
+        UserDefaults.standard.set(antennaName, forKey: "stationAntennaName")
+        UserDefaults.standard.set(listeningOrigin.rawValue, forKey: "stationListeningOrigin")
         UserDefaults.standard.set(latitude, forKey: "listenerLatitude"); UserDefaults.standard.set(longitude, forKey: "listenerLongitude")
     }
     var position: (Double,Double)? {

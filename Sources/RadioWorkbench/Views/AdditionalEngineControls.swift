@@ -71,32 +71,5 @@ struct AdditionalEngineControls: View {
                 Text("En vivo: espera al siguiente límite UTC. SNR no estimado.").font(.caption).foregroundStyle(.secondary)
             }
         }
-        if receiver.mode == .digitalVoice {
-            GroupBox("DSD-neo · recepción de un canal") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Picker("Protocolo", selection: $receiver.settings.digitalVoiceProtocol) { ForEach(DigitalVoiceProtocol.allCases) { Text($0.rawValue).tag($0) } }.frame(width: 300).disabled(receiver.busy)
-                    if receiver.settings.digitalVoiceProtocol == .dmr {
-                        Picker("Intervalo de voz", selection: $receiver.settings.dmrSlotSelection) {
-                            ForEach(DMRSlotSelection.allCases) { Text($0.title).tag($0) }
-                        }.frame(width: 350).disabled(receiver.busy)
-                        Toggle("Escuchar voz DMR durante la recepción", isOn: $receiver.settings.dmrMonitorVoice).disabled(receiver.busy)
-                        Text("TS1 y TS2 comparten la frecuencia. Elige cuál escuchar antes de iniciar; el panel puede conservar datos de ambos. Con voz activada, los archivos se procesan a velocidad de reproducción. La salida usa los altavoces o auriculares del sistema.")
-                            .font(.caption).foregroundStyle(.secondary)
-                        DMRStatusView(receiver: receiver)
-                    }
-                    if ExternalAudioEngine.dsdInstalledURL == nil {
-                        Button(receiver.engineDownloading ? "Descargando…" : "Descargar motor oficial arm64 (9 MB)") { receiver.installDSD() }
-                            .disabled(receiver.engineDownloading || receiver.busy || !ExternalAudioEngine.dsdSupported)
-                    } else { Label("DSD-neo 2.10.0 instalado", systemImage: "checkmark.circle") }
-                    Text("El paquete oficial requiere macOS 26. Se descarga desde GitHub y se verifica SHA-256. Solo audio del canal seleccionado; sin control del SDR ni claves de cifrado.").font(.caption).foregroundStyle(.secondary)
-                    if !receiver.engineNotice.isEmpty { Text(receiver.engineNotice).font(.caption).textSelection(.enabled) }
-                    HStack {
-                        Button("Reproducir voz") { receiver.playVoice() }.disabled(receiver.busy || receiver.voiceFinalizing || receiver.voiceURL == nil)
-                        Button("Guardar voz WAV…") { receiver.exportVoice() }.disabled(receiver.busy || receiver.voiceFinalizing || receiver.voiceURL == nil)
-                        Text("Disponible al terminar o detener. Máximo 30 min por sesión.").font(.caption).foregroundStyle(.secondary)
-                    }
-                }.padding(5)
-            }
-        }
     }
 }

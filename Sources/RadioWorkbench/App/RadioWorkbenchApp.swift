@@ -16,13 +16,13 @@ struct RadioWorkbenchApp: App {
         WindowGroup("RadioWorkbench") {
             ContentView(receiver: receiver, broadcasts: broadcasts, propagation: propagation, rbnStore: rbnStore,
                         consultations: consultations, aprs: aprs, satellites: satellites)
-                .frame(minWidth: 960, minHeight: 660)
+                .frame(minWidth: 1100, minHeight: 660)
                 .task {
                     await MicrophoneDiagnostic.runIfRequested(receiver: receiver)
                     await FileReceptionDiagnostic.runIfRequested(receiver: receiver)
                 }
         }
-        .defaultSize(width: 1180, height: 800)
+        .defaultSize(width: 1360, height: 850)
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("Abrir audio…") { receiver.openAudio() }.keyboardShortcut("o").disabled(!receiver.mode.isAudioAvailable || !receiver.isDecoderSelected)

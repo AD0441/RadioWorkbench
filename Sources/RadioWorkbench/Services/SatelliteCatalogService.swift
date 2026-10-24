@@ -118,6 +118,9 @@ actor SatelliteCatalogService {
         } catch { errors["Caché local"] = error.localizedDescription }
         return errors == result.sourceErrors ? result : snapshot(errors)
     }
+    nonisolated static func recentReports(_ reports: [SatelliteStatusReport], now: Date) -> [SatelliteStatusReport] {
+        reports.filter { (-300...72 * 3_600).contains(now.timeIntervalSince($0.reportedAt)) }
+    }
     static func parseReports(_ data: Data, now: Date) throws -> [SatelliteStatusReport] {
         guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any], let rows = root["data"] as? [[String: Any]] else { throw CatalogError.invalidResponse("reportes AMSAT") }
         return rows.compactMap { row in

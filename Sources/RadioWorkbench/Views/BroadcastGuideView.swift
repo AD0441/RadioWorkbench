@@ -4,6 +4,7 @@ import RadioCore
 struct BroadcastGuideView: View {
     @Bindable var guide: BroadcastStore
     let onPlanHF: (BroadcastEntry) -> Void
+    let onRecord: (BroadcastEntry) -> Void
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let rows = guide.results(at: context.date)
@@ -55,13 +56,14 @@ struct BroadcastGuideView: View {
                         if let id = ids.first, let e = rows.first(where: { $0.id == id }) {
                             Button(guide.favorites.contains(id) ? "Quitar de favoritos" : "Guardar favorito") { guide.toggleFavorite(e) }
                             Button("Copiar frecuencia") { copyFrequency(e) }
-                            Button("Enviar al Planificador HF") { onPlanHF(e) }
+                            Button("Planificar escucha") { onPlanHF(e) }
+                            Button("Registrar escucha en biblioteca…") { onRecord(e) }
                         }
                     }
                     .frame(minHeight: 180)
                 }
                 if let e = guide.selectedEntry {
-                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide, onPlanHF: onPlanHF)
+                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide, onPlanHF: onPlanHF, onRecord: onRecord)
                         .frame(maxHeight: 300)
                 }
                 HStack {
@@ -121,6 +123,7 @@ struct BroadcastDetailView: View {
     let hfcc: HFCCTransmission?
     @Bindable var guide: BroadcastStore
     let onPlanHF: (BroadcastEntry) -> Void
+    let onRecord: (BroadcastEntry) -> Void
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
@@ -144,7 +147,8 @@ struct BroadcastDetailView: View {
                 }
                 let ref = guide.snapshot?.reference ?? BroadcastReference()
                 HStack {
-                    Button("Enviar al Planificador HF", systemImage: "arrow.up.right.square") { onPlanHF(entry) }
+                    Button("Registrar escucha en biblioteca…", systemImage: "books.vertical") { onRecord(entry) }.buttonStyle(.borderedProminent)
+                    Button("Planificar escucha", systemImage: "arrow.up.right.square") { onPlanHF(entry) }
                     Button("Copiar ficha") {
                         let site = ref.site(for: entry)
                         let text = "\(entry.station)\n\(entry.frequencyKHz) kHz · \(entry.modulation)\n\(entry.time) UTC · días \(entry.days)\nSitio: \(site?.name ?? entry.site)\n" + (site.map { "Coordenadas EiBi: \($0.latitude), \($0.longitude)\n" } ?? "Coordenadas: pendientes\n") + "Potencia HFCC candidata: \(hfcc?.powerKW.map { "\($0) kW" } ?? "sin dato") · sitio \(hfcc?.siteCode ?? "sin verificar")\nFuente: EiBi · \(guide.snapshot?.season ?? "")"

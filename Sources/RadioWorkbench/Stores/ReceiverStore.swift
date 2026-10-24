@@ -28,6 +28,7 @@ final class ReceiverStore {
     var multimonRecords: [MultimonRecord] = []
     var engineRecords: [AudioEngineRecord] = []
     var voiceURL: URL?
+    var voiceProtocol: DigitalVoiceProtocol?
     var voiceFinalizing = false
     var dmrStatus: DMRStatus?
     var voiceFrames: UInt64 = 0
@@ -141,6 +142,12 @@ final class ReceiverStore {
         if settings.dscVariant == .vhf { settings.frequency = 1700; rfModulation = .fm; rfBandwidth = 16000 }
         else { settings.frequency = 1700; rfModulation = .usb; rfBandwidth = 2400 }
     }
+    func applyDigitalVoicePreset() {
+        guard !busy, mode == .digitalVoice else { return }
+        let preset = settings.digitalVoiceProtocol.receptionPreset
+        rfModulation = preset.modulation
+        rfBandwidth = preset.rfBandwidthHz
+    }
     func openAudio() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.audio]; panel.allowsMultipleSelection = false
@@ -249,7 +256,7 @@ final class ReceiverStore {
         dmrStatus = nil; voiceFrames = 0; voiceOutputDropped = 0
         voicePlayer?.stop(); voicePlayer = nil
         if let url = voiceURL, url.lastPathComponent.hasPrefix("RadioWorkbench-voice-") { let finishing = voiceFinalization; Task { await finishing?.value; try? FileManager.default.removeItem(at: url) } }
-        voiceURL = nil
+        voiceURL = nil; voiceProtocol = nil
     }
     private func prepareDMRVoiceOutput() throws -> (@Sendable (DigitalVoicePCMChunk) -> Void)? {
         guard mode == .digitalVoice, settings.digitalVoiceProtocol == .dmr, settings.dmrMonitorVoice else { return nil }
@@ -263,7 +270,7 @@ final class ReceiverStore {
     }
     func exportVoice() {
         guard !busy, !voiceFinalizing, let url = voiceURL else { return }
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = "voz-\(settings.digitalVoiceProtocol.rawValue).wav"
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = "voz-\((voiceProtocol ?? settings.digitalVoiceProtocol).rawValue).wav"
         guard panel.runModal() == .OK, let destination = panel.url else { return }
         do { try Data(contentsOf: url).write(to: destination, options: .atomic) } catch { self.error = error.localizedDescription }
     }
@@ -326,7 +333,7 @@ final class ReceiverStore {
         }
         if mode.isMultimon { multimonRecords = value.multimonRecords }
         engineRecords = value.engineRecords
-        if let voice = value.voiceURL { voiceURL = voice }
+        if let voice = value.voiceURL { voiceURL = voice; voiceProtocol = settings.digitalVoiceProtocol }
         dmrStatus = value.dmrStatus; voiceFrames = value.voiceFrames
         voiceOutputDropped = dmrVoiceMonitor?.snapshot.dropped ?? voiceOutputDropped
         if detail != value.detail { detail = value.detail }
@@ -362,7 +369,8 @@ final class ReceiverStore {
         settings.audioChannel = .mix; decode(url)
     }
     func loadExample() {
-        if mode == .digitalVoice { settings.digitalVoiceProtocol = .m17 }
+        guard !busy else { return }
+        if mode == .digitalVoice { confirmM17DataExample(); return }
         if mode == .ft8 || mode == .ft4 { settings.ftxStartSeconds = 0 }
         let name = switch mode {
         case .digitalVoice: "m17_packet_48000_synthetic"
@@ -404,6 +412,21 @@ final class ReceiverStore {
             settings.frequency = 1900; settings.imageAutoSync = true; settings.imageStartSeconds = 0
             settings.imageClockPPM = 0; settings.sstvColorRange = .bt601
         }
+        decode(url)
+    }
+    private func confirmM17DataExample() {
+        guard let url = Bundle.main.url(forResource: "m17_packet_48000_synthetic", withExtension: "wav", subdirectory: "Examples") else {
+            error = "No se encontró el ejemplo M17 de datos en el paquete."; return
+        }
+        let alert = NSAlert()
+        alert.messageText = "Abrir ejemplo M17 de datos"
+        alert.informativeText = "Se seleccionará M17 y su guía RF para procesar un paquete sintético de datos a 48 kHz. No es una conversación de voz ni una prueba DMR. El protocolo actual es \(settings.digitalVoiceProtocol.rawValue)."
+        alert.addButton(withTitle: "Abrir ejemplo M17")
+        alert.addButton(withTitle: "Cancelar")
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        settings.digitalVoiceProtocol = .m17
+        settings.audioChannel = .mix
+        applyDigitalVoicePreset()
         decode(url)
     }
     func applyHellVariant() {

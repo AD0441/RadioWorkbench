@@ -5,8 +5,9 @@ struct ReceiverSpectrumView: View {
     let receiver: ReceiverStore
     var body: some View {
         SpectrumView(frame: receiver.visualization.frame, waterfall: receiver.visualization.waterfall,
-                     frequency: receiver.settings.frequency, shift: shift) { frequency in
-            if !receiver.busy && ![.selectiveTones, .acars, .ale].contains(receiver.mode) {
+                     frequency: receiver.settings.frequency, shift: shift,
+                     showsTuningMarker: receiver.mode != .digitalVoice) { frequency in
+            if !receiver.busy && ![.digitalVoice, .selectiveTones, .acars, .ale].contains(receiver.mode) {
                 receiver.settings.frequency = frequency
             }
         }
@@ -40,6 +41,7 @@ struct SpectrumView: View {
     let waterfall: CGImage?
     let frequency: Double
     let shift: Double
+    var showsTuningMarker = true
     var tune: (Double) -> Void
     var body: some View {
         VStack(spacing: 0) {
@@ -59,7 +61,7 @@ struct SpectrumView: View {
                     }
                     context.stroke(path, with: .color(.cyan), lineWidth: 1.5)
                 }
-                for target in shift > 0 ? [frequency - shift / 2, frequency + shift / 2] : [frequency] {
+                for target in showsTuningMarker ? (shift > 0 ? [frequency - shift / 2, frequency + shift / 2] : [frequency]) : [] {
                     let x = target / upper * size.width
                     var line = Path(); line.move(to: CGPoint(x: x, y: 0)); line.addLine(to: CGPoint(x: x, y: size.height))
                     context.stroke(line, with: .color(.orange), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
@@ -82,6 +84,7 @@ struct SpectrumView: View {
                         tune(max(100, min(5900, location.x / geometry.size.width * (frame?.upperFrequency ?? 4000))))
                     }
                 }
+                .allowsHitTesting(showsTuningMarker)
             }
     }
 }

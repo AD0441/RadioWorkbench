@@ -42,6 +42,7 @@ for example in "$ROOT_DIR"/Tests/RadioCoreTests/Fixtures/mt63_*_8000_clean.wav "
 done
 cp "$ROOT_DIR/docs/INTEGRATIONS-0.10.md" "$APP_BUNDLE/Contents/Resources/Modos-0.10.md"
 cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.11.md"
+cp "$ROOT_DIR/docs/RELEASE-0.13.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.13.md"
 cp "$ROOT_DIR/docs/DMR-0.12.md" "$APP_BUNDLE/Contents/Resources/DMR.md"
 cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
@@ -106,8 +107,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.12.1</string>
-<key>CFBundleVersion</key><string>28</string>
+<key>CFBundleShortVersionString</key><string>0.13.0</string>
+<key>CFBundleVersion</key><string>29</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

@@ -19,26 +19,26 @@ Este documento conserva el alcance solicitado; una propuesta no se marca como fu
 - [ ] Terminar el recorrido visual de biblioteca, DSC, mapas y otras herramientas en la nueva compilación.
 - [ ] Corpus identificado con dos conversaciones simultáneas y evaluación perceptual de voz; la prueba física sigue aplazada.
 
-## Revisión del 24 de octubre · propuesta de la siguiente etapa
+## Revisión del 24 de octubre · alcance aprobado para 0.13.0
 
 El usuario confirmó que CW funciona. Esta confirmación no valida automáticamente
 los otros modos ni identifica la fuente de audio utilizada. Los puntos siguientes
-son una propuesta basada en la revisión del código y de Artemis; todavía no se
-presentan como funciones implementadas. No se creó otra compilación ni se
-copiaron catálogos completos al proyecto.
+fueron aprobados para implementación a partir de la revisión del código y de Artemis.
+El estado de entrega y la validación se documentan en [0.13.0](RELEASE-0.13.0.md).
+No se copiaron catálogos completos ni medios externos al proyecto.
 
 ### 1. Un registro de escucha para guía, biblioteca y mapa
 
-- [ ] Añadir en la ficha de la guía el botón principal **«Registrar escucha en
+- [x] Añadir en la ficha de la guía el botón principal **«Registrar escucha en
   biblioteca…»**, visible aunque no exista una grabación de audio. Abrir una ficha
   con emisora y frecuencia precargadas, hora real, resultado, antena y notas;
   adjuntar una grabación será opcional. Guardar requiere confirmar la observación.
-- [ ] Ofrecer resultados **Escuchada / No escuchada / Dudosa**, para conservar
+- [x] Ofrecer resultados **Escuchada / No escuchada / Dudosa**, para conservar
   también los intentos fallidos y poder interpretar el historial.
-- [ ] Separar horario previsto, hora de observación e importación de un archivo.
+- [x] Separar horario previsto, hora de observación e importación de un archivo.
   La ubicación de la estación emisora debe tener procedencia; si hay varios sitios
   candidatos, permitir elegir uno o guardar la escucha sin posición.
-- [ ] Integrar esas observaciones en la misma biblioteca, con filtros **Todas /
+- [x] Integrar esas observaciones en la misma biblioteca, con filtros **Todas /
   Escuchas anotadas / Con audio**. Vincular audio existente sin duplicarlo. Una
   emisión AM de la guía no necesita seleccionar un decodificador CW o digital.
 
@@ -71,20 +71,20 @@ no ofrece registro en la biblioteca; `ReceptionEventStore.swift` conserva hasta
 
 ### 2. Separar Escucha HF y Enlace HF
 
-- [ ] **Escucha de emisoras:** emisora/sitio remoto, fecha/hora, frecuencia,
+- [x] **Escucha de emisoras:** emisora/sitio remoto, fecha/hora, frecuencia,
   receptor y antena local. Mostrar de inmediato horario previsto, distancia,
   rumbo, iluminación del trayecto y sintonía recomendada. La guía abre este flujo
   mediante **«Planificar escucha»**.
-- [ ] Dentro de escucha, ofrecer **«Estimación de recepción P.533»** como cálculo
+- [x] Dentro de escucha, ofrecer **«Estimación de recepción P.533»** como cálculo
   adicional: requiere potencia remota conocida o un supuesto explícito, antenas,
   ruido y requisito de recepción. No pedir «tu potencia TX» a quien solo escucha.
   Sin esos datos, los resultados básicos siguen siendo útiles; no inventar SNR
   ni porcentaje de recepción. HFCC programado no prueba la potencia efectiva.
-- [ ] **Enlace entre estaciones:** fichas A y B con parámetros TX y RX propios;
+- [x] **Enlace entre estaciones:** fichas A y B con parámetros TX y RX propios;
   calcular **A → B** y **B → A**, mostrar la dirección limitante y conservar los
   supuestos de cada estación. No multiplicar disponibilidades mensuales como
   si fueran probabilidades independientes de contacto en tiempo real.
-- [ ] Adaptar textos y gráficos a cada flujo. El barrido desde un transmisor
+- [x] Adaptar textos y gráficos a cada flujo. El barrido desde un transmisor
   remoto no se denominará alcance de la antena local. Las entradas fuera del
   rango 1,6–30 MHz del motor mantienen registro/distancia, con su límite visible.
 
@@ -96,18 +96,18 @@ reutilizar sin advertencia parámetros de una estación al cambiar de dirección
 
 ### 3. Reorganizar Voz digital como pantalla propia
 
-- [ ] Cabecera con protocolo, entrada, iniciar/detener y estado de audio.
-- [ ] Preparación SDR compacta; controles **TS1 / TS2 / Ambos** y escucha de voz
+- [x] Cabecera con protocolo, entrada, iniciar/detener y estado de audio.
+- [x] Preparación SDR compacta; controles **TS1 / TS2 / Ambos** y escucha de voz
   juntos. Conservar la cola de salida acotada y el funcionamiento ya implementado.
-- [ ] Área principal con tarjetas de actividad TS1/TS2, CC, origen, destino,
+- [x] Área principal con tarjetas de actividad TS1/TS2, CC, origen, destino,
   clase y antigüedad; distinguir audio entrante, sincronía, datos de llamada,
   salida de voz y finalización del WAV. Ningún estado garantiza inteligibilidad.
-- [ ] Espectro plegable; quitar en DSD el marcador y la sintonía de tono que no
+- [x] Espectro plegable; quitar en DSD el marcador y la sintonía de tono que no
   intervienen en el motor. Registro del motor y detalles técnicos quedan abajo.
-- [ ] Cambiar «TEXTO RECIBIDO» por **«Registro del decodificador»** en esta vista.
+- [x] Cambiar «TEXTO RECIBIDO» por **«Registro del decodificador»** en esta vista.
   Presentar el ejemplo como **«Ejemplo M17 de datos»**, sin cambiar DMR en silencio
   ni sugerir que se está probando voz DMR.
-- [ ] Presets por protocolo, con aplicación explícita: el perfil NFM/12,5 kHz
+- [x] Presets por protocolo, con aplicación explícita: el perfil NFM/12,5 kHz
   actual no cubre de igual forma todos los protocolos. Separar audio discriminador,
   voz ya decodificada e I/Q; la ruta DSD actual consume PCM.
 
@@ -120,12 +120,12 @@ cierre de RadioWorkbench. No se inició captura ni reproducción de audio.
 
 ### 4. Próximos pases de satélite en 60 minutos
 
-- [ ] Botón **«Buscar pases en la próxima hora»** sobre el catálogo, junto a la
+- [x] Botón **«Buscar pases en la próxima hora»** sobre el catálogo, junto a la
   búsqueda de 48 h del satélite seleccionado. Resultados: satélite/NORAD, en curso
   o empieza en, AOS, máximo, LOS, duración útil, bajada/modo y estado del transmisor.
-- [ ] Elegir el transmisor concreto y enviar su frecuencia al mapa/Doppler;
+- [x] Elegir el transmisor concreto y enviar su frecuencia al mapa/Doppler;
   mostrar ubicación utilizada y antigüedad de los elementos orbitales.
-- [ ] Calcular con margen antes/después y filtrar pases que se solapen con la
+- [x] Calcular con margen antes/después y filtrar pases que se solapen con la
   hora solicitada; conservar pases en curso o cuyo final quede fuera de esa hora.
   Usar trabajo cancelable y acotado entre satélites.
 - [ ] Presentar factores de recepción: elevación, duración, compatibilidad del
@@ -134,7 +134,7 @@ cierre de RadioWorkbench. No se inició captura ni reproducción de audio.
   como porcentaje probabilístico. Sin historial, indicar que el éxito no está
   calibrado. Después se podrá mostrar un porcentaje histórico real de intentos
   comparables, con denominador, fecha, antena y criterio de éxito.
-- [ ] Separar pase RF y visibilidad óptica. Esta última necesita iluminación,
+- [x] Separar pase RF y visibilidad óptica. Esta última necesita iluminación,
   sombra terrestre y oscuridad local; hoy no se calcula. Un horizonte geométrico
   ideal no incluye montañas o edificios.
 
@@ -148,26 +148,26 @@ su edad se filtra al descargar y no al presentar. Archivos principales:
 
 ### 5. Taller y ficha SDR común inspirados en Artemis
 
-- [ ] Añadir un inspector derecho en los decodificadores: modo de sintonía SDR,
+- [x] Añadir un inspector derecho en los decodificadores: modo de sintonía SDR,
   modulación de la señal, filtro RF inicial, banda de audio que conservar,
   frecuencia de muestreo/canal y procesamiento que conviene desactivar. Ofrecer
   variantes HF/VHF cuando corresponda y reutilizar un único catálogo de perfiles.
   Los ajustes manuales de SDR++ se distinguen del control optativo mediante Rigctl.
-- [ ] Mostrar una referencia visual por familia y variantes donde haya muestras
+- [x] Mostrar una referencia visual por familia y variantes donde haya muestras
   verificadas. Separar **espectro RF/IQ de referencia** de **espectro de audio de
   entrada**; no superponerlos como si compartieran ejes. Una imagen sin escala
   conocida lleva esa limitación visible. Ancho ocupado no equivale necesariamente
   al filtro RF práctico que se recomienda al receptor.
-- [ ] Ampliar las tres referencias actuales con ejemplos propios ya incluidos:
+- [x] Ampliar las tres referencias actuales con ejemplos propios ya incluidos:
   DTMF, CTCSS, NAVTEX, Packet/APRS, POCSAG, DSC, FT8/FT4, MT63, ALE, SSTV, WEFAX,
   Hell y APT histórico. Identificar parámetros y resultado esperado de cada muestra.
   M17 de datos no sustituye a una referencia de voz DMR.
-- [ ] Para otros protocolos, permitir catálogo **«Identificar / Sin motor
+- [x] Para otros protocolos, permitir catálogo **«Identificar / Sin motor
   integrado»**. Una ficha o imagen no añade automáticamente un decodificador.
 - [ ] Comparación de sonido, espectro y waterfall; más adelante autocorrelación
   y búsqueda por características como tonos, ráfagas y periodicidad. Los resultados
   son candidatos, no identificación validada por semejanza visual.
-- [ ] Permitir usar una recepción propia como referencia. Generar vistas a demanda
+- [x] Permitir usar una recepción propia como referencia. Generar vistas a demanda
   y limitar la caché, sin copiar todo el catálogo ni crear imágenes de cada intento.
 
 **Artemis local, observación estática:** el `Data/db.csv` es un CSV sin cabecera,
@@ -232,12 +232,12 @@ las vistas visuales aisladas para no reintroducir la lentitud del waterfall.
 Cada entrega conserva solo versión actual y anterior; los sondeos y archivos
 temporales de esta revisión permanecieron fuera del proyecto.
 
-Resumen de cobertura: guía/biblioteca, HF, mapa y catálogo: revisados y propuestos;
-satélites: revisados, probabilidad pendiente de calibración; voz digital: revisión
-de código completa para estos hallazgos, comprobación visual parcial por fallo
-de la herramienta. La integración de medios externos queda condicionada a la
-verificación de sus permisos. No se marca ninguna de estas ampliaciones como
-terminada por haberla descrito.
+Implementación 0.13.0: registro/biblioteca/mapa, separación HF, voz digital,
+próximos pases y taller/inspector integrados. Las casillas originales describen
+el acuerdo completo: clasificación por autocorrelación, catálogo externo importable,
+calibración de éxito satelital e historial estadístico de predicción frente a
+resultado siguen como ampliaciones. Los medios de Artemis siguen fuera del paquete.
+Las pruebas físicas y cualquier recorrido visual no observado mantienen su estado pendiente.
 
 ## Ampliaciones solicitadas, en este orden
 

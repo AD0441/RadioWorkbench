@@ -11,9 +11,86 @@ public struct ReceptionProfile: Sendable {
     public let audioBand: String
     public let center: Double
     public let note: String
+    public init(modulation: RFModulation, rfBandwidth: Double, audioBand: String, center: Double, note: String) {
+        self.modulation = modulation; self.rfBandwidth = rfBandwidth
+        self.audioBand = audioBand; self.center = center; self.note = note
+    }
+}
+
+public enum ReceptionBandVariant: String, CaseIterable, Identifiable, Sendable {
+    case standard = "Perfil habitual", hf = "HF · banda lateral", vhf = "VHF/UHF · FM"
+    public var id: String { rawValue }
 }
 
 public extension RadioMode {
+    /// A single setup catalogue shared by the inspector and decoder views. RF
+    /// filters are starting points, distinct from occupied signal bandwidth.
+    func receptionProfile(settings: DecoderSettings, variant: ReceptionBandVariant = .standard) -> ReceptionProfile {
+        if self == .digitalVoice { return settings.digitalVoiceProtocol.receptionPreset.profile }
+        if self == .gmdss, settings.dscVariant == .vhf {
+            return .init(modulation: .fm, rfBandwidth: 16000, audioBand: "1300/2100 Hz · 1200 baud · mono 48 kHz al motor", center: 1700,
+                         note: "DSC VHF: NFM y filtro RF inicial de 16 kHz. Deja squelch y reducción de ruido desactivados; conserva toda la ráfaga. No transmite llamadas de socorro.")
+        }
+        if self == .sstv {
+            let narrow = settings.sstvFormat.isNarrow
+            return .init(modulation: variant == .vhf ? .fm : .usb, rfBandwidth: variant == .vhf ? 12500 : narrow ? 2800 : 3000,
+                         audioBand: narrow ? "Cabecera N-VIS y sincronía; imagen 2044–2300 Hz" : "1100–2300 Hz; conservar VIS y sincronía", center: 1900,
+                         note: variant == .vhf ? "SSTV sobre FM: filtro RF inicial de 12,5 kHz, ampliable a 25 kHz según desviación. La FM de los tonos de imagen es distinta de la demodulación RF del receptor." : "SSTV HF: USB. El filtro práctico debe conservar la cabecera y los tonos, además del ancho ocupado por la imagen. Sin squelch ni procesado de voz.")
+        }
+        if self == .hell {
+            let requested = settings.frequency.isFinite && (1...192000).contains(settings.frequency) ? settings.frequency : 1500
+            let center = max(requested, settings.hellVariant == .x9 ? 2000 : settings.hellVariant.bandwidthHz / 2 + 300)
+            return .init(modulation: .usb, rfBandwidth: max(2400, center + settings.hellVariant.bandwidthHz / 2 + 200),
+                         audioBand: "OOK · \(settings.hellVariant.rawValue) · centro \(Int(center)) Hz · ancho ocupado ≈\(Int(settings.hellVariant.bandwidthHz)) Hz", center: center,
+                         note: receptionProfile.note)
+        }
+        if self == .mt63 {
+            let center = settings.frequency.isFinite ? min(2500, max(1000, settings.frequency)) : 1500
+            let half = Double(settings.mt63Variant.bandwidth) / 2
+            return .init(modulation: .usb, rfBandwidth: max(3000, center + half + 200),
+                         audioBand: "\(Int(center - half))–\(Int(center + half)) Hz · \(settings.mt63Variant.title) · PCM interno 8 kHz", center: center,
+                         note: receptionProfile.note)
+        }
+        if self == .rtty || self == .bitAnalysis {
+            // Text fields can contain unvalidated exponents while the user is
+            // editing. Never convert those values directly to a display Int.
+            let center = settings.frequency.isFinite && (1...192000).contains(settings.frequency) ? settings.frequency : 1500
+            let shift = settings.shift.isFinite && (50...1000).contains(settings.shift) ? settings.shift : 170
+            return .init(modulation: .usb, rfBandwidth: max(2400, center + shift / 2 + 200),
+                         audioBand: "\(Int(center - shift / 2))/\(Int(center + shift / 2)) Hz · \(settings.rttyEncoding.rawValue) · \(settings.baud.formatted()) baud", center: center,
+                         note: receptionProfile.note)
+        }
+        return receptionProfile
+    }
+    var receptionBandVariants: [ReceptionBandVariant] { self == .sstv ? [.hf, .vhf] : [.standard] }
+    func signalModulation(settings: DecoderSettings) -> String {
+        switch self {
+        case .digitalVoice: settings.digitalVoiceProtocol.receptionPreset.signalModulation
+        case .morse, .hell: "OOK · portadora interrumpida"
+        case .rtty, .bitAnalysis, .navtex, .sitorA: "FSK de dos tonos"
+        case .psk31: "BPSK · 31,25 símbolos/s"
+        case .dtmf: "Dos tonos simultáneos"
+        case .selectiveTones: "CTCSS · tono subaudio continuo"
+        case .fiveTones: "Secuencia de tonos selectivos"
+        case .pocsag: "FSK / NRZ · \(settings.pagerRate.title)"
+        case .packet: "AFSK Bell 202 · 1200 baud · AX.25"
+        case .acars: "MSK · 2400 bit/s en audio AM"
+        case .ft8: "8-GFSK · trama de 15 s"
+        case .ft4: "4-GFSK · trama de 7,5 s"
+        case .sstv, .wefax: "FM de tonos de imagen en audio"
+        case .satelliteAPT: "Subportadora AM 2400 Hz en audio FM"
+        case .ale: "8-FSK · ALE 2G"
+        case .mt63: "64 portadoras · fase diferencial"
+        case .gmdss: settings.dscVariant == .vhf ? "AFSK · 1200 baud" : "FSK · 100 baud · shift 170 Hz"
+        case .dgps: "MSK · integración pendiente"
+        case .loran: "Pulsos RF · requiere evidencia I/Q adecuada"
+        case .globeWireless: "Variante por identificar · sin motor verificado"
+        }
+    }
+    var audioInputRecommendation: String {
+        if self == .loran { return "Captura RF/IQ apropiada; el audio de altavoz no conserva los pulsos originales." }
+        return "Entrada PCM mono 48 kHz recomendada. Elige el dispositivo y canal correctos; el motor remuestrea cuando corresponde. I/Q no es audio de entrada."
+    }
     var receptionProfile: ReceptionProfile {
         switch self {
         case .ft8, .ft4: .init(modulation: .usb, rfBandwidth: 3500, audioBand: "100–3500 Hz; PCM remuestreado a 12 kHz", center: 1500, note: "USB en todas las bandas. Desactiva squelch y procesado de voz; reloj UTC sincronizado. FT8 15 s, FT4 7,5 s. En WAV indica el inicio de la primera ventana.")

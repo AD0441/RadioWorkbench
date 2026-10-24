@@ -1,3 +1,22 @@
+# Validación de RadioWorkbench 0.13.0
+
+Suite Release arm64: **240 funciones registradas, 234 aprobadas y seis opcionales
+omitidas, cero fallos**, 7,795 s después de compilar. Pasaron además 21 controles C
+HF. Las omisiones son tres pruebas con corpus DMR independiente temporal, dos
+pruebas con red (satélites/terreno) y el benchmark visual optativo. No se repitió
+la evaluación de voz DMR independiente de 0.12 ni la recepción física.
+
+La ampliación comprueba migración del índice v1 con copia única del original y
+conservación del audio/SHA, anotaciones sin audio, actualizaciones inválidas,
+papelera, filtros de medianoche y zona horaria, geodésicas por el Pacífico,
+parámetros separados RX/TX y enlace bilateral, copia del regreso y utilitarias
+sin ancho conocido. También prueba límites AOS/LOS, Doppler/bajadas publicadas,
+reportes vencidos offline, perfiles de voz por protocolo, las 74 referencias y
+sus ajustes, espectrograma acotado, canal/fase, cancelación y números extremos.
+Se conservan las regresiones CW, SSTV, POCSAG, TCP, Rigctl, ITM y grafo de voz offline.
+
+[Resumen de entrega](validation/release-0.13.0.json) · [Uso y límites](RELEASE-0.13.0.md).
+
 # Validación de RadioWorkbench 0.12.1
 
 Suite Release arm64: **218 funciones registradas, 216 aprobadas, dos opcionales

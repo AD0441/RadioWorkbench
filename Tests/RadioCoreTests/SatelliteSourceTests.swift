@@ -126,3 +126,100 @@ func satelliteLiveDownloadFromOfficialProviders() async throws {
     #expect(result.satellites.contains { $0.noradID == 25544 && !$0.transmitters.isEmpty })
     print("Satélites reales: \(result.satellites.count), transmisores \(result.frequencies?.count ?? 0), reportes \(result.reports.count), fuente \(result.orbitSource ?? "")")
 }
+
+@Test func satelliteOneHourWindowKeepsFullPassWhenAlreadyInProgressOrEndingLater() throws {
+    let orbit = try #require(SatelliteElementParser.omm(satelliteFixture("gp-utc-no-z.json")).first { $0.catalogNumber == 25544 })
+    let full = try #require(SatellitePassPredictor.passes(orbit: orbit, latitude: -33.45, longitude: -70.67,
+        from: orbit.epoch, hours: 48, stepSeconds: 20).first)
+    // Both boundaries lie inside an actual SGP4 pass. The old implementation lost
+    // this pass or replaced its true AOS with the beginning of the requested window.
+    let short = DateInterval(start: full.maximumAt.addingTimeInterval(-15), duration: 30)
+    let result = try #require(SatellitePassPredictor.passes(orbit: orbit, latitude: -33.45, longitude: -70.67,
+        window: short, stepSeconds: 20).first)
+    #expect(result.aos < short.start && result.los > short.end)
+    #expect(abs(result.aos.timeIntervalSince(full.aos)) < 2)
+    #expect(abs(result.los.timeIntervalSince(full.los)) < 2)
+    #expect(!result.aosClipped && !result.losClipped)
+    #expect(result.usefulDuration(in: short) == 30)
+    let hourEndingDuringPass = DateInterval(start: full.aos.addingTimeInterval(-3540), duration: 3600)
+    let crossingEnd = try #require(SatellitePassPredictor.passes(orbit: orbit, latitude: -33.45, longitude: -70.67,
+        window: hourEndingDuringPass, stepSeconds: 20).first)
+    #expect(crossingEnd.aos < hourEndingDuringPass.end && crossingEnd.los > hourEndingDuringPass.end)
+    #expect(abs(crossingEnd.los.timeIntervalSince(full.los)) < 2)
+}
+
+@Test func satellitePassWindowRejectsNonFiniteStepsAndDoesNotIncludeTouchingIntervals() {
+    let epoch = Date(timeIntervalSince1970: 1_800_000_000)
+    let orbit = TLEOrbit(name: "Test", catalogNumber: 99999, epoch: epoch, meanMotionRevolutionsPerDay: 15.5,
+        eccentricity: 0.001, inclinationDegrees: 51.6, raanDegrees: 12, argumentOfPerigeeDegrees: 50, meanAnomalyDegrees: 180)
+    let window = DateInterval(start: epoch, duration: 3600)
+    #expect(SatellitePassPredictor.passes(orbit: orbit, latitude: 0, longitude: 0, window: window, stepSeconds: .infinity).isEmpty)
+    #expect(SatellitePassPredictor.passes(orbit: orbit, latitude: .nan, longitude: 0, window: window).isEmpty)
+    let ended = SatellitePass(satellite: "Test", aos: epoch.addingTimeInterval(-600), maximumElevation: 30,
+        maximumAt: epoch.addingTimeInterval(-300), los: epoch)
+    #expect(!ended.overlaps(window) && ended.usefulDuration(in: window) == 0)
+}
+
+@Test func satelliteDownlinkSelectionUsesPublishedTransmitterIncludingInvertedPassbandsAndBeacons() throws {
+    let transmitters = try JSONDecoder().decode([AmateurSatelliteTransmitter].self, from: satelliteFixture("frequencies.json"))
+    let ao7 = try #require(transmitters.first { $0.downlink == "145.975-145.925" })
+    let options = SatelliteDownlink.options(for: ao7)
+    let downlink = try #require(options.first { !$0.isBeacon })
+    #expect(downlink.lowerMHz == 145.925 && downlink.upperMHz == 145.975)
+    #expect(abs(downlink.nominalMHz - 145.950) < 1e-10 && downlink.isPassband)
+    #expect(options.contains { $0.isBeacon && $0.nominalMHz == 145.970 })
+    let iss = try #require(transmitters.first { $0.downlink == "437.825" })
+    #expect(SatelliteDownlink.options(for: iss).first?.nominalMHz == 437.825)
+    let invalid = try JSONDecoder().decode(AmateurSatelliteTransmitter.self,
+        from: Data(#"{"name":"Bad","downlink":"unknown / NaN / 145.8 kHz / -145.8"}"#.utf8))
+    #expect(SatelliteDownlink.options(for: invalid).isEmpty)
+}
+
+@Test func satelliteCachedReportsExpireAtPresentationAndDoNotImplyTransmitterActivity() throws {
+    let now = Date(timeIntervalSince1970: 1_800_000_000)
+    let orbit = try #require(SatelliteElementParser.omm(satelliteFixture("gp-utc-no-z.json")).first { $0.catalogNumber == 25544 })
+    let satellite = AmateurSatellite(name: "ISS", noradID: 25544, orbit: orbit, transmitters: [])
+    let recent = SatelliteStatusReport(satelliteName: "ISS", report: "Heard", reportedAt: now.addingTimeInterval(-71 * 3600))
+    let old = SatelliteStatusReport(satelliteName: "ISS", report: "Heard", reportedAt: now.addingTimeInterval(-73 * 3600))
+    let future = SatelliteStatusReport(satelliteName: "ISS", report: "Heard", reportedAt: now.addingTimeInterval(3600))
+    #expect(SatelliteConsultationStore.latestStatus(for: satellite, reports: [old, recent, future], now: now) == recent)
+    #expect(SatelliteConsultationStore.latestStatus(for: satellite, reports: [old, recent], now: now.addingTimeInterval(2 * 3600)) == nil)
+}
+
+@MainActor @Test func satelliteOpportunityRetainsReceiverAndExactDownlinkWhenOpened() throws {
+    let orbits = try SatelliteElementParser.omm(satelliteFixture("gp-utc-no-z.json"))
+    let orbit = try #require(orbits.first { $0.catalogNumber == 25544 })
+    let transmitters = try JSONDecoder().decode([AmateurSatelliteTransmitter].self, from: satelliteFixture("frequencies.json"))
+        .filter { $0.downlink == "437.825" }
+    let satellite = AmateurSatellite(name: "ISS", noradID: 25544, orbit: orbit, transmitters: transmitters)
+    let observer = try #require(RadioLocation(latitude: -33.45, longitude: -70.67))
+    let pass = try #require(SatellitePassPredictor.passes(orbit: orbit, latitude: observer.latitude, longitude: observer.longitude,
+        from: orbit.epoch, hours: 48).first)
+    let window = DateInterval(start: pass.maximumAt.addingTimeInterval(-30), duration: 3600)
+    let results = SatelliteConsultationStore.opportunities(satellites: [satellite], reports: [], observer: observer, window: window, minimumPeak: 5)
+    let opportunity = try #require(results.first)
+    let store = SatelliteConsultationStore()
+    store.snapshot = SatelliteCatalogSnapshot(satellites: [satellite], reports: [], fetchedAt: orbit.epoch,
+        orbits: nil, frequencies: nil, orbitSource: nil, orbitsFetchedAt: nil, frequenciesFetchedAt: nil, reportsFetchedAt: nil, sourceErrors: nil)
+    store.searchWindow = window; store.searchObserver = observer; store.nextHour = results
+    store.showOpportunity(opportunity)
+    #expect(store.selectedID == 25544 && store.observer == observer)
+    #expect(store.selectedDownlink?.nominalMHz == 437.825)
+    #expect(store.selectedPass?.aos == opportunity.pass.aos && !store.track.isEmpty)
+    #expect((0...100).contains(opportunity.factors.score))
+    #expect(opportunity.factors.usefulSeconds <= 3600)
+    #expect(opportunity.factors.explanation.contains("No es una probabilidad"))
+    #expect(store.nextHour.count == results.count)
+    store.clearPasses()
+    #expect(store.nextHour.isEmpty && store.searchWindow == nil && store.observer == nil)
+}
+
+@Test func satelliteElevationSearchMatchesFullObservationWithoutRangeRateWork() throws {
+    let orbit = try #require(SatelliteElementParser.omm(satelliteFixture("gp-utc-no-z.json")).first)
+    for seconds in stride(from: 0.0, through: 600, by: 60) {
+        let date = orbit.epoch.addingTimeInterval(seconds)
+        let elevation = try #require(orbit.elevationDegrees(at: date, latitude: -33.45, longitude: -70.67))
+        let full = try #require(orbit.observation(at: date, latitude: -33.45, longitude: -70.67))
+        #expect(abs(elevation - full.elevationDegrees) < 1e-10)
+    }
+}

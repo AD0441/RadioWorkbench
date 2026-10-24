@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 
 struct ReceptionLibraryView: View {
     @Bindable var store: ReceptionLibraryStore
+    let onRecord: () -> Void
     let currentAudioURL: URL?
     let mode: RadioMode
     let settings: DecoderSettings
@@ -19,7 +20,8 @@ struct ReceptionLibraryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Biblioteca de recepciones").font(.largeTitle.weight(.semibold))
-            Text("Audio original, modo y ajustes para volver a analizar una señal.").foregroundStyle(.secondary)
+            Text("Escuchas anotadas y audio original con sus ajustes. Las anotaciones no necesitan grabación.").foregroundStyle(.secondary)
+            Button("Anotar escucha sin audio…", systemImage: "square.and.pencil", action: onRecord).buttonStyle(.borderedProminent)
             GroupBox("Guardar audio y configuración") {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
@@ -48,6 +50,9 @@ struct ReceptionLibraryView: View {
                 }.padding(8)
             }
             HStack {
+                Picker("Mostrar", selection: $store.category) {
+                    ForEach(["Todas", "Escuchas anotadas", "Con audio"], id: \.self) { Text($0) }
+                }.frame(width: 220)
                 TextField("Buscar nombre, modo o archivo", text: $store.search).textFieldStyle(.roundedBorder)
                     .accessibilityLabel("Buscar en la biblioteca")
                 Toggle("Papelera (\(store.trashCount))", isOn: $store.showsTrash).toggleStyle(.button)
@@ -59,6 +64,13 @@ struct ReceptionLibraryView: View {
             Text(store.status).font(.caption).foregroundStyle(.secondary)
             HSplitView {
                 List(selection: $store.selectedID) {
+                    ForEach(store.visibleObservations) { item in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Label(item.stationName, systemImage: item.outcome == .heard ? "ear" : "note.text").font(.headline)
+                            Text("\(item.outcome.title) · \(item.frequencyHz / 1000, specifier: "%.2f") kHz · \(item.band)").font(.caption)
+                            Text("\(utcText(item.observedAt)) · \(item.receivingStation.antenna)").font(.caption2).foregroundStyle(.secondary)
+                        }.padding(.vertical, 4).tag(item.id)
+                    }
                     ForEach(store.visibleSessions) { item in
                         VStack(alignment: .leading, spacing: 4) {
                             Label(item.title, systemImage: item.sourceKind == .audio ? "waveform" : "waveform.path")
@@ -69,15 +81,46 @@ struct ReceptionLibraryView: View {
                         }.padding(.vertical, 4).tag(item.id)
                     }
                 }.frame(minWidth: 250, idealWidth: 320)
-                    .overlay { if store.visibleSessions.isEmpty { Text(store.showsTrash ? "La papelera está vacía." : "Todavía no hay recepciones para mostrar.").foregroundStyle(.secondary).padding() } }
+                    .overlay { if store.visibleSessions.isEmpty && store.visibleObservations.isEmpty { Text(store.showsTrash ? "La papelera está vacía." : "Todavía no hay recepciones para mostrar.").foregroundStyle(.secondary).padding() } }
                 ScrollView {
-                    if let item = store.selectedSession { detail(item).padding(16) }
+                    if let item = store.visibleObservations.first(where: { $0.id == store.selectedID }) { observationDetail(item).padding(16) }
+                    else if let item = store.selectedSession { detail(item).padding(16) }
                     else { Text("Selecciona una recepción para ver su audio y sus ajustes.").foregroundStyle(.secondary).padding(24) }
                 }.frame(minWidth: 340, maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }.frame(minHeight: 300)
         }.padding(20).task { store.load() }
     }
 
+    private func observationDetail(_ item: ListeningObservation) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(item.stationName).font(.title2.weight(.semibold))
+            LabeledContent("Resultado", value: item.outcome.title)
+            LabeledContent("Frecuencia", value: "\((item.frequencyHz / 1000).formatted()) kHz · \(item.modulation)")
+            LabeledContent("Observación UTC", value: utcText(item.observedAt))
+            if let end = item.endedAt { LabeledContent("Fin UTC", value: utcText(end)) }
+            LabeledContent("Origen", value: item.receivingStation.origin.title)
+            LabeledContent("Receptor", value: item.receivingStation.receiver.isEmpty ? "Sin anotar" : item.receivingStation.receiver)
+            LabeledContent("Antena", value: item.receivingStation.antenna.isEmpty ? "Sin anotar" : item.receivingStation.antenna)
+            LabeledContent("Sitio TX", value: item.transmitterName.isEmpty ? "Sin resolver" : item.transmitterName)
+            Text(item.transmitterSource).font(.caption).foregroundStyle(.secondary)
+            if let distance = item.distanceKm, let bearing = item.bearing {
+                Text("TX → RX: \(distance, specifier: "%.0f") km · rumbo desde RX \(bearing, specifier: "%.0f")°")
+            } else { Text("Completa TX y RX para mostrar el trayecto en el mapa.").foregroundStyle(.secondary) }
+            if let broadcast = item.broadcast { Text("Horario previsto: \(broadcast.time) UTC · \(item.scheduleSeason ?? "")").font(.caption) }
+            if let quality = item.quality { LabeledContent("Calidad manual", value: "\(quality) / 5") }
+            Text(item.notes).textSelection(.enabled)
+            if let forecast = item.forecast {
+                DisclosureGroup("Pronóstico guardado · \(forecast.model)") { Text(forecast.assumptions).font(.caption).textSelection(.enabled) }
+            }
+            if let audioID = item.audioSessionID, let audio = store.sessions.first(where: { $0.id == audioID }) {
+                Button("Ver audio adjunto: \(audio.title)") { store.category = "Todas"; store.selectedID = audioID; store.showsTrash = audio.isTrashed }
+            } else { Text("Anotación manual sin audio adjunto.").font(.caption).foregroundStyle(.secondary) }
+            HStack {
+                if !item.isTrashed { Button("Editar / localizar") { store.editingObservation = item } }
+                Button(item.isTrashed ? "Restaurar escucha" : "Mover a papelera") { store.trashObservation(item) }
+            }.disabled(store.busy)
+        }
+    }
     private func detail(_ item: ReceptionSession) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(item.title).font(.title2.weight(.semibold)).textSelection(.enabled)

@@ -112,3 +112,14 @@ private func planningEntry(site: String = "tx", frequency: Double = 9655, raw: S
     store.useITUIndex(at: november)
     #expect(!store.r12MonthMismatch(at: november) && store.r12 == "100.0")
 }
+
+@Test @MainActor func hfUnknownUtilityDoesNotInheritThePreviousAMNoiseBandwidth() {
+    let known = planningEntry(), guide = planningGuide(entry: planningEntry()), store = PropagationStore()
+    store.useStation(known, guide: guide)
+    #expect(store.bandwidth == "9000")
+    let unknown = BroadcastEntry(frequencyKHz: 8414.5, time: "0000-2400", days: "", country: "TST",
+        station: "Utilitaria sin modo", language: "-XXX", target: "", site: "unknown", persistence: 90,
+        startDate: "", stopDate: "", raw: "unknown-utility")
+    store.useStation(unknown, guide: guide)
+    #expect(store.bandwidth.isEmpty && !store.estimatesReception && store.watts.isEmpty)
+}
