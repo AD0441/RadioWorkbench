@@ -15,7 +15,7 @@ Usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. MultiMode Cocoa se uti
 
 - Aplicación experimental. Bundle mínimo **macOS 14**, ejecutable **arm64 para M1 y posteriores**, probado en un MacBook Pro M1 con macOS 27.2. No se ha verificado físicamente cada versión intermedia de macOS.
 - CWKit requiere macOS 15; el runtime opcional DSD-neo requiere macOS 26 y descarga separada. La app no se distribuye para Intel, iOS, Windows o Linux. Sparkle conserva los componentes universales arm64/x86_64 de su distribución oficial.
-- La rama de desarrollo contiene **0.15.0**, en el [PR #2, todavía borrador](https://github.com/AD0441/RadioWorkbench/pull/2). La descarga pública sigue siendo **0.11.0 preliminar**. Una versión en desarrollo no equivale a una publicación descargable.
+- La rama de desarrollo contiene **0.15.0**, en el [PR #2, abierto](https://github.com/AD0441/RadioWorkbench/pull/2). La descarga pública sigue siendo **0.11.0 preliminar**. Una versión en desarrollo no equivale a una publicación descargable.
 - Firma local **ad hoc**, sin Developer ID ni notarización. [Procedimiento de Apple para la primera apertura](https://support.apple.com/es-cl/102445).
 
 ### Descargar
@@ -122,7 +122,7 @@ It uses SwiftUI, CoreAudio/AVFoundation, Accelerate and MapKit. MultiMode Cocoa 
 
 - Experimental application. The bundle requires **macOS 14 or later**, with an **arm64 executable for M1 and later**, tested on an M1 MacBook Pro running macOS 27.2. Every intermediate macOS version has not been physically tested.
 - CWKit requires macOS 15; the optional DSD-neo runtime requires macOS 26 and a separate download. The app is not distributed for Intel Macs, iOS, Windows or Linux. Sparkle retains the universal arm64/x86_64 components of its official distribution.
-- The development branch contains **0.15.0** in [PR #2, still a draft](https://github.com/AD0441/RadioWorkbench/pull/2). The public download remains the **0.11.0 prerelease**. Development source is not a downloadable release.
+- The development branch contains **0.15.0** in [PR #2, open](https://github.com/AD0441/RadioWorkbench/pull/2). The public download remains the **0.11.0 prerelease**. Development source is not a downloadable release.
 - **Ad hoc local signature**, without Developer ID signing or notarization. [Apple's first-launch instructions](https://support.apple.com/102445).
 
 ### Download
