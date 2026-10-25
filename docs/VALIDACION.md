@@ -1,3 +1,40 @@
+# Validación de RadioWorkbench 0.14.0
+
+Suite Release arm64: **273 funciones registradas, 267 aprobadas, seis opcionales
+omitidas y cero fallos**, 7,802 s después de compilar; además, 21 controles C HF.
+Las omisiones corresponden al corpus temporal DMR independiente, red real de
+satélites/terreno y benchmark visual opcional. No se repitió recepción física.
+
+SITOR-A y DGPS pasan por el worker normal de WAV, entrada abierta y selección
+de canal estéreo a 48 kHz. SITOR-A verifica cadencia, retorno, retransmisiones,
+alfabeto, ruido y rechazos. DGPS recupera 131 tramas del vector GPSD independiente
+con ambas polaridades y contrasta sus correcciones; audio sintético a
+8/44,1/48/96 kHz y WAV con ruido/deriva/paridad dañada. FLEX verifica cuatro
+variantes, fases, polaridad, corrección/rechazo, JSON y publicación antes de EOF.
+Los generadores, manifiestos y licencias están junto a las pruebas.
+
+La suite detectó y permitió corregir la retención del último texto cuando una
+entrada abierta pausa el audio antes del siguiente refresco. También cubre la
+frecuencia de audio residual en modos de discriminador, regreso a NXDN48,
+conservación de fase/retardo del FIR vectorizado, muestras no finitas, copia
+atómica de grabaciones y cierre del proceso propio si ignora SIGTERM. Se
+conservan las regresiones CW, imágenes/SSTV, HF, terreno, biblioteca y TCP.
+
+El ZIP 0.14.0/build 30 extraído pasó integridad y firma estricta: **13 objetos
+Mach-O arm64**, sin enlaces al checkout/Homebrew/Testing, y **78 WAV idénticos** a
+los fixtures. SHA-256: `8af1234af3d92a4a3b2657b7ef870e5c1a6579cc6ac02cfeeb09abcea5e9fb99`.
+Se sustituyó `/Applications/RadioWorkbench.app`, verificando hashes y firma;
+367 archivos existentes de preferencias/datos conservaron su contenido durante
+la copia. Se conserva el ZIP anterior 0.13.0 junto a la entrega actual; se retiraron la caché de compilación y las extracciones temporales.
+
+**Interfaz pendiente:** el Mac estaba bloqueado en ambas comprobaciones; no se
+presenta como observada la ejecución visual de los nuevos modos. No se inició
+micrófono, reproducción, SDR ni sintonía. SITOR-A/FLEX necesitan una grabación
+RF independiente y DGPS no se ha probado con una baliza real. LORAN-C y Globe
+Wireless siguen deshabilitados.
+
+[Resumen único de entrega](validation/release-0.14.0.json) · [Uso y fuentes](RELEASE-0.14.0.md).
+
 # Validación de RadioWorkbench 0.13.0
 
 Suite Release arm64: **240 funciones registradas, 234 aprobadas y seis opcionales

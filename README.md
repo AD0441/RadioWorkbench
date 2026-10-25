@@ -14,6 +14,8 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 
 ## Descargar y abrir
 
+La rama de desarrollo contiene **0.14.0** en [PR #2](https://github.com/AD0441/RadioWorkbench/pull/2). La descarga pública publicada sigue siendo la preliminar 0.11.0 indicada abajo.
+
 - [RadioWorkbench 0.11.0 · versión preliminar · macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.11.0)
 - [ZIP de la aplicación](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/RadioWorkbench-0.11.0-macos-arm64.zip)
 - [Sumas SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/SHA256SUMS)
@@ -135,6 +137,8 @@ open dist/RadioWorkbench.app
 `dist/RadioWorkbench.app` (o el bundle elegido mediante `RADIO_OUTPUT_APP_BUNDLE`) y `dist/RadioWorkbench-<versión>-macos-arm64.zip` son salidas de compilación y están excluidas de Git. Se genera un único ZIP por versión. `bash script/build_and_run.sh` compila y abre la app; `--debug` inicia LLDB. `RADIO_BUILD_PATH` permite una caché distinta y `RADIO_BUILD_CONFIGURATION=debug` cambia la configuración.
 
 **Retención local:** conservar únicamente la entrega actual y la anterior, con una sola app por versión y sin ZIP duplicados. Al cerrar una entrega, retirar las versiones más antiguas, cachés regenerables, extracciones temporales y registros de intentos descartados. Conservar código, dependencias, pruebas, documentación y evidencias finales; evitar crear nuevos informes por cada intento intermedio.
+
+La pasada **0.14.0** registra **273 funciones: 267 aprobadas y seis opcionales omitidas**, sin fallos, más 21 controles C HF. Añade pruebas de SITOR-A, DGPS, FLEX y correcciones de audio. ZIP e instalación 0.14.0/build 30 verificados; comprobación visual pendiente por Mac bloqueado. [Resultados](docs/VALIDACION.md).
 
 La pasada **0.13.0** registra **240 funciones: 234 aprobadas y seis opcionales omitidas**, sin fallos, más 21 controles C HF. Incluye migración de biblioteca, anotaciones/mapa, flujos HF, límites de pases, perfiles y 74 referencias. Firma estricta y 13 objetos arm64 verificados; instalada localmente en Aplicaciones. La revisión visual comprobó guía/formulario e inspector y quedó parcial por fallo de la herramienta al abrir HF. [Resultados y límites](docs/VALIDACION.md).
 

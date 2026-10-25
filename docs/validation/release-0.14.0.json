@@ -1,0 +1,154 @@
+{
+  "version": "0.14.0",
+  "build": "30",
+  "date": "2026-10-25",
+  "source_commit": "e7bfb5af53bec19129bb7ff48dc8054eace63259",
+  "tests": {
+    "registered": 273,
+    "passed": 267,
+    "skipped": [
+      "liveVisualizationBenchmark()",
+      "satelliteLiveDownloadFromOfficialProviders()",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF()",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF()",
+      "terrainRealSantiagoBenchmark()",
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:)"
+    ],
+    "failed": 0,
+    "seconds": 7.802,
+    "c_hf_checks": 21,
+    "c_hf_failures": 0,
+    "log_sha256": "53f5c02fbede1480a28c67aeb2f2555d1ca78a6b3f8015376a8af3fb67f2ec9a",
+    "physical_audio_started": false
+  },
+  "hilbert_benchmark": {
+    "scope": "isolated FIR and phase detector; 10 seconds of synthetic audio, release, median of five; excludes full application and display",
+    "before_seconds": {
+      "8000": 0.003618001937866211,
+      "48000": 0.054064035415649414,
+      "96000": 0.13582301139831543
+    },
+    "after_seconds": {
+      "8000": 0.0022679567337036133,
+      "48000": 0.027436017990112305,
+      "96000": 0.06296801567077637
+    },
+    "baseline_commit": "4d36f62044150938e047ffa89b7e8e342e0a1837",
+    "optimized_commit": "e7bfb5af53bec19129bb7ff48dc8054eace63259",
+    "tone_hz": 1700,
+    "duration_seconds": 10,
+    "repetitions": 5
+  },
+  "package": {
+    "zip": "RadioWorkbench-0.14.0-macos-arm64.zip",
+    "bytes": 191403757,
+    "sha256": "8af1234af3d92a4a3b2657b7ef870e5c1a6579cc6ac02cfeeb09abcea5e9fb99",
+    "zip_integrity": true,
+    "extracted_strict_signature": true,
+    "minimum_macos": "14.0",
+    "mach_o": [
+      {
+        "path": "Contents/MacOS/RadioWorkbench",
+        "architecture": "arm64",
+        "sha256": "d657a9809cebafaf7dfb82b329827962fd69efeae85652832b90d85c8d1da113"
+      },
+      {
+        "path": "Contents/MacOS/acars-helper",
+        "architecture": "arm64",
+        "sha256": "e22cab62b8fca487ace8918e21c5a4a856b2b172d86352cde17cd06bc1449fff"
+      },
+      {
+        "path": "Contents/MacOS/ale-helper",
+        "architecture": "arm64",
+        "sha256": "281fc11f6427b76f0a1e27ee8c8e27d0972718e91b9b569de42e594e51080c80"
+      },
+      {
+        "path": "Contents/MacOS/cw-helper",
+        "architecture": "arm64",
+        "sha256": "dde159feadd3eef2da27c21889525ab6dc21e566b1e34536b06eb92d298f6939"
+      },
+      {
+        "path": "Contents/MacOS/dsc-helper",
+        "architecture": "arm64",
+        "sha256": "856131e362bcc063589268b106e48f1c9e0fe780a6fc58432bf111dbfe55d537"
+      },
+      {
+        "path": "Contents/MacOS/ftx-helper",
+        "architecture": "arm64",
+        "sha256": "1acdb6e398282e86594f4bc54e384854f1c21296cd1f1fc503c5bdcd46a98ac3"
+      },
+      {
+        "path": "Contents/MacOS/itm-helper",
+        "architecture": "arm64",
+        "sha256": "b8ee2bc40ec90eb9971064490c3ca78694607bb84a65db9bb65d5ce767d2063f"
+      },
+      {
+        "path": "Contents/MacOS/libitm.dylib",
+        "architecture": "arm64",
+        "sha256": "84a18f1a135800a8c4afd5a2367ada73e1945a50ac68ec8df06bd66e7e7adb56"
+      },
+      {
+        "path": "Contents/MacOS/libp372.dylib",
+        "architecture": "arm64",
+        "sha256": "10d31435c4e842a3e4fe5d16f614b5cd3967c09952d23b12d5ed8119c996f5d0"
+      },
+      {
+        "path": "Contents/MacOS/libp533.dylib",
+        "architecture": "arm64",
+        "sha256": "c70d422efbb92ecf8390a38df3c64c92323cbd4fe8cd02831eff403e011c5b19"
+      },
+      {
+        "path": "Contents/MacOS/mt63-helper",
+        "architecture": "arm64",
+        "sha256": "596a049e87c870ad9826385d6fbcaa7bce417b95eaf37f52f8da50cc75198d3d"
+      },
+      {
+        "path": "Contents/MacOS/multimon-helper",
+        "architecture": "arm64",
+        "sha256": "94f3922698e28897fb36e36f0dc35e8f813d1fcb5adc2d8ec3ba1101cd77f364"
+      },
+      {
+        "path": "Contents/MacOS/propagation-helper",
+        "architecture": "arm64",
+        "sha256": "d39c4fc78f4128d22c59419f2318fb29062738b4034ea1b995fd91321ef6db66"
+      }
+    ],
+    "matching_example_wavs": 78,
+    "signing": "local ad hoc; not notarized"
+  },
+  "installation": {
+    "path": "/Applications/RadioWorkbench.app",
+    "version": "0.14.0",
+    "build": "30",
+    "previous_version": "0.13.0",
+    "strict_signature": true,
+    "all_mach_o_hashes_match_tested_package": true,
+    "protected_existing_files": 367,
+    "protected_files_unchanged_before_first_launch": true,
+    "user_data_removed": false
+  },
+  "ui": {
+    "status": "blocked",
+    "reason": "Mac locked at both checks; no visual verification claimed",
+    "microphone_started": false,
+    "audio_playback_started": false,
+    "sdr_started": false
+  },
+  "limits": [
+    "No physical microphone/SDR/cable test",
+    "SITOR-A/FLEX lack an independent RF recording",
+    "DGPS audio is synthetic, with independent GPSD protocol vectors",
+    "Six optional tests skipped as listed",
+    "LORAN-C and Globe Wireless remain unavailable"
+  ],
+  "retention": {
+    "current_version": "0.14.0",
+    "previous_version": "0.13.0",
+    "dist_files": [
+      "RadioWorkbench-0.13.0-macos-arm64.zip",
+      "RadioWorkbench-0.14.0-macos-arm64.zip",
+      "RadioWorkbench-0.14.0.app"
+    ],
+    "temporary_build_cache_removed": true
+  }
+}
