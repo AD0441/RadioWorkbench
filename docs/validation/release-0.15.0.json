@@ -1,0 +1,169 @@
+{
+  "version": "0.15.0",
+  "build": 31,
+  "date": "2026-10-25",
+  "tests": {
+    "registered": 281,
+    "passed": 275,
+    "skipped": 6,
+    "failures": 0,
+    "seconds": 7.942,
+    "hfCChecks": 21,
+    "hfCFailures": 0,
+    "physicalReceptionRepeated": false,
+    "skippedNames": [
+      "satelliteLiveDownloadFromOfficialProviders",
+      "terrainRealSantiagoBenchmark",
+      "liveVisualizationBenchmark",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF",
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF"
+    ]
+  },
+  "skills": [
+    "swiftui-expert-skill",
+    "swift-testing-pro",
+    "radioworkbench-quality"
+  ],
+  "archive": {
+    "name": "RadioWorkbench-0.15.0-macos-arm64.zip",
+    "bytes": 192595938,
+    "sha256": "a3da7731ecc7cf7fd6e7f7b4cdfbf27b0174e5202b0cc68b25fd0c23eb49d8c6",
+    "zipIntegrity": true,
+    "strictNestedSignature": true,
+    "macho": [
+      {
+        "path": "Contents/MacOS/mt63-helper",
+        "architectures": "arm64",
+        "sha256": "596a049e87c870ad9826385d6fbcaa7bce417b95eaf37f52f8da50cc75198d3d"
+      },
+      {
+        "path": "Contents/MacOS/dsc-helper",
+        "architectures": "arm64",
+        "sha256": "856131e362bcc063589268b106e48f1c9e0fe780a6fc58432bf111dbfe55d537"
+      },
+      {
+        "path": "Contents/MacOS/libp372.dylib",
+        "architectures": "arm64",
+        "sha256": "10d31435c4e842a3e4fe5d16f614b5cd3967c09952d23b12d5ed8119c996f5d0"
+      },
+      {
+        "path": "Contents/MacOS/propagation-helper",
+        "architectures": "arm64",
+        "sha256": "d39c4fc78f4128d22c59419f2318fb29062738b4034ea1b995fd91321ef6db66"
+      },
+      {
+        "path": "Contents/MacOS/multimon-helper",
+        "architectures": "arm64",
+        "sha256": "94f3922698e28897fb36e36f0dc35e8f813d1fcb5adc2d8ec3ba1101cd77f364"
+      },
+      {
+        "path": "Contents/MacOS/RadioWorkbench",
+        "architectures": "arm64",
+        "sha256": "41f66536bc52c6e6350632806980a04ed8832e4b91e0d748dabf62ff04b4f6f0"
+      },
+      {
+        "path": "Contents/MacOS/libitm.dylib",
+        "architectures": "arm64",
+        "sha256": "84a18f1a135800a8c4afd5a2367ada73e1945a50ac68ec8df06bd66e7e7adb56"
+      },
+      {
+        "path": "Contents/MacOS/ale-helper",
+        "architectures": "arm64",
+        "sha256": "281fc11f6427b76f0a1e27ee8c8e27d0972718e91b9b569de42e594e51080c80"
+      },
+      {
+        "path": "Contents/MacOS/itm-helper",
+        "architectures": "arm64",
+        "sha256": "b8ee2bc40ec90eb9971064490c3ca78694607bb84a65db9bb65d5ce767d2063f"
+      },
+      {
+        "path": "Contents/MacOS/ftx-helper",
+        "architectures": "arm64",
+        "sha256": "1acdb6e398282e86594f4bc54e384854f1c21296cd1f1fc503c5bdcd46a98ac3"
+      },
+      {
+        "path": "Contents/MacOS/libp533.dylib",
+        "architectures": "arm64",
+        "sha256": "f1994a79adf655b91d29a6dcd55d9f4fa5414fccc90ef167e0005f74c227e10e"
+      },
+      {
+        "path": "Contents/MacOS/acars-helper",
+        "architectures": "arm64",
+        "sha256": "e22cab62b8fca487ace8918e21c5a4a856b2b172d86352cde17cd06bc1449fff"
+      },
+      {
+        "path": "Contents/MacOS/cw-helper",
+        "architectures": "arm64",
+        "sha256": "240a9069d1677f6a34e909b6c96ee96ed5d1dafa3b0536ded6ed1db8c3ef2da4"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate",
+        "architectures": "x86_64 arm64",
+        "sha256": "abce46954cc1fdbd72bdf6bc786ca44590735bc842b3f713a2c948bbae86da3e"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle",
+        "architectures": "x86_64 arm64",
+        "sha256": "b57162032b569fce26c8ba162a54c55740da362822f80eac72dbad41d6edc374"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater",
+        "architectures": "x86_64 arm64",
+        "sha256": "3566cf061983c184e00c5ec0a779bbec86bb0214004ad63e46b42133f27d908c"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader",
+        "architectures": "x86_64 arm64",
+        "sha256": "fc87a756d391f1955c9ecc0ee8eb8af4b8fa5e550bb4db3e9cd6204d33cc5bcc"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer",
+        "architectures": "x86_64 arm64",
+        "sha256": "d20923c1c76857721c934fb6b709f1081064db1169fc98a7a307b676bbcc08a8"
+      }
+    ],
+    "exampleWAVsMatchingFixtures": 78
+  },
+  "updates": {
+    "sparkle": "2.10.0",
+    "feed": "https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml",
+    "signatureVerifiedLocally": true,
+    "tamperedFeedRejected": true,
+    "initialFeedItems": 0,
+    "automaticChecksDefault": false,
+    "privateKeyBundled": false,
+    "endToEndUpgradeTested": false,
+    "publishedFeedDownloadedAndVerified": true
+  },
+  "installation": {
+    "path": "/Applications/RadioWorkbench.app",
+    "matchesVerifiedArchive": true,
+    "strictSignature": true,
+    "existingDataFilesUnchanged": 2258,
+    "dataCheckedDuringCopyOnly": true
+  },
+  "ui": {
+    "status": "partial",
+    "observed": [
+      "installed app opens",
+      "connection assistant source/profile step",
+      "audio library",
+      "SigMF library controls"
+    ],
+    "notObserved": [
+      "A/B result screen",
+      "Sparkle update dialog"
+    ],
+    "limitation": "The native screen-control pipe closed when opening the workshop and failed again after reconnect/reset; the installed app remained running.",
+    "microphoneStarted": false,
+    "playbackStarted": false,
+    "newAppCrashReportFound": false
+  },
+  "github": {
+    "branch": "feat/dmr-reception-review",
+    "pullRequest": "https://github.com/AD0441/RadioWorkbench/pull/2",
+    "draft": true,
+    "publicRelease": "v0.11.0"
+  }
+}

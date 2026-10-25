@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.15.0:** biblioteca I/Q SigMF con importación/exportación y SHA-512; preparación SatDump desde metadatos; asistente de conexión, contadores específicos de integridad y comparación A/B del mismo WAV. Sparkle 2.10.0 con clave pública y canal firmado inicial sin actualizaciones descargables. Skills de SwiftUI, pruebas y calidad instaladas para el desarrollo. [Uso y límites](RELEASE-0.15.0.md).
+
 **0.14.0:** SITOR-A pasivo, DGPS MSK/RTCM 2 y FLEX; taller con 77 referencias, filtro Hilbert vectorizado y exportación WAV de voz en segundo plano. Corrige publicación al pausar el flujo de entrada, parámetros residuales de discriminador, retorno al perfil NXDN48 y cierre/lectura del helper. [Uso, fuentes y límites](RELEASE-0.14.0.md).
 
 **0.13.0:** registro de escuchas con audio opcional y migración compatible, mapa histórico TX → RX con antenas/filtros, flujos HF RX y bilateral separados, pantalla de voz digital, próximos pases RF en 60 minutos, taller con 74 referencias y ficha SDR común. [Uso y límites](RELEASE-0.13.0.md).
@@ -24,7 +26,7 @@
 
 **0.8.7: consultas de radio.** La nueva pantalla integra cinco consultas: asignaciones de radioaficionado SUBTEL y perfiles de recepción, repetidoras oficiales con paso directo al análisis ITM, búsqueda de indicativos sin guardar nombres, APRS-IS de solo recepción y satélites con frecuencias, reportes de estado y pases orbitales aproximados. SUBTEL y satélites actualizan datos en línea y conservan una copia local; APRS solo conecta cuando el usuario lo solicita. [CONSULTAS.md](CONSULTAS.md) explica fuentes, privacidad y límites.
 
-Aplicación de escritorio solo para macOS 14 o posterior. El paquete release incluido es arm64 para Apple Silicon (M1 y posteriores); no contiene binarios para Mac Intel, iOS, Windows o Linux. Está desarrollada a partir de la revisión documentada de MultiMode Cocoa con SwiftUI, CoreAudio/AVFoundation y Accelerate; no depende de Electron ni del ejecutable Intel original.
+Aplicación de escritorio solo para macOS 14 o posterior. El paquete release incluido es arm64 para Apple Silicon (M1 y posteriores); no ejecuta la app en Mac Intel, iOS, Windows o Linux. El framework Sparkle conserva los componentes universales arm64/x86_64 distribuidos por su autor. Está desarrollada a partir de la revisión documentada de MultiMode Cocoa con SwiftUI, CoreAudio/AVFoundation y Accelerate; no depende de Electron ni del ejecutable Intel original.
 
 **0.8.6: relieve VHF/UHF mejorado.** El mapa abre en relieve 3D y compara la altura de la antena (elevación topográfica + altura AGL) con las montañas del perfil. Marca crestas que cruzan la línea directa, mientras ITM calcula la difracción. La envolvente de cobertura usa 32 rumbos, perfiles cada ~500 m y alcance cada 5 km hasta 200 km; sigue siendo una aproximación entre perfiles.
 

@@ -24,8 +24,24 @@ trap 'rm -rf "$PACKAGE_STAGING_DIR"' EXIT
 APP_BUNDLE="$PACKAGE_STAGING_DIR/$APP_NAME.app"
 APP_MACOS="$APP_BUNDLE/Contents/MacOS"
 APP_BINARY="$APP_MACOS/$APP_NAME"
-mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
+mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples" "$APP_BUNDLE/Contents/Frameworks"
 cp "$BUILD_BINARY" "$APP_BINARY"
+SPARKLE_ARTIFACT="$BUILD_PATH/artifacts/sparkle/Sparkle"
+/usr/bin/ditto --norsrc --noextattr "$SPARKLE_ARTIFACT/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework" "$APP_BUNDLE/Contents/Frameworks/Sparkle.framework"
+cp "$SPARKLE_ARTIFACT/LICENSE" "$APP_BUNDLE/Contents/Resources/Sparkle-LICENSE.txt"
+# Make the packaged app independent of SwiftPM's temporary artifact directory.
+/usr/bin/install_name_tool -add_rpath '@executable_path/../Frameworks' "$APP_BINARY"
+strip_build_rpaths() {
+  local binary="$1" old_rpath
+  while IFS= read -r old_rpath; do
+    case "$old_rpath" in
+      "$BUILD_PATH"/*|/Library/Developer/*) /usr/bin/install_name_tool -delete_rpath "$old_rpath" "$binary" ;;
+    esac
+  done < <(/usr/bin/otool -l "$binary" | /usr/bin/awk '/cmd LC_RPATH/{getline; getline; print $2}')
+}
+strip_build_rpaths "$APP_BINARY"
+SPARKLE_PUBLIC_KEY="$(cat "$ROOT_DIR/docs/updates/public-key.txt")"
+if [[ ${#SPARKLE_PUBLIC_KEY} != 44 ]]; then echo 'Invalid Sparkle public key' >&2; exit 2; fi
 for engine in mt63 ale dsc; do
   bash "$ROOT_DIR/script/build_${engine}.sh" "$APP_MACOS/${engine}-helper"
   codesign --force --sign - "$APP_MACOS/${engine}-helper"
@@ -44,12 +60,14 @@ cp "$ROOT_DIR/docs/INTEGRATIONS-0.10.md" "$APP_BUNDLE/Contents/Resources/Modos-0
 cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.11.md"
 cp "$ROOT_DIR/docs/RELEASE-0.13.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.13.md"
 cp "$ROOT_DIR/docs/RELEASE-0.14.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.14.md"
+cp "$ROOT_DIR/docs/RELEASE-0.15.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.15.md"
 cp "$ROOT_DIR/docs/DMR-0.12.md" "$APP_BUNDLE/Contents/Resources/DMR.md"
 cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
 bash "$ROOT_DIR/script/build_ftx.sh" "$APP_MACOS/ftx-helper"
 bash "$ROOT_DIR/script/build_cw.sh" "$APP_MACOS/cw-helper"
+strip_build_rpaths "$APP_MACOS/cw-helper"
 for component in ftx-helper cw-helper; do codesign --force --sign - "$APP_MACOS/$component"; done
 cp -R "$ROOT_DIR/Vendor/CWKit/Sources/CWKit/Resources/CWNet.mlmodelc" "$APP_BUNDLE/Contents/Resources/CWNet.mlmodelc"
 for library in SatelliteKit FT8 CWKit LibACARS; do
@@ -111,10 +129,16 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.14.0</string>
-<key>CFBundleVersion</key><string>30</string>
+<key>CFBundleShortVersionString</key><string>0.15.0</string>
+<key>CFBundleVersion</key><string>31</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>SUFeedURL</key><string>https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml</string>
+<key>SUPublicEDKey</key><string>$SPARKLE_PUBLIC_KEY</string>
+<key>SUEnableAutomaticChecks</key><false/>
+<key>SUAutomaticallyUpdate</key><false/>
+<key>SURequireSignedFeed</key><true/>
+<key>SUVerifyUpdateBeforeExtraction</key><true/>
 <key>NSPrincipalClass</key><string>NSApplication</string>
 <key>NSMicrophoneUsageDescription</key><string>Decodificar audio del receptor seleccionado al pulsar Escuchar.</string>
 <key>NSAppTransportSecurity</key><dict><key>NSExceptionDomains</key><dict>

@@ -27,6 +27,7 @@ final class ReceiverStore {
     var acarsMessages: [ACARSMessage] = []
     var multimonRecords: [MultimonRecord] = []
     var dgpsReceptions: [DGPSReception] = []
+    var integrity: ReceptionIntegrity?
     var engineRecords: [AudioEngineRecord] = []
     var voiceURL: URL?
     var voiceProtocol: DigitalVoiceProtocol?
@@ -125,7 +126,7 @@ final class ReceiverStore {
         let previous = mode
         stop(); mode = value; text = ""; visualization.reset(); error = nil
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; integrity = nil; engineRecords = []; clearVoice()
         progress = 0; dropped = 0
         source = lastURL?.lastPathComponent ?? "Sin fuente"
         detail = lastURL == nil
@@ -162,7 +163,7 @@ final class ReceiverStore {
     func decode(_ url: URL) {
         stop(); text = ""; error = nil; visualization.reset(); receivedImage = nil; imageCaption = ""
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; integrity = nil; engineRecords = []; clearVoice()
         lastURL = url; source = url.lastPathComponent; progress = 0; busy = true
         sourceChannelCount = 0; captureSampleRate = 0; dropped = 0; samplesReceived = 0
         let token = session, mode = mode, settings = settings
@@ -185,7 +186,7 @@ final class ReceiverStore {
         voicePlayer?.stop()
         stop(); text = ""; error = nil; busy = true; live = true
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; integrity = nil; engineRecords = []; clearVoice()
         lastURL = nil
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
         visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
@@ -212,7 +213,7 @@ final class ReceiverStore {
     }
     private func startTCP() {
         stop(); text = ""; error = nil; busy = true; live = true; lastURL = nil
-        acarsMessages = []; selectedACARSMessage = nil; multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
+        acarsMessages = []; selectedACARSMessage = nil; multimonRecords = []; dgpsReceptions = []; integrity = nil; engineRecords = []; clearVoice()
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
         visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
         let configuration = networkPCM, token = session, mode = mode, settings = settings
@@ -346,6 +347,7 @@ final class ReceiverStore {
         }
         if mode.isMultimon { multimonRecords = value.multimonRecords }
         if mode == .dgps { dgpsReceptions = value.dgpsReceptions }
+        integrity = value.integrity
         engineRecords = value.engineRecords
         if let voice = value.voiceURL { voiceURL = voice; voiceProtocol = settings.digitalVoiceProtocol }
         dmrStatus = value.dmrStatus; voiceFrames = value.voiceFrames

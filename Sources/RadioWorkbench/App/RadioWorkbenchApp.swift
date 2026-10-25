@@ -6,6 +6,7 @@ struct RadioWorkbenchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     // App-wide receiver identity; child views observe it through @Bindable.
     private let receiver = ReceiverStore()
+    private let updates = UpdateStore()
     private let broadcasts = BroadcastStore()
     private let propagation = PropagationStore()
     private let rbnStore = RBNStore()
@@ -18,12 +19,16 @@ struct RadioWorkbenchApp: App {
                         consultations: consultations, aprs: aprs, satellites: satellites)
                 .frame(minWidth: 1100, minHeight: 660)
                 .task {
+                    updates.activateIfRequested()
                     await MicrophoneDiagnostic.runIfRequested(receiver: receiver)
                     await FileReceptionDiagnostic.runIfRequested(receiver: receiver)
                 }
         }
         .defaultSize(width: 1360, height: 850)
         .commands {
+            CommandGroup(after: .appInfo) {
+                Button("Buscar actualizaciones…") { updates.check() }.disabled(updates.configuration == nil || updates.checking || receiver.busy)
+            }
             CommandGroup(replacing: .newItem) {
                 Button("Abrir audio…") { receiver.openAudio() }.keyboardShortcut("o").disabled(!receiver.mode.isAudioAvailable || !receiver.isDecoderSelected)
                 Button("Exportar texto…") { receiver.exportText() }.keyboardShortcut("s").disabled(receiver.text.isEmpty || !receiver.isDecoderSelected)
@@ -34,7 +39,7 @@ struct RadioWorkbenchApp: App {
                 Button("Limpiar texto") { receiver.text = "" }.disabled(receiver.busy || !receiver.isDecoderSelected)
             }
         }
-        Settings { PreferencesView().frame(width: 420, height: 200) }
+        Settings { PreferencesView(updates: updates, receiver: receiver) }
     }
 }
 

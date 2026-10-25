@@ -230,6 +230,7 @@ final class SITORADecoder {
         }
     }
     func finish() { completeBurst(); receiver.advance(to: lastTime); receiver.finish() }
+    var integrity: ReceptionIntegrity { .init(check: "CCIR 476 · 4/7 y cadencia", unit: "bloques", accepted: receiver.acceptedBlocks, rejected: receiver.invalidBlocks, synchronized: receiver.locked, note: "4/7 no equivale a CRC. ACK observados: \(receiver.acknowledgements); sin retorno no se confirma entrega.") }
     var text: String { receiver.text }
     var status: String { receiver.status }
 }

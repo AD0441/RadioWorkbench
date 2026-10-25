@@ -1,3 +1,21 @@
+# Validación de RadioWorkbench 0.15.0
+
+Suite Release arm64: **281 funciones registradas, 275 aprobadas, seis opcionales omitidas y cero fallos**, 7,942 s tras compilar. Pasaron además **21 controles C HF**. Las omisiones siguen siendo tres contrastes DMR con corpus temporal independiente, dos pruebas de red real y el benchmark visual opcional; no se repitió recepción física.
+
+Las pruebas nuevas verifican importación/exportación SigMF sin alterar el original, conservación de anotaciones y muestras, papelera/restauración, SHA-512 y rollback al fallar, rechazo de enlaces y diseños no admitidos, índice corrupto preservado y preparación SatDump sin iniciar proceso. La comparación A/B sobre el mismo AX.25 recupera una trama con el centro correcto y ninguna con el incorrecto; también cubre cancelación y modos excluidos. La configuración de actualización rechaza HTTP, credenciales en URL y claves inválidas.
+
+El canal inicial Sparkle 2.10.0 está publicado por HTTPS en la rama `updates`. Se descargó, comparó con el original y verificó su firma; una copia alterada fue rechazada. El canal no ofrece paquetes y no se presenta como validada una actualización entre dos versiones publicadas. La clave privada permanece fuera de Git y del bundle.
+
+ZIP 0.15.0/build 31 extraído: integridad y firma estricta correctas, **18 objetos Mach-O con arm64** (13 propios arm64 y cinco componentes universales de Sparkle), sin dependencias del checkout/Homebrew/Testing ni rutas del compilador; **78 WAV idénticos** a los fixtures. SHA-256: `a3da7731ecc7cf7fd6e7f7b4cdfbf27b0174e5202b0cc68b25fd0c23eb49d8c6`.
+
+Se sustituyó `/Applications/RadioWorkbench.app` y se compararon los archivos con el paquete verificado. **2.258 archivos existentes de datos y preferencias conservaron su contenido durante la copia**. Se conserva la entrega actual y el ZIP previo 0.14.0.
+
+**Interfaz parcial:** se observó la app instalada, el paso de fuente/perfil del asistente, la biblioteca de audio y la sección SigMF. Al abrir el taller se cerró la conexión de la herramienta de pantalla; reconectar y reiniciar su sesión no la recuperó. RadioWorkbench siguió activa y no apareció un informe nuevo de cierre. No se observaron el resultado A/B ni el diálogo Sparkle; no se inició micrófono ni reproducción. Sus pruebas de código no sustituyen esa comprobación visual pendiente.
+
+El README principal contiene español e inglés, el botón Ko-fi y el agradecimiento solicitado a G4ZJH. La traducción completa de la interfaz continúa pendiente. Las tres skills instaladas pasaron la validación de estructura y se retiró una copia anidada duplicada de Swift Testing Pro.
+
+[Resumen único](validation/release-0.15.0.json) · [Uso y límites](RELEASE-0.15.0.md).
+
 # Validación de RadioWorkbench 0.14.0
 
 Suite Release arm64: **273 funciones registradas, 267 aprobadas, seis opcionales

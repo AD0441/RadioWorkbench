@@ -4,6 +4,7 @@ import RadioCore
 struct SignalWorkshopView: View {
     @Bindable var store: SignalWorkshopStore
     let onDecode: (SignalReference, URL, AudioChannelSelection) -> Void
+    @ViewState private var showsDecoderComparison = false
     private var referenceModes: [RadioMode] { RadioMode.allCases.filter { mode in SignalReference.allCases.contains { $0.mode == mode } } }
 
     var body: some View {
@@ -15,6 +16,10 @@ struct SignalWorkshopView: View {
                 referenceSelection
                 referenceDescription
                 comparisonControls
+                if DecoderComparison.supports(store.reference.mode), store.userURL != nil || store.referenceURL != nil {
+                    Button("Comparar decodificación A/B…") { store.stopPlayback(); showsDecoderComparison = true }
+                        .disabled(store.busy)
+                }
                 if store.busy {
                     HStack { ProgressView("Analizando hasta 12 segundos…"); Button("Cancelar") { store.cancelAnalysis() } }
                 }
@@ -54,6 +59,17 @@ struct SignalWorkshopView: View {
         }
         .task { if store.referenceProbe == nil { store.analyze() } }
         .onDisappear { store.stopPlayback(); store.cancelAnalysis() }
+        .sheet(isPresented: $showsDecoderComparison) {
+            if let url = store.userURL ?? store.referenceURL {
+                DecoderComparisonView(mode: store.reference.mode, url: url, settings: comparisonSettings)
+            }
+        }
+    }
+
+    private var comparisonSettings: DecoderSettings {
+        var settings = store.reference.settings
+        settings.audioChannel = store.userURL == nil ? store.referenceChannel : store.channel
+        return settings
     }
 
     private var referenceSelection: some View {

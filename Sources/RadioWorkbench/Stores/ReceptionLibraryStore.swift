@@ -4,6 +4,7 @@ import RadioCore
 
 @MainActor @Observable
 final class ReceptionLibraryStore {
+    let sigMF = SigMFLibraryStore()
     var sessions: [ReceptionSession] = []
     var observations: [ListeningObservation] = []
     var category = "Todas"

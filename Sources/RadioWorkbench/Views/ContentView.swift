@@ -63,7 +63,9 @@ struct ContentView: View {
                 ReceptionLibraryView(store: receiver.receptionLibrary, onRecord: { startObservation(entry: nil) }, currentAudioURL: receiver.lastURL,
                     mode: receiver.mode, settings: receiver.settings,
                     rf: ReceptionRFMetadata(modulation: receiver.rfModulation, bandwidthHz: receiver.rfBandwidth,
-                        sourceDescription: receiver.source, engineVersion: "RadioWorkbench " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "desarrollo"))) {
+                        sourceDescription: receiver.source, engineVersion: "RadioWorkbench " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "desarrollo")), onPrepareIQ: { recording in
+                            receiver.satDumpOffline.prepareSigMF(recording); receiver.destination = .satDump
+                        }) {
                     item, url in receiver.openReception(item, url: url)
                 }
             }
@@ -164,15 +166,5 @@ struct ContentView: View {
             }
             ListeningMapView(library: receiver.receptionLibrary, events: receiver.receptionEvents)
         }
-    }
-}
-
-struct PreferencesView: View {
-    var body: some View {
-        Form {
-            LabeledContent("Motor", value: "Swift + Accelerate · arm64")
-            LabeledContent("Entrada en vivo", value: "Selector en Recepción")
-            Text("Elige el receptor USB o dispositivo virtual en Entrada de audio. La selección se aplica a esta app y la captura comienza al pulsar Escuchar.").font(.caption).foregroundStyle(.secondary)
-        }.padding(24)
     }
 }

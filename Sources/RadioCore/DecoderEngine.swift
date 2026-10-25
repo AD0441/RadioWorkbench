@@ -47,6 +47,11 @@ public final class DecoderEngine {
         if var decoder = dtmf { for sample in samples { decoder.push(sample) }; dtmf = decoder }
     }
     public func finish() { cw?.finish(); imageDecoder?.finish(); hell?.finish(); sitorA?.finish(); dgps?.finish() }
+    public var integrity: ReceptionIntegrity? {
+        if let packet { return .init(check: "CRC AX.25", unit: "tramas", accepted: packet.acceptedFrames, rejected: packet.rejectedCRC, note: "Rechazos por CRC entre candidatos detectados; no mide transmisiones perdidas ni todos los errores de formato.") }
+        if let dgps { return .init(check: "Paridad encadenada RTCM 2", unit: "mensajes", accepted: dgps.acceptedFrames, note: "Todas las palabras del mensaje aceptado pasaron paridad. No autentica el transmisor ni calcula una solución GNSS.") }
+        return sitorA?.integrity
+    }
     public var image: RadioImage? { imageDecoder?.image ?? hell?.image }
     public var packetReceptions: [PacketReception] { packet?.receptions ?? [] }
     public var dgpsReceptions: [DGPSReception] { dgps?.receptions ?? [] }

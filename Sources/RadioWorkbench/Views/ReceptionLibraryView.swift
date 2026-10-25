@@ -10,14 +10,26 @@ struct ReceptionLibraryView: View {
     let mode: RadioMode
     let settings: DecoderSettings
     let rf: ReceptionRFMetadata
+    let onPrepareIQ: (SigMFRecording) -> Void
     let onOpen: @MainActor (ReceptionSession, URL) -> Void
     @ViewState private var title = ""
     @ViewState private var frequencyMHz = ""
     @ViewState private var captureDateKnown = false
     @ViewState private var captureDate = Date()
+    @ViewState private var showsIQ = false
     private let utc = TimeZone(secondsFromGMT: 0)!
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Picker("Biblioteca", selection: $showsIQ) {
+                Text("Audio y escuchas").tag(false)
+                Text("I/Q · SigMF").tag(true)
+            }.pickerStyle(.segmented).frame(width: 350).padding(.horizontal, 20).padding(.top, 16)
+            if showsIQ { SigMFLibraryView(store: store.sigMF, onPrepare: onPrepareIQ) }
+            else { audioLibrary }
+        }
+    }
+    private var audioLibrary: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Biblioteca de recepciones").font(.largeTitle.weight(.semibold))
             Text("Escuchas anotadas y audio original con sus ajustes. Las anotaciones no necesitan grabación.").foregroundStyle(.secondary)

@@ -3,6 +3,7 @@ import RadioCore
 
 struct AudioRoutingView: View {
     @Bindable var receiver: ReceiverStore
+    @ViewState private var showsAssistant = false
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if receiver.inputSource == .device { InputProfilesView(receiver: receiver) }
@@ -43,8 +44,9 @@ struct AudioRoutingView: View {
                 Text("Hz · SDR++ a 48 kHz").foregroundStyle(.secondary)
                 Spacer()
             }.font(.caption)
-            Text(receiver.mode.receptionProfile.audioBand + ". " + receiver.mode.receptionProfile.note)
+            Text(receiver.mode.receptionProfile(settings: receiver.settings).audioBand + ". " + receiver.mode.receptionProfile(settings: receiver.settings).note)
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            Button("Asistente de conexión…", systemImage: "checklist") { showsAssistant = true }
             InputQualityView(receiver: receiver)
             if receiver.mode == .sstv && receiver.settings.sstvFormat.isNarrow {
                 Text("Narrow: cabecera 1900/2100 Hz; vídeo 2044–2300 Hz. Conserva la cabecera completa; en USB, reducir solo el ancho del filtro puede eliminar estos tonos.")
@@ -55,6 +57,6 @@ struct AudioRoutingView: View {
                  ? "Micrófono del Mac: pulsa Escuchar antes de emitir desde el celular. Debajo se muestra la tasa efectiva de captura. Los ajustes RF son una guía para SDR++."
                  : "En SDR++: Audio / New Audio → VB-Cable → 48000 Hz. Aquí selecciona VB-Cable y pulsa Escuchar. Estos ajustes RF se aplican en SDR++, no automáticamente.")
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-        }
+        }.sheet(isPresented: $showsAssistant) { InputConnectionAssistant(receiver: receiver) }
     }
 }
