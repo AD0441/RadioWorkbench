@@ -259,11 +259,11 @@
     "current": "0.13.0",
     "previous_zip": "0.12.1",
     "dist_files": [
-      ".DS_Store",
       "RadioWorkbench-0.12.1-macos-arm64.zip",
       "RadioWorkbench-0.13.0-macos-arm64.zip",
       "RadioWorkbench-0.13.0.app"
     ],
-    "temporary_build_removed": true
+    "temporary_build_removed": true,
+    "project_build_cache_removed": true
   }
 }
