@@ -163,7 +163,7 @@
   "github": {
     "branch": "feat/dmr-reception-review",
     "pullRequest": "https://github.com/AD0441/RadioWorkbench/pull/2",
-    "draft": true,
+    "draft": false,
     "publicRelease": "v0.11.0"
   }
 }
