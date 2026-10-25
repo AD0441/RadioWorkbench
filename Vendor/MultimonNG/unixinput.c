@@ -341,6 +341,9 @@ void printJson(cJSON *json_output)
     char *json = cJSON_PrintUnformatted(json_output);
     if (json) {
         fprintf(stdout, "%s\n", json);
+        /* stdout is a pipe in RadioWorkbench. Publish complete events while
+         * stdin remains open, including short FLEX numeric/tone records. */
+        fflush(stdout);
         cJSON_free(json);
     }
 }

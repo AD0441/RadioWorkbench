@@ -6,15 +6,15 @@ struct ReceiverSpectrumView: View {
     var body: some View {
         SpectrumView(frame: receiver.visualization.frame, waterfall: receiver.visualization.waterfall,
                      frequency: receiver.settings.frequency, shift: shift,
-                     showsTuningMarker: receiver.mode != .digitalVoice) { frequency in
-            if !receiver.busy && ![.digitalVoice, .selectiveTones, .acars, .ale].contains(receiver.mode) {
+                     showsTuningMarker: receiver.mode != .digitalVoice && !receiver.mode.isMultimon) { frequency in
+            if !receiver.busy && !receiver.mode.isMultimon && ![.digitalVoice, .selectiveTones, .acars, .ale].contains(receiver.mode) {
                 receiver.settings.frequency = frequency
             }
         }
     }
     private var shift: Double {
         switch receiver.mode {
-        case .navtex: 170
+        case .navtex, .sitorA: 170
         case .rtty: receiver.settings.shift
         case .wefax: 800
         default: 0

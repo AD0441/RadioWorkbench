@@ -1,7 +1,7 @@
 import Foundation
 
 public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
-    case morse, ft8, ft4, digitalVoice, rtty, psk31, dtmf, bitAnalysis, pocsag, fiveTones
+    case morse, ft8, ft4, digitalVoice, rtty, psk31, dtmf, bitAnalysis, pocsag, flex, fiveTones
     case wefax, satelliteAPT, sstv, sitorA, navtex, acars, packet, ale, hell, mt63, gmdss, dgps, loran, globeWireless, selectiveTones
     public var id: String { rawValue }
     public var title: String {
@@ -15,6 +15,7 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
         case .dtmf: "DTMF"
         case .bitAnalysis: "Análisis FSK"
         case .pocsag: "POCSAG / pagers"
+        case .flex: "FLEX / pagers"
         case .fiveTones: "Cinco tonos / Selcall"
         case .wefax: "Fax meteorológico"
         case .satelliteAPT: "Satélite / APT"
@@ -33,9 +34,9 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
         case .selectiveTones: "CTCSS / tonos"
         }
     }
-    public var isNative: Bool { [.morse, .rtty, .psk31, .dtmf, .bitAnalysis, .sstv, .wefax, .satelliteAPT, .navtex, .packet, .selectiveTones, .hell].contains(self) }
+    public var isNative: Bool { [.morse, .rtty, .psk31, .dtmf, .bitAnalysis, .sstv, .wefax, .satelliteAPT, .sitorA, .navtex, .dgps, .packet, .selectiveTones, .hell].contains(self) }
     public var isImage: Bool { [.sstv, .wefax, .satelliteAPT, .hell].contains(self) }
-    public var isMultimon: Bool { self == .pocsag || self == .fiveTones }
+    public var isMultimon: Bool { [.pocsag, .flex, .fiveTones].contains(self) }
     public var isAudioAvailable: Bool { isNative || self == .acars || isMultimon || [.ft8, .ft4, .digitalVoice, .mt63, .ale, .gmdss].contains(self) }
     public func usesAdditionalAudioEngine(settings: DecoderSettings) -> Bool {
         [.ft8, .ft4, .digitalVoice, .mt63, .ale, .gmdss].contains(self) || (self == .morse && settings.cwEngine != .manual)
@@ -72,19 +73,20 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
         case .dtmf: "Detección de las 16 combinaciones de tonos de teclado."
         case .bitAnalysis: "Discriminador FSK para explorar tonos y transiciones; no identifica por sí solo un protocolo."
         case .pocsag: "POCSAG 512/1200/2400 desde discriminador FM: capcode, función y texto, con corrección BCH."
+        case .flex: "FLEX 1600/3200/6400 bit/s: direcciones cortas, texto y números desde discriminador FM. Sin ReFLEX."
         case .fiveTones: "Secuencias selectivas ZVEI1/2/3, PZVEI, DZVEI, EEA, EIA y CCIR desde audio FM."
         case .wefax: "Recepción de radiofax HF: IOC, LPM, inicio manual e inversión de imagen."
         case .satelliteAPT: "Recepción APT desde audio de FM: envolvente AM 2400 Hz y canales A/B."
         case .sstv: "41 formatos SSTV: clásicos y MMSSTV MP/MR/ML, MP-N/MC-N; VIS clásico, extendido y N-VIS."
         case .navtex: "SITOR-B colectivo: FSK 100 baud, CCIR 476, sincronía de phasing y dos copias con FEC."
-        case .sitorA: "SITOR-A: recepción de bloques ARQ y sincronización; sin transmisión automática."
+        case .sitorA: "SITOR-A pasivo: bloques CCIR 476 a 100 baud y respuestas ARQ observadas. Sin transmisión; 4/7 no equivale a CRC."
         case .acars: "ACARS VHF desde audio AM: matrícula, vuelo, etiqueta y mensajes validados por acarsdec."
         case .packet: "Packet/APRS AFSK 1200: Bell 202, NRZI, HDLC y tramas AX.25 con CRC verificado."
         case .ale: "ALE 2G desde audio USB: sondeos, llamadas y mensajes AMD con el motor KiwiSDR. ALE 3G pendiente."
         case .hell: "Hellschreiber por pulsos: Feld, Slow y X5/X9. Raster visual continuo y exportación PNG; sin OCR."
         case .mt63: "MT63 500/1000/2000 Hz, entrelazado corto o largo: motor de audio fldigi, recepción local y WAV."
         case .gmdss: "DSC MF/HF y VHF desde audio, con diversidad temporal y ECC. Interpretación parcial y exportación de símbolos."
-        case .dgps: "DGPS: decodificación MSK/RTCM y catálogo de estaciones; integración pendiente."
+        case .dgps: "DGPS MSK a 100/200 bit/s: RTCM 2 con paridad encadenada, ID de estación, correcciones y posición ECEF cuando se recibe."
         case .loran: "LORAN-C usa pulsos RF; una captura de audio corriente no garantiza evidencia suficiente."
         case .globeWireless: "Globe Wireless: no hay todavía un motor abierto verificado para esta implementación."
         case .selectiveTones: "CTCSS: búsqueda automática de 51 tonos subaudio, confianza y duración. Cinco tonos en su apartado; DCS pendiente."
@@ -92,7 +94,9 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
     }
     public var sourceURL: URL? {
         let source: String? = switch self {
-        case .wefax, .sstv, .sitorA, .navtex, .hell, .mt63: "https://github.com/w1hkj/fldigi"
+        case .wefax, .sstv, .navtex, .hell, .mt63: "https://github.com/w1hkj/fldigi"
+        case .sitorA: "https://www.itu.int/rec/R-REC-M.476/en"
+        case .dgps: "https://www.itu.int/rec/R-REC-M.823/en"
         case .morse: "https://github.com/captobie/cwdecode"
         case .ft8, .ft4: "https://github.com/kgoba/ft8_lib"
         case .digitalVoice: "https://github.com/arancormonk/dsd-neo"
@@ -101,7 +105,7 @@ public enum RadioMode: String, CaseIterable, Identifiable, Codable, Sendable {
         case .packet: "https://github.com/wb2osz/direwolf"
         case .gmdss: "https://github.com/f4exb/sdrangel"
         case .satelliteAPT: "https://github.com/SatDump/SatDump"
-        case .pocsag, .fiveTones: "https://github.com/EliasOenal/multimon-ng"
+        case .pocsag, .flex, .fiveTones: "https://github.com/EliasOenal/multimon-ng"
         default: nil
         }
         return source.flatMap(URL.init(string:))
@@ -137,6 +141,7 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     public var pagerRate: PagerRate = .automatic
     public var pagerCorrectionBits = 2
     public var pagerShowEmpty = false
+    public var dgpsRate: DGPSRate = .automatic
     public var fiveToneStandard: FiveToneStandard = .zvei1
     public var rttyEncoding: RTTYEncoding = .ita2
     public var hellVariant: HellVariant = .feld
@@ -150,9 +155,12 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
     public var dscDeemphasized = false
     public init() {}
     public func validated(sampleRate: Double, mode: RadioMode) throws {
+        let halfWidth = mode == .navtex || mode == .sitorA ? 85.0 : mode == .dgps ? 100 : mode == .rtty || mode == .bitAnalysis ? shift / 2 : 0
+        // Discriminator helpers acquire their own timing/levels and never use
+        // this audio centre. A previous spectrum click must not reject a new WAV.
+        let centerValid = mode.isMultimon || (frequency.isFinite && frequency > 0 && frequency + halfWidth < sampleRate / 2 && frequency - halfWidth > 0)
         guard sampleRate.isFinite, sampleRate >= 4000, sampleRate <= 384000,
-              frequency.isFinite, frequency > 0, frequency + (mode == .navtex ? 85 : mode == .rtty || mode == .bitAnalysis ? shift / 2 : 0) < sampleRate / 2,
-              frequency - (mode == .navtex ? 85 : mode == .rtty || mode == .bitAnalysis ? shift / 2 : 0) > 0,
+              centerValid,
               (mode != .sstv && mode != .wefax) || (frequency + 400 < sampleRate / 2 && frequency - (mode == .sstv ? 800 : 400) > 0),
               wordsPerMinute.isFinite, (5...80).contains(wordsPerMinute),
               baud.isFinite, (20...300).contains(baud), shift.isFinite, (50...1000).contains(shift),
@@ -169,13 +177,15 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
         if mode == .ale && sampleRate < 8000 { throw RadioError.invalidSettings }
         if mode == .mt63 && (sampleRate < 8000 || !(1000...2500).contains(frequency) || frequency - Double(mt63Variant.bandwidth) / 2 <= 0 || frequency + Double(mt63Variant.bandwidth) / 2 >= 4000) { throw RadioError.invalidSettings }
         if mode == .packet && (sampleRate < 8000 || frequency - 500 <= 0 || frequency + 500 >= sampleRate / 2) { throw RadioError.invalidSettings }
+        if mode == .dgps && (frequency < 400 || frequency + 400 >= sampleRate / 2) { throw RadioError.invalidSettings }
         if mode == .hell && (frequency - hellVariant.bandwidthHz / 2 <= 0 || frequency + hellVariant.bandwidthHz / 2 >= sampleRate / 2) { throw RadioError.invalidSettings }
-        if mode.isMultimon && (sampleRate < 8000 || !(0...2).contains(pagerCorrectionBits)) { throw RadioError.invalidSettings }
+        if mode.isMultimon && sampleRate < 8000 { throw RadioError.invalidSettings }
+        if mode == .pocsag && !(0...2).contains(pagerCorrectionBits) { throw RadioError.invalidSettings }
     }
     private enum CodingKeys: String, CodingKey {
         case frequency, wordsPerMinute, baud, shift, threshold, inverted, audioChannel, sstvFormat, sstvColorRange,
             sstvRobot36Compatibility, sstvAutoCalibrate, sstvNoiseReduction, imageAutoSync, imageStartSeconds,
-            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, fiveToneStandard, rttyEncoding, hellVariant, cwEngine, ftxStartSeconds, digitalVoiceProtocol, dmrSlotSelection, dmrMonitorVoice, mt63Variant, dscVariant, dscDeemphasized
+            imageClockPPM, faxLinesPerMinute, faxIOC, pagerRate, pagerCorrectionBits, pagerShowEmpty, dgpsRate, fiveToneStandard, rttyEncoding, hellVariant, cwEngine, ftxStartSeconds, digitalVoiceProtocol, dmrSlotSelection, dmrMonitorVoice, mt63Variant, dscVariant, dscDeemphasized
     }
     public init(from decoder: Decoder) throws {
         self.init()
@@ -200,6 +210,7 @@ public struct DecoderSettings: Codable, Equatable, Sendable {
         pagerRate = try c.decodeIfPresent(PagerRate.self, forKey: .pagerRate) ?? pagerRate
         pagerCorrectionBits = try c.decodeIfPresent(Int.self, forKey: .pagerCorrectionBits) ?? pagerCorrectionBits
         pagerShowEmpty = try c.decodeIfPresent(Bool.self, forKey: .pagerShowEmpty) ?? pagerShowEmpty
+        dgpsRate = try c.decodeIfPresent(DGPSRate.self, forKey: .dgpsRate) ?? dgpsRate
         fiveToneStandard = try c.decodeIfPresent(FiveToneStandard.self, forKey: .fiveToneStandard) ?? fiveToneStandard
         rttyEncoding = try c.decodeIfPresent(RTTYEncoding.self, forKey: .rttyEncoding) ?? rttyEncoding
         hellVariant = try c.decodeIfPresent(HellVariant.self, forKey: .hellVariant) ?? hellVariant
@@ -229,8 +240,8 @@ public enum RadioError: LocalizedError {
         case .unavailableAudioChannel(let index, let available): "El audio tiene \(available) canal(es); elegiste el canal \(index + 1). Selecciona Mezclar o un canal disponible."
         case .acarsEngineUnavailable: "Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RadioWorkbench."
         case .acarsEngineFailed(let reason): "Error del motor ACARS: \(reason)"
-        case .multimonEngineUnavailable: "Este paquete no incluye el motor POCSAG/tonos. Abre la app empaquetada de RadioWorkbench."
-        case .multimonEngineFailed(let reason): "Error del motor POCSAG/tonos: \(reason)"
+        case .multimonEngineUnavailable: "Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RadioWorkbench."
+        case .multimonEngineFailed(let reason): "Error del motor POCSAG/FLEX/tonos: \(reason)"
         }
     }
 }

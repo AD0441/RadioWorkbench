@@ -1,0 +1,101 @@
+{
+  "source": "https://github.com/ntpsec/gpsd/blob/master/test/sample.rtcm2",
+  "oracle": "https://github.com/ntpsec/gpsd/blob/master/test/sample.rtcm2.chk",
+  "license": "BSD-2-Clause; see dgps-gpsd-LICENSE.txt and source header",
+  "file_sha256": "999fd5a2e633592be500ba494d4b86bf4576d90c10e7c10786087c7d1c3af70d",
+  "expected_frames": 131,
+  "first_frames": [
+    {
+      "class": "RTCM2",
+      "device": "stdin",
+      "type": 9,
+      "station_id": 268,
+      "zcount": 249.6,
+      "seqnum": 1,
+      "length": 5,
+      "station_health": 0,
+      "satellites": [
+        {
+          "ident": 13,
+          "udre": 0,
+          "iod": 3,
+          "prc": -26.12,
+          "rrc": 0.068
+        },
+        {
+          "ident": 2,
+          "udre": 0,
+          "iod": 73,
+          "prc": 1.22,
+          "rrc": -0.08
+        },
+        {
+          "ident": 8,
+          "udre": 0,
+          "iod": 22,
+          "prc": 23.76,
+          "rrc": 0.03
+        }
+      ]
+    },
+    {
+      "class": "RTCM2",
+      "device": "stdin",
+      "type": 9,
+      "station_id": 268,
+      "zcount": 250.8,
+      "seqnum": 2,
+      "length": 4,
+      "station_health": 0,
+      "satellites": [
+        {
+          "ident": 19,
+          "udre": 0,
+          "iod": 186,
+          "prc": -58.56,
+          "rrc": -0.256
+        },
+        {
+          "ident": 11,
+          "udre": 1,
+          "iod": 2,
+          "prc": -39.9,
+          "rrc": 0.174
+        }
+      ]
+    },
+    {
+      "class": "RTCM2",
+      "device": "stdin",
+      "type": 9,
+      "station_id": 268,
+      "zcount": 252.0,
+      "seqnum": 3,
+      "length": 5,
+      "station_health": 0,
+      "satellites": [
+        {
+          "ident": 27,
+          "udre": 0,
+          "iod": 62,
+          "prc": -39.68,
+          "rrc": -0.016
+        },
+        {
+          "ident": 7,
+          "udre": 0,
+          "iod": 15,
+          "prc": 25.66,
+          "rrc": 0.026
+        },
+        {
+          "ident": 26,
+          "udre": 0,
+          "iod": 128,
+          "prc": 12.84,
+          "rrc": 0.118
+        }
+      ]
+    }
+  ]
+}

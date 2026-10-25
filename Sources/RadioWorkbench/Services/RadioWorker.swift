@@ -20,6 +20,7 @@ struct RadioUpdate: Sendable {
     var dmrStatus: DMRStatus?
     var voiceFrames: UInt64 = 0
     var packetReceptions: [PacketReception] = []
+    var dgpsReceptions: [DGPSReception] = []
 }
 
 actor RadioWorker {
@@ -54,7 +55,7 @@ actor RadioWorker {
             let now = ProcessInfo.processInfo.systemUptime
             if now - lastUpdate >= 0.1 {
                 lastFrame = spectrum.analyze(samples, sampleRate: reader.sampleRate)
-                await update(RadioUpdate(text: decoder.text, frame: lastFrame, progress: reader.progress, source: url.lastPathComponent, detail: detail + (decoder.status.isEmpty ? "" : " · " + decoder.status), image: decoder.image, channelCount: reader.channelCount, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
+                await update(RadioUpdate(text: decoder.text, frame: lastFrame, progress: reader.progress, source: url.lastPathComponent, detail: detail + (decoder.status.isEmpty ? "" : " · " + decoder.status), image: decoder.image, channelCount: reader.channelCount, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions, dgpsReceptions: decoder.dgpsReceptions))
                 lastUpdate = now
             }
         }
@@ -62,7 +63,7 @@ actor RadioWorker {
         decoder.finish()
         let elapsed = ProcessInfo.processInfo.systemUptime - started
         await update(RadioUpdate(text: decoder.text, frame: lastFrame, progress: 1, source: url.lastPathComponent,
-                                 detail: detail + " · proceso \(String(format: "%.2f", elapsed)) s" + (decoder.status.isEmpty ? "" : " · " + decoder.status), finished: true, image: decoder.image, channelCount: reader.channelCount, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
+                                 detail: detail + " · proceso \(String(format: "%.2f", elapsed)) s" + (decoder.status.isEmpty ? "" : " · " + decoder.status), finished: true, image: decoder.image, channelCount: reader.channelCount, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions, dgpsReceptions: decoder.dgpsReceptions))
     }
     func decodeLive(ring: AudioSampleRing, sampleRate: Double, mode: RadioMode, settings: DecoderSettings, source: String = "Entrada de audio",
                     voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil,
@@ -92,13 +93,15 @@ actor RadioWorker {
         var lastUpdate = 0.0
         var previousDrop: UInt64 = 0
         var retainedText = ""
+        var pendingUpdate = false
+        var latestAudio: [Float] = []
         while !Task.isCancelled {
             let count = ring.read(into: &storage)
             if count == 0 && ring.isDrained {
                 decoder.finish()
                 await update(RadioUpdate(text: retainedText + decoder.text, frame: nil, progress: 1,
                     source: source, detail: "Fuente de audio cerrada · decodificador finalizado" + (decoder.status.isEmpty ? "" : " · " + decoder.status),
-                    finished: true, dropped: ring.dropped, image: decoder.image, samplesReceived: ring.written + ring.dropped, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
+                    finished: true, dropped: ring.dropped, image: decoder.image, samplesReceived: ring.written + ring.dropped, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions, dgpsReceptions: decoder.dgpsReceptions))
                 return
             }
             if count > 0 {
@@ -113,12 +116,17 @@ actor RadioWorker {
                 if visualize != nil, let frame = liveSpectrum.append(samples) { visualize?(frame) }
                 try recording?.write(samples)
                 decoder.process(samples)
-                let now = ProcessInfo.processInfo.systemUptime
-                if now - lastUpdate >= 0.1 {
-                    await update(RadioUpdate(text: retainedText + decoder.text, frame: visualize == nil ? spectrum.analyze(samples, sampleRate: sampleRate) : nil, progress: 0,
-                                             source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · recepción en vivo" + (decoder.status.isEmpty ? "" : " · " + decoder.status), dropped: dropped, image: decoder.image, samplesReceived: ring.written + ring.dropped, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions))
-                    lastUpdate = now
-                }
+                if visualize == nil { latestAudio = samples }
+                pendingUpdate = true
+            }
+            // Publish already decoded content even if a TCP sender pauses before
+            // the next refresh. Keep at most one latest block and no idle FFTs.
+            let now = ProcessInfo.processInfo.systemUptime
+            if pendingUpdate && now - lastUpdate >= 0.1 {
+                await update(RadioUpdate(text: retainedText + decoder.text, frame: visualize == nil ? spectrum.analyze(latestAudio, sampleRate: sampleRate) : nil, progress: 0,
+                                         source: source, detail: "\(Int(sampleRate)) Hz · \(settings.audioChannel.label) · recepción en vivo" + (decoder.status.isEmpty ? "" : " · " + decoder.status), dropped: ring.dropped, image: decoder.image, samplesReceived: ring.written + ring.dropped, sstvCalibration: decoder.sstvCalibration, packetReceptions: decoder.packetReceptions, dgpsReceptions: decoder.dgpsReceptions))
+                lastUpdate = now
+                pendingUpdate = false
             }
             try await Task.sleep(for: .milliseconds(20))
         }

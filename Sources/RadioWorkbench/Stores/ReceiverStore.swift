@@ -26,15 +26,18 @@ final class ReceiverStore {
     var text = ""
     var acarsMessages: [ACARSMessage] = []
     var multimonRecords: [MultimonRecord] = []
+    var dgpsReceptions: [DGPSReception] = []
     var engineRecords: [AudioEngineRecord] = []
     var voiceURL: URL?
     var voiceProtocol: DigitalVoiceProtocol?
     var voiceFinalizing = false
+    var voiceExporting = false
     var dmrStatus: DMRStatus?
     var voiceFrames: UInt64 = 0
     var voiceOutputDropped: UInt64 = 0
     @ObservationIgnored private var dmrVoiceMonitor: DMRVoiceMonitor?
     @ObservationIgnored private var voiceFinalization: Task<Void, Never>?
+    @ObservationIgnored private var voiceExport: Task<Void, Never>?
     var engineDownloading = false
     var engineNotice = ""
     @ObservationIgnored private var voicePlayer: AVAudioPlayer?
@@ -122,7 +125,7 @@ final class ReceiverStore {
         let previous = mode
         stop(); mode = value; text = ""; visualization.reset(); error = nil
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
         progress = 0; dropped = 0
         source = lastURL?.lastPathComponent ?? "Sin fuente"
         detail = lastURL == nil
@@ -132,7 +135,8 @@ final class ReceiverStore {
         if value == .hell { settings.inverted = false; settings.imageStartSeconds = 0 }
         if value == .selectiveTones { settings.threshold = 0.02 }
         else if previous == .selectiveTones { settings.threshold = 0.08 }
-        rfModulation = value.receptionProfile.modulation; rfBandwidth = value.receptionProfile.rfBandwidth
+        let profile = value.receptionProfile(settings: settings)
+        rfModulation = profile.modulation; rfBandwidth = profile.rfBandwidth
         if value == .hell { applyHellVariant() }
         if value == .gmdss { applyDSCVariant() }
         if value == .mt63 { applyMT63Variant() }
@@ -158,7 +162,7 @@ final class ReceiverStore {
     func decode(_ url: URL) {
         stop(); text = ""; error = nil; visualization.reset(); receivedImage = nil; imageCaption = ""
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
         lastURL = url; source = url.lastPathComponent; progress = 0; busy = true
         sourceChannelCount = 0; captureSampleRate = 0; dropped = 0; samplesReceived = 0
         let token = session, mode = mode, settings = settings
@@ -181,7 +185,7 @@ final class ReceiverStore {
         voicePlayer?.stop()
         stop(); text = ""; error = nil; busy = true; live = true
         acarsMessages = []; selectedACARSMessage = nil
-        multimonRecords = []; engineRecords = []; clearVoice()
+        multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
         lastURL = nil
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
         visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
@@ -208,7 +212,7 @@ final class ReceiverStore {
     }
     private func startTCP() {
         stop(); text = ""; error = nil; busy = true; live = true; lastURL = nil
-        acarsMessages = []; selectedACARSMessage = nil; multimonRecords = []; engineRecords = []; clearVoice()
+        acarsMessages = []; selectedACARSMessage = nil; multimonRecords = []; dgpsReceptions = []; engineRecords = []; clearVoice()
         sourceChannelCount = 0; captureSampleRate = 0; samplesReceived = 0; dropped = 0; progress = 0
         visualization.reset(); receivedImage = nil; imageCaption = ""; sstvCalibration = nil
         let configuration = networkPCM, token = session, mode = mode, settings = settings
@@ -255,7 +259,10 @@ final class ReceiverStore {
         dmrVoiceMonitor?.stop(); dmrVoiceMonitor = nil
         dmrStatus = nil; voiceFrames = 0; voiceOutputDropped = 0
         voicePlayer?.stop(); voicePlayer = nil
-        if let url = voiceURL, url.lastPathComponent.hasPrefix("RadioWorkbench-voice-") { let finishing = voiceFinalization; Task { await finishing?.value; try? FileManager.default.removeItem(at: url) } }
+        if let url = voiceURL, url.lastPathComponent.hasPrefix("RadioWorkbench-voice-") {
+            let finishing = voiceFinalization, exporting = voiceExport
+            Task { await finishing?.value; await exporting?.value; try? FileManager.default.removeItem(at: url) }
+        }
         voiceURL = nil; voiceProtocol = nil
     }
     private func prepareDMRVoiceOutput() throws -> (@Sendable (DigitalVoicePCMChunk) -> Void)? {
@@ -264,15 +271,21 @@ final class ReceiverStore {
         return { chunk in monitor.enqueue(chunk) }
     }
     func playVoice() {
-        guard !busy, !voiceFinalizing, let url = voiceURL else { return }
+        guard !busy, !voiceFinalizing, !voiceExporting, let url = voiceURL else { return }
         dmrVoiceMonitor?.stop(); dmrVoiceMonitor = nil
         do { voicePlayer = try AVAudioPlayer(contentsOf: url); voicePlayer?.play() } catch { self.error = "No hay voz reproducible en esta sesión: " + error.localizedDescription }
     }
     func exportVoice() {
-        guard !busy, !voiceFinalizing, let url = voiceURL else { return }
+        guard !busy, !voiceFinalizing, !voiceExporting, let url = voiceURL else { return }
         let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = "voz-\((voiceProtocol ?? settings.digitalVoiceProtocol).rawValue).wav"
         guard panel.runModal() == .OK, let destination = panel.url else { return }
-        do { try Data(contentsOf: url).write(to: destination, options: .atomic) } catch { self.error = error.localizedDescription }
+        voiceExporting = true
+        voiceExport = Task { [weak self] in
+            defer { self?.voiceExporting = false; self?.voiceExport = nil }
+            do {
+                try await Task.detached(priority: .utility) { try AtomicFileCopy.copy(from: url, to: destination) }.value
+            } catch { self?.error = "No se pudo guardar la voz: " + error.localizedDescription }
+        }
     }
     func exportEngineJSON() {
         let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "\(mode.rawValue)-recibido.json"
@@ -332,6 +345,7 @@ final class ReceiverStore {
             if selectedACARSMessage == nil || !acarsMessages.contains(where: { $0.id == selectedACARSMessage }) { selectedACARSMessage = acarsMessages.last?.id }
         }
         if mode.isMultimon { multimonRecords = value.multimonRecords }
+        if mode == .dgps { dgpsReceptions = value.dgpsReceptions }
         engineRecords = value.engineRecords
         if let voice = value.voiceURL { voiceURL = voice; voiceProtocol = settings.digitalVoiceProtocol }
         dmrStatus = value.dmrStatus; voiceFrames = value.voiceFrames
@@ -384,10 +398,13 @@ final class ReceiverStore {
         case .bitAnalysis: "rtty_8000_mono_clean"
         case .psk31: "bpsk31_8000_mono_clean"
         case .navtex: "navtex_8000_mono_clean"
+        case .sitorA: "sitora_8000_arq"
+        case .dgps: "dgps_100_8000_mono_clean"
         case .acars: "acars_upstream_12000_mono"
         case .packet: "packet_8000_mono_clean"
         case .selectiveTones: "ctcss_8000_mono_100hz"
         case .pocsag: "pocsag_1200_22050_discriminator_clean"
+        case .flex: "flex_22050_mono_alpha"
         case .fiveTones: "selcall_zvei1_22050_12345"
         case .hell: "hell_feld_8000_cq_clean"
         case .sstv: sstvExampleName()
@@ -400,7 +417,8 @@ final class ReceiverStore {
         if mode == .wefax { settings.imageStartSeconds = 0.5 }
         if mode == .gmdss { settings.frequency = 1700; settings.inverted = false; settings.dscDeemphasized = false }
         settings.audioChannel = .mix
-        if mode == .navtex { settings.frequency = 1700; settings.inverted = false }
+        if mode == .navtex || mode == .sitorA { settings.frequency = 1700; settings.inverted = false }
+        if mode == .dgps { settings.frequency = 800; settings.dgpsRate = .automatic; settings.inverted = false; settings.threshold = 0.08 }
         if mode == .rtty && settings.rttyEncoding != .ita2 { settings.baud = settings.rttyEncoding == .ascii7 ? 75 : 110; settings.frequency = 1500; settings.shift = 170; settings.inverted = false }
         if mode == .packet { settings.frequency = 1700 }
         if mode == .mt63 { settings.frequency = 1500 }
@@ -448,6 +466,12 @@ final class ReceiverStore {
         let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "\(mode.rawValue)-mensajes.json"
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; try encoder.encode(multimonRecords).write(to: url, options: .atomic) }
+        catch { self.error = error.localizedDescription }
+    }
+    func exportDGPSJSON() {
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "dgps-rtcm2-recibido.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; try encoder.encode(dgpsReceptions).write(to: url, options: .atomic) }
         catch { self.error = error.localizedDescription }
     }
     func exportACARSJSON() {

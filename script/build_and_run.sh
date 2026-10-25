@@ -43,6 +43,7 @@ done
 cp "$ROOT_DIR/docs/INTEGRATIONS-0.10.md" "$APP_BUNDLE/Contents/Resources/Modos-0.10.md"
 cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.11.md"
 cp "$ROOT_DIR/docs/RELEASE-0.13.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.13.md"
+cp "$ROOT_DIR/docs/RELEASE-0.14.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.14.md"
 cp "$ROOT_DIR/docs/DMR-0.12.md" "$APP_BUNDLE/Contents/Resources/DMR.md"
 cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
@@ -78,6 +79,9 @@ COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/NTIA-ITM-Sources.tar
   Vendor/NTIA-ITM/include Vendor/NTIA-ITM/src Vendor/NTIA-ITM/LICENSE.md Vendor/NTIA-ITM/README.md \
   Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/itm-bridge.cpp script/build_itm.sh
 chmod +x "$APP_BINARY"
+for example in sitora_8000_arq dgps_100_8000_mono_clean flex_22050_mono_alpha; do
+  cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/$example.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+done
 for mode in morse rtty bpsk31 dtmf navtex packet; do
   cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_8000_mono_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 done
@@ -107,8 +111,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.13.0</string>
-<key>CFBundleVersion</key><string>29</string>
+<key>CFBundleShortVersionString</key><string>0.14.0</string>
+<key>CFBundleVersion</key><string>30</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>

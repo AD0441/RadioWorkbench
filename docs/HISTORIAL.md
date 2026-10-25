@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.14.0:** SITOR-A pasivo, DGPS MSK/RTCM 2 y FLEX; taller con 77 referencias, filtro Hilbert vectorizado y exportación WAV de voz en segundo plano. Corrige publicación al pausar el flujo de entrada, parámetros residuales de discriminador, retorno al perfil NXDN48 y cierre/lectura del helper. [Uso, fuentes y límites](RELEASE-0.14.0.md).
+
 **0.13.0:** registro de escuchas con audio opcional y migración compatible, mapa histórico TX → RX con antenas/filtros, flujos HF RX y bilateral separados, pantalla de voz digital, próximos pases RF en 60 minutos, taller con 74 referencias y ficha SDR común. [Uso y límites](RELEASE-0.13.0.md).
 
 **0.12.1:** corrige el refresco de espectro y waterfall en vivo: reloj visual propio, cola de un cuadro, historial FFT acotado y raster incremental. Separa observación de nivel/espectro de controles y texto. La medición sintética pasó de 3,26 a 19,21 cuadros entregados/s, sin pérdidas de audio; falta repetición física. [Mediciones y límites](RELEASE-0.12.1.md).

@@ -65,18 +65,29 @@ struct ReceiverView: View {
                     Table(receiver.multimonRecords) {
                         TableColumn("Formato", value: \.decoder)
                         TableColumn("Capcode") { record in Text(record.address.map(String.init) ?? "—") }
-                        TableColumn("Función") { record in Text(record.function.map(String.init) ?? "—") }
+                        TableColumn("Fase / función") { record in
+                            Text(record.flex.map { "\($0.phase) · \($0.cycle).\($0.frame)" } ?? record.function.map(String.init) ?? "—")
+                        }
                         TableColumn("Tipo", value: \.kind)
                         TableColumn("Contenido", value: \.body)
                     }.frame(minHeight: 200)
                 }
             }
-            else { ScrollView {
+            else { VStack(alignment: .leading, spacing: 8) {
+                if receiver.mode == .dgps {
+                    HStack {
+                        Text("RTCM 2 · paridad válida · últimas \(receiver.dgpsReceptions.count) tramas").font(.caption).foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Guardar RTCM en JSON…") { receiver.exportDGPSJSON() }.disabled(receiver.dgpsReceptions.isEmpty)
+                    }
+                }
+                ScrollView {
                 Text(receiver.text.isEmpty ? "El texto decodificado aparecerá aquí." : receiver.text)
                     .font(.system(.body, design: .monospaced)).foregroundStyle(receiver.text.isEmpty ? .secondary : .primary)
                     .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .topLeading).padding(16)
             }.frame(height: 170).background(.background, in: RoundedRectangle(cornerRadius: 10))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
+                }
             }
             Text("Decodificadores experimentales: verifica la sintonía y contrasta señales difíciles. CWKit estima tono y velocidad; el motor Manual conserva sus ajustes. PSK31 requiere frecuencia estable.")
                 .font(.caption).foregroundStyle(.secondary)
@@ -113,6 +124,16 @@ struct DecoderControls: View {
                 }.frame(width: 165)
                 Toggle("Avisos sin texto", isOn: $receiver.settings.pagerShowEmpty)
             }
+            if receiver.mode == .flex {
+                Text("Velocidad y fases automáticas · direcciones cortas · BCH hasta 2 bits/palabra")
+                    .font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+            }
+            if receiver.mode == .dgps {
+                Picker("Tasa MSK", selection: $receiver.settings.dgpsRate) {
+                    ForEach(DGPSRate.allCases) { Text($0.title).tag($0) }
+                }.frame(width: 235)
+                Text("Polaridad automática · paridad RTCM 2").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+            }
             if receiver.mode == .fiveTones {
                 Picker("Estándar", selection: $receiver.settings.fiveToneStandard) {
                     ForEach(FiveToneStandard.allCases) { Text($0.rawValue).tag($0) }
@@ -127,10 +148,14 @@ struct DecoderControls: View {
                 Text("100 baud · shift 170 Hz · FEC").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
                 Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
             }
+            if receiver.mode == .sitorA {
+                Text("100 baud · shift 170 Hz · ARQ pasivo").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+                Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
+            }
             Spacer(minLength: 0)
             if receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice, .ale, .mt63, .gmdss].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) { VStack(alignment: .leading, spacing: 6) {
-                Text("Umbral \(Int(receiver.settings.threshold * 100)) %").font(.caption).foregroundStyle(.secondary)
-                Slider(value: $receiver.settings.threshold, in: 0.01...0.5).frame(width: 150)
+                Text("Umbral \((receiver.settings.threshold * 100).formatted(.number.precision(.fractionLength(0...1)))) %").font(.caption).foregroundStyle(.secondary)
+                Slider(value: $receiver.settings.threshold, in: 0.001...0.5).frame(width: 150)
             } }
         }.disabled(receiver.busy)
     }

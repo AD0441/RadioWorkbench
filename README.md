@@ -1,4 +1,4 @@
-# RadioWorkbench · 0.13.0
+# RadioWorkbench · 0.14.0
 
 Receptor y laboratorio de radio nativo para **macOS y Apple Silicon**. Permite decodificar audio de un receptor, del micrófono o de un archivo; consultar horarios y frecuencias; observar condiciones de bandas; y estudiar enlaces HF y VHF/UHF con modelos de propagación y terreno.
 
@@ -7,6 +7,8 @@ El proyecto usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. La aplicac
 **Plataforma:** el bundle declara macOS 14 o posterior y el paquete publicado es **arm64 para M1 y posteriores**. Se ha probado en un MacBook Pro M1 con macOS 27.2. No se distribuyen binarios para Mac Intel, iOS, Windows o Linux; tampoco se ha verificado la ejecución física en todas las versiones macOS 14–26.
 
 **Estado:** aplicación experimental en desarrollo. Las señales sintéticas y las pruebas unitarias validan el comportamiento implementado, pero no garantizan recepción RF bajo cualquier condición.
+
+**Nuevo en 0.14.0:** SITOR-A pasivo, DGPS MSK/RTCM 2 y FLEX; 77 referencias de taller; filtro de audio vectorizado, exportación de voz en segundo plano y correcciones en los procesos de decodificación. [Uso, fuentes y límites](docs/RELEASE-0.14.0.md).
 
 **Nuevo en 0.13.0:** registro explícito de escuchas sin audio, biblioteca y mapa con fechas/antenas y trayectos TX → RX; separación de escucha HF y enlace bilateral; pantalla propia de voz digital; búsqueda global de pases en los próximos 60 minutos; taller con 74 referencias y ficha SDR común. [Uso, migración y límites](docs/RELEASE-0.13.0.md). El waterfall conserva la actualización acotada de 0.12.1.
 
@@ -27,11 +29,11 @@ La versión preliminar **0.11.0** repara la transferencia de emisoras al Planifi
 | Área | Funciones disponibles |
 |---|---|
 | Texto y tonos | MT63 500/1000/2000 corto/largo, FT8/FT4, Morse/CW manual o CWKit automático/neuronal, RTTY ITA2/ASCII 7/8, BPSK31, DTMF, CTCSS de 51 tonos, ocho familias Selcall y análisis FSK |
-| Mensajes | DSC MF/HF y VHF con ECC e interpretación parcial; ALE 2G (sondeos, llamadas y AMD), POCSAG 512/1200/2400, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
+| Mensajes | DSC MF/HF y VHF con ECC e interpretación parcial; ALE 2G (sondeos, llamadas y AMD), POCSAG 512/1200/2400, FLEX 1600/3200/6400, SITOR-A pasivo, DGPS MSK/RTCM 2, NAVTEX/SITOR-B colectivo, AX.25/APRS AFSK1200 y ACARS VHF/ADS-C/CPDLC por audio AM |
 | Voz digital | DSD-neo descargable: DMR con escucha durante recepción, TS1/TS2 y panel; P25 I/II, NXDN, D-STAR, YSF, M17 y dPMR con voz WAV; un canal RF |
 | Imágenes | 41 variantes SSTV, WEFAX HF, APT y cinco variantes Hell por pulsos desde audio/archivos |
 | Entrada | Micrófono, USB o cable virtual; audio TCP local con formato explícito; mezcla/canal individual y diagnóstico medido |
-| Biblioteca y taller | Escuchas manuales con audio opcional, instantáneas de RX/antena, papelera y 74 referencias de laboratorio con espectro/waterfall |
+| Biblioteca y taller | Escuchas manuales con audio opcional, instantáneas de RX/antena, papelera y 77 referencias de laboratorio con espectro/waterfall |
 | Mapas e I/Q | Trayectos históricos de escucha, filtros por fecha/hora/antena/banda/origen, trazas de eventos y SatDump LRPT offline |
 | Guía de radios | Horarios EiBi, cruce técnico HFCC, favoritas y avisos de inicio |
 | Condiciones HF | NOAA, D-RAP, Band Info, ionosondas y pronóstico NOAA de tres días |
@@ -74,9 +76,11 @@ Son ajustes iniciales, no anchos universales de todos los servicios. Desactiva e
 - **MT63 y ALE 2G:** seis variantes MT63 con centro ajustable y controles de adquisición; ALE 2G con sondeos, llamadas y AMD. Helpers ligeros, audio/WAV y JSON. No aportan CRC de mensaje ni SNR calibrado. ALE 3G sigue pendiente. [Uso, pruebas y límites](docs/INTEGRATIONS-0.10.md).
 - **CW, RTTY, BPSK31:** Morse con velocidad manual, RTTY ITA2 con letras/cifras e inversión, ASCII de 7/8 bits sin paridad y BPSK31 con Varicode ASCII. El modo ASCII 8 conserva el subconjunto ASCII imprimible, no implementa Latin-1. CHU, alfabetos nacionales y QPSK31 siguen pendientes.
 - **DTMF y CTCSS:** detección de pares DTMF y 51 tonos CTCSS con confirmación temporal. [Tonos](docs/TONOS.md).
-- **POCSAG y Selcall:** helper multimon-ng arm64 incluido; POCSAG 512/1200/2400 automático o fijo, BCH de 0–2 bits, capcode/función/texto y JSON. Selcall reconoce ZVEI1/2/3, PZVEI, DZVEI, EEA, EIA y CCIR, conservando los códigos especiales originales. FLEX y DCS siguen pendientes. [Implementación y audio requerido](docs/DECODIFICADORES-0.8.10.md).
+- **POCSAG y Selcall:** helper multimon-ng arm64 incluido; POCSAG 512/1200/2400 automático o fijo, BCH de 0–2 bits, capcode/función/texto y JSON. Selcall reconoce ZVEI1/2/3, PZVEI, DZVEI, EEA, EIA y CCIR, conservando los códigos especiales originales. FLEX se incorpora en 0.14.0; DCS sigue pendiente. [Implementación y audio requerido](docs/DECODIFICADORES-0.8.10.md).
 - **Hellschreiber:** raster nativo para Feld, Slow 14 baud, Slow compatible con la tasa fldigi /8, X5 y X9; doble traza, reloj, umbral e inversión, con exportación PNG. No incluye OCR, FSK Hell ni Hell 80. [Variantes y validación](docs/DECODIFICADORES-0.8.10.md).
-- **NAVTEX/SITOR-B:** adquisición por phasing CCIR 476 y corrección FEC mediante dos copias. Es el modo colectivo; no incluye SITOR-A/ARQ ni adquisición de una captura que empieza a mitad del tráfico. [NAVTEX](docs/NAVTEX.md).
+- **SITOR-A y DGPS:** recepción pasiva de bloques ARQ observados; MSK 100/200 bit/s con RTCM 2 y paridad encadenada. Incluyen ejemplos, controles y exportación del monitor. No transmiten ni calculan una solución de navegación. [Uso y evidencia](docs/RELEASE-0.14.0.md).
+- **FLEX:** discriminador FM, 2/4-FSK, ALPHA/números/tonos y direcciones cortas; conserva fase, ciclo/trama y fragmentos sin reensamblarlos. Sin ReFLEX.
+- **NAVTEX/SITOR-B:** adquisición por phasing CCIR 476 y corrección FEC mediante dos copias. Es el modo colectivo; SITOR-A pasivo tiene ahora su propio apartado. SITOR-B no incluye adquisición de una captura que empieza a mitad del tráfico. [NAVTEX](docs/NAVTEX.md).
 - **AX.25/APRS AFSK1200:** decodificador nativo de paquetes por audio, con CRC y monitor acotado. La consulta APRS-IS de Internet es un servicio separado. [Packet/APRS](docs/PACKET.md).
 - **ACARS VHF:** helper acarsdec arm64, audio AM, remuestreo continuo a 12 kHz, mensajes y exportación JSON. No incluye VDL2 ni HFDL. [ACARS](docs/ACARS.md).
 - **WEFAX:** IOC 288/576, 60/90/120/240 LPM, inversión y reloj. El inicio de imagen es manual; detección automática de inicio/fin y eliminación de phasing están pendientes.

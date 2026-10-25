@@ -42,7 +42,7 @@ import Testing
     #expect(SignalReference.m17Data.title.contains("sin voz"))
     settings.fiveToneStandard = .ccir
     #expect(SignalReference.matching(mode: .fiveTones, settings: settings) == nil)
-    #expect(SignalReference.matching(mode: .dgps, settings: settings) == nil)
+    #expect(SignalReference.matching(mode: .dgps, settings: settings) == .dgps)
     #expect(SignalReference.matching(mode: .globeWireless, settings: settings) == nil)
     settings.sstvFormat = .martinM4
     #expect(SignalReference.matching(mode: .sstv, settings: settings) == .sstv(.martinM4))

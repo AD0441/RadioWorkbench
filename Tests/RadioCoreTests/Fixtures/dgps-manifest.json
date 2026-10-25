@@ -1,0 +1,77 @@
+{
+  "generator": "generate_dgps_fixtures.py",
+  "sources": [
+    "https://www.itu.int/rec/R-REC-M.823-3-200603-I/en",
+    "https://www.navcen.uscg.gov/sites/default/files/pdf/gps/IS-GPS-200N.pdf"
+  ],
+  "expected_message_types": [
+    16,
+    3,
+    6
+  ],
+  "expected_station_id": 777,
+  "expected_text": "RWB DGPS TEST 014",
+  "expected_latitude": -33.45,
+  "expected_longitude": -70.6667,
+  "expected_ellipsoid_height_m": 500,
+  "recovered_words": [
+    [
+      6701833,
+      4215600,
+      5396290,
+      2114631,
+      5264160,
+      5522771,
+      5513264,
+      3224576
+    ],
+    [
+      6688521,
+      4219936,
+      688965,
+      14017033,
+      3794155,
+      2723124
+    ],
+    [
+      6691593,
+      4224256
+    ]
+  ],
+  "wire_bits": "010101010101010101010101010101010101010101010101010101010101010111100110011011110011110110101010010000000101001100110000100010010100100101011101000010111000001000000100010001000111101001101011111010110011011111101101101010111011101010101100110010010101000010000000110000110010001100010011010000000000110100011001100000111100001001110101101111111001101111011111010111111101010111110010111010110110110101011110001000001001011110001110011110010011101011101010001010011000110100110100000100011001100001101100001001110011101111111000101011111111010001",
+  "fixtures": [
+    {
+      "file": "dgps_100_8000_mono_clean.wav",
+      "sample_rate": 8000,
+      "bit_rate": 100,
+      "offset_hz": 0,
+      "clock_ppm": 0,
+      "reversed_sideband": false,
+      "full_band_snr_db": null,
+      "accepted": 3,
+      "sha256": "4d83c6356b3b934c954fdf315a51c84ae40f496bc666402b673a20c81ee85aef"
+    },
+    {
+      "file": "dgps_200_8000_impaired.wav",
+      "sample_rate": 8000,
+      "bit_rate": 200,
+      "offset_hz": 8,
+      "clock_ppm": 1000,
+      "reversed_sideband": true,
+      "full_band_snr_db": 10,
+      "accepted": 3,
+      "sha256": "a4ce78767dcaa0f1b3b837ff7181e01432cfc2e3c3defcde59e61cf4e471dc15"
+    },
+    {
+      "file": "dgps_200_8000_bad_parity.wav",
+      "sample_rate": 8000,
+      "bit_rate": 200,
+      "offset_hz": 0,
+      "clock_ppm": 0,
+      "reversed_sideband": false,
+      "full_band_snr_db": null,
+      "accepted": 2,
+      "sha256": "eba5ea7b68ac282ae3a3d9ff8a0ceda2472b34dc46ebe57a0db0dfd5904d4d34"
+    }
+  ]
+}

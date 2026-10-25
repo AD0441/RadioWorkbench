@@ -3,12 +3,12 @@ import Foundation
 /// References are existing, identified laboratory recordings. A catalogue entry
 /// never implies that another protocol sharing its appearance is supported.
 public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
-    case cw, rtty, rttyASCII7, rttyASCII8, psk31, dtmf, ctcss, navtex, packet
+    case cw, rtty, rttyASCII7, rttyASCII8, psk31, dtmf, ctcss, navtex, sitorA, dgps, packet, flex
     case pocsag(PagerRate), fiveTones, ft8, ft4, ale, wefax, apt, acars, m17Data
     case mt63(MT63Variant), hell(HellVariant), dsc(DSCVariant), sstv(SSTVFormat)
 
     public static let allCases: [SignalReference] = [
-        .cw, .rtty, .rttyASCII7, .rttyASCII8, .psk31, .dtmf, .ctcss, .navtex, .packet,
+        .cw, .rtty, .rttyASCII7, .rttyASCII8, .psk31, .dtmf, .ctcss, .navtex, .sitorA, .dgps, .packet, .flex,
         .pocsag(.bps512), .pocsag(.bps1200), .pocsag(.bps2400), .fiveTones,
         .ft8, .ft4, .ale, .wefax, .apt, .acars, .m17Data
     ] + MT63Variant.allCases.map(Self.mt63) + HellVariant.allCases.map(Self.hell)
@@ -25,6 +25,9 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .dtmf: "DTMF · 16 combinaciones"
         case .ctcss: "CTCSS · subtono de 100 Hz"
         case .navtex: "NAVTEX · SITOR-B · 100 baud"
+        case .sitorA: "SITOR-A · 100 baud · ARQ pasivo"
+        case .dgps: "DGPS · MSK 100 bit/s · RTCM 2"
+        case .flex: "FLEX · 1600 bit/s · 2-FSK"
         case .packet: "Packet / APRS · AFSK 1200"
         case .pocsag(let rate): "POCSAG · \(rate.title)"
         case .fiveTones: "Cinco tonos · ZVEI1"
@@ -49,6 +52,9 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .dtmf: .dtmf
         case .ctcss: .selectiveTones
         case .navtex: .navtex
+        case .sitorA: .sitorA
+        case .dgps: .dgps
+        case .flex: .flex
         case .packet: .packet
         case .pocsag: .pocsag
         case .fiveTones: .fiveTones
@@ -75,6 +81,9 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .dtmf: return "dtmf_8000_mono_clean"
         case .ctcss: return "ctcss_8000_mono_100hz"
         case .navtex: return "navtex_8000_mono_clean"
+        case .sitorA: return "sitora_8000_arq"
+        case .dgps: return "dgps_100_8000_mono_clean"
+        case .flex: return "flex_22050_mono_alpha"
         case .packet: return "packet_8000_mono_clean"
         case .pocsag(let rate): return "pocsag_\(rate == .bps512 ? 512 : rate == .bps2400 ? 2400 : 1200)_22050_discriminator_clean"
         case .fiveTones: return "selcall_zvei1_22050_12345"
@@ -114,6 +123,9 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .dtmf: "123A456B789C*0#D"
         case .ctcss: "Tono de 100 Hz entre 0,5 y 5,5 s"
         case .navtex: "ZCZC SA01 · TEST MESSAGE ONLY · NNNN"
+        case .sitorA: "TEST SITOR A123 · una retransmisión con respuesta observada"
+        case .dgps: "Estación 777 · RWB DGPS TEST 014 · posición de referencia TX sintética"
+        case .flex: "Capcode 1234567 · CQ RADIOWORKBENCH FLEX TEST"
         case .packet: "TEST-1>APRS · posición 33°30′ S, 70°40′ W"
         case .pocsag(let rate): "Capcode 123456 · función 3 · CQ RADIOWORKBENCH \(rate == .bps512 ? 512 : rate == .bps2400 ? 2400 : 1200)"
         case .fiveTones: "Secuencia 12345 · ZVEI1"
@@ -137,6 +149,9 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .dtmf: "Cada tecla combina un tono de fila y uno de columna. El waterfall permite ver los dos a la vez."
         case .ctcss: "Señal subaudio, no voz. Un pasa-altos de 300 Hz elimina el tono antes de que llegue al detector."
         case .pocsag: "Audio de discriminador FM con transiciones NRZ: no es una referencia de voz ni un par de tonos AFSK. Evita escucharlo con volumen alto."
+        case .flex: "FSK multinivel desde discriminador FM plano. La tasa de símbolos y la cantidad de niveles determinan los bit/s; conserva las fases y los límites de fragmento. La muestra es 1600 bit/s, 2-FSK, fase A."
+        case .sitorA: "Ráfagas de tres caracteres en 210 ms, separadas por pausas en ciclos de 450 ms. La muestra incluye el retorno de 70 ms y una retransmisión; recibir solo un sentido no confirma entrega ARQ."
+        case .dgps: "MSK de fase continua alrededor de 800 Hz. Las palabras RTCM 2 incluyen paridad encadenada; el ejemplo transmite texto y una referencia ECEF ficticios, sin calcular la ubicación del receptor."
         case .wefax: "La frecuencia de audio representa brillo. Con inicio manual se necesita la fase temporal correcta; el dial USB se sitúa normalmente 1,9 kHz por debajo de la portadora."
         case .apt: "Subportadora AM de 2400 Hz obtenida de FM. Muestra histórica y sintética: los NOAA-15/18/19 ya no son objetivos APT activos."
         case .m17Data: "Ejemplo de trama de datos M17. Seleccionarlo aquí permite estudiar esa trama; no cambia DMR en silencio ni sirve como prueba de voz DMR."
@@ -163,6 +178,7 @@ public enum SignalReference: CaseIterable, Sendable, Identifiable, Hashable {
         case .rttyASCII8: value.rttyEncoding = .ascii8; value.baud = 110
         case .ctcss: value.threshold = 0.02
         case .pocsag(let rate): value.pagerRate = rate
+        case .dgps: value.dgpsRate = .bps100
         case .mt63(let variant): value.mt63Variant = variant; value.frequency = 1500
         case .hell(let variant): value.hellVariant = variant; value.frequency = variant == .x9 ? 2000 : 1500; value.threshold = 0.04; value.imageStartSeconds = 0.2
         case .dsc(let variant): value.dscVariant = variant; value.frequency = 1700

@@ -227,7 +227,8 @@ private struct DigitalVoiceOutputView: View {
                 HStack {
                     Button("Reproducir WAV", systemImage: "play.fill") { receiver.playVoice() }
                     Button("Guardar voz WAV…", systemImage: "square.and.arrow.up") { receiver.exportVoice() }
-                }.disabled(receiver.busy || receiver.voiceFinalizing || receiver.voiceURL == nil)
+                }.disabled(receiver.busy || receiver.voiceFinalizing || receiver.voiceExporting || receiver.voiceURL == nil)
+                if receiver.voiceExporting { ProgressView("Guardando voz…").controlSize(.small) }
                 if receiver.settings.digitalVoiceProtocol == .dmr {
                     if receiver.busy && receiver.settings.dmrMonitorVoice {
                         Text("Monitor de voz habilitado · \(Double(receiver.voiceFrames) / 8000, specifier: "%.1f") s de PCM observados del motor.")
