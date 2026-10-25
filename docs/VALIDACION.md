@@ -15,6 +15,19 @@ reportes vencidos offline, perfiles de voz por protocolo, las 74 referencias y
 sus ajustes, espectrograma acotado, canal/fase, cancelación y números extremos.
 Se conservan las regresiones CW, SSTV, POCSAG, TCP, Rigctl, ITM y grafo de voz offline.
 
+El paquete ZIP extraído pasó firma estricta y 13 objetos Mach-O arm64; sus 75
+WAV coinciden con los fixtures del proyecto. El 25 de octubre se instaló en
+`/Applications/RadioWorkbench.app` (0.13.0/build 29), con verificación de firma y
+hashes y sin alterar las preferencias/recepciones existentes antes de abrir.
+Se observó la app instalada, SSTV con inspector, la guía, la ficha BBC 9410 kHz
+y el formulario de escucha con audio opcional; se canceló sin guardar.
+
+Al abrir HF falló la conexión de Sky Computer Use; RadioWorkbench continuó activa.
+El recorrido visual de HF, DMR, pases y taller/mapa queda parcial. EiBi conservó
+A26 tras un error de actualización, con aviso de temporada visible; HFCC B26 sí
+estaba disponible. No se iniciaron micrófono, SDR ni reproducción. Se conservaron
+solo la entrega actual y el ZIP anterior y se retiró la caché temporal de compilación.
+
 [Resumen de entrega](validation/release-0.13.0.json) · [Uso y límites](RELEASE-0.13.0.md).
 
 # Validación de RadioWorkbench 0.12.1
