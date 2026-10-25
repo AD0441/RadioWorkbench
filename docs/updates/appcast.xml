@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>RadioWorkbench · actualizaciones firmadas</title>
+    <link>https://github.com/AD0441/RadioWorkbench</link>
+    <description>El canal no publica todavía una versión posterior a 0.15.0. Las actualizaciones se incorporan tras verificar su paquete y firma.</description>
+    <language>es</language>
+  </channel>
+</rss><!-- sparkle-signatures:
+edSignature: qcsySg8PMLR2RthIoYxPz9wvoBBXY2+s14fol90Xqcja8o58L9KW7LomXCgK6FPFkw6fuazT8euQD3Tyw9ntDg==
+length: 720
+-->
