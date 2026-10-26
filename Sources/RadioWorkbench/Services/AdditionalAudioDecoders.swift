@@ -64,7 +64,7 @@ extension RadioWorker {
         var retainedText = ""
         var storage = [Float](repeating: 0, count: 8192), buffer: [Float] = [], records: [AudioEngineRecord] = []
         let spectrum = SpectrumAnalyzer(), seconds = mode == .ft4 ? 7.5 : 15.0, window = Int((mode == .ft4 ? 7.5 : 15) * rate)
-        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate, maximumFramesPerSecond: visualFramesPerSecond)
         var slot = Self.nextFTXSlot(after: Date(), seconds: seconds)
         var skip = max(0, Int(slot.timeIntervalSinceNow * rate)), previousDrop: UInt64 = 0, last = 0.0
         let started = ProcessInfo.processInfo.systemUptime

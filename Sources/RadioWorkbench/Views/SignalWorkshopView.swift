@@ -23,7 +23,7 @@ struct SignalWorkshopView: View {
                 if store.busy {
                     HStack { ProgressView("Analizando hasta 12 segundos…"); Button("Cancelar") { store.cancelAnalysis() } }
                 }
-                if let error = store.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+                if let error = store.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 310), spacing: 16)], alignment: .leading, spacing: 16) {
                     probe("Referencia · \(store.referenceTitle)", result: store.referenceProbe, channel: store.referenceChannel)
                     probe(store.userURL?.lastPathComponent ?? "Tu grabación", result: store.userProbe, channel: store.channel)
@@ -45,8 +45,8 @@ struct SignalWorkshopView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("SDR: \(profile.modulation.rawValue) · filtro RF inicial \((profile.rfBandwidth / 1000).formatted()) kHz")
                         Text("Señal: \(store.reference.mode.signalModulation(settings: store.reference.settings))")
-                        Text(profile.audioBand)
-                        Text(profile.note).foregroundStyle(.secondary)
+                        Text(AppLocalization.text(profile.audioBand))
+                        Text(AppLocalization.text(profile.note)).foregroundStyle(.secondary)
                     }.frame(maxWidth: .infinity, alignment: .leading)
                 }
                 HStack {
@@ -76,9 +76,9 @@ struct SignalWorkshopView: View {
         HStack(alignment: .top) {
             Picker("Muestra y ajustes", selection: $store.reference) {
                 ForEach(referenceModes) { mode in
-                    Section(mode.title) {
+                    Section(LocalizedStringKey(mode.title)) {
                         ForEach(SignalReference.allCases.filter { $0.mode == mode }) { reference in
-                            Text(reference.title).tag(reference)
+                            Text(AppLocalization.text(reference.title)).tag(reference)
                         }
                     }
                 }
@@ -98,9 +98,9 @@ struct SignalWorkshopView: View {
                     .onChange(of: store.referenceChannel) { store.analyze() }
                     .disabled(store.busy)
             } else {
-                Text(store.reference.explanation)
+                Text(AppLocalization.text(store.reference.explanation))
                 Text("Resultado esperado: \(store.reference.expectedText)").font(.system(.body, design: .monospaced)).textSelection(.enabled)
-                Text(store.reference.provenance).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(store.reference.provenance)).font(.caption).foregroundStyle(.secondary)
             }
         }
     }

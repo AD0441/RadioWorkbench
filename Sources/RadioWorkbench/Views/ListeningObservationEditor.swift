@@ -38,7 +38,7 @@ struct ListeningObservationEditor: View {
                     Toggle("Registrar fin", isOn: $hasEnd)
                     if hasEnd { DatePicker("Fin · UTC", selection: $end).environment(\.timeZone, TimeZone(secondsFromGMT: 0)!) }
                     Picker("Resultado", selection: $observation.outcome) {
-                        ForEach(ListeningOutcome.allCases, id: \.self) { Text($0.title).tag($0) }
+                        ForEach(ListeningOutcome.allCases, id: \.self) { Text(AppLocalization.text($0.title)).tag($0) }
                     }.pickerStyle(.segmented)
                     Picker("Calidad manual", selection: $observation.quality) {
                         Text("Sin valorar").tag(Int?.none)
@@ -62,7 +62,7 @@ struct ListeningObservationEditor: View {
                     }
                     Section("Receptor y antena en esta escucha") {
                         Picker("Origen", selection: $observation.receivingStation.origin) {
-                            ForEach(ListeningOrigin.allCases, id: \.self) { Text($0.title).tag($0) }
+                            ForEach(ListeningOrigin.allCases, id: \.self) { Text(AppLocalization.text($0.title)).tag($0) }
                         }
                         if observation.receivingStation.origin == .remote {
                             Text("Indica la posición del receptor remoto; la posición de tu Mac no representa la antena del WebSDR.").font(.caption).foregroundStyle(.orange)
@@ -82,7 +82,7 @@ struct ListeningObservationEditor: View {
                     }
                 }.formStyle(.grouped)
             }
-            if let error = validation ?? library.error { Text(error).foregroundStyle(.red).font(.caption) }
+            if let error = validation ?? library.error { Text(AppLocalization.text(error)).foregroundStyle(.red).font(.caption) }
             HStack {
                 Button("Cancelar") { dismiss() }.keyboardShortcut(.cancelAction)
                 Spacer()

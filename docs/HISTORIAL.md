@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**0.16.0:** interfaz español/inglés y seis secciones de Ajustes; persistencia de sesión sin autoarranque, valores de audio, tema/texto/waterfall y menor consumo; biblioteca reubicable con copia verificada y respaldo ZIP manual; políticas de datos/avisos, perfiles TCP/Rigctl e inventario/diagnóstico. Publicación preliminar y paquete firmado para el canal Sparkle. Gracias a G4ZJH por su aporte e idea bilingüe. [Uso y límites / English](RELEASE-0.16.0.md) · [Textos para compartir](SOCIAL-0.16.0.md).
+
 **0.15.0:** biblioteca I/Q SigMF con importación/exportación y SHA-512; preparación SatDump desde metadatos; asistente de conexión, contadores específicos de integridad y comparación A/B del mismo WAV. Sparkle 2.10.0 con clave pública y canal firmado inicial sin actualizaciones descargables. Skills de SwiftUI, pruebas y calidad instaladas para el desarrollo. [Uso y límites](RELEASE-0.15.0.md).
 
 **0.14.0:** SITOR-A pasivo, DGPS MSK/RTCM 2 y FLEX; taller con 77 referencias, filtro Hilbert vectorizado y exportación WAV de voz en segundo plano. Corrige publicación al pausar el flujo de entrada, parámetros residuales de discriminador, retorno al perfil NXDN48 y cierre/lectura del helper. [Uso, fuentes y límites](RELEASE-0.14.0.md).

@@ -1,8 +1,8 @@
-# RadioWorkbench · 0.15.0
+# RadioWorkbench · 0.16.0
 
 [Español](#es) · [English](#en) · [Historial / Changelog](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/HISTORIAL.md) · [Validación / Validation](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/VALIDACION.md)
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C51WQ1T0)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/sebastianpasten)
 
 <a id="es"></a>
 ## Español
@@ -15,25 +15,25 @@ Usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. MultiMode Cocoa se uti
 
 - Aplicación experimental. Bundle mínimo **macOS 14**, ejecutable **arm64 para M1 y posteriores**, probado en un MacBook Pro M1 con macOS 27.2. No se ha verificado físicamente cada versión intermedia de macOS.
 - CWKit requiere macOS 15; el runtime opcional DSD-neo requiere macOS 26 y descarga separada. La app no se distribuye para Intel, iOS, Windows o Linux. Sparkle conserva los componentes universales arm64/x86_64 de su distribución oficial.
-- La rama de desarrollo contiene **0.15.0**, en el [PR #2, abierto](https://github.com/AD0441/RadioWorkbench/pull/2). La descarga pública sigue siendo **0.11.0 preliminar**. Una versión en desarrollo no equivale a una publicación descargable.
+- **0.16.0 preliminar** disponible como descarga; código en [PR #2, abierto](https://github.com/AD0441/RadioWorkbench/pull/2). La rama `main` conserva una base de código anterior: para compilar esta versión usa la rama o etiqueta correspondiente.
 - Firma local **ad hoc**, sin Developer ID ni notarización. [Procedimiento de Apple para la primera apertura](https://support.apple.com/es-cl/102445).
 
 ### Descargar
 
-[Publicación 0.11.0](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.11.0) · [ZIP macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/RadioWorkbench-0.11.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/SHA256SUMS).
+[Publicación 0.16.0](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.16.0) · [ZIP macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/download/v0.16.0/RadioWorkbench-0.16.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.16.0/SHA256SUMS).
 
-Extrae el ZIP y mueve `RadioWorkbench.app` a Aplicaciones. macOS pide permiso de micrófono al iniciar la captura, incluso con un cable virtual. Las funciones incorporadas después de 0.11.0 requieren compilar la rama de desarrollo o una publicación posterior.
+Extrae el ZIP y mueve `RadioWorkbench.app` a Aplicaciones. macOS pide permiso de micrófono al iniciar la captura, incluso con un cable virtual. Abre **RadioWorkbench → Ajustes…** (`⌘,`) para elegir Español/English y las preferencias de audio, biblioteca y datos.
 
-### Novedades 0.15.0
+### Novedades 0.16.0
 
-- **Biblioteca I/Q SigMF:** importación/exportación del par de muestras y metadatos, SHA-512, anotaciones conservadas y papelera reversible. Prepara SatDump con formato, tasa, RF y fecha conocidos; el procesamiento se inicia por separado.
-- **Asistente de conexión:** revisa fuente/canal, perfil SDR, nivel, continuidad e integridad; exporta un diagnóstico local sin audio ni mensajes recibidos.
-- **Contadores de protocolo:** CRC AX.25, paridad RTCM 2 y 4/7/cadencia SITOR-A. Son observaciones del decodificador, no porcentajes de entrega ni SNR RF.
-- **Comparación A/B:** dos ajustes sobre el mismo archivo, ejecuciones consecutivas, tiempos, texto y validaciones disponibles. Modos de texto, hasta diez minutos/1 GB; no declara automáticamente qué resultado es correcto.
-- **Actualizaciones Sparkle 2.10.0:** canal HTTPS y firmas Ed25519, comprobación automática optativa y descarga/instalación mediante acción del usuario. El canal inicial firmado está vacío; no ofrece un paquete 0.15.0 inexistente.
-- Skills de desarrollo instaladas: SwiftUI Expert, Swift Testing Pro y `radioworkbench-quality`. Son herramientas de Codex, no módulos ejecutados por la app. **La traducción completa de la interfaz español/inglés sigue pendiente**; este README sí está en ambos idiomas.
+- **Español/English** en controles, ayudas y estados propios; recordar sección y restaurar parámetros sin iniciar audio ni conexiones.
+- **Seis apartados de Ajustes:** general/idioma, audio, apariencia/rendimiento, biblioteca, datos/avisos y conexiones/diagnóstico.
+- Entrada y canal predeterminados, perfiles y avisos de saturación/pérdidas; tema, texto, paletas y límite del waterfall. Menor consumo usa 5 cuadros/s e historial reducido sin recortar audio al decoder.
+- Carpeta de biblioteca configurable con copia verificada, nombres para registros/exportaciones, espacio ocupado y respaldo ZIP manual; conserva los originales.
+- Actualización manual/automática e intervalos de guías, satélites y condiciones, notificaciones, perfiles TCP/Rigctl e inventario de motores.
+- Conserva biblioteca I/Q SigMF, asistente de conexión, contadores de integridad, comparación A/B y Sparkle 2.10.0 de 0.15. El canal firmado incluye el paquete público 0.16.0; la comprobación automática sigue siendo optativa.
 
-[Uso, formatos admitidos y límites 0.15.0](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/RELEASE-0.15.0.md) · [Canal de actualizaciones](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/updates/README.md).
+[Uso, respaldo y límites / English release notes](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/RELEASE-0.16.0.md) · [Canal de actualizaciones](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/updates/README.md).
 
 ### Funciones y límites
 
@@ -99,7 +99,7 @@ open dist/RadioWorkbench.app
 
 SwiftPM descarga Sparkle 2.10.0, fijado en `Package.resolved`. `RADIO_BUILD_PATH` permite una caché temporal y `RADIO_OUTPUT_APP_BUNDLE` elige el bundle de salida. `dist/` está excluido de Git. Conservar la entrega actual y la anterior; retirar cachés y extracciones regenerables tras validar. El callback de audio copia al ring preasignado; DSP, archivos y helpers trabajan fuera de él. Texto y waterfall tienen límites; falta una comparación medida con MultiMode bajo Rosetta.
 
-[Resultados y omisiones de las pruebas](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/VALIDACION.md) · [Evidencia 0.15.0](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/validation/release-0.15.0.json). Las pruebas sintéticas y unitarias no garantizan recepción física con cualquier equipo o señal.
+[Resultados y omisiones de las pruebas](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/VALIDACION.md) · [Evidencia 0.16.0](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/validation/release-0.16.0.json). Las pruebas sintéticas y unitarias no garantizan recepción física con cualquier equipo o señal.
 
 ### Componentes y agradecimientos
 
@@ -109,7 +109,7 @@ Los componentes externos mantienen sus condiciones. El repositorio no les asigna
 
 **Gracias a G4ZJH por su aporte y por la idea de ofrecer RadioWorkbench en español e inglés.**
 
-Puedes apoyar el desarrollo en [Ko-fi](https://ko-fi.com/C0C51WQ1T0).
+Puedes apoyar el desarrollo en [Ko-fi](https://ko-fi.com/sebastianpasten).
 
 <a id="en"></a>
 ## English
@@ -122,25 +122,25 @@ It uses SwiftUI, CoreAudio/AVFoundation, Accelerate and MapKit. MultiMode Cocoa 
 
 - Experimental application. The bundle requires **macOS 14 or later**, with an **arm64 executable for M1 and later**, tested on an M1 MacBook Pro running macOS 27.2. Every intermediate macOS version has not been physically tested.
 - CWKit requires macOS 15; the optional DSD-neo runtime requires macOS 26 and a separate download. The app is not distributed for Intel Macs, iOS, Windows or Linux. Sparkle retains the universal arm64/x86_64 components of its official distribution.
-- The development branch contains **0.15.0** in [PR #2, open](https://github.com/AD0441/RadioWorkbench/pull/2). The public download remains the **0.11.0 prerelease**. Development source is not a downloadable release.
+- **0.16.0 prerelease** is available to download; source in [PR #2, open](https://github.com/AD0441/RadioWorkbench/pull/2). The `main` branch retains an earlier code baseline: build this version from its branch or tag.
 - **Ad hoc local signature**, without Developer ID signing or notarization. [Apple's first-launch instructions](https://support.apple.com/102445).
 
 ### Download
 
-[0.11.0 release](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.11.0) · [macOS arm64 ZIP](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/RadioWorkbench-0.11.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.11.0/SHA256SUMS).
+[0.16.0 release](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.16.0) · [macOS arm64 ZIP](https://github.com/AD0441/RadioWorkbench/releases/download/v0.16.0/RadioWorkbench-0.16.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.16.0/SHA256SUMS).
 
-Extract the ZIP and move `RadioWorkbench.app` to Applications. macOS requests microphone permission when capture starts, including with virtual audio devices. Features added after 0.11.0 require building the development branch or a later release.
+Extract the ZIP and move `RadioWorkbench.app` to Applications. macOS requests microphone permission when capture starts, including with virtual audio devices. Open **RadioWorkbench → Settings…** (`⌘,`) to choose Español/English and configure audio, library and data preferences.
 
-### What's new in 0.15.0
+### What's new in 0.16.0
 
-- **SigMF I/Q library:** import/export sample and metadata pairs, SHA-512, preserved annotations and reversible trash. Prepare SatDump with known sample format/rate, RF frequency and capture time; processing starts separately.
-- **Connection assistant:** source/channel, SDR profile, level, continuity and protocol integrity checks; export a local diagnostic without audio or received messages.
-- **Protocol counters:** AX.25 CRC, RTCM 2 parity and SITOR-A 4-of-7/cadence. These are decoder observations, not delivery percentages or RF SNR.
-- **A/B comparison:** two configurations applied consecutively to the same file, reporting time, text and available checks. Text modes, up to ten minutes/1 GB; no automatic claim that either result is correct.
-- **Sparkle 2.10.0 updates:** HTTPS feed and Ed25519 signatures, optional automatic checks, user-initiated download/installation. The initial signed feed is empty; it does not offer a nonexistent 0.15.0 update archive.
-- Installed development skills: SwiftUI Expert, Swift Testing Pro and `radioworkbench-quality`. These are Codex tools, not app runtime modules. **Full Spanish/English interface localization is still pending**; this README is available in both languages.
+- **Español/English** app controls, help and status text; remember the section and restore parameters without starting audio or connections.
+- **Six Settings sections:** general/language, audio, appearance/performance, library, data/alerts and connections/diagnostics.
+- Default input/channel, profiles and clipping/drop warnings; theme, text, palettes and waterfall caps. Lower power uses 5 FPS and reduced history without discarding decoder audio.
+- A configurable library folder with verified copies, naming for new logs/exports, storage usage and manual backup ZIPs; originals remain intact.
+- Manual/automatic data refresh and intervals, notifications, TCP/Rigctl presets and engine availability.
+- Retains the SigMF I/Q library, connection assistant, integrity counters, A/B comparison and Sparkle 2.10.0 from 0.15. The signed channel includes the public 0.16.0 archive; automatic checking remains opt-in.
 
-[0.15.0 usage, supported formats and limits](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/RELEASE-0.15.0.md) · [Update feed](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/updates/README.md). Detailed supporting documents are currently in Spanish.
+[Usage, backup and limits (ES/EN)](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/RELEASE-0.16.0.md) · [Update channel](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/updates/README.md). Other technical documents may be in Spanish.
 
 ### Features and limits
 
@@ -161,10 +161,10 @@ APT is useful for historical recordings: NOAA 15/18/19 transmissions are not adv
 
 ### Audio from SDR++
 
-1. Select a decoder and try **Ejemplo** using an identified synthetic signal.
-2. Select the device and channel under **Entrada de audio**. For VB-Cable, select the cable as SDR++ Audio/New Audio output and as the app input, preferably at 48 kHz. Install the cable separately. Mixing opposite-phase signals can cancel them.
+1. Select a decoder and try **Example** using an identified synthetic signal.
+2. Select the device and channel under **Audio input**. For VB-Cable, select the cable as SDR++ Audio/New Audio output and as the app input, preferably at 48 kHz. Install the cable separately. Mixing opposite-phase signals can cancel them.
 3. Configure demodulation, RF filter and tones using the mode's reception profile. Speaker audio and voice filters are unsuitable for some protocols. The app selects its own input without changing the macOS default device.
-4. Click **Escuchar** or **Abrir audio**. Export text/JSON/PNG depending on the mode. The assistant does not start microphone capture automatically. Optional Rigctl sends frequency/mode/bandwidth only after enabling it and clicking Send, with readback confirmation.
+4. Click **Listen** or **Open audio**. Export text/JSON/PNG depending on the mode. The assistant does not start microphone capture automatically. Optional Rigctl sends frequency/mode/bandwidth only after enabling it and clicking Send, with readback confirmation.
 
 | Signal | Demodulation / initial RF filter | Required audio |
 |---|---|---|
@@ -206,7 +206,7 @@ open dist/RadioWorkbench.app
 
 SwiftPM downloads Sparkle 2.10.0, pinned in `Package.resolved`. `RADIO_BUILD_PATH` selects a temporary cache and `RADIO_OUTPUT_APP_BUNDLE` chooses the output bundle. `dist/` is excluded from Git. Retain the current and previous deliveries; remove regenerable caches/extractions after validation. The audio callback copies into a preallocated ring; DSP, files and helpers run outside it. Text/waterfall histories are bounded; there is no measured comparison against MultiMode under Rosetta yet.
 
-[Test results and skipped checks](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/VALIDACION.md) · [0.15.0 evidence](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/validation/release-0.15.0.json). Synthetic/unit tests do not guarantee physical reception with arbitrary equipment or signals.
+[Test results and skipped checks](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/VALIDACION.md) · [0.16.0 evidence](https://github.com/AD0441/RadioWorkbench/blob/feat/dmr-reception-review/docs/validation/release-0.16.0.json). Synthetic/unit tests do not guarantee physical reception with arbitrary equipment or signals.
 
 ### Components and thanks
 
@@ -216,4 +216,4 @@ Third-party components retain their own terms. This repository neither relicense
 
 **Thank you to G4ZJH for the contribution and the idea of offering RadioWorkbench in Spanish and English.**
 
-You can support development on [Ko-fi](https://ko-fi.com/C0C51WQ1T0).
+You can support development on [Ko-fi](https://ko-fi.com/sebastianpasten).

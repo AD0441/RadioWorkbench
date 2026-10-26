@@ -3,12 +3,13 @@ import RadioCore
 
 extension ReceiverStore {
     private var profilesURL: URL {
+        if let inputProfileOverride { return inputProfileOverride }
         let args = ProcessInfo.processInfo.arguments
         if let index = args.firstIndex(of: "--profiles-path"), index + 1 < args.count { return URL(fileURLWithPath: args[index + 1]) }
         return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("RadioWorkbench/InputProfiles.json")
     }
-    func loadInputProfiles() {
+    func loadInputProfiles(restoreLast: Bool = true) {
         do {
             if FileManager.default.fileExists(atPath: profilesURL.path) {
                 inputProfiles = try InputProfileLibrary.load(from: profilesURL)
@@ -25,7 +26,7 @@ extension ReceiverStore {
                 inputProfiles.lastUsedID = nil
                 try inputProfiles.save(to: profilesURL)
             }
-            if let id = inputProfiles.lastUsedID { applyInputProfile(id, persist: false) }
+            if restoreLast, let id = inputProfiles.lastUsedID { applyInputProfile(id, persist: false) }
         } catch { profileNotice = "No se pudieron cargar los perfiles: \(error.localizedDescription)" }
     }
     func applyInputProfile(_ id: UUID, persist: Bool = true) {

@@ -6,14 +6,17 @@ import Foundation
 public final class LiveSpectrumAnalyzer {
     private let analyzer = SpectrumAnalyzer()
     private let sampleRate: Double
-    private let interval = 1.0 / 25
+    private let interval: Double
     private var history = [Float](repeating: 0, count: 2048)
     private var ordered = [Float](repeating: 0, count: 2048)
     private var cursor = 0
     private var valid = 0
     private var deadline: Double?
 
-    public init(sampleRate: Double) { self.sampleRate = sampleRate }
+    public init(sampleRate: Double, maximumFramesPerSecond: Double = 25) {
+        self.sampleRate = sampleRate
+        interval = 1 / (maximumFramesPerSecond.isFinite ? min(25, max(5, maximumFramesPerSecond)) : 25)
+    }
 
     public func reset() {
         cursor = 0; valid = 0; deadline = nil

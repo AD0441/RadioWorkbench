@@ -23,21 +23,21 @@ struct ReceptionInspectorView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 Label("Preparar el SDR", systemImage: "slider.horizontal.3").font(.headline)
-                Text(mode.title).font(.title3.weight(.semibold))
+                Text(AppLocalization.text(mode.title)).font(.title3.weight(.semibold))
                 if !mode.isAudioAvailable {
                     Label("Identificar · sin motor integrado", systemImage: "info.circle").foregroundStyle(.orange)
                 }
                 if mode.receptionBandVariants.count > 1 {
                     Picker("Entorno", selection: Binding(get: { band }, set: { selectedBand = $0 })) {
-                        ForEach(mode.receptionBandVariants) { Text($0.rawValue).tag($0) }
+                        ForEach(mode.receptionBandVariants) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                     }.pickerStyle(.menu)
                 }
                 field("Demodulación en SDR++", profile.modulation.rawValue)
                 field("Modulación de la señal", mode.signalModulation(settings: settings))
                 field("Filtro RF inicial", "\((profile.rfBandwidth / 1000).formatted(.number.precision(.fractionLength(0...2)))) kHz")
                 field("Audio que debe llegar", profile.audioBand)
-                Text(profile.note).foregroundStyle(.secondary)
-                Text(mode.audioInputRecommendation).foregroundStyle(.secondary)
+                Text(AppLocalization.text(profile.note)).foregroundStyle(.secondary)
+                Text(AppLocalization.text(mode.audioInputRecommendation)).foregroundStyle(.secondary)
                 if settings.audioChannel == .mix {
                     Text("Canal: mezcla. Si el origen es estéreo, comprueba que ambos canales contienen la misma señal y fase.").foregroundStyle(.secondary)
                 } else { field("Canal elegido", settings.audioChannel.label) }
@@ -49,7 +49,7 @@ struct ReceptionInspectorView: View {
                 Divider()
                 if let reference {
                     Text("Referencia nominal de audio").font(.headline)
-                    Text(reference.title)
+                    Text(AppLocalization.text(reference.title))
                     Button(showReference ? "Ocultar referencia visual" : "Ver espectro y waterfall") { showReference.toggle() }
                     if showReference { InspectorReferencePreview(reference: reference) }
                     if let onOpenWorkshop { Button("Abrir esta muestra en el taller") { onOpenWorkshop(reference) } }
@@ -75,8 +75,8 @@ struct ReceptionInspectorView: View {
 
     private func field(_ title: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(title).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-            Text(value).font(.callout)
+            Text(AppLocalization.text(title)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+            Text(AppLocalization.text(value)).font(.callout)
         }
     }
 }
@@ -92,7 +92,7 @@ private struct InspectorReferencePreview: View {
                 SignalSpectrumPlot(result: result, height: 90)
                 SignalWaterfallPlot(result: result, height: 110)
                 Text("\(result.sampleRate.formatted()) Hz · primeros \(result.secondsAnalyzed.formatted(.number.precision(.fractionLength(1)))) s")
-            } else if let error { Text(error).foregroundStyle(.secondary) }
+            } else if let error { Text(AppLocalization.text(error)).foregroundStyle(.secondary) }
             else { ProgressView("Calculando desde el WAV…") }
         }
         .task(id: reference.id) {

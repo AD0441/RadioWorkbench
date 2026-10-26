@@ -63,7 +63,7 @@ struct ReceptionLibraryView: View {
             }
             HStack {
                 Picker("Mostrar", selection: $store.category) {
-                    ForEach(["Todas", "Escuchas anotadas", "Con audio"], id: \.self) { Text($0) }
+                    ForEach(["Todas", "Escuchas anotadas", "Con audio"], id: \.self) { Text(AppLocalization.text($0)) }
                 }.frame(width: 220)
                 TextField("Buscar nombre, modo o archivo", text: $store.search).textFieldStyle(.roundedBorder)
                     .accessibilityLabel("Buscar en la biblioteca")
@@ -72,8 +72,8 @@ struct ReceptionLibraryView: View {
                     .disabled(store.busy)
                 if store.busy { ProgressView().controlSize(.small); Button("Cancelar") { store.cancel() } }
             }
-            if let error = store.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-            Text(store.status).font(.caption).foregroundStyle(.secondary)
+            if let error = store.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
+            Text(AppLocalization.text(store.status)).font(.caption).foregroundStyle(.secondary)
             HSplitView {
                 List(selection: $store.selectedID) {
                     ForEach(store.visibleObservations) { item in
@@ -106,11 +106,11 @@ struct ReceptionLibraryView: View {
     private func observationDetail(_ item: ListeningObservation) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(item.stationName).font(.title2.weight(.semibold))
-            LabeledContent("Resultado", value: item.outcome.title)
+            LabeledContent("Resultado", value: AppLocalization.text(item.outcome.title))
             LabeledContent("Frecuencia", value: "\((item.frequencyHz / 1000).formatted()) kHz · \(item.modulation)")
             LabeledContent("Observación UTC", value: utcText(item.observedAt))
             if let end = item.endedAt { LabeledContent("Fin UTC", value: utcText(end)) }
-            LabeledContent("Origen", value: item.receivingStation.origin.title)
+            LabeledContent("Origen", value: AppLocalization.text(item.receivingStation.origin.title))
             LabeledContent("Receptor", value: item.receivingStation.receiver.isEmpty ? "Sin anotar" : item.receivingStation.receiver)
             LabeledContent("Antena", value: item.receivingStation.antenna.isEmpty ? "Sin anotar" : item.receivingStation.antenna)
             LabeledContent("Sitio TX", value: item.transmitterName.isEmpty ? "Sin resolver" : item.transmitterName)
@@ -136,8 +136,8 @@ struct ReceptionLibraryView: View {
     private func detail(_ item: ReceptionSession) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(item.title).font(.title2.weight(.semibold)).textSelection(.enabled)
-            LabeledContent("Tipo", value: item.sourceKind.title)
-            LabeledContent("Modo", value: item.mode.title)
+            LabeledContent("Tipo", value: AppLocalization.text(item.sourceKind.title))
+            LabeledContent("Modo", value: AppLocalization.text(item.mode.title))
             LabeledContent("Archivo original", value: item.audio.originalFileName)
             LabeledContent("Audio", value: "\(item.audio.sampleRate.formatted()) Hz · \(item.audio.channels) canal(es) · \(item.audio.durationSeconds.formatted(.number.precision(.fractionLength(1)))) s")
             LabeledContent("Tamaño", value: ByteCountFormatter.string(fromByteCount: item.audio.byteCount, countStyle: .file))
@@ -166,7 +166,7 @@ struct ReceptionLibraryView: View {
     }
     private func importAudio() {
         let panel = NSOpenPanel(); panel.allowedContentTypes = [.audio]; panel.allowsMultipleSelection = false
-        panel.message = "El audio se copiará a la biblioteca con los ajustes actuales del receptor."
+        panel.message = AppLocalization.text("El audio se copiará a la biblioteca con los ajustes actuales del receptor.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         save(url)
     }
@@ -180,7 +180,7 @@ struct ReceptionLibraryView: View {
             metadata.frequencyHz = value * 1_000_000
         }
         let enteredTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        let name = enteredTitle.isEmpty ? String(url.deletingPathExtension().lastPathComponent.prefix(120)) : enteredTitle
+        let name = enteredTitle.isEmpty ? AppPreferencesStore.shared.values.suggestedName(original: url.deletingPathExtension().lastPathComponent, mode: mode) : enteredTitle
         store.importAudio(from: url, title: name, mode: mode, settings: settings,
                           rf: metadata, capturedAt: captureDateKnown ? captureDate : nil)
     }

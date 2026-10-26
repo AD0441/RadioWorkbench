@@ -6,8 +6,8 @@ struct ImageReceiverView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                Text(receiver.mode.title).font(.largeTitle.weight(.semibold))
-                Text(receiver.mode.summary).foregroundStyle(.secondary)
+                Text(AppLocalization.text(receiver.mode.title)).font(.largeTitle.weight(.semibold))
+                Text(AppLocalization.text(receiver.mode.summary)).foregroundStyle(.secondary)
                 AudioRoutingView(receiver: receiver)
                 imageControls
                 if receiver.mode == .sstv {
@@ -26,12 +26,12 @@ struct ImageReceiverView: View {
                     Button("Guardar PNG…") { receiver.exportImage() }.disabled(receiver.receivedImage == nil)
                 }
                 if receiver.busy && !receiver.live { ProgressView(value: receiver.progress) }
-                Text(receiver.detail).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(receiver.detail)).font(.caption).foregroundStyle(.secondary)
                 if receiver.live {
                     Text("\(receiver.samplesReceived) muestras recibidas · \(receiver.dropped) perdidas")
                         .font(.caption).monospacedDigit().foregroundStyle(receiver.dropped > 0 ? .orange : .secondary)
                 }
-                if let error = receiver.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+                if let error = receiver.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
                 if let image = receiver.receivedImage {
                     Image(decorative: image, scale: 1).resizable().interpolation(.none).scaledToFit()
                         .frame(maxWidth: .infinity, minHeight: 140, maxHeight: 420)
@@ -40,7 +40,7 @@ struct ImageReceiverView: View {
                     ContentUnavailableView("Esperando imagen", systemImage: "photo", description: Text(receiver.text.isEmpty ? "Abre audio o selecciona una entrada para recibir." : receiver.text))
                         .frame(height: 180)
                 }
-                Text(receiver.imageCaption.isEmpty ? receiver.text : receiver.imageCaption).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(receiver.imageCaption.isEmpty ? receiver.text : receiver.imageCaption)).font(.caption).foregroundStyle(.secondary)
                 Text(receiver.mode == .hell ? "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes." : "Recepción experimental. Para fax, inicio manual: indica el segundo de comienzo de imagen en un archivo. APT muestra A/B sin calibración radiométrica ni georreferenciación.")
                     .font(.caption).foregroundStyle(.secondary)
             }.padding(24)
@@ -54,7 +54,7 @@ struct ImageReceiverView: View {
                     VStack(alignment: .leading) {
                         Text("Formato SSTV").font(.caption)
                         Picker("Formato SSTV", selection: $receiver.settings.sstvFormat) {
-                            ForEach(SSTVFormat.allCases) { Text($0.rawValue).tag($0) }
+                            ForEach(SSTVFormat.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                         }.labelsHidden().frame(width: 220)
                     }
                     Toggle("Auto VIS", isOn: $receiver.settings.imageAutoSync).toggleStyle(.checkbox)
@@ -68,7 +68,7 @@ struct ImageReceiverView: View {
                 HStack {
                     Toggle("Sincronización y reloj automáticos", isOn: $receiver.settings.sstvAutoCalibrate).toggleStyle(.checkbox)
                     Picker("Reducir ruido", selection: $receiver.settings.sstvNoiseReduction) {
-                        ForEach(SSTVNoiseReduction.allCases) { Text($0.rawValue).tag($0) }
+                        ForEach(SSTVNoiseReduction.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                     }.frame(width: 270)
                 }
                 Text("El reloj se estima con las sincronías de línea. Sin señal suficiente se conserva el reloj manual. Intensa suaviza más y puede perder detalles finos.")
@@ -77,7 +77,7 @@ struct ImageReceiverView: View {
             if receiver.mode == .hell {
                 HStack {
                     Picker("Variante Hell", selection: $receiver.settings.hellVariant) {
-                        ForEach(HellVariant.allCases) { Text($0.rawValue).tag($0) }
+                        ForEach(HellVariant.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                     }.frame(width: 255)
                     Text("\(receiver.settings.hellVariant.pixelRate, specifier: "%.3f") píxeles/s · ≈\(receiver.settings.hellVariant.bandwidthHz, specifier: "%.0f") Hz ocupados")
                         .font(.caption).foregroundStyle(.secondary)
@@ -121,7 +121,7 @@ struct ImageReceiverView: View {
                     VStack(alignment: .leading) {
                         Text("Color Y/Cr/Cb").font(.caption)
                         Picker("Color Y/Cr/Cb", selection: $receiver.settings.sstvColorRange) {
-                            ForEach(SSTVColorRange.allCases) { Text($0.rawValue).tag($0) }
+                            ForEach(SSTVColorRange.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                         }.labelsHidden().frame(width: 190)
                     }
                 }

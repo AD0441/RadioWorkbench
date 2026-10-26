@@ -3,6 +3,8 @@ import Observation
 import RadioCore
 
 @MainActor @Observable final class PropagationStore {
+    var autoRefreshEnabled = true
+    var autoRefreshMinutes = 3
     var weather = SpaceWeatherSnapshot()
     var weatherBusy = false
     var weatherStatus = "Los datos se consultan con conexión y se conserva la última copia."
@@ -229,11 +231,11 @@ import RadioCore
             weather = await service.cached() ?? SpaceWeatherSnapshot()
             ionosphere = await ionosondeService.cached()
             noaaForecast = await noaaForecastService.cached()
-            await refresh()
+            if autoRefreshEnabled { await refresh() }
         }
         while !Task.isCancelled {
             do { try await Task.sleep(for: .seconds(60)) } catch { return }
-            if lastAttempt.map({ Date().timeIntervalSince($0) >= 180 }) ?? true { await refresh() }
+            if autoRefreshEnabled, lastAttempt.map({ Date().timeIntervalSince($0) >= Double(autoRefreshMinutes) * 60 }) ?? true { await refresh() }
         }
     }
     func refresh(forceIndices: Bool = false) async {
@@ -264,7 +266,7 @@ import RadioCore
         } catch {
             noaaForecastStatus = noaaForecast == nil ? "Pronóstico NOAA no disponible: \(error.localizedDescription)." : "NOAA conserva el pronóstico anterior (\(error.localizedDescription))."
         }
-        weatherStatus = sourceErrors.isEmpty ? "Actualización automática: NOAA cada 3 min, Band Info cada 1 h, R12 cada 24 h." : "Hay fuentes sin actualizar. Se conservan las fechas; NOAA reintenta en 3 min y Band Info en 1 h."
+        weatherStatus = sourceErrors.isEmpty ? "Fuentes consultadas. Las comprobaciones automáticas siguen la política de Ajustes." : "Hay fuentes sin actualizar. Se conservan las copias y las fechas; los reintentos siguen las cadencias de cada fuente."
     }
     func useITUIndex(at date: Date) {
         guard let index = weather.index(at: date) else {

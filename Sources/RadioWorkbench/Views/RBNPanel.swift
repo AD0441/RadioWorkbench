@@ -10,7 +10,7 @@ struct RBNPanel: View {
                 HStack(spacing: 10) {
                     TextField("Indicativo o alias", text: $store.login).textFieldStyle(.roundedBorder).frame(width: 180)
                     Picker("Flujo", selection: $store.feed) {
-                        ForEach(RBNFeed.allCases) { feed in Text(feed.rawValue).tag(feed) }
+                        ForEach(RBNFeed.allCases) { feed in Text(AppLocalization.text(feed.rawValue)).tag(feed) }
                     }.frame(width: 145).disabled(store.connected)
                     if store.connected {
                         Button("Desconectar", systemImage: "stop.circle") { store.disconnect() }
@@ -18,16 +18,16 @@ struct RBNPanel: View {
                         Button("Conectar", systemImage: "dot.radiowaves.left.and.right") { store.connect() }
                     }
                     Picker("Banda", selection: $store.bandFilter) {
-                        ForEach(["Todas", "160 m", "80 m", "60 m", "40 m", "30 m", "20 m", "17 m", "15 m", "12 m", "10 m", "6 m", "2 m"], id: \.self) { Text($0) }
+                        ForEach(["Todas", "160 m", "80 m", "60 m", "40 m", "30 m", "20 m", "17 m", "15 m", "12 m", "10 m", "6 m", "2 m"], id: \.self) { Text(AppLocalization.text($0)) }
                     }.frame(width: 100)
                     Picker("Modo", selection: $store.modeFilter) {
-                        ForEach(["Todos", "CW", "RTTY", "FT8"], id: \.self) { Text($0) }
+                        ForEach(["Todos", "CW", "RTTY", "FT8"], id: \.self) { Text(AppLocalization.text($0)) }
                     }.frame(width: 95)
                     Spacer()
                     Button("Limpiar") { store.clear() }.disabled(store.spots.isEmpty)
                 }
                 HStack {
-                    Text(store.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                     Spacer()
                     Text("\(store.visibleSpots.count) spots visibles · máximo 1.000 en memoria").font(.caption).foregroundStyle(.secondary)
                 }

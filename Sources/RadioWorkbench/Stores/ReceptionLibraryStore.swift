@@ -16,11 +16,17 @@ final class ReceptionLibraryStore {
     var busy = false
     var error: String?
     var status = "Importa un audio o guarda el archivo que estás decodificando junto con sus ajustes."
-    @ObservationIgnored private let repository: ReceptionLibraryRepository
+    @ObservationIgnored private var repository: ReceptionLibraryRepository
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var activated = false
 
     init(repository: ReceptionLibraryRepository = .init()) { self.repository = repository }
+    func configureStorage(root: URL) {
+        guard !busy && !sigMF.busy else { return }
+        repository = ReceptionLibraryRepository(directory: root.appendingPathComponent("Recepciones"))
+        activated = false; sessions = []; observations = []; selectedID = nil
+        sigMF.configureStorage(root: root)
+    }
     var selectedSession: ReceptionSession? { visibleSessions.first { $0.id == selectedID } }
     var visibleSessions: [ReceptionSession] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)

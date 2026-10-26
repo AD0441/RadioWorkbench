@@ -8,7 +8,7 @@ struct AdditionalEngineControls: View {
             GroupBox("DSC · recepción experimental") {
                 VStack(alignment: .leading, spacing: 8) {
                     Picker("Variante", selection: $receiver.settings.dscVariant) {
-                        ForEach(DSCVariant.allCases) { Text($0.title).tag($0) }
+                        ForEach(DSCVariant.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                     }.frame(width: 390).disabled(receiver.busy)
                         .onChange(of: receiver.settings.dscVariant) { receiver.applyDSCVariant() }
                     if receiver.settings.dscVariant == .mfHF {
@@ -34,7 +34,7 @@ struct AdditionalEngineControls: View {
         if receiver.mode == .mt63 {
             VStack(alignment: .leading, spacing: 6) {
                 Picker("Variante MT63", selection: $receiver.settings.mt63Variant) {
-                    ForEach(MT63Variant.allCases) { Text($0.title).tag($0) }
+                    ForEach(MT63Variant.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                 }.frame(width: 370).disabled(receiver.busy)
                     .onChange(of: receiver.settings.mt63Variant) { receiver.applyMT63Variant() }
                 Text("Banda de audio: \(receiver.settings.frequency - Double(receiver.settings.mt63Variant.bandwidth) / 2, specifier: "%.0f")–\(receiver.settings.frequency + Double(receiver.settings.mt63Variant.bandwidth) / 2, specifier: "%.0f") Hz")
@@ -56,7 +56,7 @@ struct AdditionalEngineControls: View {
         if receiver.mode == .morse {
             VStack(alignment: .leading, spacing: 6) {
                 Picker("Motor CW", selection: $receiver.settings.cwEngine) {
-                    ForEach(CWEngine.allCases) { engine in Text(engine.rawValue).tag(engine).disabled(engine != .manual && !CWEngine.isSupported) }
+                    ForEach(CWEngine.allCases) { engine in Text(AppLocalization.text(engine.rawValue)).tag(engine).disabled(engine != .manual && !CWEngine.isSupported) }
                 }.frame(width: 320).disabled(receiver.busy)
                 Text("CWKit: tono y WPM automáticos, macOS 15+. Neuronal usa un modelo Core ML en CPU, con varios segundos de latencia. Verifica indicativos con señales difíciles.").font(.caption).foregroundStyle(.secondary)
                 if receiver.settings.cwEngine == .neural, let tentative = receiver.engineRecords.last?.tentative, !tentative.isEmpty {

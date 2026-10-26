@@ -22,7 +22,7 @@ struct PropagationView: View {
                     PSKReporterPanel(store: store, location: location, date: context.date)
                     RBNPanel(store: rbnStore)
                     predictionForm(at: store.planningTime(at: context.date))
-                    if let error = store.calculationError { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+                    if let error = store.calculationError { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
                     if let report = store.report, !store.listening || store.estimatesReception {
                         let current = store.input(origin: location, date: report.input.date) == report.input
                             && BroadcastCalendar.utc.isDate(store.planningTime(at: context.date), equalTo: report.input.date, toGranularity: .hour)
@@ -51,7 +51,7 @@ struct PropagationView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Condiciones y propagación").font(.largeTitle.weight(.semibold))
                 Text("Clima espacial reciente y planificación de enlaces por banda").foregroundStyle(.secondary)
-                Text(store.weatherStatus).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(store.weatherStatus)).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
             Button { Task { await store.refresh(forceIndices: true) } } label: { Label("Actualizar", systemImage: "arrow.clockwise") }.disabled(store.weatherBusy)
@@ -78,7 +78,7 @@ struct PropagationView: View {
                     TextField("Receptor", text: $guide.receiverName).textFieldStyle(.roundedBorder)
                     TextField("Antena", text: $guide.antennaName).textFieldStyle(.roundedBorder)
                     Picker("Origen", selection: $guide.listeningOrigin) {
-                        ForEach(ListeningOrigin.allCases, id: \.self) { Text($0.title).tag($0) }
+                        ForEach(ListeningOrigin.allCases, id: \.self) { Text(AppLocalization.text($0.title)).tag($0) }
                     }
                 }
                 Text("Coordenadas decimales: sur y oeste negativos. Se guardan en este Mac y sirven también para la guía de radios. Los cálculos y la consulta de la celda NOAA se hacen localmente.").font(.caption).foregroundStyle(.secondary)
@@ -226,7 +226,7 @@ struct PropagationView: View {
     }
     private func field(_ title: String, text: Binding<String>, hint: String, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
             TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(title)
         }.frame(width: width)
     }

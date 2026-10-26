@@ -56,7 +56,7 @@ struct SpaceWeatherPanel: View {
     private func scale(_ value: Int?) -> String { value.map(String.init) ?? "—" }
     private func reading(_ title: String, value: SpaceReading?, age: Double, units: String, source: SpaceWeatherSource) -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
             if let value { Text("\(value.value, specifier: "%.1f") \(units)").font(.title2.monospacedDigit()) }
             else { Text("Sin datos").font(.title2) }
             stamp(value?.observedAt, age: age, source: source)

@@ -15,8 +15,8 @@ struct SigMFLibraryView: View {
                 Toggle("Papelera", isOn: $store.showsTrash).toggleStyle(.button).disabled(store.busy).onChange(of: store.showsTrash) { store.select(nil) }
                 if store.busy { ProgressView().controlSize(.small); Button("Cancelar") { store.cancel() } }
             }
-            if let error = store.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-            Text(store.status).font(.caption).foregroundStyle(.secondary)
+            if let error = store.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
+            Text(AppLocalization.text(store.status)).font(.caption).foregroundStyle(.secondary)
             HSplitView {
                 List(selection: Binding(get: { store.selectedID }, set: { store.select($0) })) {
                     ForEach(store.visible) { entry in

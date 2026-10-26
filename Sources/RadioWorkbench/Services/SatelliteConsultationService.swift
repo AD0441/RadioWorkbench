@@ -73,6 +73,9 @@ struct SatellitePassOpportunity: Identifiable, Sendable {
 }
 
 @MainActor @Observable final class SatelliteConsultationStore {
+    var autoRefreshEnabled = true
+    var autoRefreshHours = 6
+    private var lastAutomaticAttempt: Date?
     var snapshot: SatelliteCatalogSnapshot?
     var selectedID: Int?
     var selectedDownlinkID: String?
@@ -143,11 +146,18 @@ struct SatellitePassOpportunity: Identifiable, Sendable {
         snapshot = await service.cached()
         if selectedID == nil { selectedID = snapshot?.satellites.first(where: { $0.name.localizedCaseInsensitiveContains("ISS") })?.id ?? snapshot?.satellites.first?.id }
         if snapshot == nil { status = "Conéctate y actualiza el catálogo de frecuencias y órbitas." }
-        if snapshot.map({ Date().timeIntervalSince($0.fetchedAt) > 21_600 || $0.satellites.contains(where: { !$0.orbit.propagationReady }) || !($0.sourceErrors ?? [:]).isEmpty }) ?? true { Task { await self.refresh() } }
+        if autoRefreshEnabled, snapshot.map({ Date().timeIntervalSince($0.fetchedAt) > Double(autoRefreshHours) * 3600 || $0.satellites.contains(where: { !$0.orbit.propagationReady }) || !($0.sourceErrors ?? [:]).isEmpty }) ?? true { await refresh() }
     }
 
+    func runAutoRefresh() async {
+        await activate()
+        while !Task.isCancelled {
+            do { try await Task.sleep(for: .seconds(60)) } catch { return }
+            if autoRefreshEnabled, !busy, lastAutomaticAttempt.map({ Date().timeIntervalSince($0) >= Double(autoRefreshHours) * 3600 }) ?? true { await refresh() }
+        }
+    }
     func refresh() async {
-        guard !busy else { return }; busy = true; defer { busy = false }
+        guard !busy else { return }; busy = true; lastAutomaticAttempt = Date(); defer { busy = false }
         status = "Actualizando frecuencias de satélites y elementos orbitales…"
         do {
             snapshot = try await service.refresh()

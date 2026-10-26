@@ -35,9 +35,9 @@ struct ContentView: View {
                     Label("Taller de señales", systemImage: "graduationcap").tag(WorkbenchDestination.workshop)
                 }
                 ForEach(["Audio · disponible", "Imágenes", "Marítimo y navegación", "Otros modos"], id: \.self) { family in
-                    Section(family) {
+                    Section(LocalizedStringKey(family)) {
                         ForEach(RadioMode.allCases.filter { $0.family == family }) { mode in
-                            Label(mode.title, systemImage: mode.symbol).tag(WorkbenchDestination.decoder(mode))
+                            Label(AppLocalization.text(mode.title), systemImage: mode.symbol).tag(WorkbenchDestination.decoder(mode))
                         }
                     }
                 }
@@ -107,6 +107,7 @@ struct ContentView: View {
             if old == .receptionMap && new != .consultations { aprs.stop() }
         }
         .task { await broadcasts.runAutoRefresh() }
+        .task { await satellites.runAutoRefresh() }
         .onAppear { receiver.receptionLibrary.load(); aprs.receivedPosition = { [weak eventStore = receiver.receptionEvents] position in eventStore?.ingestAPRS(position) } }
         .task { await propagation.runAutoRefresh() }
     }

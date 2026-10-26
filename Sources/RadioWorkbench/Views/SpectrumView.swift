@@ -28,7 +28,7 @@ struct ReceiverLevelView: View {
     var body: some View {
         if let frame = visualization.frame {
             Text("\(frame.levelDB, specifier: "%.1f") dBFS").monospacedDigit()
-            if frame.clipped {
+            if frame.clipped && visualization.warnClipping {
                 Label(imageMode ? "Saturación: baja el volumen" : "Saturación", systemImage: "exclamationmark.triangle")
                     .foregroundStyle(.orange)
             }

@@ -65,7 +65,7 @@ struct ListeningMapView: View {
                 Text("El alcance observado depende de lo que intentaste escuchar, fecha, equipo y condiciones. No describe cobertura continua ni el patrón de radiación. Un intento fallido tampoco confirma que la emisora estuviera al aire.").font(.caption).foregroundStyle(.secondary)
                 Table(Array(visible.prefix(500)), selection: $selected) {
                     TableColumn("Emisora", value: \.stationName)
-                    TableColumn("Resultado") { Text($0.outcome.title) }
+                    TableColumn("Resultado") { Text(AppLocalization.text($0.outcome.title)) }
                     TableColumn(localTime ? "Fecha local" : "Fecha UTC") { Text(dateText($0.observedAt)) }
                     TableColumn("Antena") { Text($0.receivingStation.antenna.isEmpty ? "Sin anotar" : $0.receivingStation.antenna) }
                     TableColumn("km") { Text($0.distanceKm.map { $0.formatted(.number.precision(.fractionLength(0))) } ?? "Sin posición") }
@@ -86,7 +86,7 @@ struct ListeningMapView: View {
                 Picker("Hora final", selection: $filter.lastHour) { ForEach(0..<24, id: \.self) { Text(String(format: "%02d", $0)).tag($0) } }
                 Picker("Origen", selection: $filter.origin) {
                     Text("Todos").tag(ListeningOrigin?.none)
-                    ForEach(ListeningOrigin.allCases, id: \.self) { Text($0.title).tag(Optional($0)) }
+                    ForEach(ListeningOrigin.allCases, id: \.self) { Text(AppLocalization.text($0.title)).tag(Optional($0)) }
                 }
             }
             HStack {
@@ -100,7 +100,7 @@ struct ListeningMapView: View {
             HStack {
                 Picker("Evidencia", selection: $filter.evidence) {
                     Text("Todas").tag(ListeningEvidence?.none)
-                    ForEach(ListeningEvidence.allCases, id: \.self) { Text($0.rawValue).tag(Optional($0)) }
+                    ForEach(ListeningEvidence.allCases, id: \.self) { Text(AppLocalization.text($0.rawValue)).tag(Optional($0)) }
                 }
                 Toggle("Solo pendientes de localizar", isOn: $onlyUnlocated)
             }

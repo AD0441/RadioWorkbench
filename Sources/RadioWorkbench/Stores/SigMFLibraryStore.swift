@@ -10,15 +10,20 @@ import RadioCore
     var busy = false
     var status = "Importa el par .sigmf-meta / .sigmf-data para conservar sus parámetros I/Q."
     var error: String?
-    @ObservationIgnored private let repository: SigMFLibrary
+    @ObservationIgnored private var repository: SigMFLibrary
     @ObservationIgnored private var operation: Task<Void, Never>?
     init(repository: SigMFLibrary = .init()) { self.repository = repository }
+    func configureStorage(root: URL) {
+        guard !busy else { return }
+        repository = SigMFLibrary(directory: root.appendingPathComponent("SigMF"))
+        entries = []; select(nil)
+    }
     var visible: [SigMFLibraryEntry] { entries.filter { $0.trashed == showsTrash }.sorted { $0.importedAt > $1.importedAt } }
     var selected: SigMFLibraryEntry? { visible.first { $0.id == selectedID } }
     func load() { perform { self.entries = try await self.repository.load() } }
     func chooseImport() {
         let panel = NSOpenPanel(); panel.allowsMultipleSelection = false
-        panel.message = "Selecciona .sigmf-meta; las muestras deben estar junto a él. No se interpreta audio como I/Q."
+        panel.message = AppLocalization.text("Selecciona .sigmf-meta; las muestras deben estar junto a él. No se interpreta audio como I/Q.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         perform {
             let entry = try await self.repository.importRecording(metadata: url)
@@ -37,7 +42,7 @@ import RadioCore
     func exportSelected() {
         guard let id = selected?.id else { return }
         let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = false
-        panel.message = "Se creará una carpeta nueva con las muestras y sus metadatos SigMF."
+        panel.message = AppLocalization.text("Se creará una carpeta nueva con las muestras y sus metadatos SigMF.")
         guard panel.runModal() == .OK, let parent = panel.url else { return }
         perform {
             let folder = try await self.repository.exportRecording(id: id, to: parent)

@@ -25,6 +25,9 @@ struct RadioUpdate: Sendable {
 }
 
 actor RadioWorker {
+    var visualFramesPerSecond = 25.0
+    func configureVisualization(maximumFPS: Double) { visualFramesPerSecond = maximumFPS.isFinite ? min(25, max(5, maximumFPS)) : 25 }
+
     func decodeFile(url: URL, mode: RadioMode, settings: DecoderSettings,
                     voiceOutput: (@Sendable (DigitalVoicePCMChunk) -> Void)? = nil,
                     update: @Sendable (RadioUpdate) async -> Void) async throws {
@@ -89,7 +92,7 @@ actor RadioWorker {
         var decoder = try DecoderEngine(mode: mode, sampleRate: sampleRate, settings: settings)
         let recording = try AudioDiagnosticRecorder.requested(rate: sampleRate, mode: mode)
         let spectrum = SpectrumAnalyzer()
-        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate, maximumFramesPerSecond: visualFramesPerSecond)
         var storage = [Float](repeating: 0, count: 8192)
         var lastUpdate = 0.0
         var previousDrop: UInt64 = 0
@@ -163,7 +166,7 @@ actor RadioWorker {
         var session = try ACARSProcess()
         var resampler = try ACARSAudioResampler(sampleRate: sampleRate)
         let spectrum = SpectrumAnalyzer()
-        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate, maximumFramesPerSecond: visualFramesPerSecond)
         var storage = [Float](repeating: 0, count: 8192), retained: [ACARSMessage] = []
         var lastUpdate = 0.0, previousDrop: UInt64 = 0
         defer { session.cancel() }
@@ -235,7 +238,7 @@ actor RadioWorker {
         var resampler = try StreamingAudioResampler(sampleRate: sampleRate, outputRate: 22050)
         var retained: [MultimonRecord] = [], storage = [Float](repeating: 0, count: 8192)
         let spectrum = SpectrumAnalyzer()
-        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate)
+        let liveSpectrum = LiveSpectrumAnalyzer(sampleRate: sampleRate, maximumFramesPerSecond: visualFramesPerSecond)
         var lastUpdate = 0.0, previousDrop: UInt64 = 0
         var lastPublishedTotal = 0
         defer { session.cancel() }

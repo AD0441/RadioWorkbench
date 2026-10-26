@@ -16,7 +16,7 @@ struct IonosondePanel: View {
     var body: some View {
         GroupBox("Ionosondas cercanas · observación regional") {
             VStack(alignment: .leading, spacing: 8) {
-                Text(status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let location, let snapshot {
                     let nearby = snapshot.nearest(to: location, limit: 5)
                     if nearby.isEmpty {

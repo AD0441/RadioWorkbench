@@ -1,6 +1,6 @@
 import RadioCore
 
-enum WorkbenchDestination: Hashable {
+enum WorkbenchDestination: Hashable, Codable {
     case broadcasts
     case propagation
     case consultations

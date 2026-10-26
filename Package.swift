@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "RadioWorkbench",
+    defaultLocalization: "es",
     platforms: [.macOS(.v14)],
     products: [
         .executable(name: "RadioWorkbench", targets: ["RadioWorkbench"]),
@@ -15,7 +16,7 @@ let package = Package(
         .target(name: "AudioRing"),
         .target(name: "SatelliteKit", path: "Vendor/SatelliteKit/Sources/SatelliteKit"),
         .target(name: "RadioCore", dependencies: ["AudioRing", "SatelliteKit"], linkerSettings: [.linkedFramework("Accelerate"), .linkedFramework("AVFoundation")]),
-        .executableTarget(name: "RadioWorkbench", dependencies: ["RadioCore", "AudioRing", .product(name: "Sparkle", package: "Sparkle")], linkerSettings: [.linkedFramework("Network"), .linkedFramework("PDFKit")]),
+        .executableTarget(name: "RadioWorkbench", dependencies: ["RadioCore", "AudioRing", .product(name: "Sparkle", package: "Sparkle")], resources: [.process("Resources")], linkerSettings: [.linkedFramework("Network"), .linkedFramework("PDFKit")]),
         .testTarget(name: "RadioCoreTests", dependencies: ["RadioCore", "RadioWorkbench", "AudioRing"], resources: [.copy("Fixtures")])
     ]
 )

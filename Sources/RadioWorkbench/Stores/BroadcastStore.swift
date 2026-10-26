@@ -3,11 +3,14 @@ import Observation
 import RadioCore
 
 @MainActor @Observable final class BroadcastStore {
+    var autoRefreshEnabled = true
+    var autoRefreshHours = 6
+    var notificationsEnabled = true
     var snapshot: BroadcastSnapshot?
     var hfccSnapshot: HFCCScheduleSnapshot?
     var hfccStatus = "HFCC complementa EiBi con datos declarados de potencia, zona y rumbo."
     var busy = false
-    var status = "Con conexión, EiBi se actualiza al abrir la guía y cada 6 horas."
+    var status = "La guía conserva su copia local; las actualizaciones siguen la política de Ajustes."
     var search = ""
     var band = "Todas"
     var language = "Todos"
@@ -37,13 +40,15 @@ import RadioCore
     }
     var latitude: String
     var longitude: String
-    private let service = BroadcastService()
-    private let hfccService = HFCCScheduleService()
+    private let service: BroadcastService
+    private let hfccService: HFCCScheduleService
     private let alertScheduler = BroadcastAlertScheduler()
+    private let usesSystemNotifications: Bool
     @ObservationIgnored private var hfccByRoundedFrequency: [Int: [HFCCTransmission]] = [:]
     private var activated = false
     private var lastAttempt: Date?
-    init() {
+    init(service: BroadcastService = .init(), hfccService: HFCCScheduleService = .init(), usesSystemNotifications: Bool = true) {
+        self.service = service; self.hfccService = hfccService; self.usesSystemNotifications = usesSystemNotifications
         favorites = Set(UserDefaults.standard.stringArray(forKey: "broadcastFavorites") ?? [])
         alertFavorites = Set(UserDefaults.standard.stringArray(forKey: "broadcastAlertFavorites") ?? [])
         let savedLead = UserDefaults.standard.integer(forKey: "broadcastAlertLeadMinutes")
@@ -57,8 +62,9 @@ import RadioCore
         snapshot = await service.cached()
         hfccSnapshot = await hfccService.cached()
         rebuildHFCCIndex()
+        await rescheduleAlerts()
         if snapshot != nil { status = "Última copia disponible. Comprobando actualizaciones…" }
-        await refresh()
+        if autoRefreshEnabled { await refresh() }
     }
     func runAutoRefresh() async {
         await activate()
@@ -68,7 +74,7 @@ import RadioCore
         }
     }
     func refreshIfDue() async {
-        if activated, !busy, lastAttempt.map({ Date().timeIntervalSince($0) >= 6 * 3600 }) ?? true { await refresh() }
+        if autoRefreshEnabled, activated, !busy, lastAttempt.map({ Date().timeIntervalSince($0) >= Double(autoRefreshHours) * 3600 }) ?? true { await refresh() }
     }
     func refresh() async {
         guard !busy else { return }
@@ -78,11 +84,11 @@ import RadioCore
         async let hfccTask = hfccService.download()
         do {
             snapshot = try await eibiTask
-            status = "Datos recibidos de EiBi. Próxima comprobación automática en 6 horas."
+            status = "Datos recibidos de EiBi. Las próximas comprobaciones siguen la política de Ajustes."
         } catch {
             status = snapshot == nil ? "EiBi no se pudo actualizar: \(error.localizedDescription). Puedes reintentar o importar un CSV." : "EiBi conserva su copia anterior: \(error.localizedDescription)."
             // Retry a failed connection on the next minute tick, capped at five minutes.
-            lastAttempt = Date().addingTimeInterval(-6 * 3600 + 5 * 60)
+            lastAttempt = Date().addingTimeInterval(-Double(autoRefreshHours) * 3600 + 5 * 60)
         }
         do {
             hfccSnapshot = try await hfccTask
@@ -112,6 +118,7 @@ import RadioCore
     }
     func setFavoriteAlert(_ entry: BroadcastEntry, enabled: Bool) {
         if enabled {
+            guard notificationsEnabled else { alertStatus = "Activa los avisos en Ajustes antes de programar una emisora."; return }
             guard favorites.contains(entry.id) else { alertStatus = "Guarda primero la emisora en Favoritas."; return }
             Task {
                 do {
@@ -137,7 +144,8 @@ import RadioCore
         Task { await rescheduleAlerts() }
     }
     func rescheduleAlerts() async {
-        let entries = snapshot?.entries.filter { alertFavorites.contains($0.id) } ?? []
+        guard usesSystemNotifications else { return }
+        let entries = notificationsEnabled ? snapshot?.entries.filter { alertFavorites.contains($0.id) } ?? [] : []
         do {
             let count = try await alertScheduler.schedule(entries: entries, leadMinutes: alertLeadMinutes)
             alertStatus = alertFavorites.isEmpty

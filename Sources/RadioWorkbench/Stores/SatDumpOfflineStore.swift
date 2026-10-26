@@ -37,7 +37,7 @@ import RadioCore
     }
     func chooseInput() {
         let panel = NSOpenPanel(); panel.allowsMultipleSelection = false
-        panel.message = "I/Q crudo intercalado; una grabación WAV de audio de SDR++ no contiene LRPT."
+        panel.message = AppLocalization.text("I/Q crudo intercalado; una grabación WAV de audio de SDR++ no contiene LRPT.")
         if panel.runModal() == .OK { inputURL = panel.url }
     }
     func start() {

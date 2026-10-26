@@ -8,7 +8,7 @@ struct NoaaThreeDayForecastPanel: View {
     var body: some View {
         GroupBox("Pronóstico NOAA SWPC · próximos tres días") {
             VStack(alignment: .leading, spacing: 8) {
-                Text(status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let forecast {
                     HStack(alignment: .top, spacing: 10) {
                         ForEach(Array(forecast.datesUTC.enumerated()), id: \.offset) { index, date in

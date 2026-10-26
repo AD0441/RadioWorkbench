@@ -16,15 +16,15 @@ struct InputQualityView: View {
                     if findings.isEmpty { Label("Sin problemas de nivel o formato detectados en este bloque.", systemImage: "checkmark.circle") }
                     ForEach(findings) { finding in
                         VStack(alignment: .leading, spacing: 3) {
-                            Label(finding.observation, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
-                            Text(finding.action).foregroundStyle(.secondary)
+                            Label(AppLocalization.text(finding.observation), systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
+                            Text(AppLocalization.text(finding.action)).foregroundStyle(.secondary)
                         }
                     }
                     if let metrics = receiver.integrity {
                         Text("\(metrics.check): \(metrics.accepted) \(metrics.unit) aceptados" + (metrics.rejected.map { " · \($0) rechazados" } ?? "")).fontWeight(.semibold)
                         if let sync = metrics.synchronized { Text(sync ? "Sincronía adquirida" : "Buscando sincronía") }
                         Text(metrics.note + " Contadores desde el último reinicio del decodificador.").foregroundStyle(.secondary)
-                    } else { Text(integrity).textSelection(.enabled) }
+                    } else { Text(AppLocalization.text(integrity)).textSelection(.enabled) }
                     Text("El nivel se mide en audio digital. No estima potencia RF, SNR de radio ni porcentaje de mensajes perdidos. Sin sincronía no se puede conocer cuántos paquetes se transmitieron. La saturación y el DC describen solo el bloque visible; las muestras descartadas corresponden a la sesión.")
                         .foregroundStyle(.secondary)
                 } else {

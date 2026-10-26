@@ -87,7 +87,10 @@ final class ReceiverStore {
     @ObservationIgnored private var session = UUID()
     @ObservationIgnored var microphoneDiagnosticStarted = false
 
-    init() {
+    @ObservationIgnored let inputProfileOverride: URL?
+
+    init(preferences: AppPreferencesStore? = nil, inputProfileURL: URL? = nil) {
+        inputProfileOverride = inputProfileURL
         refreshDevices()
         selectedDeviceID = devices.first(where: { $0.uid.lowercased().contains("vbcable") })?.id ?? 0
         input.configurationChanged = { [weak self] in
@@ -95,8 +98,37 @@ final class ReceiverStore {
             self.stop(); self.refreshDevices()
             self.error = "La entrada cambió de formato o se desconectó. Revisa el dispositivo y pulsa Escuchar para reiniciar."
         }
-        loadInputProfiles()
+        loadInputProfiles(restoreLast: preferences?.values.restoreSession ?? true)
+        if let preferences {
+            receptionLibrary.configureStorage(root: preferences.libraryRoot)
+            if selectedProfileID == nil { applyAudioDefaults(preferences.values) }
+            if let saved = preferences.savedSession {
+                select(saved.mode); settings = saved.settings; rfModulation = saved.modulation; rfBandwidth = saved.bandwidth
+                networkPCM = saved.network; inputSource = saved.source == "tcp" ? .tcp : .device
+                selectedDeviceID = saved.deviceUID.flatMap { uid in devices.first { $0.uid == uid }?.id } ?? 0
+                inputSelectionChanged()
+            }
+            if let destination = preferences.savedDestination {
+                if case .decoder(let mode) = destination, mode != self.mode { select(mode) }
+                self.destination = destination
+            }
+            applyDisplayPreferences(preferences.values)
+        }
     }
+    func applyAudioDefaults(_ values: WorkbenchPreferences) {
+        guard !busy else { return }
+        selectedDeviceID = devices.first { $0.uid == values.defaultDeviceUID }?.id ?? 0
+        settings.audioChannel = values.defaultChannel < 0 ? .mix : .channel(values.defaultChannel)
+        inputSource = values.defaultInputSource == "tcp" ? .tcp : .device
+        inputSelectionChanged()
+    }
+    func applyDisplayPreferences(_ values: WorkbenchPreferences) {
+        visualization.configure(palette: values.waterfallPalette, lowPower: values.lowPower, warnClipping: values.warnClipping)
+        warnDroppedSamples = values.warnDroppedSamples
+        visualFPS = values.effectiveFPS
+    }
+    var warnDroppedSamples = true
+    private var visualFPS = 25.0
     func refreshDevices() {
         devices = AudioInputDevices.list()
         if selectedDeviceID != 0 && !devices.contains(where: { $0.id == selectedDeviceID }) { selectedDeviceID = 0 }
@@ -156,7 +188,7 @@ final class ReceiverStore {
     func openAudio() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.audio]; panel.allowsMultipleSelection = false
-        panel.message = "WAV, AIFF u otro formato que macOS pueda leer."
+        panel.message = AppLocalization.text("WAV, AIFF u otro formato que macOS pueda leer.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         decode(url)
     }
@@ -204,6 +236,7 @@ final class ReceiverStore {
                 detail = "Captura iniciada · \(Int(stream.sampleRate)) Hz · \(stream.channels) canal(es) · esperando audio"
                 let voiceOutput = try prepareDMRVoiceOutput()
                 let visualize = visualization.startLive()
+                await worker.configureVisualization(maximumFPS: visualFPS)
                 try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: inputName, voiceOutput: voiceOutput, visualize: visualize) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
@@ -230,6 +263,7 @@ final class ReceiverStore {
                 sourceChannelCount = stream.channels; captureSampleRate = stream.sampleRate
                 let voiceOutput = try prepareDMRVoiceOutput()
                 let visualize = visualization.startLive()
+                await worker.configureVisualization(maximumFPS: visualFPS)
                 try await worker.decodeLive(ring: stream.ring, sampleRate: stream.sampleRate, mode: mode, settings: settings, source: name, voiceOutput: voiceOutput, visualize: visualize) { [weak self] value in
                     await self?.apply(value, token: token)
                 }
@@ -278,7 +312,7 @@ final class ReceiverStore {
     }
     func exportVoice() {
         guard !busy, !voiceFinalizing, !voiceExporting, let url = voiceURL else { return }
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = "voz-\((voiceProtocol ?? settings.digitalVoiceProtocol).rawValue).wav"
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.wav]; panel.nameFieldStringValue = exportFileName(extension: "wav")
         guard panel.runModal() == .OK, let destination = panel.url else { return }
         voiceExporting = true
         voiceExport = Task { [weak self] in
@@ -289,7 +323,7 @@ final class ReceiverStore {
         }
     }
     func exportEngineJSON() {
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = "\(mode.rawValue)-recibido.json"
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.json]; panel.nameFieldStringValue = exportFileName(extension: "json")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do { let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]; encoder.dateEncodingStrategy = .iso8601; try encoder.encode(engineRecords).write(to: url, options: .atomic) } catch { self.error = error.localizedDescription }
     }
@@ -365,14 +399,18 @@ final class ReceiverStore {
         }
         if value.finished { visualization.stopLive(); dmrVoiceMonitor?.finish(); busy = false; live = false; task = nil }
     }
+    private func exportFileName(extension suffix: String) -> String {
+        let original = lastURL?.deletingPathExtension().lastPathComponent ?? mode.rawValue + "-reception"
+        return AppPreferencesStore.shared.values.suggestedName(original: original, mode: mode) + "." + suffix
+    }
     func exportText() {
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.plainText]; panel.nameFieldStringValue = "\(mode.rawValue)-recepcion.txt"
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.plainText]; panel.nameFieldStringValue = exportFileName(extension: "txt")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do { try text.write(to: url, atomically: true, encoding: .utf8) } catch { self.error = error.localizedDescription }
     }
     func exportImage() {
         guard let receivedImage else { return }
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.png]; panel.nameFieldStringValue = "\(mode.rawValue)-imagen.png"
+        let panel = NSSavePanel(); panel.allowedContentTypes = [.png]; panel.nameFieldStringValue = exportFileName(extension: "png")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
             let bitmap = NSBitmapImageRep(cgImage: receivedImage)

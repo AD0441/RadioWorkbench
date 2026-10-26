@@ -15,7 +15,7 @@ struct RadioConsultationsView: View {
             VStack(alignment: .leading, spacing: 16) {
                 header
                 Picker("Consulta", selection: $store.section) {
-                    ForEach(RadioConsultationSection.allCases) { section in Text(section.rawValue).tag(section) }
+                    ForEach(RadioConsultationSection.allCases) { section in Text(AppLocalization.text(section.rawValue)).tag(section) }
                 }.pickerStyle(.segmented)
                 switch store.section {
                 case .frequency: frequencyLookup
@@ -57,7 +57,7 @@ struct RadioConsultationsView: View {
                     HStack {
                         TextField("MHz", text: $store.frequencyMHz).textFieldStyle(.roundedBorder).frame(width: 145)
                         Picker("Perfil del decodificador", selection: $store.chosenMode) {
-                            ForEach(RadioMode.allCases.filter(\.isAudioAvailable)) { mode in Text(mode.title).tag(mode) }
+                            ForEach(RadioMode.allCases.filter(\.isAudioAvailable)) { mode in Text(AppLocalization.text(mode.title)).tag(mode) }
                         }.frame(maxWidth: 300)
                         Button {
                             receiver.select(store.chosenMode)
@@ -93,12 +93,12 @@ struct RadioConsultationsView: View {
                     }
                     Divider()
                     Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 8) {
-                        GridRow { Text("Demodulación SDR").foregroundStyle(.secondary); Text(store.selectedProfile.modulation.rawValue) }
+                        GridRow { Text("Demodulación SDR").foregroundStyle(.secondary); Text(AppLocalization.text(store.selectedProfile.modulation.rawValue)) }
                         GridRow { Text("Ancho RF").foregroundStyle(.secondary); Text("\(Int(store.selectedProfile.rfBandwidth)) Hz") }
-                        GridRow { Text("Audio para el decodificador").foregroundStyle(.secondary); Text(store.selectedProfile.audioBand) }
+                        GridRow { Text("Audio para el decodificador").foregroundStyle(.secondary); Text(AppLocalization.text(store.selectedProfile.audioBand)) }
                         GridRow { Text("Centro de audio").foregroundStyle(.secondary); Text("\(Int(store.selectedProfile.center)) Hz") }
                     }
-                    Text(store.selectedProfile.note).font(.caption).foregroundStyle(.secondary)
+                    Text(AppLocalization.text(store.selectedProfile.note)).font(.caption).foregroundStyle(.secondary)
                     Text("La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench.")
                         .font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
@@ -115,7 +115,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Repetidoras de Chile").font(.title2.weight(.semibold))
-                    Text(store.repeaterStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.repeaterStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Link("Abrir SUBTEL", destination: SUBTELDataService.directoryURL)
@@ -184,7 +184,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Indicativos y licencias").font(.title2.weight(.semibold))
-                    Text(store.callsignStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.callsignStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Link("Abrir SUBTEL", destination: SUBTELDataService.directoryURL)
@@ -216,7 +216,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("APRS cercano · flujo de Internet").font(.title2.weight(.semibold))
-                    Text(aprs.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(aprs.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 if aprs.connected { Button("Detener") { aprs.stop() } }
@@ -262,7 +262,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Satélites con radioafición").font(.title2.weight(.semibold))
-                    Text(satellites.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(satellites.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Button { Task { await satellites.refresh() } } label: { Label("Actualizar datos", systemImage: "arrow.clockwise") }.disabled(satellites.busy)

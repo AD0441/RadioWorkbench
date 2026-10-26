@@ -24,7 +24,7 @@ struct InputConnectionAssistant: View {
                         Text("Canal: \(receiver.settings.audioChannel.label)")
                         let profile = receiver.mode.receptionProfile(settings: receiver.settings)
                         Text("SDR: \(profile.modulation.rawValue) · filtro RF inicial \(profile.rfBandwidth.formatted()) Hz")
-                        Text(profile.audioBand); Text(profile.note).foregroundStyle(.secondary)
+                        Text(AppLocalization.text(profile.audioBand)); Text(AppLocalization.text(profile.note)).foregroundStyle(.secondary)
                         Text("Configura esos valores en SDR++. Para una salida de discriminador, conserva subaudio y niveles; los filtros de voz pueden eliminar datos. Comprueba que la salida llegue al dispositivo seleccionado aquí.").font(.callout)
                     } else if step == 2 {
                         if receiver.busy { Button("Detener entrada") { receiver.stop() } }
@@ -35,18 +35,18 @@ struct InputConnectionAssistant: View {
                         if receiver.captureSampleRate > 0 { Text("Tasa efectiva: \(receiver.captureSampleRate.formatted()) Hz") }
                     } else {
                         if let metrics = receiver.integrity {
-                            Text(metrics.check).font(.headline)
+                            Text(AppLocalization.text(metrics.check)).font(.headline)
                             Text("\(metrics.accepted) \(metrics.unit) aceptados" + (metrics.rejected.map { " · \($0) rechazados" } ?? ""))
-                            Text(metrics.note).foregroundStyle(.secondary)
+                            Text(AppLocalization.text(metrics.note)).foregroundStyle(.secondary)
                         } else {
-                            Text(receiver.detail).textSelection(.enabled)
+                            Text(AppLocalization.text(receiver.detail)).textSelection(.enabled)
                             Text("Este motor no expone todos los contadores. Comprueba su resultado y los avisos de integridad; no se calcula un porcentaje de éxito a partir del aspecto del espectro.").foregroundStyle(.secondary)
                         }
                         Text("Si no adquiere: verifica modo, centro y ancho de audio, canal, inversión y cabecera completa. Prueba el ejemplo incluido para separar un problema de entrada de uno del decodificador.")
                         Button("Guardar diagnóstico local…") { exportDiagnostic() }
                     }
-                    if let error = receiver.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-                    if let notice { Text(notice).font(.caption).foregroundStyle(.secondary) }
+                    if let error = receiver.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
+                    if let notice { Text(AppLocalization.text(notice)).font(.caption).foregroundStyle(.secondary) }
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }
             HStack {

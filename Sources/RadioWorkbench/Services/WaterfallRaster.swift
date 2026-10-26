@@ -5,7 +5,8 @@ import Foundation
 /// Each CGImage owns a snapshot; later appends cannot change an image being drawn.
 struct WaterfallRaster {
     let width = 256
-    let height = 80
+    var height = 80
+    var palette = "ocean"
     private var pixels: [UInt8] = []
 
     mutating func reset() { pixels.removeAll(keepingCapacity: true) }
@@ -25,9 +26,11 @@ struct WaterfallRaster {
             let db = bins[min(bins.count - 1, column * bins.count / width)]
             let value = db.isFinite ? min(1, max(0, (Double(db) + 80) / 70)) : 0
             let offset = column * 4
-            pixels[offset] = UInt8(30 * value)
-            pixels[offset + 1] = UInt8(190 * value)
-            pixels[offset + 2] = UInt8(255 * value)
+            switch palette {
+            case "amber": pixels[offset] = UInt8(255 * value); pixels[offset + 1] = UInt8(170 * value); pixels[offset + 2] = UInt8(30 * value)
+            case "grayscale": pixels[offset] = UInt8(255 * value); pixels[offset + 1] = UInt8(255 * value); pixels[offset + 2] = UInt8(255 * value)
+            default: pixels[offset] = UInt8(30 * value); pixels[offset + 1] = UInt8(190 * value); pixels[offset + 2] = UInt8(255 * value)
+            }
         }
         guard let provider = CGDataProvider(data: Data(pixels) as CFData) else { return nil }
         return CGImage(width: width, height: height, bitsPerComponent: 8, bitsPerPixel: 32,

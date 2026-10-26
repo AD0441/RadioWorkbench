@@ -28,7 +28,7 @@ struct DecoderComparisonView: View {
                     if task != nil { ProgressView().controlSize(.small); Button("Cancelar") { cancel() } }
                     Spacer(); Button("Cerrar") { dismiss() }
                 }
-                if let error { Text(error).foregroundStyle(.red) }
+                if let error { Text(AppLocalization.text(error)).foregroundStyle(.red) }
                 if let result {
                     Text("Audio: \(result.audioSeconds.formatted(.number.precision(.fractionLength(2)))) s. El tiempo depende del equipo y la carga; no es una medida de calidad.").font(.caption)
                     HStack(alignment: .top, spacing: 24) { output("A", run: result.a); output("B", run: result.b) }

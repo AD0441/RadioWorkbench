@@ -14,8 +14,8 @@ struct ReceiverView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(receiver.mode.title).font(.largeTitle.weight(.semibold))
-                    Text(receiver.mode.summary).font(.subheadline).foregroundStyle(.secondary)
+                    Text(AppLocalization.text(receiver.mode.title)).font(.largeTitle.weight(.semibold))
+                    Text(AppLocalization.text(receiver.mode.summary)).font(.subheadline).foregroundStyle(.secondary)
                 }
                 Spacer()
                 Label(receiver.live ? "EN VIVO" : receiver.busy ? "PROCESANDO" : "LISTO", systemImage: receiver.live ? "record.circle" : "circle.fill")
@@ -34,9 +34,9 @@ struct ReceiverView: View {
                 ReceiverLevelView(visualization: receiver.visualization)
             }.font(.caption).foregroundStyle(.secondary)
             if receiver.busy && !receiver.live { ProgressView(value: receiver.progress) }
-            Text(receiver.detail).font(.caption).foregroundStyle(.secondary)
-            if let error = receiver.error { Label(error, systemImage: "exclamationmark.triangle").font(.callout).foregroundStyle(.red).textSelection(.enabled) }
-            if receiver.dropped > 0 { Text("Se perdieron \(receiver.dropped) muestras; se reinició la sincronización.").font(.caption).foregroundStyle(.orange) }
+            Text(AppLocalization.text(receiver.detail)).font(.caption).foregroundStyle(.secondary)
+            if let error = receiver.error { Label(AppLocalization.text(error), systemImage: "exclamationmark.triangle").font(.callout).foregroundStyle(.red).textSelection(.enabled) }
+            if receiver.dropped > 0 && receiver.warnDroppedSamples { Text("Se perdieron \(receiver.dropped) muestras; se reinició la sincronización.").font(.caption).foregroundStyle(.orange) }
             HStack {
                 Text("TEXTO RECIBIDO").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                 Spacer()
@@ -112,12 +112,12 @@ struct DecoderControls: View {
             }
             if receiver.mode == .rtty {
                 Picker("Código", selection: $receiver.settings.rttyEncoding) {
-                    ForEach(RTTYEncoding.allCases) { Text($0.rawValue).tag($0) }
+                    ForEach(RTTYEncoding.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                 }.frame(width: 200)
             }
             if receiver.mode == .pocsag {
                 Picker("Velocidad", selection: $receiver.settings.pagerRate) {
-                    ForEach(PagerRate.allCases) { Text($0.title).tag($0) }
+                    ForEach(PagerRate.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                 }.frame(width: 235)
                 Picker("BCH", selection: $receiver.settings.pagerCorrectionBits) {
                     ForEach(0...2, id: \.self) { Text("\($0) bits corregibles").tag($0) }
@@ -130,13 +130,13 @@ struct DecoderControls: View {
             }
             if receiver.mode == .dgps {
                 Picker("Tasa MSK", selection: $receiver.settings.dgpsRate) {
-                    ForEach(DGPSRate.allCases) { Text($0.title).tag($0) }
+                    ForEach(DGPSRate.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                 }.frame(width: 235)
                 Text("Polaridad automática · paridad RTCM 2").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
             }
             if receiver.mode == .fiveTones {
                 Picker("Estándar", selection: $receiver.settings.fiveToneStandard) {
-                    ForEach(FiveToneStandard.allCases) { Text($0.rawValue).tag($0) }
+                    ForEach(FiveToneStandard.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                 }.frame(width: 200)
                 Text("E/F: códigos especiales sin reinterpretación").font(.caption).foregroundStyle(.secondary)
             }
@@ -161,7 +161,7 @@ struct DecoderControls: View {
     }
     private func number(_ title: String, value: Binding<Double>, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
             TextField(title, value: value, format: .number.precision(.fractionLength(0...2)))
                 .textFieldStyle(.roundedBorder).frame(width: width)
         }

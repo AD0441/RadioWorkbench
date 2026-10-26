@@ -26,6 +26,8 @@ APP_MACOS="$APP_BUNDLE/Contents/MacOS"
 APP_BINARY="$APP_MACOS/$APP_NAME"
 mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples" "$APP_BUNDLE/Contents/Frameworks"
 cp "$BUILD_BINARY" "$APP_BINARY"
+cp -R "$ROOT_DIR/Sources/RadioWorkbench/Resources/en.lproj" "$ROOT_DIR/Sources/RadioWorkbench/Resources/es.lproj" "$APP_BUNDLE/Contents/Resources/"
+cp "$ROOT_DIR/Sources/RadioWorkbench/Resources/Translations.json" "$APP_BUNDLE/Contents/Resources/Translations.json"
 SPARKLE_ARTIFACT="$BUILD_PATH/artifacts/sparkle/Sparkle"
 /usr/bin/ditto --norsrc --noextattr "$SPARKLE_ARTIFACT/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework" "$APP_BUNDLE/Contents/Frameworks/Sparkle.framework"
 cp "$SPARKLE_ARTIFACT/LICENSE" "$APP_BUNDLE/Contents/Resources/Sparkle-LICENSE.txt"
@@ -61,6 +63,7 @@ cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.1
 cp "$ROOT_DIR/docs/RELEASE-0.13.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.13.md"
 cp "$ROOT_DIR/docs/RELEASE-0.14.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.14.md"
 cp "$ROOT_DIR/docs/RELEASE-0.15.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.15.md"
+cp "$ROOT_DIR/docs/RELEASE-0.16.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.16.md"
 cp "$ROOT_DIR/docs/DMR-0.12.md" "$APP_BUNDLE/Contents/Resources/DMR.md"
 cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
@@ -129,8 +132,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
 <key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.15.0</string>
-<key>CFBundleVersion</key><string>31</string>
+<key>CFBundleShortVersionString</key><string>0.16.0</string>
+<key>CFBundleVersion</key><string>32</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>SUFeedURL</key><string>https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml</string>
@@ -139,6 +142,8 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>SUAutomaticallyUpdate</key><false/>
 <key>SURequireSignedFeed</key><true/>
 <key>SUVerifyUpdateBeforeExtraction</key><true/>
+<key>CFBundleDevelopmentRegion</key><string>es</string>
+<key>CFBundleLocalizations</key><array><string>es</string><string>en</string></array>
 <key>NSPrincipalClass</key><string>NSApplication</string>
 <key>NSMicrophoneUsageDescription</key><string>Decodificar audio del receptor seleccionado al pulsar Escuchar.</string>
 <key>NSAppTransportSecurity</key><dict><key>NSExceptionDomains</key><dict>

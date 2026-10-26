@@ -1,3 +1,19 @@
+# Validación de RadioWorkbench 0.16.0
+
+Suite Release arm64: **292 funciones registradas, 286 aprobadas, seis opcionales omitidas y cero fallos**, 7,449 s después de compilar, más **21 controles C HF**. Las omisiones corresponden al corpus DMR temporal independiente, dos pruebas de red real y el benchmark visual opcional. No se repitió recepción física.
+
+Los controles nuevos cubren preferencias aisladas, límites y nombres, recuperación sin autoarranque de entrada/Rigctl, perfiles locales, conservación de variables de traducción, tipos de formato de catálogos nativos, política manual de guía sin solicitudes automáticas, límite de FFT sin alterar el pico de la señal, paletas/historial, copias de biblioteca, rechazo de enlaces, rollback y respaldo ZIP recuperable. Se corrigió un cálculo de ruta al cruzar el alias temporal `/var`/`/private/var` y una clave de catálogo de canal detectados por las pruebas.
+
+**Interfaz observada:** versión 0.16.0 y seis apartados de Ajustes; cambio Español → English → Español, controles de audio, tema/waterfall, biblioteca/respaldo, datos/avisos y conexiones/motores. La vista de apariencia se inspeccionó también en captura. La revisión encontró un aviso de perfil sin traducir; se añadió al catálogo y pasaron dos regresiones finales de localización en 0,044 s. Después falló la conexión de la herramienta de pantalla al intentar volver a abrir el paquete final; esa corrección concreta no se presenta como observada de nuevo. No se recorrieron todos los decodificadores en ambos idiomas ni se inició audio.
+
+Paquete definitivo **0.16.0/build 32**: integridad ZIP y firma estricta correctas; **18 objetos Mach-O con arm64**, sin enlaces temporales/Homebrew/Testing, y **78 WAV idénticos** a fixtures. Catálogo de **1.669 traducciones**, archivos nativos es/en coincidentes y recursos incluidos. El cambio final fue únicamente de recursos; se conservaron los ejecutables compilados y probados, se volvió a firmar el bundle y se repitió la verificación completa del ZIP. SHA-256: `ac94d16e3204075eec9bcad93decf5a8ffd75f2a9d8ff1f15d560416c33488a7`.
+
+Se reemplazó `/Applications/RadioWorkbench.app`: 244 archivos regulares coinciden con el paquete probado; **2.257 archivos de datos existentes y las preferencias conservaron su contenido durante la copia**. Los cambios de idioma de la comprobación visual son acciones posteriores de la app. Los respaldos/reubicación se ensayaron con datos de prueba, sin trasladar la biblioteca personal.
+
+El paquete y el canal Sparkle usan firmas Ed25519 separadas; la firma de la aplicación sigue siendo ad hoc, sin Developer ID ni notarización. No se declara probada una instalación completa mediante Sparkle entre dos publicaciones. La clave privada permanece fuera de Git y del bundle. El resultado remoto de publicación se incorpora al [resumen único](validation/release-0.16.0.json).
+
+README y notas de entrega bilingües, Ko-fi actualizado, agradecimiento a G4ZJH y [textos para compartir ES/EN](SOCIAL-0.16.0.md). [Uso, respaldo y límites](RELEASE-0.16.0.md).
+
 # Validación de RadioWorkbench 0.15.0
 
 Suite Release arm64: **281 funciones registradas, 275 aprobadas, seis opcionales omitidas y cero fallos**, 7,942 s tras compilar. Pasaron además **21 controles C HF**. Las omisiones siguen siendo tres contrastes DMR con corpus temporal independiente, dos pruebas de red real y el benchmark visual opcional; no se repitió recepción física.

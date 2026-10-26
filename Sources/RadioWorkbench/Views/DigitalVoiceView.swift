@@ -19,7 +19,7 @@ struct DigitalVoiceView: View {
                         Button(receiver.engineDownloading ? "Descargando…" : "Descargar motor oficial") { receiver.installDSD() }
                             .disabled(receiver.engineDownloading || receiver.busy || !ExternalAudioEngine.dsdSupported)
                     }.font(.caption)
-                    if !receiver.engineNotice.isEmpty { Text(receiver.engineNotice).font(.caption).foregroundStyle(.secondary).textSelection(.enabled) }
+                    if !receiver.engineNotice.isEmpty { Text(AppLocalization.text(receiver.engineNotice)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled) }
                 }
                 DigitalVoiceInputView(receiver: receiver)
                 DigitalVoicePreparationView(receiver: receiver)
@@ -36,11 +36,11 @@ struct DigitalVoiceView: View {
                 }
                 DigitalVoiceOutputView(receiver: receiver)
                 if receiver.busy && !receiver.live { ProgressView(value: receiver.progress) }
-                Text(receiver.detail).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(receiver.detail)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let error = receiver.error {
-                    Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(.red).textSelection(.enabled)
+                    Label(AppLocalization.text(error), systemImage: "exclamationmark.triangle").foregroundStyle(.red).textSelection(.enabled)
                 }
-                if receiver.dropped > 0 {
+                if receiver.dropped > 0 && receiver.warnDroppedSamples {
                     Text("Entrada: \(receiver.dropped) muestras descartadas; se reinició la sincronización.").font(.caption).foregroundStyle(.orange)
                 }
                 DisclosureGroup("Espectro y waterfall de audio", isExpanded: $showsSpectrum) {
@@ -96,7 +96,7 @@ struct DigitalVoiceView: View {
     }
     private var protocolPicker: some View {
         Picker("Protocolo", selection: $receiver.settings.digitalVoiceProtocol) {
-            ForEach(DigitalVoiceProtocol.allCases) { Text($0.rawValue).tag($0) }
+            ForEach(DigitalVoiceProtocol.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
         }.frame(width: 280).disabled(receiver.busy)
     }
     private var transportButtons: some View {
@@ -115,7 +115,7 @@ private struct DigitalVoiceInputView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Picker("Fuente", selection: $receiver.inputSource) {
-                        ForEach(ReceiverInputSource.allCases) { Text($0.rawValue).tag($0) }
+                        ForEach(ReceiverInputSource.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                     }.frame(width: 340).disabled(receiver.busy)
                         .onChange(of: receiver.inputSource) { receiver.inputSelectionChanged() }
                     Spacer()
@@ -160,7 +160,7 @@ private struct DigitalVoicePreparationView: View {
                     Spacer()
                     Button("Aplicar guía RF") { receiver.applyDigitalVoicePreset() }.disabled(receiver.busy)
                 }
-                Text(preset.audioDescription).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(preset.audioDescription)).font(.caption).foregroundStyle(.secondary)
                 if receiver.settings.digitalVoiceProtocol == .dmr {
                     Divider()
                     ViewThatFits(in: .horizontal) {
@@ -172,11 +172,11 @@ private struct DigitalVoicePreparationView: View {
                 }
                 DisclosureGroup("Detalles de RF, formato y conexión") {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(preset.signalModulation)
-                        Text(preset.note).foregroundStyle(.secondary)
+                        Text(AppLocalization.text(preset.signalModulation))
+                        Text(AppLocalization.text(preset.note)).foregroundStyle(.secondary)
                         HStack {
                             Picker("Guía de sintonía", selection: $receiver.rfModulation) {
-                                ForEach(RFModulation.allCases.filter { $0 != .iq }) { Text($0.rawValue).tag($0) }
+                                ForEach(RFModulation.allCases.filter { $0 != .iq }) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                             }.frame(width: 205)
                             Text("Filtro RF")
                             TextField("Hz", value: $receiver.rfBandwidth, format: .number.grouping(.never))
@@ -200,7 +200,7 @@ private struct DigitalVoicePreparationView: View {
     }
     private var slotPicker: some View {
         Picker("Escuchar intervalo", selection: $receiver.settings.dmrSlotSelection) {
-            ForEach(DMRSlotSelection.allCases) { Text($0.title).tag($0) }
+            ForEach(DMRSlotSelection.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
         }.frame(width: 320)
     }
     private var monitorToggle: some View {
@@ -220,7 +220,7 @@ private struct DigitalVoiceOutputView: View {
         GroupBox("Salida de voz") {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Label(outputState, systemImage: receiver.voiceFinalizing ? "hourglass" : "speaker.wave.2")
+                    Label(AppLocalization.text(outputState), systemImage: receiver.voiceFinalizing ? "hourglass" : "speaker.wave.2")
                     if receiver.voiceFinalizing { ProgressView().controlSize(.small) }
                     Spacer()
                 }
@@ -261,7 +261,7 @@ private struct DigitalVoiceEngineDetails: View {
                     .disabled(receiver.engineDownloading || receiver.busy || !ExternalAudioEngine.dsdSupported)
             } else { Label("DSD-neo 2.10.0 instalado", systemImage: "checkmark.circle") }
             if !ExternalAudioEngine.dsdSupported { Text("El motor oficial requiere macOS 26.").foregroundStyle(.orange) }
-            if !receiver.engineNotice.isEmpty { Text(receiver.engineNotice).textSelection(.enabled) }
+            if !receiver.engineNotice.isEmpty { Text(AppLocalization.text(receiver.engineNotice)).textSelection(.enabled) }
             Text("Descarga oficial con SHA-256 verificado. Recepción del canal seleccionado, sin seguimiento de trunking ni gestión de claves. No todos los protocolos exponen los mismos campos en esta interfaz.")
                 .foregroundStyle(.secondary)
             Button("Ejemplo M17 de datos…") { receiver.loadExample() }.disabled(receiver.busy)

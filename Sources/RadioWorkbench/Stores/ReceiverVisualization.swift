@@ -11,6 +11,13 @@ final class ReceiverVisualization {
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var continuation: AsyncStream<SpectrumFrame>.Continuation?
 
+    var warnClipping = true
+    func configure(palette: String, lowPower: Bool, warnClipping: Bool) {
+        self.warnClipping = warnClipping
+        let height = lowPower ? 40 : 80
+        guard raster.palette != palette || raster.height != height else { return }
+        raster = WaterfallRaster(height: height, palette: palette); waterfall = nil
+    }
     func update(_ frame: SpectrumFrame) {
         self.frame = frame
         waterfall = raster.append(frame.bins)

@@ -8,7 +8,7 @@ struct AudioRoutingView: View {
         VStack(alignment: .leading, spacing: 8) {
             if receiver.inputSource == .device { InputProfilesView(receiver: receiver) }
             Picker("Fuente de entrada", selection: $receiver.inputSource) {
-                ForEach(ReceiverInputSource.allCases) { Text($0.rawValue).tag($0) }
+                ForEach(ReceiverInputSource.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
             }.frame(width: 400).disabled(receiver.busy)
                 .onChange(of: receiver.inputSource) { receiver.inputSelectionChanged() }
             if receiver.inputSource == .tcp { TCPAudioControls(receiver: receiver) }
@@ -37,7 +37,7 @@ struct AudioRoutingView: View {
             .frame(width: 360).disabled(receiver.busy)
             HStack {
                 Picker("SDR++", selection: $receiver.rfModulation) {
-                    ForEach(RFModulation.allCases.filter { $0 != .iq }) { Text($0.rawValue).tag($0) }
+                    ForEach(RFModulation.allCases.filter { $0 != .iq }) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                 }.frame(width: 180)
                 Text("Filtro RF")
                 TextField("Hz", value: $receiver.rfBandwidth, format: .number).frame(width: 90).textFieldStyle(.roundedBorder)
