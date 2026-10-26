@@ -143,6 +143,19 @@
     "feedURL": "https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml",
     "localFeedSignatureVerified": true,
     "endToEndSparkleInstallationTested": false,
-    "privateKeyInArchiveOrGit": false
-  }
+    "privateKeyInArchiveOrGit": false,
+    "publicArchiveDownloaded": true,
+    "publicArchiveSHA256Matches": true,
+    "publicArchiveSignatureVerified": true,
+    "publicFeedBytesMatchSignedSource": true,
+    "publicFeedSignatureVerified": true,
+    "alteredFeedRejected": true,
+    "releaseURL": "https://github.com/AD0441/RadioWorkbench/releases/tag/v0.16.0",
+    "releaseSourceCommit": "35253a3b976345678d28d88a9c8b20e765ac551e"
+  },
+  "retainedDeliveries": [
+    "RadioWorkbench-0.16.0.app",
+    "RadioWorkbench-0.16.0-macos-arm64.zip",
+    "RadioWorkbench-0.15.0-macos-arm64.zip"
+  ]
 }
