@@ -33,14 +33,14 @@ Usa SwiftUI, CoreAudio/AVFoundation, Accelerate y MapKit. MultiMode Cocoa se uti
 
 [RAZIEL 0.17.0 para macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/RAZIEL-0.17.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/SHA256SUMS) · [Publicación 0.17.0](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.17.0).
 
-Extrae el ZIP y mueve `RAZIEL.app` a Aplicaciones. La publicación 0.16.0 conserva el nombre anterior `RadioWorkbench.app`. macOS pide permiso de micrófono al iniciar la captura, incluso con un cable virtual. En RAZIEL, abre Ajustes desde el pie inferior izquierdo, donde también aparece el crédito y el enlace a METATRON. Elige Español/English en **General** y configura allí las preferencias de audio, biblioteca y datos en sus apartados.
+Extrae el ZIP y mueve `RAZIEL.app` a Aplicaciones. La publicación 0.16.0 conserva el nombre anterior `RadioWorkbench.app`. macOS pide permiso de micrófono al iniciar la captura, incluso con un cable virtual. En RAZIEL, abre Ajustes desde el pie inferior izquierdo, donde también aparece el crédito del autor. Elige Español/English en **General** y configura allí las preferencias de audio, biblioteca y datos en sus apartados.
 
 ### Novedades 0.17.0
 
 - **RAZIEL:** nombre, icono monocromo, portada y crédito «Creado por Sebastián Pastén F.». Se conservan identidad de datos, perfiles y clave de actualizaciones.
 - **Cuatro paletas:** Grafito, Petróleo, Bosque y Ámbar; acentos adaptados a claro/oscuro y persistencia compatible con los ajustes anteriores. El icono permanece monocromo.
 - **Apoyo en Ajustes:** botón Ko-fi y enlace al proyecto; no se contacta al servicio hasta abrir el enlace.
-- **Acceso y crédito:** Ajustes y el crédito del autor se agrupan en el pie inferior izquierdo, junto al enlace a METATRON. El idioma Español/English se elige en General.
+- **Acceso y crédito:** Ajustes y el crédito del autor se agrupan en el pie inferior izquierdo, siguiendo el formato de METATRON. El idioma Español/English se elige en General.
 - **Estabilidad y lectura:** protección del espectro ante tasas inválidas; fechas NOAA según idioma, datos incompletos como desconocidos y traducciones corregidas en modos, condiciones e ionosondas.
 
 [Notas 0.17.0 ES/EN](https://github.com/AD0441/RadioWorkbench/blob/main/docs/RELEASE-0.17.0.md) · [Identidad visual](https://github.com/AD0441/RadioWorkbench/blob/main/docs/BRAND.md).
@@ -149,14 +149,14 @@ It uses SwiftUI, CoreAudio/AVFoundation, Accelerate and MapKit. MultiMode Cocoa 
 
 [RAZIEL 0.17.0 for macOS arm64](https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/RAZIEL-0.17.0-macos-arm64.zip) · [SHA-256](https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/SHA256SUMS) · [0.17.0 release](https://github.com/AD0441/RadioWorkbench/releases/tag/v0.17.0).
 
-Extract the ZIP and move `RAZIEL.app` to Applications. Release 0.16.0 retains the former name `RadioWorkbench.app`. macOS requests microphone permission when capture starts, including with virtual audio devices. In RAZIEL, open Settings from the lower-left footer, where the creator credit and METATRON link also appear. Choose Español/English under **General**, then configure audio, library and data in their respective sections.
+Extract the ZIP and move `RAZIEL.app` to Applications. Release 0.16.0 retains the former name `RadioWorkbench.app`. macOS requests microphone permission when capture starts, including with virtual audio devices. In RAZIEL, open Settings from the lower-left footer, where the creator credit also appears. Choose Español/English under **General**, then configure audio, library and data in their respective sections.
 
 ### What's new in 0.17.0
 
 - **RAZIEL:** new name, monochrome icon, cover and creator credit. Existing data identity, profiles and update signing key are preserved.
 - **Four palettes:** Graphite, Petroleum, Forest and Amber; light/dark control accents with persistence compatible with earlier settings. The icon stays monochrome.
 - **Support in Settings:** Ko-fi button and project link; the service is contacted only when you open it.
-- **Access and credit:** Settings and the creator credit are grouped in the lower-left footer, alongside the METATRON link. Choose Español/English under General.
+- **Access and credit:** Settings and the creator credit are grouped in the lower-left footer, following the METATRON layout. Choose Español/English under General.
 - **Stability and clarity:** spectrum guards for invalid rates, NOAA dates in the selected language, incomplete forecasts shown as unknown, and translations for modes, conditions and ionosondes.
 
 [0.17.0 release notes ES/EN](https://github.com/AD0441/RadioWorkbench/blob/main/docs/RELEASE-0.17.0.md) · [Visual identity](https://github.com/AD0441/RadioWorkbench/blob/main/docs/BRAND.md).
