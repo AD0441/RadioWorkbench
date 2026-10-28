@@ -2,10 +2,20 @@
 IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
 --><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
   <channel>
-    <title>RadioWorkbench · signed updates / actualizaciones firmadas</title>
+    <title>RAZIEL · signed updates / actualizaciones firmadas</title>
     <link>https://github.com/AD0441/RadioWorkbench</link>
     <description>Experimental arm64 releases for Apple Silicon Macs. / Versiones experimentales arm64 para Mac con Apple Silicon.</description>
     <language>es</language>
+    <item>
+      <title>RAZIEL 0.17.0 · identidad y estabilización</title>
+      <pubDate>Wed, 28 Oct 2026 23:46:46 +0000</pubDate>
+      <link>https://github.com/AD0441/RadioWorkbench/releases/tag/v0.17.0</link>
+      <sparkle:version>33</sparkle:version>
+      <sparkle:shortVersionString>0.17.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description>RAZIEL: nuevo nombre e icono monocromo, pie y Ajustes unificados, cuatro paletas, español/inglés, Ko-fi y correcciones de espectro/NOAA. New identity, sidebar footer, four palettes, Spanish/English, support links and spectrum/NOAA fixes. Ad hoc signed; experimental decoder limits remain documented.</description>
+      <enclosure url="https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/RAZIEL-0.17.0-macos-arm64.zip" length="194565002" type="application/octet-stream" sparkle:edSignature="Zwji958+xA/Etb01gYiflO80YCXmU3/FqgG5vc4PWBrEHI2f4pDnLyLVq/QusU8SP4nROxnXFvGUa9gYVjPJCQ=="></enclosure>
+    </item>
     <item>
       <title>RadioWorkbench 0.16.0 · Español / English</title>
       <pubDate>Mon, 26 Oct 2026 00:04:24 +0000</pubDate>
@@ -18,6 +28,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: 7ThBykanq1ZMWPPsTJeV7uH0ZuY8vI8n8wiE4/pJuZt4AIjVQnCJYpyc+Q+sVbi9FPJOonf2GsMkxOsPZK5xAA==
-length: 1854
+edSignature: Yelhm5zOZ5XFmJyhG2yZA255vVPwPvSHZ4C3HYUSwTxPxsTsaiFZLEq18XPvEk67JrTW/olaEdIcWjt8PqLlAQ==
+length: 2889
 -->

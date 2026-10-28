@@ -52,7 +52,7 @@ Extrae el ZIP y mueve `RAZIEL.app` a Aplicaciones. La publicación 0.16.0 conser
 - Entrada y canal predeterminados, perfiles y avisos de saturación/pérdidas; tema, texto, paletas y límite del waterfall. Menor consumo usa 5 cuadros/s e historial reducido sin recortar audio al decoder.
 - Carpeta de biblioteca configurable con copia verificada, nombres para registros/exportaciones, espacio ocupado y respaldo ZIP manual; conserva los originales.
 - Actualización manual/automática e intervalos de guías, satélites y condiciones, notificaciones, perfiles TCP/Rigctl e inventario de motores.
-- Conserva biblioteca I/Q SigMF, asistente de conexión, contadores de integridad, comparación A/B y Sparkle 2.10.0 de 0.15. El canal firmado incluye el paquete público 0.16.0; la comprobación automática sigue siendo optativa.
+- Conserva biblioteca I/Q SigMF, asistente de conexión, contadores de integridad, comparación A/B y Sparkle 2.10.0 de 0.15. El canal firmado ofrece ahora el paquete público 0.17.0; la comprobación automática sigue siendo optativa.
 
 [Uso, respaldo y límites / English release notes](https://github.com/AD0441/RadioWorkbench/blob/main/docs/RELEASE-0.16.0.md) · [Canal de actualizaciones](https://github.com/AD0441/RadioWorkbench/blob/main/docs/updates/README.md).
 
@@ -168,7 +168,7 @@ Extract the ZIP and move `RAZIEL.app` to Applications. Release 0.16.0 retains th
 - Default input/channel, profiles and clipping/drop warnings; theme, text, palettes and waterfall caps. Lower power uses 5 FPS and reduced history without discarding decoder audio.
 - A configurable library folder with verified copies, naming for new logs/exports, storage usage and manual backup ZIPs; originals remain intact.
 - Manual/automatic data refresh and intervals, notifications, TCP/Rigctl presets and engine availability.
-- Retains the SigMF I/Q library, connection assistant, integrity counters, A/B comparison and Sparkle 2.10.0 from 0.15. The signed channel includes the public 0.16.0 archive; automatic checking remains opt-in.
+- Retains the SigMF I/Q library, connection assistant, integrity counters, A/B comparison and Sparkle 2.10.0 from 0.15. The signed channel now offers the public 0.17.0 archive; automatic checking remains opt-in.
 
 [Usage, backup and limits (ES/EN)](https://github.com/AD0441/RadioWorkbench/blob/main/docs/RELEASE-0.16.0.md) · [Update channel](https://github.com/AD0441/RadioWorkbench/blob/main/docs/updates/README.md). Other technical documents may be in Spanish.
 

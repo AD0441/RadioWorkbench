@@ -4,7 +4,7 @@
   "version": "0.17.0",
   "build": 33,
   "date": "2026-10-28",
-  "status": "verified-for-release",
+  "status": "published-installed-verified",
   "internalBundleIdentityPreserved": true,
   "repositoryURLPreserved": true,
   "tests": {
@@ -191,12 +191,22 @@
   },
   "delivery": {
     "installedInApplications": true,
-    "publishedOnGitHub": false,
-    "newReleaseCreated": false,
-    "feedChanged": false,
+    "publishedOnGitHub": true,
+    "newReleaseCreated": true,
+    "feedChanged": true,
     "blocker": null,
     "temporaryApprovalLimitResolved": true,
-    "publicationState": "Package verified and installed; publication will be recorded after upload."
+    "publicationState": "Code merged into main, public release 0.17.0 and signed update feed verified by unauthenticated downloads.",
+    "workingTreeConflictMarkersResolved": true,
+    "gitIndexMergeCompletionPending": [],
+    "localImplementationCommit": "6b2b8aa774b6b0616ca7a50f7b741e4113732607",
+    "mainCodeMergeCommit": "6dc0775ba47abcffbeb2216d7e88eaeb6c69ec16",
+    "pullRequest": "https://github.com/AD0441/RadioWorkbench/pull/2",
+    "releaseURL": "https://github.com/AD0441/RadioWorkbench/releases/tag/v0.17.0",
+    "releasePublishedAt": "2026-10-28T23:52:11Z",
+    "releaseIsDraft": false,
+    "releaseIsPrerelease": false,
+    "feedCommit": "ca5fbf293633796fb89729e6e6bbf40c7d21c2da"
   },
   "modelUse": {
     "codeAndTechnicalReview": "parent model",
@@ -215,6 +225,43 @@
     "regularFilesMatchVerifiedPackage": 247,
     "existingDataFilesUnchangedDuringCopy": 2362,
     "preferencesUnchangedDuringCopy": true,
-    "legacyBundleRemovedIfPresent": true
+    "legacyBundleRemovedIfPresent": true,
+    "launchRequestAccepted": true,
+    "launchVerification": "LaunchServices accepted open /Applications/RAZIEL.app outside the execution sandbox; the executable and strict nested signature were verified. Installed-window inspection was not repeated."
+  },
+  "publicVerification": {
+    "archive": {
+      "url": "https://github.com/AD0441/RadioWorkbench/releases/download/v0.17.0/RAZIEL-0.17.0-macos-arm64.zip",
+      "bytes": 194565002,
+      "sha256": "2ac928d7541c3082bd0ad3ebe8fae3b86396505baa1abcfa7e7b8775df24f8a7",
+      "manifestMatches": true,
+      "signatureMatchesShippedPublicKey": true,
+      "unauthenticatedDownload": true
+    },
+    "feed": {
+      "feedURL": "https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml",
+      "bytes": 3033,
+      "sha256": "30a29f46dd3268564e3289d0a494e660ae58409d5e933308e351acfbea2dcdb4",
+      "downloadMatchesOriginal": true,
+      "signatureMatchesShippedPublicKey": true,
+      "tamperedFeedRejected": true,
+      "versions": [
+        "0.17.0",
+        "0.16.0"
+      ],
+      "unauthenticatedDownload": true
+    },
+    "endToEndSparkleInstallationTested": false
+  },
+  "cleanup": {
+    "retainedDeliverables": [
+      "RAZIEL-0.17.0.app",
+      "RAZIEL-0.17.0-macos-arm64.zip",
+      "RadioWorkbench-0.16.0.app",
+      "RadioWorkbench-0.16.0-macos-arm64.zip",
+      "SHA256SUMS"
+    ],
+    "temporaryBuildAndPublicVerificationCopiesRemoved": true,
+    "removedRegenerableBytes": 2253119290
   }
 }
