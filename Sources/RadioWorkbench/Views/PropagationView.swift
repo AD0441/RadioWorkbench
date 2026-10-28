@@ -6,6 +6,7 @@ struct PropagationView: View {
     @Bindable var store: PropagationStore
     @Bindable var guide: BroadcastStore
     @Bindable var rbnStore: RBNStore
+    let onRecord: (BroadcastEntry) -> Void
     let onOpenGuide: () -> Void
     private var location: RadioLocation? { RadioLocation(latitude: guide.latitude, longitude: guide.longitude) }
     var body: some View {
@@ -21,13 +22,23 @@ struct PropagationView: View {
                     PSKReporterPanel(store: store, location: location, date: context.date)
                     RBNPanel(store: rbnStore)
                     predictionForm(at: store.planningTime(at: context.date))
-                    if let error = store.calculationError { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-                    if let report = store.report {
+                    if let error = store.calculationError { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
+                    if let report = store.report, !store.listening || store.estimatesReception {
                         let current = store.input(origin: location, date: report.input.date) == report.input
                             && BroadcastCalendar.utc.isDate(store.planningTime(at: context.date), equalTo: report.input.date, toGranularity: .hour)
-                        HFPredictionPanel(report: report, current: current, originCountry: store.originCountry, targetCountry: store.targetCountry)
+                        HFPredictionPanel(report: report, current: current, originCountry: store.originCountry, targetCountry: store.targetCountry,
+                                          listening: store.listening, direction: store.listening ? "Emisora → receptor local" : "A → B")
+                        if let returning = store.returnReport {
+                            let reverseCurrent = store.reverseInput(origin: location, date: returning.input.date) == returning.input && current
+                            if let limiting = store.limitingDirection, reverseCurrent { Text(limiting).font(.headline) }
+                            else if !reverseCurrent { Label("Enlace bilateral anterior: recalcula ambas direcciones.", systemImage: "arrow.clockwise").foregroundStyle(.orange) }
+                            DisclosureGroup("Resultado del regreso B → A") {
+                                HFPredictionPanel(report: returning, current: reverseCurrent, originCountry: store.targetCountry,
+                                                  targetCountry: store.originCountry, listening: false, direction: "B → A")
+                            }
+                        }
                     }
-                    RadioActivityMapPanel(report: store.report, pskSpots: store.pskSnapshot?.spots ?? [], rbnSpots: rbnStore.spots)
+                    RadioActivityMapPanel(report: (!store.listening || store.estimatesReception) ? store.report : nil, pskSpots: store.pskSnapshot?.spots ?? [], rbnSpots: rbnStore.spots)
                     TerrainLinkPanel(store: store, defaultOrigin: location,
                                      defaultDestination: RadioLocation(latitude: store.targetLatitude, longitude: store.targetLongitude))
                     sourceLinks
@@ -40,7 +51,7 @@ struct PropagationView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Condiciones y propagación").font(.largeTitle.weight(.semibold))
                 Text("Clima espacial reciente y planificación de enlaces por banda").foregroundStyle(.secondary)
-                Text(store.weatherStatus).font(.caption).foregroundStyle(.secondary)
+                Text(AppLocalization.text(store.weatherStatus)).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
             Button { Task { await store.refresh(forceIndices: true) } } label: { Label("Actualizar", systemImage: "arrow.clockwise") }.disabled(store.weatherBusy)
@@ -48,7 +59,7 @@ struct PropagationView: View {
         }
     }
     private func locationForm(at date: Date) -> some View {
-        GroupBox("Tu ubicación") {
+        GroupBox("Perfil de recepción · ubicación y antena") {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     field("Latitud", text: $guide.latitude, hint: "−33,45", width: 145)
@@ -63,93 +74,137 @@ struct PropagationView: View {
                         }
                     }
                 }
+                HStack {
+                    TextField("Receptor", text: $guide.receiverName).textFieldStyle(.roundedBorder)
+                    TextField("Antena", text: $guide.antennaName).textFieldStyle(.roundedBorder)
+                    Picker("Origen", selection: $guide.listeningOrigin) {
+                        ForEach(ListeningOrigin.allCases, id: \.self) { Text(AppLocalization.text($0.title)).tag($0) }
+                    }
+                }
                 Text("Coordenadas decimales: sur y oeste negativos. Se guardan en este Mac y sirven también para la guía de radios. Los cálculos y la consulta de la celda NOAA se hacen localmente.").font(.caption).foregroundStyle(.secondary)
                 if location == nil { Text("Introduce una ubicación válida para ver el umbral de absorción local y calcular un enlace.").font(.caption).foregroundStyle(.orange) }
             }.padding(8)
         }
     }
     private func predictionForm(at date: Date) -> some View {
-        GroupBox("Planificador HF · ITU-R P.533") {
+        GroupBox("Planificador HF") {
             VStack(alignment: .leading, spacing: 12) {
+                Picker("Uso", selection: $store.listening) {
+                    Text("Escucha de emisoras · RX").tag(true)
+                    Text("Enlace entre estaciones · TX/RX").tag(false)
+                }.pickerStyle(.segmented)
                 HStack {
                     Toggle("Usar hora actual", isOn: $store.usesCurrentPlanningTime)
                     DatePicker("Fecha y hora UTC", selection: $store.planningDate, displayedComponents: [.date, .hourAndMinute])
                         .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!).disabled(store.usesCurrentPlanningTime)
-                    Spacer()
                 }
-                Picker("Dirección", selection: $store.listening) {
-                    Text("Emisión desde tu ubicación").tag(false)
-                    Text("Escucha del emisor remoto").tag(true)
-                }.pickerStyle(.segmented)
-                HStack {
-                    field(store.listening ? "Emisor remoto · latitud" : "Destino · latitud", text: $store.targetLatitude, hint: "Grados", width: 165)
-                    field(store.listening ? "Emisor remoto · longitud" : "Destino · longitud", text: $store.targetLongitude, hint: "Grados", width: 165)
-                    Button("Usar emisora seleccionada") { store.useSelectedStation(guide) }
-                        .disabled(guide.selectedEntry == nil)
-                    Button("Abrir guía") { onOpenGuide() }
-                    Spacer()
+                plannerEndpoints(at: date)
+                if store.listening {
+                    Toggle("Estimar recepción con ITU-R P.533 · requiere supuestos técnicos", isOn: $store.estimatesReception)
+                    Text("La ficha de escucha funciona sin conocer la potencia remota. P.533 añade una estimación mensual, si dispones de datos del transmisor y de tu receptor.").font(.caption).foregroundStyle(.secondary)
                 }
-                if let entry = guide.selectedEntry { Text("De la guía: \(entry.station) · \(entry.frequencyKHz, specifier: "%.2f") kHz · \(entry.time) UTC").font(.caption).foregroundStyle(.secondary) }
-                else { Text("Elige una emisora en la guía o completa el destino manualmente.").font(.caption).foregroundStyle(.secondary) }
-                if !store.stationTransferNotice.isEmpty { Text(store.stationTransferNotice).font(.callout).textSelection(.enabled) }
-                if !store.stationSites.isEmpty {
-                    HStack {
-                        Picker("Sitio del transmisor", selection: $store.selectedStationSite) {
-                            Text("Elegir sitio / entrada manual").tag(Int?.none)
-                            ForEach(store.stationSites.indices, id: \.self) { index in Text(store.stationSites[index].name).tag(Optional(index)) }
-                        }.frame(maxWidth: 450)
-                        Button("Usar coordenadas de este sitio") { store.useChosenStationSite() }.disabled(store.selectedStationSite == nil)
-                    }
+                if !store.listening || store.estimatesReception { predictionAssumptions(at: date) }
+                if store.listening, let entry = store.planningBroadcast {
+                    Button("Registrar resultado de esta escucha en biblioteca…", systemImage: "books.vertical") { onRecord(entry) }
                 }
-                Text(store.targetName).font(.caption).foregroundStyle(.secondary)
-                HStack {
-                    field("Tu país · ISO 2", text: $store.originCountry, hint: "CL", width: 120)
-                    field("País remoto · ISO 2", text: $store.targetCountry, hint: "ES", width: 140)
-                    Text("Opcional: dos letras por país. Permite distinguir contacto nacional o internacional, incluso cerca de una frontera.").font(.caption).foregroundStyle(.secondary)
+                Button(store.listening ? "Copiar ficha de escucha" : "Copiar datos del enlace") {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(store.hfPlanningDataText(origin: location, date: date), forType: .string)
                 }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 145), alignment: .leading)], alignment: .leading, spacing: 12) {
-                    field("Potencia TX · W", text: $store.watts, hint: "100", width: 125)
-                    field("Frecuencia · MHz", text: $store.frequencyMHz, hint: "7,1", width: 135)
-                    field("Ancho de ruido RX · Hz", text: $store.bandwidth, hint: "2400", width: 145)
-                    field("SNR requerido · dB", text: $store.requiredSNR, hint: "10", width: 135)
-                    field("R12 mensual", text: $store.r12, hint: "0–311", width: 100)
-                    Button("Usar R12 ITU") { store.useITUIndex(at: date) }
-                    if store.r12MonthMismatch(at: date) { Button("Utilizar este valor como R12 manual") { store.useManualR12() } }
-                }
-                Text(store.wattsSource).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
-                Text("Frecuencia: admite 9655 kHz o 9,655 MHz. Sin unidad se interpreta en MHz. La transferencia desde la guía convierte kHz automáticamente.").font(.caption).foregroundStyle(.secondary)
-                if let candidate = store.stationPowerCandidate, let power = candidate.powerKW {
-                    HStack {
-                        Text("Candidato HFCC: \(power) kW · sitio \(candidate.siteCode) · \(candidate.startUTC)–\(candidate.stopUTC) UTC. Comprueba que corresponda al emisor.").font(.caption)
-                        Button("Usar esta potencia como supuesto") { store.useCandidatePowerAsAssumption() }
-                    }
-                }
-                let missing = store.inputProblems(origin: location, date: date)
-                if !missing.isEmpty {
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("Falta completar o revisar").font(.caption.weight(.semibold))
-                        ForEach(missing, id: \.self) { Text("• " + $0).font(.caption) }
-                    }.foregroundStyle(.orange)
-                }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 190), alignment: .leading)], alignment: .leading, spacing: 12) {
-                    field("Ganancia TX · dBi", text: $store.txGain, hint: "0", width: 140)
-                    field("Ganancia RX · dBi", text: $store.rxGain, hint: "0", width: 140)
-                    Picker("Ruido en RX", selection: $store.noise) {
-                        Text("Ciudad").tag(0); Text("Residencial").tag(1); Text("Rural").tag(2); Text("Rural tranquilo").tag(3)
-                    }.frame(maxWidth: .infinity)
-                    if store.calculationBusy {
-                        ProgressView().controlSize(.small)
-                        Button("Cancelar") { store.cancelCalculation() }
-                    } else {
-                        Button("Calcular enlace") { store.calculate(origin: location, date: date) }.buttonStyle(.borderedProminent)
-                    }
-                }
-                Text(store.r12Source).font(.caption).foregroundStyle(.secondary)
-                Button("Copiar datos del enlace") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(store.hfPlanningDataText(origin: location, date: date), forType: .string) }
-                Text("El ancho corresponde al ruido equivalente en RX, no necesariamente al ancho de audio del decodificador. Los anchos propuestos son supuestos editables. P.533 calcula un enlace analógico genérico: no valida BER, audio AM demodulado ni decodificación DRM.").font(.caption).foregroundStyle(.secondary)
-                Text("Predicción mensual por hora UTC, con antenas isotrópicas y ganancia constante; el ancho y SNR son requisitos de tu sistema. En Escucha, TX es el emisor remoto y RX tu ubicación: introduce su potencia como dato conocido o supuesto y el ruido de tu receptor.").font(.caption).foregroundStyle(.secondary)
-                Text("Las frecuencias son puntos de cálculo. Elige frecuencia, modo y ancho que correspondan a tu estación. El modelo no mide potencia radiada ni confirma que una emisora esté transmitiendo.").font(.caption).foregroundStyle(.secondary)
             }.padding(8)
+        }
+    }
+    private func plannerEndpoints(at date: Date) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(store.listening ? "Receptor: perfil local de arriba · TX: emisora remota" : "Estación A: perfil local de arriba · estación B: coordenadas remotas").font(.headline)
+            HStack {
+                field(store.listening ? "Emisor remoto · latitud" : "Estación B · latitud", text: $store.targetLatitude, hint: "Grados", width: 165)
+                field(store.listening ? "Emisor remoto · longitud" : "Estación B · longitud", text: $store.targetLongitude, hint: "Grados", width: 165)
+                field("Frecuencia · MHz", text: $store.frequencyMHz, hint: "9,655 MHz", width: 145)
+            }
+            HStack {
+                Button("Planificar escucha de emisora seleccionada") { store.useSelectedStation(guide) }.disabled(guide.selectedEntry == nil)
+                Button("Abrir guía") { onOpenGuide() }
+            }
+            if !store.stationTransferNotice.isEmpty && store.listening { Text(AppLocalization.text(store.stationTransferNotice)).font(.caption).textSelection(.enabled) }
+            if store.listening && !store.stationSites.isEmpty {
+                HStack {
+                    Picker("Sitio TX", selection: $store.selectedStationSite) {
+                        Text("Elegir sitio / manual").tag(Int?.none)
+                        ForEach(store.stationSites.indices, id: \.self) { Text(store.stationSites[$0].name).tag(Optional($0)) }
+                    }.frame(maxWidth: 450)
+                    Button("Usar sitio") { store.useChosenStationSite() }.disabled(store.selectedStationSite == nil)
+                }
+            }
+            Text(store.targetName).font(.caption).foregroundStyle(.secondary)
+            if let frequency = RadioNumericText.frequencyMHz(store.frequencyMHz), !(1.6...30).contains(frequency) {
+                Text("Esta frecuencia queda fuera de P.533 (1,6–30 MHz). La ficha y el registro de escucha siguen disponibles.").font(.caption).foregroundStyle(.orange)
+            }
+            Text(store.pathSummary(origin: location, date: date)).font(.callout).textSelection(.enabled)
+            if store.listening, let entry = store.planningBroadcast {
+                Text("Horario previsto de la guía: \(entry.time) UTC · días \(entry.days). \(BroadcastCalendar.activity(entry, at: date, season: guide.snapshot?.season ?? "").rawValue). Sintonía inicial: \(entry.tuningSuggestion)")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            HStack {
+                field("País A / local · ISO 2", text: $store.originCountry, hint: "CL", width: 140)
+                field("País B / remoto · ISO 2", text: $store.targetCountry, hint: "ES", width: 150)
+                Text("La iluminación es geometría solar aproximada; no mide apertura de banda.").font(.caption).foregroundStyle(.secondary)
+            }
+        }
+    }
+    private func predictionAssumptions(at date: Date) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(store.listening ? "Emisora → tu receptor" : "A → B · TX en A, recepción en B").font(.headline)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 145), alignment: .leading)], alignment: .leading, spacing: 10) {
+                field(store.listening ? "Potencia remota · W" : "Potencia TX A · W", text: $store.watts, hint: "Dato o supuesto", width: 140)
+                field(store.listening ? "Ancho RX local · Hz" : "Ancho RX B · Hz", text: $store.bandwidth, hint: "2400", width: 140)
+                field(store.listening ? "SNR local requerido · dB" : "SNR RX B · dB", text: $store.requiredSNR, hint: "10", width: 140)
+                field(store.listening ? "Ganancia TX remota · dBi" : "Ganancia TX A · dBi", text: $store.txGain, hint: "0", width: 140)
+                field(store.listening ? "Ganancia RX local · dBi" : "Ganancia RX B · dBi", text: $store.rxGain, hint: "0", width: 140)
+                noisePicker(store.listening ? "Ruido RX local" : "Ruido RX B", selection: $store.noise)
+            }
+            Text(store.wattsSource).font(.caption).foregroundStyle(.secondary)
+            if store.listening, let candidate = store.stationPowerCandidate, let power = candidate.powerKW {
+                HStack {
+                    Text("HFCC candidato: \(power) kW · sitio \(candidate.siteCode). Verifica que sea el mismo transmisor.").font(.caption)
+                    Button("Usar esta potencia como supuesto") { store.useCandidatePowerAsAssumption() }
+                }
+            }
+            if !store.listening { returnAssumptions }
+            HStack {
+                field("R12 mensual · compartido", text: $store.r12, hint: "0–311", width: 150)
+                Button("Usar R12 ITU") { store.useITUIndex(at: date) }
+                if store.r12MonthMismatch(at: date) { Button("Usarlo como supuesto manual") { store.useManualR12() } }
+            }
+            Text(store.r12Source).font(.caption).foregroundStyle(.secondary)
+            let missing = store.inputProblems(origin: location, date: date)
+            if !missing.isEmpty { Text(missing.joined(separator: "\n")).font(.caption).foregroundStyle(.orange) }
+            if store.calculationBusy {
+                HStack { ProgressView().controlSize(.small); Button("Cancelar") { store.cancelCalculation() } }
+            } else {
+                Button(store.listening ? "Estimar recepción P.533" : "Calcular A → B y B → A") { store.calculate(origin: location, date: date) }
+                    .buttonStyle(.borderedProminent)
+            }
+            Text("P.533: 1,6–30 MHz, mediana mensual por hora UTC, antenas con ganancia constante. Ancho equivalente de ruido RX y SNR son supuestos del sistema; el motor no valida BER ni audio AM/DRM. Los resultados no confirman emisión ni propagación en tiempo real.").font(.caption).foregroundStyle(.secondary)
+        }
+    }
+    private var returnAssumptions: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("B → A · TX en B, recepción en A").font(.headline)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 145), alignment: .leading)], alignment: .leading, spacing: 10) {
+                field("Potencia TX B · W", text: $store.returnWatts, hint: "100", width: 140)
+                field("Ganancia TX B · dBi", text: $store.returnTXGain, hint: "0", width: 140)
+                field("Ganancia RX A · dBi", text: $store.returnRXGain, hint: "0", width: 140)
+                field("Ancho RX A · Hz", text: $store.returnBandwidth, hint: "2400", width: 140)
+                field("SNR RX A · dB", text: $store.returnRequiredSNR, hint: "10", width: 140)
+                noisePicker("Ruido RX A", selection: $store.returnNoise)
+            }
+            Text("Cada dirección conserva potencia, antenas y condiciones RX propias. La menor BCR orienta sobre el sentido limitante; no se multiplican ambas disponibilidades.").font(.caption).foregroundStyle(.secondary)
+        }
+    }
+    private func noisePicker(_ title: String, selection: Binding<Int>) -> some View {
+        Picker(title, selection: selection) {
+            Text("Ciudad").tag(0); Text("Residencial").tag(1); Text("Rural").tag(2); Text("Rural tranquilo").tag(3)
         }
     }
     private var sourceLinks: some View {
@@ -171,8 +226,8 @@ struct PropagationView: View {
     }
     private func field(_ title: String, text: Binding<String>, hint: String, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
-            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(title)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
+            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(Text(AppLocalization.text(title)))
         }.frame(width: width)
     }
 }

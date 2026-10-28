@@ -1,0 +1,47 @@
+{
+  "cases" : [
+    {
+      "call_kind" : "Individual",
+      "color_code" : 7,
+      "fragment_bytes" : 1,
+      "rejected_error_lines" : 68,
+      "slot" : 1,
+      "source" : 3025209,
+      "target" : 9990,
+      "unknown_slot2_identity" : true
+    },
+    {
+      "call_kind" : "Individual",
+      "color_code" : 7,
+      "fragment_bytes" : 7,
+      "rejected_error_lines" : 68,
+      "slot" : 1,
+      "source" : 3025209,
+      "target" : 9990,
+      "unknown_slot2_identity" : true
+    },
+    {
+      "call_kind" : "Individual",
+      "color_code" : 7,
+      "fragment_bytes" : 137,
+      "rejected_error_lines" : 68,
+      "slot" : 1,
+      "source" : 3025209,
+      "target" : 9990,
+      "unknown_slot2_identity" : true
+    },
+    {
+      "call_kind" : "Individual",
+      "color_code" : 7,
+      "fragment_bytes" : 8192,
+      "rejected_error_lines" : 68,
+      "slot" : 1,
+      "source" : 3025209,
+      "target" : 9990,
+      "unknown_slot2_identity" : true
+    }
+  ],
+  "checks_passed" : 4,
+  "limit" : "Console values are not independently CRC-verified.",
+  "probe" : "Actual DSD-neo 2.10.0 stderr → current DMRLogParser"
+}

@@ -7,10 +7,12 @@ struct HFPredictionPanel: View {
     let current: Bool
     let originCountry: String
     let targetCountry: String
+    var listening = false
+    var direction = "TX → RX"
     private var input: HFPropagationInput { report.input }
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Predicción mensual del enlace").font(.title2.weight(.semibold))
+            Text("Estimación mensual · " + direction).font(.title2.weight(.semibold))
             if !current { Label("Resultado anterior: cambió la configuración o la hora. Vuelve a calcular.", systemImage: "arrow.clockwise").foregroundStyle(.orange) }
             Text("\(input.watts, specifier: "%.0f") W · \(input.bandwidth, specifier: "%.0f") Hz · SNR requerido \(input.requiredSNR, specifier: "%.1f") dB · R12 \(input.r12.rounded(), specifier: "%.0f") · \(report.hourUTC):00 UTC · \(input.origin.distance(to: input.target), specifier: "%.0f") km · rumbo \(input.origin.bearing(to: input.target), specifier: "%.0f")°")
                 .font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
@@ -33,7 +35,7 @@ struct HFPredictionPanel: View {
                 TableColumn("MUF50") { row in Text(db(row.muf50MHz, units: "MHz")) }
             }.frame(height: 295)
             Text("MUF50: frecuencia superada en el 50% de los días según el modelo; el motor no la devuelve para trayectos mayores de 9.000 km. No es la frecuencia recomendada de emisión.").font(.caption).foregroundStyle(.secondary)
-            contactMatrix
+            if !listening { contactMatrix }
             GroupBox("Horas UTC · \(input.frequencyMHz.formatted(.number.precision(.fractionLength(1...3)))) MHz") {
                 Chart(report.hourly) { row in
                     if let bcr = row.reliability {
@@ -43,7 +45,7 @@ struct HFPredictionPanel: View {
                 }.chartYScale(domain: 0...100).chartXAxis { AxisMarks(values: [0, 3, 6, 9, 12, 15, 18, 21, 23]) }
                     .chartYAxisLabel("BCR %").frame(height: 150).padding(10)
             }
-            GroupBox("Alcance posible en el rumbo elegido · \(input.frequencyMHz.formatted(.number.precision(.fractionLength(1...3)))) MHz") {
+            if !listening { GroupBox("Muestras desde TX en el rumbo elegido · \(input.frequencyMHz.formatted(.number.precision(.fractionLength(1...3)))) MHz") {
                 VStack(alignment: .leading, spacing: 8) {
                     Chart(report.reach) { row in
                         if let bcr = row.reliability {
@@ -55,7 +57,7 @@ struct HFPredictionPanel: View {
                         Text("Respecto a 100 W: \(delta, specifier: "%+.1f") dB de potencia TX. Duplicar potencia aporta aproximadamente 3 dB; no duplica la distancia.").font(.caption).foregroundStyle(.secondary)
                     }
                 }.padding(10)
-            }
+            } }
         }
     }
     private func percent(_ value: Double?) -> String { value.map { $0.formatted(.number.precision(.fractionLength(1))) + " %" } ?? "—" }
@@ -70,7 +72,7 @@ struct HFPredictionPanel: View {
                     TableColumn("Lejano") { band in contactCell(band, category: .distant) }.width(min: 90, ideal: 140)
                     TableColumn("DX lejano") { band in contactCell(band, category: .dx) }.width(min: 90, ideal: 140)
                 }.frame(height: 310)
-                Text("Mejor muestra BCR de cada intervalo, con tu potencia y el mismo rumbo TX→RX: cercano ≤100 km, regional 101–1.000 km, lejano 1.001–5.000 km, DX >5.000 km. Son etiquetas orientativas de la app. La muestra cercana es 100 km; P.533 calcula onda ionosférica, sin onda de tierra ni enlace directo. No describe todos los puntos intermedios ni prueba contactos reales.").font(.caption).foregroundStyle(.secondary)
+                Text("Mejor muestra BCR de cada intervalo, con la potencia TX indicada y el mismo rumbo TX→RX: cercano ≤100 km, regional 101–1.000 km, lejano 1.001–5.000 km, DX >5.000 km. Son etiquetas orientativas de la app. La muestra cercana es 100 km; P.533 calcula onda ionosférica, sin onda de tierra ni enlace directo. No describe todos los puntos intermedios ni prueba contactos reales.").font(.caption).foregroundStyle(.secondary)
                 Text("Color del enlace: favorable ≥75 %, regular 50–74,9 %, baja <50 % BCR. Internacional/nacional depende de los países que hayas indicado, y puede coincidir con cualquier distancia.").font(.caption).foregroundStyle(.secondary)
             }.padding(8)
         }

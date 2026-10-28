@@ -7,12 +7,12 @@ struct IntegrationView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 Image(systemName: mode.symbol).font(.system(size: 40)).foregroundStyle(.tint)
-                Text(mode.title).font(.largeTitle.weight(.semibold))
+                Text(AppLocalization.text(mode.title)).font(.largeTitle.weight(.semibold))
                 Label("Motor pendiente de integración", systemImage: "puzzlepiece.extension").foregroundStyle(.secondary)
-                Text(mode.summary).font(.title3).fixedSize(horizontal: false, vertical: true)
+                Text(AppLocalization.text(mode.summary)).font(.title3).fixedSize(horizontal: false, vertical: true)
                 GroupBox("Ruta de desarrollo") {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Este modo forma parte del alcance de RadioWorkbench. Todavía no decodifica señales en esta versión.")
+                        Text("Este modo forma parte del alcance de RAZIEL. Todavía no decodifica señales en esta versión.")
                         Text("Antes de habilitarlo: integrar el motor, comprobar entrada de audio o I/Q, validar grabaciones y revisar su licencia.").foregroundStyle(.secondary)
                     }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
                 }
@@ -23,7 +23,7 @@ struct IntegrationView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("SDRangel incluye un motor para esta familia de señales. Puedes abrirlo para trabajar con su recepción SDR.")
                             Button("Abrir SDRangel") { NSWorkspace.shared.open(URL(fileURLWithPath: "/Applications/SDRangel.app")) }
-                            Text("Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RadioWorkbench.")
+                            Text("Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RAZIEL.")
                                 .font(.caption).foregroundStyle(.secondary)
                         }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
                     }

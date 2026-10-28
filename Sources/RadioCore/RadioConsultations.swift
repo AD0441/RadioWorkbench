@@ -222,11 +222,44 @@ public struct AmateurSatelliteTransmitter: Codable, Hashable, Sendable, Identifi
     public let beacon: String?
     public let mode: String?
     public let callsign: String?
-    public var id: String { "\(name)-\(uplink ?? "")-\(downlink ?? "")-\(mode ?? "")" }
+    public var id: String { "\(name)-\(uplink ?? "")-\(downlink ?? "")-\(beacon ?? "")-\(mode ?? "")" }
 
     enum CodingKeys: String, CodingKey {
         case name, uplink, downlink, beacon, mode, callsign
         case noradID = "norad_id"
+    }
+}
+
+/// One published downlink or beacon. A transponder range uses its midpoint only as
+/// a planning reference; it does not assert a carrier or an active transmission there.
+public struct SatelliteDownlink: Hashable, Sendable, Identifiable {
+    public let transmitterID: String
+    public let label: String
+    public let mode: String
+    public let lowerMHz: Double
+    public let upperMHz: Double
+    public let isBeacon: Bool
+    public var nominalMHz: Double { (lowerMHz + upperMHz) / 2 }
+    public var isPassband: Bool { lowerMHz != upperMHz }
+    public var id: String { "\(transmitterID)-\(isBeacon)-\(lowerMHz)-\(upperMHz)" }
+
+    public static func options(for transmitter: AmateurSatelliteTransmitter) -> [Self] {
+        [(transmitter.downlink, false), (transmitter.beacon, true)].flatMap { text, beacon -> [Self] in
+            guard let text, text.count <= 500 else { return [] }
+            return text.components(separatedBy: CharacterSet(charactersIn: "/;,"))
+                .compactMap { part in
+                    let value = part.replacingOccurrences(of: "MHz", with: "", options: .caseInsensitive)
+                        .replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "–", with: "-")
+                        .replacingOccurrences(of: "—", with: "-")
+                    // The AMSAT frequency fields are MHz. Reject annotations and ambiguous units.
+                    let numbers = value.split(separator: "-", omittingEmptySubsequences: false)
+                    guard (1...2).contains(numbers.count), let first = Double(numbers[0]), first.isFinite,
+                          (0.01...100_000).contains(first),
+                          let lastText = numbers.last, let last = Double(lastText), last.isFinite, (0.01...100_000).contains(last) else { return nil }
+                    return Self(transmitterID: transmitter.id, label: "\(beacon ? "Baliza" : "Bajada") \(value) MHz",
+                        mode: transmitter.mode ?? "Sin modo publicado", lowerMHz: min(first, last), upperMHz: max(first, last), isBeacon: beacon)
+                }
+        }
     }
 }
 
@@ -361,7 +394,17 @@ public struct TLEOrbit: Codable, Hashable, Sendable {
     }
 
     public func elevationDegrees(at date: Date, latitude: Double, longitude: Double) -> Double? {
-        observation(at: date, latitude: latitude, longitude: longitude)?.elevationDegrees
+        // Pass searches need only position, not the three propagations used for range rate.
+        guard RadioLocation(latitude: latitude, longitude: longitude) != nil,
+              let p = earthFixedPosition(at: date) else { return nil }
+        let lat = latitude * .pi / 180, lon = longitude * .pi / 180
+        let sinLat = sin(lat), cosLat = cos(lat), e2 = 0.00669437999014
+        let n = 6378.137 / sqrt(1 - e2 * sinLat * sinLat)
+        let dx = p.x - n * cosLat * cos(lon), dy = p.y - n * cosLat * sin(lon), dz = p.z - n * (1 - e2) * sinLat
+        let east = -sin(lon) * dx + cos(lon) * dy
+        let north = -sinLat * cos(lon) * dx - sinLat * sin(lon) * dy + cosLat * dz
+        let up = cosLat * cos(lon) * dx + cosLat * sin(lon) * dy + sinLat * dz
+        return atan2(up, hypot(east, north)) * 180 / .pi
     }
 
     public func temePosition(at date: Date) -> (x: Double, y: Double, z: Double)? {
@@ -393,40 +436,69 @@ public struct SatellitePass: Hashable, Sendable, Identifiable {
     public let maximumElevation: Double
     public let maximumAt: Date
     public let los: Date
+    /// True only for long/continuous visibility whose horizon crossing lies outside the bounded scan.
+    public let aosClipped: Bool
+    public let losClipped: Bool
     public var id: String { "\(satellite)-\(aos.timeIntervalSince1970)" }
+    public init(satellite: String, aos: Date, maximumElevation: Double, maximumAt: Date, los: Date,
+                aosClipped: Bool = false, losClipped: Bool = false) {
+        self.satellite = satellite; self.aos = aos; self.maximumElevation = maximumElevation
+        self.maximumAt = maximumAt; self.los = los; self.aosClipped = aosClipped; self.losClipped = losClipped
+    }
+    public func overlaps(_ window: DateInterval) -> Bool { los > window.start && aos < window.end }
+    public func usefulDuration(in window: DateInterval) -> TimeInterval {
+        max(0, min(los, window.end).timeIntervalSince(max(aos, window.start)))
+    }
 }
 
 public enum SatellitePassPredictor {
     public static func passes(orbit: TLEOrbit, latitude: Double, longitude: Double, from start: Date,
                               hours: Int = 24, stepSeconds: TimeInterval = 20, minimumPeak: Double = 5) -> [SatellitePass] {
-        guard (-90...90).contains(latitude), (-180...180).contains(longitude), (1...72).contains(hours), stepSeconds >= 2 else { return [] }
-        let end = start.addingTimeInterval(TimeInterval(hours) * 3600)
-        var samples: [(Date, Double)] = []
-        var date = start
-        while date <= end {
-            if let elevation = orbit.elevationDegrees(at: date, latitude: latitude, longitude: longitude) { samples.append((date, elevation)) }
-            date = date.addingTimeInterval(stepSeconds)
+        guard (1...72).contains(hours) else { return [] }
+        return passes(orbit: orbit, latitude: latitude, longitude: longitude,
+            window: DateInterval(start: start, duration: Double(hours) * 3600), stepSeconds: stepSeconds, minimumPeak: minimumPeak)
+    }
+
+    /// Search with one orbital period of margin (bounded to three hours each side),
+    /// then filter overlap. This preserves full LEO AOS/LOS even at either window edge.
+    public static func passes(orbit: TLEOrbit, latitude: Double, longitude: Double, window: DateInterval,
+                              stepSeconds: TimeInterval = 20, minimumPeak: Double = 5) -> [SatellitePass] {
+        guard RadioLocation(latitude: latitude, longitude: longitude) != nil, orbit.propagationReady,
+              window.start.timeIntervalSince1970.isFinite, window.end.timeIntervalSince1970.isFinite,
+              (1...72 * 3600).contains(window.duration), stepSeconds.isFinite, (2...300).contains(stepSeconds),
+              minimumPeak.isFinite, (0...90).contains(minimumPeak) else { return [] }
+        let margin = min(10_800, max(600, 86_400 / orbit.meanMotionRevolutionsPerDay))
+        let scanStart = window.start.addingTimeInterval(-margin), scanEnd = window.end.addingTimeInterval(margin)
+        var results: [SatellitePass] = [], rising: Date?, peak = -90.0, peakAt = scanStart
+        var previous: (Date, Double)?, clippedStart = false, date = scanStart
+        func append(los: Date, clippedEnd: Bool) {
+            guard let aos = rising, peak >= minimumPeak, los > aos else { return }
+            let pass = SatellitePass(satellite: orbit.name, aos: aos, maximumElevation: peak, maximumAt: peakAt,
+                los: los, aosClipped: clippedStart, losClipped: clippedEnd)
+            if pass.overlaps(window) { results.append(pass) }
         }
-        guard samples.count > 2 else { return [] }
-        var results: [SatellitePass] = []
-        var rising: Date?
-        var peak = -90.0
-        var peakAt = start
-        for index in samples.indices {
-            let (time, elevation) = samples[index]
+        while date <= scanEnd {
+            if Task.isCancelled { return [] }
+            guard let elevation = orbit.elevationDegrees(at: date, latitude: latitude, longitude: longitude) else {
+                // Never bridge a propagation failure with an invented horizon crossing.
+                rising = nil; previous = nil
+                if date == scanEnd { break }; date = min(date.addingTimeInterval(stepSeconds), scanEnd); continue
+            }
             if elevation >= 0 {
                 if rising == nil {
-                    let previous = samples[max(0, index - 1)]
-                    rising = Self.crossing(previous, (time, elevation), threshold: 0)
-                    peak = elevation; peakAt = time
-                } else if elevation > peak { peak = elevation; peakAt = time }
-            } else if let aos = rising {
-                let previous = samples[max(0, index - 1)]
-                let los = Self.crossing(previous, (time, elevation), threshold: 0)
-                if peak >= minimumPeak, los > aos { results.append(SatellitePass(satellite: orbit.name, aos: aos, maximumElevation: peak, maximumAt: peakAt, los: los)) }
+                    rising = previous.map { crossing($0, (date, elevation), threshold: 0) } ?? date
+                    clippedStart = previous == nil
+                    peak = elevation; peakAt = date
+                } else if elevation > peak { peak = elevation; peakAt = date }
+            } else if rising != nil {
+                append(los: previous.map { crossing($0, (date, elevation), threshold: 0) } ?? date, clippedEnd: false)
                 rising = nil; peak = -90
             }
+            previous = (date, elevation)
+            if date == scanEnd { break }
+            date = min(date.addingTimeInterval(stepSeconds), scanEnd)
         }
+        if rising != nil { append(los: scanEnd, clippedEnd: true) }
         return results
     }
 

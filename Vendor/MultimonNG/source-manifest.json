@@ -30,7 +30,7 @@
     "demod_eas.c": "8c2fdd0c646beb20d08877b59047bc0db41a76f381674f27f9f8a270f32204b4",
     "demod_eea.c": "8e3fcfecda8cdbf6c61334989cb24c21e6279a2f82b4b150d6494415992a5a28",
     "demod_eia.c": "de6bbbed14db07990b4b7c5de2799716f01cc7d573fff571f1653bcf0fd554d4",
-    "demod_flex.c": "5abb20d34b587ec78d707db9573abb342921ce0ffa876a907670ba03a59c3b2e",
+    "demod_flex.c": "4c56e04add35df55be19a13b99a584095157d71db1ac6ae9e6a2229b8a1c70f1",
     "demod_flex_next.c": "02851609d893be03230ac151133172eeeb34433e2e6ca2a1ca67799218b54654",
     "demod_fmsfsk.c": "6bef6a74cc1f958a361661a52cc54310be813199e472edac5b687bf3fbe90554",
     "demod_fsk96.c": "30f18cca1af4d7c756a64d9e0338cb5a5d6f4e6810d2b059c70032cc58ebea60",
@@ -69,15 +69,17 @@
     "pocsag.c": "20dc6d4c9359858dff54e88e9690697912a58081964d21ba75108271e2233473",
     "selcall.c": "511df1dbf2926d4061ac7bda068ba60683eeac248fa5b451834043dadaf582d9",
     "uart.c": "987939dba1b641a121485f5f3c7c836b8a5e69e03d48f8f8285f16ffcc772b75",
-    "unixinput.c": "d42990a5637d56a4e4dde89d6c434118740f34fc552cbec8010895b65560d0d3",
+    "unixinput.c": "c90218f9b4058e1275b5e9d9e7c03381e913f96957767ee8f4e6821a8e816d8d",
     "win32_getopt.c": "6bbf6928a208ea50001de7b61c41d262af94ee09d1700fb00285c1f66ca92008",
     "win32_getopt.h": "d673fe3decdf6c66a23df7cd716b1df46f88d0a33a383bda0d9eb36a17b2827d",
     "win32_soundin.c": "7e41dbbcd14ce7afaf1c474287dde55f9f14883df6eac6d3acfc302cb07eb37d",
     "xdisplay.c": "65e3cd46dec352470ede3cfa275dc0be435ddce0d56484029da07f9252622028",
-    "LOCAL-CHANGES.md": "3f64854d8a064d8287869239817658b65d6c35902b5d1bc96e1dbfcfd8f1d48f"
+    "LOCAL-CHANGES.md": "c3ef469c97f2ae7a592121bb8b44823edf1600e116071f92acab037d5bab26ef"
   },
   "upstreamFileHashes": {
-    "pocsag.c": "59867707738b79a799d7af2a7f261821c5a5b7a3ee4e27c3c1b0a444b6c7e0a8"
+    "pocsag.c": "59867707738b79a799d7af2a7f261821c5a5b7a3ee4e27c3c1b0a444b6c7e0a8",
+    "demod_flex.c": "5abb20d34b587ec78d707db9573abb342921ce0ffa876a907670ba03a59c3b2e",
+    "unixinput.c": "d42990a5637d56a4e4dde89d6c434118740f34fc552cbec8010895b65560d0d3"
   },
   "localModifications": [
     {
@@ -88,6 +90,23 @@
         "mandatory periodic sync and reacquisition counters",
         "configured BCH limit for sync acceptance",
         "flush tone-only JSON stdout"
+      ]
+    },
+    {
+      "date": "2026-10-25",
+      "file": "unixinput.c",
+      "notice": "LOCAL-CHANGES.md",
+      "changes": [
+        "flush complete JSON events while stdin remains open"
+      ]
+    },
+    {
+      "date": "2026-10-25",
+      "file": "demod_flex.c",
+      "notice": "LOCAL-CHANGES.md",
+      "changes": [
+        "publish alpha fragment_flag in JSON",
+        "enforce extended parity within two-bit BCH correction allowance"
       ]
     }
   ]

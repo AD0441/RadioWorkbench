@@ -25,7 +25,7 @@ struct InputProfilesView: View {
                 }.disabled(receiver.selectedProfileID == nil)
                 Spacer(minLength: 0)
             }.disabled(receiver.busy)
-            if !receiver.profileNotice.isEmpty { Text(receiver.profileNotice).font(.caption).foregroundStyle(.secondary) }
+            if !receiver.profileNotice.isEmpty { Text(AppLocalization.text(receiver.profileNotice)).font(.caption).foregroundStyle(.secondary) }
         }
         .sheet(isPresented: $receiver.showsProfileEditor) {
             VStack(alignment: .leading, spacing: 16) {

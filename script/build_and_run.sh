@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 MODE="${1:-run}"
-APP_NAME="RadioWorkbench"
+APP_NAME="RAZIEL"
 BUNDLE_ID="cl.sebastian.RadioWorkbench"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUTPUT_APP_BUNDLE="${RADIO_OUTPUT_APP_BUNDLE:-$ROOT_DIR/dist/$APP_NAME.app}"
@@ -13,19 +13,46 @@ export SWIFTPM_MODULECACHE_OVERRIDE="$BUILD_PATH/ModuleCache"
 mkdir -p "$BUILD_PATH/ModuleCache"
 cd "$ROOT_DIR"
 if [[ "$MODE" != "--build-only" ]]; then
-  pkill -x "$APP_NAME" >/dev/null 2>&1 || true
+  # Restart only this output bundle, never every app sharing a process name.
+  owned_process_snapshot="$(/bin/ps -axo pid=,comm=)"
+  while read -r owned_pid owned_command; do
+    if [[ "$owned_pid" =~ ^[0-9]+$ && "$owned_command" == "$OUTPUT_APP_BUNDLE/Contents/MacOS/$APP_NAME" ]]; then
+      kill -TERM "$owned_pid" 2>/dev/null || true
+    fi
+  done <<< "$owned_process_snapshot"
 fi
 # Keep caches local to this project; no global toolchain/configuration edits.
 swift build --build-system native --scratch-path "$BUILD_PATH" --cache-path "$BUILD_PATH/cache" --configuration "$BUILD_CONFIGURATION" --arch arm64 --disable-sandbox
-BUILD_BINARY="$(swift build --build-system native --scratch-path "$BUILD_PATH" --cache-path "$BUILD_PATH/cache" --configuration "$BUILD_CONFIGURATION" --arch arm64 --disable-sandbox --show-bin-path)/$APP_NAME"
+BUILD_BINARY="$(swift build --build-system native --scratch-path "$BUILD_PATH" --cache-path "$BUILD_PATH/cache" --configuration "$BUILD_CONFIGURATION" --arch arm64 --disable-sandbox --show-bin-path)/RadioWorkbench"
 # Sign outside Desktop/File Provider: it can recreate FinderInfo during signing.
 PACKAGE_STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/radioworkbench-stage.XXXXXX")"
 trap 'rm -rf "$PACKAGE_STAGING_DIR"' EXIT
 APP_BUNDLE="$PACKAGE_STAGING_DIR/$APP_NAME.app"
 APP_MACOS="$APP_BUNDLE/Contents/MacOS"
 APP_BINARY="$APP_MACOS/$APP_NAME"
-mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples"
+mkdir -p "$APP_MACOS" "$APP_BUNDLE/Contents/Resources/Examples" "$APP_BUNDLE/Contents/Frameworks"
 cp "$BUILD_BINARY" "$APP_BINARY"
+mkdir -p "$APP_BUNDLE/Contents/Resources/Brand"
+cp "$ROOT_DIR/Sources/RadioWorkbench/Resources/Brand/RazielIcon.png" "$APP_BUNDLE/Contents/Resources/Brand/"
+cp "$ROOT_DIR/Sources/RadioWorkbench/Resources/Brand/RAZIEL.icns" "$APP_BUNDLE/Contents/Resources/RAZIEL.icns"
+cp -R "$ROOT_DIR/Sources/RadioWorkbench/Resources/en.lproj" "$ROOT_DIR/Sources/RadioWorkbench/Resources/es.lproj" "$APP_BUNDLE/Contents/Resources/"
+cp "$ROOT_DIR/Sources/RadioWorkbench/Resources/Translations.json" "$APP_BUNDLE/Contents/Resources/Translations.json"
+SPARKLE_ARTIFACT="$BUILD_PATH/artifacts/sparkle/Sparkle"
+/usr/bin/ditto --norsrc --noextattr "$SPARKLE_ARTIFACT/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework" "$APP_BUNDLE/Contents/Frameworks/Sparkle.framework"
+cp "$SPARKLE_ARTIFACT/LICENSE" "$APP_BUNDLE/Contents/Resources/Sparkle-LICENSE.txt"
+# Make the packaged app independent of SwiftPM's temporary artifact directory.
+/usr/bin/install_name_tool -add_rpath '@executable_path/../Frameworks' "$APP_BINARY"
+strip_build_rpaths() {
+  local binary="$1" old_rpath
+  while IFS= read -r old_rpath; do
+    case "$old_rpath" in
+      "$BUILD_PATH"/*|/Library/Developer/*) /usr/bin/install_name_tool -delete_rpath "$old_rpath" "$binary" ;;
+    esac
+  done < <(/usr/bin/otool -l "$binary" | /usr/bin/awk '/cmd LC_RPATH/{getline; getline; print $2}')
+}
+strip_build_rpaths "$APP_BINARY"
+SPARKLE_PUBLIC_KEY="$(cat "$ROOT_DIR/docs/updates/public-key.txt")"
+if [[ ${#SPARKLE_PUBLIC_KEY} != 44 ]]; then echo 'Invalid Sparkle public key' >&2; exit 2; fi
 for engine in mt63 ale dsc; do
   bash "$ROOT_DIR/script/build_${engine}.sh" "$APP_MACOS/${engine}-helper"
   codesign --force --sign - "$APP_MACOS/${engine}-helper"
@@ -42,11 +69,18 @@ for example in "$ROOT_DIR"/Tests/RadioCoreTests/Fixtures/mt63_*_8000_clean.wav "
 done
 cp "$ROOT_DIR/docs/INTEGRATIONS-0.10.md" "$APP_BUNDLE/Contents/Resources/Modos-0.10.md"
 cp "$ROOT_DIR/docs/NUEVE-MEJORAS.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.11.md"
+cp "$ROOT_DIR/docs/RELEASE-0.13.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.13.md"
+cp "$ROOT_DIR/docs/RELEASE-0.14.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.14.md"
+cp "$ROOT_DIR/docs/RELEASE-0.15.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.15.md"
+cp "$ROOT_DIR/docs/RELEASE-0.16.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.16.md"
+cp "$ROOT_DIR/docs/RELEASE-0.17.0.md" "$APP_BUNDLE/Contents/Resources/Mejoras-0.17.md"
+cp "$ROOT_DIR/docs/DMR-0.12.md" "$APP_BUNDLE/Contents/Resources/DMR.md"
 cp "$ROOT_DIR/docs/FORMATO-EVENTOS.md" "$APP_BUNDLE/Contents/Resources/Formato-eventos.md"
 bash "$ROOT_DIR/script/build_acars.sh" "$APP_MACOS/acars-helper"
 codesign --force --sign - "$APP_MACOS/acars-helper"
 bash "$ROOT_DIR/script/build_ftx.sh" "$APP_MACOS/ftx-helper"
 bash "$ROOT_DIR/script/build_cw.sh" "$APP_MACOS/cw-helper"
+strip_build_rpaths "$APP_MACOS/cw-helper"
 for component in ftx-helper cw-helper; do codesign --force --sign - "$APP_MACOS/$component"; done
 cp -R "$ROOT_DIR/Vendor/CWKit/Sources/CWKit/Resources/CWNet.mlmodelc" "$APP_BUNDLE/Contents/Resources/CWNet.mlmodelc"
 for library in SatelliteKit FT8 CWKit LibACARS; do
@@ -76,6 +110,9 @@ COPYFILE_DISABLE=1 tar -czf "$APP_BUNDLE/Contents/Resources/NTIA-ITM-Sources.tar
   Vendor/NTIA-ITM/include Vendor/NTIA-ITM/src Vendor/NTIA-ITM/LICENSE.md Vendor/NTIA-ITM/README.md \
   Vendor/NTIA-ITM/source-manifest.json script/itm-helper.cpp script/itm-bridge.cpp script/build_itm.sh
 chmod +x "$APP_BINARY"
+for example in sitora_8000_arq dgps_100_8000_mono_clean flex_22050_mono_alpha; do
+  cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/$example.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
+done
 for mode in morse rtty bpsk31 dtmf navtex packet; do
   cp "$ROOT_DIR/Tests/RadioCoreTests/Fixtures/${mode}_8000_mono_clean.wav" "$APP_BUNDLE/Contents/Resources/Examples/"
 done
@@ -104,11 +141,21 @@ cat >"$APP_BUNDLE/Contents/Info.plist" <<PLIST
 <key>CFBundleExecutable</key><string>$APP_NAME</string>
 <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
 <key>CFBundleName</key><string>$APP_NAME</string>
-<key>CFBundleDisplayName</key><string>RadioWorkbench</string>
-<key>CFBundleShortVersionString</key><string>0.11.0</string>
-<key>CFBundleVersion</key><string>26</string>
+<key>CFBundleDisplayName</key><string>RAZIEL</string>
+<key>CFBundleIconFile</key><string>RAZIEL.icns</string>
+<key>NSHumanReadableCopyright</key><string>Creado por Sebastián Pastén F.</string>
+<key>CFBundleShortVersionString</key><string>0.17.0</string>
+<key>CFBundleVersion</key><string>33</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>SUFeedURL</key><string>https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml</string>
+<key>SUPublicEDKey</key><string>$SPARKLE_PUBLIC_KEY</string>
+<key>SUEnableAutomaticChecks</key><false/>
+<key>SUAutomaticallyUpdate</key><false/>
+<key>SURequireSignedFeed</key><true/>
+<key>SUVerifyUpdateBeforeExtraction</key><true/>
+<key>CFBundleDevelopmentRegion</key><string>es</string>
+<key>CFBundleLocalizations</key><array><string>es</string><string>en</string></array>
 <key>NSPrincipalClass</key><string>NSApplication</string>
 <key>NSMicrophoneUsageDescription</key><string>Decodificar audio del receptor seleccionado al pulsar Escuchar.</string>
 <key>NSAppTransportSecurity</key><dict><key>NSExceptionDomains</key><dict>
@@ -128,7 +175,9 @@ if [[ -d "$OUTPUT_APP_BUNDLE" ]]; then mv "$OUTPUT_APP_BUNDLE" "$PUBLISH_STAGING
 mv "$PUBLISH_STAGING_DIR/$APP_NAME.app" "$OUTPUT_APP_BUNDLE"
 rm -rf "$PUBLISH_STAGING_DIR"
 xattr -d com.apple.FinderInfo "$OUTPUT_APP_BUNDLE" 2>/dev/null || true
-/usr/bin/ditto --norsrc --noextattr -c -k --keepParent "$APP_BUNDLE" "$ROOT_DIR/dist/$APP_NAME-arm64.zip"
+# One versioned archive per delivery; do not also create an unversioned copy.
+RADIO_ZIP_VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_BUNDLE/Contents/Info.plist")"
+/usr/bin/ditto --norsrc --noextattr -c -k --keepParent "$APP_BUNDLE" "$ROOT_DIR/dist/$APP_NAME-$RADIO_ZIP_VERSION-macos-arm64.zip"
 open_app() { /usr/bin/open -n "$OUTPUT_APP_BUNDLE"; }
 open_microphone_test() {
   MICROPHONE_TEST_ARGS=(--sstv-microphone-test --diagnostics-path "${RADIO_DIAGNOSTICS_PATH:-$ROOT_DIR/docs/validation/microphone-live.json}" --probe-seconds "${RADIO_PROBE_SECONDS:-15}")

@@ -38,7 +38,7 @@ struct TerrainLinkPanel: View {
                     field("Ganancia RX · dBi", text: $store.terrainRxGain, hint: "0", width: 140)
                     field("Umbral RX · dBm", text: $store.terrainSensitivityDBm, hint: "−110", width: 140)
                     Picker("Clima ITM", selection: $store.terrainClimate) {
-                        ForEach(ITMClimate.allCases) { climate in Text(climate.title).tag(climate) }
+                        ForEach(ITMClimate.allCases) { climate in Text(AppLocalization.text(climate.title)).tag(climate) }
                     }.frame(minWidth: 200)
                     Picker("Polarización", selection: $store.terrainVerticalPolarization) {
                         Text("Vertical").tag(true); Text("Horizontal").tag(false)
@@ -53,14 +53,14 @@ struct TerrainLinkPanel: View {
                         if store.terrainBusy { ProgressView().controlSize(.small) }
                         else { Label("Calcular relieve y enlace", systemImage: "mountain.2") }
                     }.buttonStyle(.borderedProminent).disabled(store.terrainBusy || store.terrainCoverageBusy)
-                    Text(store.terrainStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.terrainStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
 
                 HStack(spacing: 10) {
                     field("Radio de análisis · km", text: $store.terrainCoverageMaximumKm, hint: "100", width: 145)
                         .disabled(store.terrainCoverageBusy || store.terrainBusy)
                     Picker("Malla", selection: $store.terrainCoverageQuality) {
-                        ForEach(TerrainCoverageQuality.allCases) { quality in Text(quality.title).tag(quality) }
+                        ForEach(TerrainCoverageQuality.allCases) { quality in Text(AppLocalization.text(quality.title)).tag(quality) }
                     }.frame(width: 230).disabled(store.terrainCoverageBusy || store.terrainBusy)
                     Button {
                         Task { await store.calculateTerrainCoverage() }
@@ -74,7 +74,7 @@ struct TerrainLinkPanel: View {
                         Button("Cancelar") { store.cancelTerrainCoverage() }
                     }
                 }
-                Text(store.terrainCoverageStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(store.terrainCoverageStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 Text("Cada celda evalúa su propio enlace ITM con el relieve completo; se conservan sombras y recuperaciones en cumbres. La malla cubre un área de análisis de 5–200 km, con paso visible y DEM de teselas Mapzen/SRTM. No se rellena hasta el punto más lejano.")
                     .font(.caption2).foregroundStyle(.secondary)
 
@@ -85,7 +85,7 @@ struct TerrainLinkPanel: View {
                         if let marginDB {
                             Label("Margen frente al umbral: \(marginDB >= 0 ? "+" : "")\(marginDB, specifier: "%.1f") dB", systemImage: marginDB >= 0 ? "checkmark.radiowaves.left.and.right" : "exclamationmark.radiowaves.left.and.right")
                         }
-                        Label(result.propagationMode, systemImage: "mountain.2")
+                        Label(AppLocalization.text(result.propagationMode), systemImage: "mountain.2")
                         Text("Irregularidad del terreno: \(result.terrainIrregularityMeters, specifier: "%.0f") m · avisos ITM: \(result.warningFlags)")
                             .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
                     }.font(.callout).textSelection(.enabled)
@@ -119,7 +119,7 @@ struct TerrainLinkPanel: View {
 
     private func endpointEditor(title: String, latitude: Binding<String>, longitude: Binding<String>, height: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 7) {
-            Text(title).font(.headline)
+            Text(AppLocalization.text(title)).font(.headline)
             HStack(spacing: 10) {
                 field("Latitud · °", text: latitude, hint: "−33,45", width: 140)
                 field("Longitud · °", text: longitude, hint: "−70,67", width: 140)
@@ -130,8 +130,8 @@ struct TerrainLinkPanel: View {
 
     private func field(_ title: String, text: Binding<String>, hint: String, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
-            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(title)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
+            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(Text(AppLocalization.text(title)))
         }.frame(width: width)
     }
 }

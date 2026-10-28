@@ -17,6 +17,12 @@ public struct HFPropagationInput: Sendable, Equatable {
         self.bandwidth = bandwidth; self.requiredSNR = requiredSNR; self.txGain = txGain; self.rxGain = rxGain
         self.noise = noise; self.frequencyMHz = frequencyMHz
     }
+    public func reversed(watts: Double, bandwidth: Double, requiredSNR: Double, txGain: Double, rxGain: Double, noise: Int) -> HFPropagationInput? {
+        let result = HFPropagationInput(origin: target, target: origin, date: date, r12: r12,
+            watts: watts, bandwidth: bandwidth, requiredSNR: requiredSNR, txGain: txGain, rxGain: rxGain,
+            noise: noise, frequencyMHz: frequencyMHz)
+        return result.isValid ? result : nil
+    }
     public var isValid: Bool {
         let values = [r12, watts, bandwidth, requiredSNR, txGain, rxGain, frequencyMHz]
         return values.allSatisfy(\.isFinite) && (0...311).contains(r12) && (1...1_000_000).contains(watts)

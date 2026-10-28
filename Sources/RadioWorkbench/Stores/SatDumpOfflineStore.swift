@@ -22,13 +22,22 @@ import RadioCore
     var status = "Selecciona una grabación I/Q y declara sus parámetros."
     var error: String?
     @ObservationIgnored private var task: Task<Void, Never>?
+    func prepareSigMF(_ recording: SigMFRecording) {
+        guard !busy, let format = recording.satDumpFormat, let capture = recording.captures.first,
+              let date = capture.date, let frequency = capture.frequencyHz else {
+            error = "Esta captura SigMF no tiene el formato o los metadatos necesarios para SatDump."; return
+        }
+        inputURL = recording.datasetURL; sampleRate = recording.sampleRate; self.format = format
+        frequencyMHz = frequency / 1_000_000; capturedAt = date; captureDateKnown = true
+        error = nil; status = "Parámetros importados de SigMF. Confirma que contiene LRPT y pulsa Iniciar para procesar."
+    }
     func chooseApplication() {
         let panel = NSOpenPanel(); panel.allowedContentTypes = [.application]; panel.allowsMultipleSelection = false
         if panel.runModal() == .OK { application = panel.url }
     }
     func chooseInput() {
         let panel = NSOpenPanel(); panel.allowsMultipleSelection = false
-        panel.message = "I/Q crudo intercalado; una grabación WAV de audio de SDR++ no contiene LRPT."
+        panel.message = AppLocalization.text("I/Q crudo intercalado; una grabación WAV de audio de SDR++ no contiene LRPT.")
         if panel.runModal() == .OK { inputURL = panel.url }
     }
     func start() {

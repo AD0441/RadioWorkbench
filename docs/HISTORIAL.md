@@ -1,5 +1,19 @@
 # Historial de RadioWorkbench
 
+**RAZIEL 0.17.0:** nuevo nombre e icono blanco/negro; pie inferior izquierdo unificado con METATRON, acceso a Ajustes y crédito; cuatro paletas e idioma ES/EN; Ko-fi en General. Protección de tasas del espectro, correcciones NOAA y traducciones. Se conservan identificador y datos. [Notas](RELEASE-0.17.0.md) · [Evidencia](validation/release-0.17.0.json).
+
+**0.16.0:** interfaz español/inglés y seis secciones de Ajustes; persistencia de sesión sin autoarranque, valores de audio, tema/texto/waterfall y menor consumo; biblioteca reubicable con copia verificada y respaldo ZIP manual; políticas de datos/avisos, perfiles TCP/Rigctl e inventario/diagnóstico. Publicación preliminar y paquete firmado para el canal Sparkle. Gracias a G4ZJH por su aporte e idea bilingüe. [Uso y límites / English](RELEASE-0.16.0.md) · [Textos para compartir](SOCIAL-0.16.0.md).
+
+**0.15.0:** biblioteca I/Q SigMF con importación/exportación y SHA-512; preparación SatDump desde metadatos; asistente de conexión, contadores específicos de integridad y comparación A/B del mismo WAV. Sparkle 2.10.0 con clave pública y canal firmado inicial sin actualizaciones descargables. Skills de SwiftUI, pruebas y calidad instaladas para el desarrollo. [Uso y límites](RELEASE-0.15.0.md).
+
+**0.14.0:** SITOR-A pasivo, DGPS MSK/RTCM 2 y FLEX; taller con 77 referencias, filtro Hilbert vectorizado y exportación WAV de voz en segundo plano. Corrige publicación al pausar el flujo de entrada, parámetros residuales de discriminador, retorno al perfil NXDN48 y cierre/lectura del helper. [Uso, fuentes y límites](RELEASE-0.14.0.md).
+
+**0.13.0:** registro de escuchas con audio opcional y migración compatible, mapa histórico TX → RX con antenas/filtros, flujos HF RX y bilateral separados, pantalla de voz digital, próximos pases RF en 60 minutos, taller con 74 referencias y ficha SDR común. [Uso y límites](RELEASE-0.13.0.md).
+
+**0.12.1:** corrige el refresco de espectro y waterfall en vivo: reloj visual propio, cola de un cuadro, historial FFT acotado y raster incremental. Separa observación de nivel/espectro de controles y texto. La medición sintética pasó de 3,26 a 19,21 cuadros entregados/s, sin pérdidas de audio; falta repetición física. [Mediciones y límites](RELEASE-0.12.1.md).
+
+**0.12.0:** DMR con escucha durante la recepción, selección TS1/TS2/ambos, panel CC/origen/destino/clase/antigüedad y exportación JSON con procedencia. Cierre del WAV y cancelación fuera de la interfaz; contraste independiente TS1 y pruebas offline del grafo de salida. [Uso y límites](DMR-0.12.md) · [Notas](RELEASE-0.12.0.md).
+
 **0.11.0:** repara Guía → Planificador HF y la descarga HFCC; corrige R12=0, procedencia por mes UTC y dos condiciones del modelo para el hemisferio sur. Añade biblioteca de audio/ajustes/fechas, diagnóstico, TCP local, DSC MF/HF/VHF con ECC e interpretación parcial, mapa de recepciones, SatDump LRPT offline, Rigctl optativo con lectura de confirmación, eventos externos y taller de referencias. [Alcance de los nueve módulos](NUEVE-MEJORAS.md) · [Notas](RELEASE-0.11.0.md).
 
 **0.10.0:** recepción MT63 500/1000/2000 Hz con entrelazado corto/largo, centro y guía de banda; ALE 2G con sondeos, llamadas y AMD. Helpers arm64/macOS 14, WAV y entrada en vivo, JSON, señales de ejemplo y fuentes/licencias incluidas. Revisión estática REA de cinco aplicaciones y propuestas de audio TCP, DSC, biblioteca de recepciones, mapas e I/Q/SatDump. [Uso y límites](INTEGRATIONS-0.10.md) · [Investigación y propuestas](REVISION-APPS-0.10.md).
@@ -16,7 +30,7 @@
 
 **0.8.7: consultas de radio.** La nueva pantalla integra cinco consultas: asignaciones de radioaficionado SUBTEL y perfiles de recepción, repetidoras oficiales con paso directo al análisis ITM, búsqueda de indicativos sin guardar nombres, APRS-IS de solo recepción y satélites con frecuencias, reportes de estado y pases orbitales aproximados. SUBTEL y satélites actualizan datos en línea y conservan una copia local; APRS solo conecta cuando el usuario lo solicita. [CONSULTAS.md](CONSULTAS.md) explica fuentes, privacidad y límites.
 
-Aplicación de escritorio solo para macOS 14 o posterior. El paquete release incluido es arm64 para Apple Silicon (M1 y posteriores); no contiene binarios para Mac Intel, iOS, Windows o Linux. Está desarrollada a partir de la revisión documentada de MultiMode Cocoa con SwiftUI, CoreAudio/AVFoundation y Accelerate; no depende de Electron ni del ejecutable Intel original.
+Aplicación de escritorio solo para macOS 14 o posterior. El paquete release incluido es arm64 para Apple Silicon (M1 y posteriores); no ejecuta la app en Mac Intel, iOS, Windows o Linux. El framework Sparkle conserva los componentes universales arm64/x86_64 distribuidos por su autor. Está desarrollada a partir de la revisión documentada de MultiMode Cocoa con SwiftUI, CoreAudio/AVFoundation y Accelerate; no depende de Electron ni del ejecutable Intel original.
 
 **0.8.6: relieve VHF/UHF mejorado.** El mapa abre en relieve 3D y compara la altura de la antena (elevación topográfica + altura AGL) con las montañas del perfil. Marca crestas que cruzan la línea directa, mientras ITM calcula la difracción. La envolvente de cobertura usa 32 rumbos, perfiles cada ~500 m y alcance cada 5 km hasta 200 km; sigue siendo una aproximación entre perfiles.
 

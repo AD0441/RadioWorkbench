@@ -7,7 +7,7 @@ struct SatellitePassMapPanel: View {
     let track: [SatelliteTrackSample]
     let observer: RadioLocation
     @ViewState private var camera: MapCameraPosition = .automatic
-    @ViewState private var downlinkMHz = 145.8
+    let downlink: SatelliteDownlink?
     var body: some View {
         GroupBox("Pase seleccionado · mapa y dirección de antena") {
             VStack(alignment: .leading, spacing: 8) {
@@ -19,8 +19,8 @@ struct SatellitePassMapPanel: View {
                             MapPolyline(coordinates: segment.map { coordinate($0.position) }).stroke(.orange, lineWidth: 3)
                         }
                         Marker("Observador", systemImage: "antenna.radiowaves.left.and.right", coordinate: .init(latitude: observer.latitude, longitude: observer.longitude)).tint(.blue)
-                        if let first = track.first { Marker("AOS", coordinate: coordinate(first.position)).tint(.green) }
-                        if let last = track.last { Marker("LOS", coordinate: coordinate(last.position)).tint(.red) }
+                        if let first = track.first { Marker(pass.aosClipped ? "Comienzo del cálculo" : "AOS", coordinate: coordinate(first.position)).tint(.green) }
+                        if let last = track.last { Marker(pass.losClipped ? "Final del cálculo" : "LOS", coordinate: coordinate(last.position)).tint(.red) }
                         if let maximum = track.min(by: { abs($0.date.timeIntervalSince(pass.maximumAt)) < abs($1.date.timeIntervalSince(pass.maximumAt)) }) {
                             Marker("Máximo", coordinate: coordinate(maximum.position)).tint(.orange)
                         }
@@ -31,15 +31,21 @@ struct SatellitePassMapPanel: View {
                     Text("AOS azimut \(first.observation.azimuthDegrees, specifier: "%.0f")° · LOS \(last.observation.azimuthDegrees, specifier: "%.0f")° · máximo \(pass.maximumElevation, specifier: "%.1f")°")
                         .font(.caption.monospacedDigit())
                 }
-                HStack {
-                    Text("Bajada (MHz)").font(.caption)
-                    TextField("MHz", value: $downlinkMHz, format: .number).frame(width: 95).textFieldStyle(.roundedBorder)
+                if let downlink {
+                    Text("\(downlink.label) · \(downlink.mode) · referencia \(downlink.nominalMHz, specifier: "%.6f") MHz")
+                        .font(.caption).textSelection(.enabled)
                     if let first = track.first, let last = track.last,
-                       let a = first.observation.dopplerHz(frequencyMHz: downlinkMHz), let b = last.observation.dopplerHz(frequencyMHz: downlinkMHz) {
-                        Text("Doppler AOS \(a, specifier: "%+.0f") Hz · LOS \(b, specifier: "%+.0f") Hz").font(.caption.monospacedDigit())
+                       let a = first.observation.dopplerHz(frequencyMHz: downlink.nominalMHz), let b = last.observation.dopplerHz(frequencyMHz: downlink.nominalMHz) {
+                        Text("Doppler al inicio \(a, specifier: "%+.0f") Hz · final \(b, specifier: "%+.0f") Hz · sintoniza frecuencia nominal + Doppler")
+                            .font(.caption.monospacedDigit())
                     }
+                    if downlink.isPassband {
+                        Text("Referencia en el centro del rango publicado; no identifica una portadora activa.").font(.caption2).foregroundStyle(.secondary)
+                    }
+                } else {
+                    Text("Selecciona una bajada publicada para obtener Doppler a su frecuencia; no hay una frecuencia de ejemplo aplicada.")
+                        .font(.caption).foregroundStyle(.secondary)
                 }
-                Text("Ajusta manualmente el receptor a frecuencia nominal + Doppler. La frecuencia de ejemplo no identifica un transmisor activo.").font(.caption2).foregroundStyle(.secondary)
                 Text("El mapa muestra la proyección del satélite sobre la Tierra durante el pase; el gráfico polar muestra azimut y elevación desde tu ubicación. Ambos usan SGP4/SDP4 y WGS84 y no indican cobertura RF confirmada.")
                     .font(.caption2).foregroundStyle(.secondary)
             }.padding(7)

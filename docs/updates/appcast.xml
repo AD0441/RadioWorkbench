@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>RadioWorkbench · signed updates / actualizaciones firmadas</title>
+    <link>https://github.com/AD0441/RadioWorkbench</link>
+    <description>Experimental arm64 releases for Apple Silicon Macs. / Versiones experimentales arm64 para Mac con Apple Silicon.</description>
+    <language>es</language>
+    <item>
+      <title>RadioWorkbench 0.16.0 · Español / English</title>
+      <pubDate>Mon, 26 Oct 2026 00:04:24 +0000</pubDate>
+      <link>https://github.com/AD0441/RadioWorkbench/releases/tag/v0.16.0</link>
+      <sparkle:version>32</sparkle:version>
+      <sparkle:shortVersionString>0.16.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description>Español: interfaz español/inglés, seis apartados de Ajustes, biblioteca configurable y respaldo ZIP manual, waterfall/menor consumo, datos y conexiones. English: Spanish/English interface, six Settings sections, configurable library/manual ZIP backup, waterfall/lower-power controls, data and connections. Experimental arm64 app, ad hoc signed, not notarized. Gracias / Thanks G4ZJH.</description>
+      <enclosure url="https://github.com/AD0441/RadioWorkbench/releases/download/v0.16.0/RadioWorkbench-0.16.0-macos-arm64.zip" length="192950106" type="application/octet-stream" sparkle:edSignature="qpJy7LwJL1RsMskItxYCJZMR3HQkplqENzOVsuozXxP7TzXeImRD0Bq1a4ZWL+SHV16+YNUkuYGTTBloA/cECw=="></enclosure>
+    </item>
+  </channel>
+</rss><!-- sparkle-signatures:
+edSignature: 7ThBykanq1ZMWPPsTJeV7uH0ZuY8vI8n8wiE4/pJuZt4AIjVQnCJYpyc+Q+sVbi9FPJOonf2GsMkxOsPZK5xAA==
+length: 1854
+-->

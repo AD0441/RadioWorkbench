@@ -15,7 +15,7 @@ struct RadioConsultationsView: View {
             VStack(alignment: .leading, spacing: 16) {
                 header
                 Picker("Consulta", selection: $store.section) {
-                    ForEach(RadioConsultationSection.allCases) { section in Text(section.rawValue).tag(section) }
+                    ForEach(RadioConsultationSection.allCases) { section in Text(AppLocalization.text(section.rawValue)).tag(section) }
                 }.pickerStyle(.segmented)
                 switch store.section {
                 case .frequency: frequencyLookup
@@ -57,7 +57,7 @@ struct RadioConsultationsView: View {
                     HStack {
                         TextField("MHz", text: $store.frequencyMHz).textFieldStyle(.roundedBorder).frame(width: 145)
                         Picker("Perfil del decodificador", selection: $store.chosenMode) {
-                            ForEach(RadioMode.allCases.filter(\.isAudioAvailable)) { mode in Text(mode.title).tag(mode) }
+                            ForEach(RadioMode.allCases.filter(\.isAudioAvailable)) { mode in Text(AppLocalization.text(mode.title)).tag(mode) }
                         }.frame(maxWidth: 300)
                         Button {
                             receiver.select(store.chosenMode)
@@ -93,13 +93,13 @@ struct RadioConsultationsView: View {
                     }
                     Divider()
                     Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 8) {
-                        GridRow { Text("Demodulación SDR").foregroundStyle(.secondary); Text(store.selectedProfile.modulation.rawValue) }
+                        GridRow { Text("Demodulación SDR").foregroundStyle(.secondary); Text(AppLocalization.text(store.selectedProfile.modulation.rawValue)) }
                         GridRow { Text("Ancho RF").foregroundStyle(.secondary); Text("\(Int(store.selectedProfile.rfBandwidth)) Hz") }
-                        GridRow { Text("Audio para el decodificador").foregroundStyle(.secondary); Text(store.selectedProfile.audioBand) }
+                        GridRow { Text("Audio para el decodificador").foregroundStyle(.secondary); Text(AppLocalization.text(store.selectedProfile.audioBand)) }
                         GridRow { Text("Centro de audio").foregroundStyle(.secondary); Text("\(Int(store.selectedProfile.center)) Hz") }
                     }
-                    Text(store.selectedProfile.note).font(.caption).foregroundStyle(.secondary)
-                    Text("La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench.")
+                    Text(AppLocalization.text(store.selectedProfile.note)).font(.caption).foregroundStyle(.secondary)
+                    Text("La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RAZIEL.")
                         .font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
             }
@@ -115,7 +115,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Repetidoras de Chile").font(.title2.weight(.semibold))
-                    Text(store.repeaterStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.repeaterStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Link("Abrir SUBTEL", destination: SUBTELDataService.directoryURL)
@@ -184,7 +184,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Indicativos y licencias").font(.title2.weight(.semibold))
-                    Text(store.callsignStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.callsignStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Link("Abrir SUBTEL", destination: SUBTELDataService.directoryURL)
@@ -216,7 +216,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("APRS cercano · flujo de Internet").font(.title2.weight(.semibold))
-                    Text(aprs.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(aprs.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 if aprs.connected { Button("Detener") { aprs.stop() } }
@@ -262,7 +262,7 @@ struct RadioConsultationsView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Satélites con radioafición").font(.title2.weight(.semibold))
-                    Text(satellites.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(satellites.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }
                 Spacer()
                 Button { Task { await satellites.refresh() } } label: { Label("Actualizar datos", systemImage: "arrow.clockwise") }.disabled(satellites.busy)
@@ -286,9 +286,11 @@ struct RadioConsultationsView: View {
                                 GridRow { Text("Consulta de frecuencias").foregroundStyle(.secondary); Text(catalog.frequenciesFetchedAt?.formatted(date: .abbreviated, time: .shortened) ?? "Sin descarga válida") }
                                 GridRow {
                                     Text("Estado reportado · 72 h").foregroundStyle(.secondary)
-                                    if let report = satellites.latestStatus {
-                                        Text("\(report.report) · \(report.reportedAt.formatted(date: .abbreviated, time: .shortened))")
-                                    } else { Text("Sin reporte reciente") }
+                                    TimelineView(.periodic(from: .now, by: 60)) { context in
+                                        if let report = satellites.latestStatus(for: satellite, now: context.date) {
+                                            Text("\(report.report) · \(report.reportedAt.formatted(date: .abbreviated, time: .shortened)) · reporte de usuario, no garantía de emisión")
+                                        } else { Text("Sin reporte de las últimas 72 h; la copia puede estar sin conexión") }
+                                    }
                                 }
                             }
                             if Date().timeIntervalSince(satellite.orbit.epoch) > 7 * 86_400 {
@@ -303,32 +305,164 @@ struct RadioConsultationsView: View {
                         }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
                     }
                 }
-                HStack {
-                    Button { satellites.calculatePasses(location: localPosition) } label: {
-                        if satellites.calculatingPasses { Label("Calculando…", systemImage: "clock") }
-                        else { Label("Calcular próximos pases · 48 h", systemImage: "moon.stars") }
-                    }.disabled(satellites.selected == nil || localPosition == nil || satellites.calculatingPasses)
-                    if localPosition == nil { Text("Guarda la ubicación antes de calcular.").font(.caption).foregroundStyle(.orange) }
+                satellitePassControls
+                if !satellites.nextHour.isEmpty { satelliteHourResults }
+                if let satellite = satellites.selected {
+                    satelliteDownlinkSelector(satellite)
                 }
                 if !satellites.passes.isEmpty {
                     Table(satellites.passes, selection: Binding(get: { satellites.selectedPassID }, set: { satellites.selectPass($0) })) {
-                        TableColumn("AOS · fecha/hora local") { pass in Text(pass.aos.formatted(date: .abbreviated, time: .shortened)) }
+                        TableColumn("AOS · fecha/hora local") { pass in
+                            VStack(alignment: .leading) {
+                                Text(pass.aos.formatted(date: .abbreviated, time: .shortened))
+                                if pass.aosClipped { Text("Visible al comienzo del cálculo; AOS no resuelto").font(.caption2) }
+                            }
+                        }
                         TableColumn("Elevación máxima") { pass in Text("\(pass.maximumElevation, specifier: "%.1f")°") }
                         TableColumn("Máximo") { pass in Text(pass.maximumAt, style: .time) }
-                        TableColumn("LOS · hora local") { pass in Text(pass.los, style: .time) }
+                        TableColumn("LOS · hora local") { pass in
+                            VStack(alignment: .leading) {
+                                Text(pass.los, style: .time)
+                                if pass.losClipped { Text("Continúa visible; LOS no resuelto").font(.caption2) }
+                            }
+                        }
                         TableColumn("Duración") { pass in Text("\(Int(pass.los.timeIntervalSince(pass.aos) / 60)) min") }
                     }.frame(minHeight: 170)
                 }
                 if let pass = satellites.selectedPass, let observer = satellites.observer, !satellites.track.isEmpty {
-                    SatellitePassMapPanel(pass: pass, track: satellites.track, observer: observer)
+                    SatellitePassMapPanel(pass: pass, track: satellites.track, observer: observer, downlink: satellites.selectedDownlink)
                 }
-                Text("Los pases usan los elementos orbitales descargados y un modelo Kepler con corrección secular J2, no SGP4. Sirven para planificar una escucha aproximada; comprueba TLE reciente, horizonte local, frecuencia activa y Doppler antes del pase. No controla SDR++ automáticamente.")
+                Text("Pases de radio calculados con SGP4/SDP4 y WGS84. El horizonte ideal no incluye montañas, edificios ni altura local de la antena. No se calcula visibilidad óptica (iluminación, sombra y oscuridad) ni una probabilidad de éxito calibrada. La frecuencia publicada no asegura actividad durante el pase; sintonía y Doppler se ajustan manualmente en el SDR.")
                     .font(.caption).foregroundStyle(.secondary)
             } else {
                 ContentUnavailableView("Catálogo todavía no descargado", systemImage: "satellite", description: Text("Actualiza para combinar las frecuencias de radioaficionado de AMSAT/SatNOGS con las órbitas de CelesTrak."))
                     .frame(minHeight: 260)
             }
         }
+    }
+
+    private var satellitePassControls: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Button { satellites.searchNextHour(location: localPosition) } label: {
+                    Label("Buscar pases en la próxima hora", systemImage: "clock.arrow.circlepath")
+                }.buttonStyle(.borderedProminent).disabled(localPosition == nil || satellites.calculatingPasses)
+                Button("Pases del seleccionado · 48 h") { satellites.calculatePasses(location: localPosition) }
+                    .disabled(satellites.selected == nil || localPosition == nil || satellites.calculatingPasses)
+                if satellites.calculatingPasses {
+                    ProgressView().controlSize(.small)
+                    Button("Cancelar") { satellites.cancelPassSearch() }
+                }
+            }
+            HStack {
+                Picker("Elevación máxima mínima", selection: $satellites.minimumElevation) {
+                    Text("5°").tag(5.0); Text("10°").tag(10.0); Text("20°").tag(20.0); Text("30°").tag(30.0)
+                }.frame(width: 290).disabled(satellites.calculatingPasses)
+                Toggle("Solo satélites con bajada publicada", isOn: $satellites.onlyPublishedDownlinks)
+                    .disabled(satellites.calculatingPasses)
+            }.font(.caption)
+            if let position = satellites.searchObserver ?? satellites.observer ?? localPosition {
+                Text("Observador usado: \(position.latitude, specifier: "%.4f"), \(position.longitude, specifier: "%.4f") · tiempos locales. Cambiar de ubicación requiere recalcular.")
+                    .font(.caption).foregroundStyle(.secondary)
+            } else {
+                Text("Guarda la ubicación antes de calcular.").font(.caption).foregroundStyle(.orange)
+            }
+        }
+    }
+
+    private var satelliteHourResults: some View {
+        GroupBox("Pases RF · próximos 60 minutos") {
+            VStack(alignment: .leading, spacing: 8) {
+                if let window = satellites.searchWindow {
+                    Text("Ventana \(window.start.formatted(date: .abbreviated, time: .shortened)) – \(window.end.formatted(date: .omitted, time: .shortened)) · AOS y LOS completos cuando se resuelve el cruce del horizonte.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 10) {
+                        ForEach(satellites.nextHour) { result in
+                            satelliteOpportunityRow(result)
+                            Divider()
+                        }
+                    }
+                }.frame(maxHeight: 330)
+                Text("Índice /100: elevación dentro de la ventana 0–50 + minutos útiles (hasta 10) 0–30 + actualidad orbital (hasta 7 días) 0–20. No es un porcentaje de éxito. Compatibilidad de antena/receptor, actividad, obstrucciones y ruido pendientes de evaluar; sin historial comparable para calibrarlo.")
+                    .font(.caption2).foregroundStyle(.secondary)
+            }.padding(6)
+        }
+    }
+
+    private func satelliteOpportunityRow(_ result: SatellitePassOpportunity) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text("\(result.satelliteName) · NORAD \(result.satelliteID)").font(.headline)
+                Spacer()
+                Text("Índice \(result.factors.score)/100").font(.subheadline.monospacedDigit()).help(result.factors.explanation)
+                Button("Ver pase y bajada") { satellites.showOpportunity(result) }
+            }
+            TimelineView(.periodic(from: .now, by: 30)) { context in
+                Text(result.pass.los <= context.date ? "Pase terminado; vuelve a buscar" : result.pass.aos <= context.date ? "En curso" : "Comienza en \(max(1, Int(ceil(result.pass.aos.timeIntervalSince(context.date) / 60)))) min")
+                    .font(.caption).foregroundStyle(result.pass.los <= context.date ? Color.secondary : Color.orange)
+            }
+            Text("AOS \(result.pass.aos.formatted(date: .omitted, time: .shortened)) · máximo \(result.pass.maximumElevation, specifier: "%.1f")° a \(result.pass.maximumAt.formatted(date: .omitted, time: .shortened)) · LOS \(result.pass.los.formatted(date: .omitted, time: .shortened)) · \(Int(result.factors.usefulSeconds / 60)) min dentro de la ventana")
+                .font(.caption.monospacedDigit())
+            Text(result.downlinks.map { "\($0.label) · \($0.mode)" }.joined(separator: " | ").nilIfEmpty ?? "Sin bajada publicada; compatibilidad desconocida")
+                .font(.caption).textSelection(.enabled)
+            Text("Elevación en la ventana \(result.factors.elevationInWindow, specifier: "%.1f")° · época orbital hace \(result.factors.orbitAgeDays, specifier: "%.1f") días · \(result.report.map { "AMSAT: \($0.report), \($0.reportedAt.formatted(date: .abbreviated, time: .shortened))" } ?? "Sin reporte AMSAT reciente") · estado por transmisor sin verificar")
+                .font(.caption2).foregroundStyle(.secondary)
+        }
+    }
+
+    private func satelliteDownlinkSelector(_ satellite: AmateurSatellite) -> some View {
+        GroupBox("Preparar la bajada seleccionada") {
+            VStack(alignment: .leading, spacing: 8) {
+                if satellite.downlinks.isEmpty {
+                    Text("No hay una frecuencia numérica de bajada en el catálogo. El mapa no usará una frecuencia de ejemplo para calcular Doppler.")
+                        .font(.caption).foregroundStyle(.secondary)
+                } else {
+                    Picker("Transmisor / baliza", selection: Binding(get: { satellites.selectedDownlink?.id }, set: { satellites.selectedDownlinkID = $0 })) {
+                        ForEach(satellite.downlinks) { link in Text("\(link.label) · \(link.mode)").tag(Optional(link.id)) }
+                    }
+                    if let link = satellites.selectedDownlink {
+                        if link.isPassband {
+                            Text("Rango de transpondedor: el Doppler usa el centro \(link.nominalMHz, specifier: "%.6f") MHz como referencia. Elige la señal concreta dentro del rango en tu SDR.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                        if let decoder = satelliteDecoder(link) {
+                            Button("Preparar recepción · \(decoder.title)") { prepareSatellite(link, decoder: decoder) }
+                        } else {
+                            Text("Modo publicado sin un decodificador de audio equivalente confirmado. Usa la frecuencia y el modo indicados para preparar tu SDR manualmente.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }.frame(maxWidth: .infinity, alignment: .leading).padding(6)
+        }
+    }
+
+    private func satelliteDecoder(_ link: SatelliteDownlink) -> RadioMode? {
+        let mode = link.mode.uppercased()
+        if mode.contains("SSTV") { return .sstv }
+        if mode.contains("1K2") && (mode.contains("AFSK") || mode.contains("APRS")) { return .packet }
+        if mode.contains("FT8") { return .ft8 }
+        if mode.contains("FT4") { return .ft4 }
+        if mode == "CW" { return .morse }
+        if mode.contains("D-STAR") { return .digitalVoice }
+        return nil
+    }
+
+    private func prepareSatellite(_ link: SatelliteDownlink, decoder: RadioMode) {
+        receiver.select(decoder)
+        if decoder == .sstv || decoder == .packet {
+            receiver.rfModulation = link.nominalMHz >= 30 ? .fm : .usb
+            receiver.rfBandwidth = link.nominalMHz >= 30 ? 12_500 : 3_000
+        }
+        if decoder == .digitalVoice {
+            receiver.settings.digitalVoiceProtocol = .dstar
+            let profile = decoder.receptionProfile(settings: receiver.settings)
+            receiver.rfModulation = profile.modulation; receiver.rfBandwidth = profile.rfBandwidth
+        }
+        receiver.detail = String(format: "Sintoniza manualmente %.6f MHz · %@ · filtro %.0f Hz. %@ · %@. La frecuencia de catálogo no garantiza actividad.",
+            link.nominalMHz, receiver.rfModulation.rawValue, receiver.rfBandwidth, satellites.selected?.name ?? "Satélite", link.mode)
     }
 
     private func openTerrain(for repeater: VHFRepeater) {

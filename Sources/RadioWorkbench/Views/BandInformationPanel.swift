@@ -49,7 +49,7 @@ struct BandInformationPanel: View {
                         if !store.bandChanges.isEmpty, let time = store.bandChangesAt {
                             VStack(alignment: .leading, spacing: 3) {
                                 Label("Últimos cambios · \(time.formatted(date: .omitted, time: .shortened))", systemImage: "bell.badge").font(.caption.weight(.semibold))
-                                ForEach(store.bandChanges, id: \.self) { Text($0).font(.caption) }
+                                ForEach(store.bandChanges, id: \.self) { Text(AppLocalization.text($0)).font(.caption) }
                             }.foregroundStyle(.orange)
                         }
                         Text("Estados orientativos de N0NBH/HamQSL, como los mostrados por W5MMW. Son una perspectiva general por día/noche; la predicción de tu enlace depende de ubicación, rumbo, potencia, antenas y ruido.").font(.caption).foregroundStyle(.secondary)
@@ -78,7 +78,7 @@ struct BandInformationPanel: View {
     private func badge(_ condition: BandCondition, fresh: Bool, active: Bool) -> some View {
         let vivid: Color = switch condition { case .good: .green; case .fair: .orange; case .poor: .red }
         let color: Color = fresh ? vivid : .secondary
-        return Label(condition.title, systemImage: condition == .good ? "checkmark.circle.fill" : condition == .fair ? "minus.circle.fill" : "xmark.circle.fill")
+        return Label(AppLocalization.text(condition.title), systemImage: condition == .good ? "checkmark.circle.fill" : condition == .fair ? "minus.circle.fill" : "xmark.circle.fill")
             .font(.callout.weight(active ? .semibold : .regular)).foregroundStyle(color)
             .padding(.vertical, 3).padding(.horizontal, 8).background(color.opacity(active ? 0.14 : 0.06), in: RoundedRectangle(cornerRadius: 6))
     }

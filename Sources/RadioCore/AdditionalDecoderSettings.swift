@@ -22,6 +22,14 @@ public enum PagerRate: String, CaseIterable, Codable, Sendable, Identifiable {
         case .bps512: ["POCSAG512"]; case .bps1200: ["POCSAG1200"]; case .bps2400: ["POCSAG2400"] }
     }
 }
+public enum DGPSRate: String, CaseIterable, Codable, Sendable, Identifiable {
+    case automatic, bps100, bps200
+    public var id: String { rawValue }
+    public var bitRate: Int? {
+        switch self { case .automatic: nil; case .bps100: 100; case .bps200: 200 }
+    }
+    public var title: String { bitRate.map { "\($0) bit/s" } ?? "Auto · 100/200 bit/s" }
+}
 public enum FiveToneStandard: String, CaseIterable, Codable, Sendable, Identifiable {
     case zvei1 = "ZVEI1", zvei2 = "ZVEI2", zvei3 = "ZVEI3", pzvei = "PZVEI", dzvei = "DZVEI", eea = "EEA", eia = "EIA", ccir = "CCIR"
     public var id: String { rawValue }

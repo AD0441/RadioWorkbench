@@ -14,7 +14,7 @@ struct TCPAudioControls: View {
                 TextField("Puerto", value: $receiver.networkPCM.port, format: .number.grouping(.never))
                     .textFieldStyle(.roundedBorder).frame(width: 85)
                 Picker("Formato", selection: $receiver.networkPCM.format) {
-                    ForEach(NetworkPCMSampleFormat.allCases) { Text($0.title).tag($0) }
+                    ForEach(NetworkPCMSampleFormat.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                 }.frame(width: 270)
             }
             HStack {
@@ -25,7 +25,7 @@ struct TCPAudioControls: View {
                 Text("PCM crudo, canales intercalados, sin cabecera WAV").foregroundStyle(.secondary)
             }
             Text("Pulsa Escuchar para conectar. No se detecta el formato automáticamente ni se reconecta al cerrar. La tasa y los canales deben coincidir con Brown.").foregroundStyle(.secondary)
-            if !receiver.networkNotice.isEmpty { Text(receiver.networkNotice).textSelection(.enabled) }
+            if !receiver.networkNotice.isEmpty { Text(AppLocalization.text(receiver.networkNotice)).textSelection(.enabled) }
             if receiver.live {
                 let state = receiver.tcpInput.snapshot
                 Text("\(state.bytesReceived) bytes · \(state.framesDecoded) cuadros PCM · \(state.droppedSamples) muestras descartadas por el búfer local")

@@ -16,7 +16,7 @@ struct IonosondePanel: View {
     var body: some View {
         GroupBox("Ionosondas cercanas · observación regional") {
             VStack(alignment: .leading, spacing: 8) {
-                Text(status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let location, let snapshot {
                     let nearby = snapshot.nearest(to: location, limit: 5)
                     if nearby.isEmpty {
@@ -28,7 +28,7 @@ struct IonosondePanel: View {
                             TableColumn("Distancia") { item in Text("\(item.distanceKm, specifier: "%.0f") km").monospacedDigit() }.width(85)
                             TableColumn("foF2") { item in Text(item.observation.fof2MHz.map { "\($0, specifier: "%.1f") MHz" } ?? "—") }.width(80)
                             TableColumn("MUF · 3000 km") { item in Text(item.observation.muf3000MHz.map { "\($0, specifier: "%.1f") MHz" } ?? "—") }.width(115)
-                            TableColumn("Confianza") { item in Text(confidence(item.observation.confidence)) }.width(105)
+                            TableColumn("Confianza") { item in Text(AppLocalization.text(confidence(item.observation.confidence))) }.width(105)
                             TableColumn("Observación UTC") { item in Text(item.observation.observedAt.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: TimeZone(secondsFromGMT: 0)!))) }.width(155)
                         }.frame(minHeight: 110, maxHeight: 220)
                         if let nearest = nearby.first, nearest.1 > 3_000 {

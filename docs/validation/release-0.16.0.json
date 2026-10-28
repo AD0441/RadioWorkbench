@@ -1,0 +1,161 @@
+{
+  "version": "0.16.0",
+  "build": 32,
+  "date": "2026-10-25",
+  "tests": {
+    "registered": 292,
+    "passed": 286,
+    "skipped": 6,
+    "failures": 0,
+    "seconds": 7.449,
+    "hfCChecks": 21,
+    "hfCFailures": 0,
+    "physicalReceptionRepeated": false,
+    "skippedNames": [
+      "terrainRealSantiagoBenchmark",
+      "satelliteLiveDownloadFromOfficialProviders",
+      "liveVisualizationBenchmark",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF",
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF"
+    ],
+    "finalLocalizationRegressions": {
+      "passed": 2,
+      "failures": 0,
+      "seconds": 0.044,
+      "reason": "One missing profile-notice translation found during UI review; application code unchanged after full suite."
+    }
+  },
+  "localization": {
+    "languages": [
+      "es",
+      "en"
+    ],
+    "reviewedTranslations": 1669,
+    "nativeCatalogsMatch": true,
+    "receivedPayloadsTranslated": false
+  },
+  "archive": {
+    "name": "RadioWorkbench-0.16.0-macos-arm64.zip",
+    "bytes": 192950106,
+    "sha256": "ac94d16e3204075eec9bcad93decf5a8ffd75f2a9d8ff1f15d560416c33488a7",
+    "zipIntegrity": true,
+    "strictNestedSignature": true,
+    "macho": [
+      {
+        "path": "Contents/MacOS/mt63-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/dsc-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libp372.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/propagation-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/multimon-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/RadioWorkbench",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libitm.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/ale-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/itm-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/ftx-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libp533.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/acars-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/cw-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer",
+        "architectures": "x86_64 arm64"
+      }
+    ],
+    "identicalFixtureWAVs": 78,
+    "temporaryHomebrewTestingDependencies": false,
+    "developerID": false,
+    "notarized": false
+  },
+  "installation": {
+    "path": "/Applications/RadioWorkbench.app",
+    "strictSignature": true,
+    "allRegularFilesMatchVerifiedArchive": true,
+    "existingDataFilesUnchangedDuringCopy": 2257,
+    "existingPreferencesUnchangedDuringCopy": true,
+    "captureOrPlaybackStarted": false
+  },
+  "interface": {
+    "settingsVersionObserved": "0.16.0",
+    "sixSettingsSectionsObserved": true,
+    "spanishToEnglishAndBackObserved": true,
+    "appearanceScreenshotReviewed": true,
+    "returnedToSpanish": true,
+    "microphoneOrPlaybackStarted": false,
+    "finalProfileNoticeFix": "covered by final catalog/placeholder regression; screen-control pipe failed during final relaunch",
+    "allDecoderScreensReviewedInBothLanguages": false
+  },
+  "updates": {
+    "sparkleVersion": "2.10.0",
+    "feedURL": "https://raw.githubusercontent.com/AD0441/RadioWorkbench/updates/docs/updates/appcast.xml",
+    "localFeedSignatureVerified": true,
+    "endToEndSparkleInstallationTested": false,
+    "privateKeyInArchiveOrGit": false,
+    "publicArchiveDownloaded": true,
+    "publicArchiveSHA256Matches": true,
+    "publicArchiveSignatureVerified": true,
+    "publicFeedBytesMatchSignedSource": true,
+    "publicFeedSignatureVerified": true,
+    "alteredFeedRejected": true,
+    "releaseURL": "https://github.com/AD0441/RadioWorkbench/releases/tag/v0.16.0",
+    "releaseSourceCommit": "35253a3b976345678d28d88a9c8b20e765ac551e"
+  },
+  "retainedDeliveries": [
+    "RadioWorkbench-0.16.0.app",
+    "RadioWorkbench-0.16.0-macos-arm64.zip",
+    "RadioWorkbench-0.15.0-macos-arm64.zip"
+  ]
+}

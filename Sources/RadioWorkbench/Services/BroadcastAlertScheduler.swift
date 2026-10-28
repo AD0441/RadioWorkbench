@@ -20,7 +20,7 @@ import UserNotifications
         }.sorted { $0.1 < $1.1 }.prefix(60)
         for (entry, fireDate) in events {
             let content = UNMutableNotificationContent()
-            content.title = "Emisión favorita próxima"
+            content.title = AppLocalization.text("Emisión favorita próxima")
             content.body = "\(entry.station) · \(entry.frequencyKHz.formatted(.number.precision(.fractionLength(0...2)))) kHz · inicio \(entry.time.prefix(4)) UTC"
             content.sound = .default
             content.userInfo = ["entryID": entry.id]

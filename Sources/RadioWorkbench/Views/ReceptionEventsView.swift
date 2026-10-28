@@ -21,8 +21,8 @@ struct ReceptionEventsView: View {
                     Button("Exportar visibles…") { store.export() }.disabled(store.visible.isEmpty || store.busy)
                     if store.busy { ProgressView().controlSize(.small) }
                 }
-                Text(store.status).font(.caption).foregroundStyle(.secondary)
-                if let error = store.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+                Text(AppLocalization.text(store.status)).font(.caption).foregroundStyle(.secondary)
+                if let error = store.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
                 if showMap {
                     TimelineView(.periodic(from: Date(), by: 30)) { context in
                         VStack(alignment: .leading) {

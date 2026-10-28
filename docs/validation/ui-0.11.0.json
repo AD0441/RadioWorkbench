@@ -3,6 +3,12 @@
   "date": "2026-10-18",
   "status": "partial",
   "mac_unlocked_by_user": true,
+  "subsequent_user_verification": {
+    "date": "2026-10-18",
+    "action": "Enviar al Planificador HF from BBC at 9410 kHz",
+    "confirmed_result": "BBC, 9.410 MHz, direction Escucha",
+    "evidence": "Direct user confirmation after the screen-control tool failed; not an automated visual observation."
+  },
   "observed": [
     "The 0.11.0 window opened with Library, reception map, LRPT, Rigctl, external events and signal workshop in the sidebar.",
     "The input selector offered audio device and local TCP audio.",
@@ -11,7 +17,7 @@
     "The input quality disclosure opened and showed that a file or explicitly started input is required for measurements."
   ],
   "not_verified_in_ui": [
-    "Guide selection and transfer to HF planner",
+    "HF selected-station reuse button and interactive calculation; direct transfer was subsequently confirmed by the user",
     "DSC example decoding in the final 0.11.0 UI",
     "Interactive library, maps, LRPT, Rigctl, event import and workshop flows"
   ],

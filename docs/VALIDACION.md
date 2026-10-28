@@ -1,3 +1,194 @@
+# RAZIEL 0.17.0 · estabilización
+
+La revisión aplicó las skills de SwiftUI, Swift Testing, Swift moderno, Apple Silicon, diseño de Emil Kowalski, Impeccable y calidad de RadioWorkbench. La identidad elegida es RAZIEL, con icono monocromo siguiendo la familia de METATRON. La redacción sencilla de README/BRAND se delegó explícitamente a un modelo ligero; el código y la verificación técnica permanecieron en el modelo principal.
+
+**Suite Release: 297 funciones registradas, 289 aprobadas, ocho opcionales omitidas, cero fallos**, 9,396 s tras compilar; además, 21 controles C HF. Se omiten tres funciones con corpus DMR temporal, dos de red real, dos integraciones con DSD externo no configurado en esta ejecución y el benchmark visual opcional. No hubo recepción física. Las cinco funciones nuevas cubren tasas inválidas, probabilidades ausentes, idioma/UTC, preferencias heredadas y tablas Kp incompletas. La suite precedió al ajuste final de vistas, pie e idioma; el núcleo no cambió después. Se repitieron dos regresiones de localización sobre los recursos finales: ambas aprobadas en 0,045 s usando el runner del proyecto y arquitectura arm64.
+
+| Antes | Después | Motivo |
+|---|---|---|
+| Nombre genérico y pie diferente | RAZIEL, símbolo, Ajustes y crédito en el pie izquierdo | Coherencia con METATRON |
+| Una sola apariencia de acento | Grafito, Petróleo, Bosque y Ámbar | Elección persistente y compatible |
+| Fecha NOAA fijada a español | Idioma activo con fecha UTC | Consistencia ES/EN |
+| Datos incompletos como cero | Desconocidos y validación de porcentajes | Evitar conclusiones falsas |
+| Tasas inválidas alcanzaban conversión a entero | Espectro vacío seguro | Evitar cierres por metadatos inválidos |
+
+Se observó RAZIEL en ejecución desde el proyecto: el pie izquierdo, su botón Ajustes, crédito, General en ambos idiomas, enlace Ko-fi (sin abrirlo), las cuatro opciones y el acento Petróleo. Se volvió a Grafito y se confirmó el pie en español. No se recorrieron todas las pantallas en ambos idiomas ni todos los sistemas macOS admitidos.
+
+El ZIP final pasa integridad y firma estricta: 18 Mach-O con arm64, sin dependencias temporales/Homebrew/Testing, 78 WAV idénticos a fixtures, icono ICNS y catálogos ES/EN incluidos. SHA-256 y tamaño en el resumen. Firma ad hoc; sin Developer ID ni notarización.
+
+El microbenchmark del espectro conservó el mismo checksum: mediana 13,29 → 12,71 µs en 5.000 análisis de 2.048 muestras/48 kHz. La diferencia pequeña no demuestra una mejora global. El raster incremental de referencia mide 5,92 µs de mediana para 256×80. No son FPS de pantalla, latencia RF ni consumo de batería; no se utilizó Instruments porque xctrace no está disponible. Los acentos calculados superan 5,9:1 en blanco y 9,4:1 en la superficie oscura ensayada.
+
+**Instalación:** se copió el paquete verificado a `/Applications/RAZIEL.app`, conservando el identificador anterior y comprobando igualdad de archivos, firma y contenido de datos/preferencias durante la copia. El número de archivos conservados está en el resumen. La limitación temporal de revisión de permisos se resolvió antes de la instalación; no se eludió el control. La comprobación de publicación y descarga se registra después de subir el artefacto. No se ha ensayado una actualización completa entre versiones a través de Sparkle.
+
+[Resumen único](validation/release-0.17.0.json) · [Notas ES/EN](RELEASE-0.17.0.md) · [Identidad](BRAND.md).
+
+# Validación de RadioWorkbench 0.16.0
+
+Suite Release arm64: **292 funciones registradas, 286 aprobadas, seis opcionales omitidas y cero fallos**, 7,449 s después de compilar, más **21 controles C HF**. Las omisiones corresponden al corpus DMR temporal independiente, dos pruebas de red real y el benchmark visual opcional. No se repitió recepción física.
+
+Los controles nuevos cubren preferencias aisladas, límites y nombres, recuperación sin autoarranque de entrada/Rigctl, perfiles locales, conservación de variables de traducción, tipos de formato de catálogos nativos, política manual de guía sin solicitudes automáticas, límite de FFT sin alterar el pico de la señal, paletas/historial, copias de biblioteca, rechazo de enlaces, rollback y respaldo ZIP recuperable. Se corrigió un cálculo de ruta al cruzar el alias temporal `/var`/`/private/var` y una clave de catálogo de canal detectados por las pruebas.
+
+**Interfaz observada:** versión 0.16.0 y seis apartados de Ajustes; cambio Español → English → Español, controles de audio, tema/waterfall, biblioteca/respaldo, datos/avisos y conexiones/motores. La vista de apariencia se inspeccionó también en captura. La revisión encontró un aviso de perfil sin traducir; se añadió al catálogo y pasaron dos regresiones finales de localización en 0,044 s. Después falló la conexión de la herramienta de pantalla al intentar volver a abrir el paquete final; esa corrección concreta no se presenta como observada de nuevo. No se recorrieron todos los decodificadores en ambos idiomas ni se inició audio.
+
+Paquete definitivo **0.16.0/build 32**: integridad ZIP y firma estricta correctas; **18 objetos Mach-O con arm64**, sin enlaces temporales/Homebrew/Testing, y **78 WAV idénticos** a fixtures. Catálogo de **1.669 traducciones**, archivos nativos es/en coincidentes y recursos incluidos. El cambio final fue únicamente de recursos; se conservaron los ejecutables compilados y probados, se volvió a firmar el bundle y se repitió la verificación completa del ZIP. SHA-256: `ac94d16e3204075eec9bcad93decf5a8ffd75f2a9d8ff1f15d560416c33488a7`.
+
+Se reemplazó `/Applications/RadioWorkbench.app`: 244 archivos regulares coinciden con el paquete probado; **2.257 archivos de datos existentes y las preferencias conservaron su contenido durante la copia**. Los cambios de idioma de la comprobación visual son acciones posteriores de la app. Los respaldos/reubicación se ensayaron con datos de prueba, sin trasladar la biblioteca personal.
+
+El paquete y el canal Sparkle usan firmas Ed25519 separadas; la firma de la aplicación sigue siendo ad hoc, sin Developer ID ni notarización. No se declara probada una instalación completa mediante Sparkle entre dos publicaciones. La clave privada permanece fuera de Git y del bundle. Se descargaron el ZIP público y el XML desde sus URL de distribución: coinciden con los originales, pasan ambas firmas y se rechazó un XML alterado. La publicación preliminar v0.16.0 apunta al commit `35253a3b976345678d28d88a9c8b20e765ac551e`; el README de `main` enlaza esa descarga y el código continúa en el PR #2 abierto. Se conservan la app/ZIP actuales y el ZIP anterior 0.15.0; se retiran cachés y extracciones temporales. [Resumen único](validation/release-0.16.0.json).
+
+README y notas de entrega bilingües, Ko-fi actualizado, agradecimiento a G4ZJH y [textos para compartir ES/EN](SOCIAL-0.16.0.md). [Uso, respaldo y límites](RELEASE-0.16.0.md).
+
+# Validación de RadioWorkbench 0.15.0
+
+Suite Release arm64: **281 funciones registradas, 275 aprobadas, seis opcionales omitidas y cero fallos**, 7,942 s tras compilar. Pasaron además **21 controles C HF**. Las omisiones siguen siendo tres contrastes DMR con corpus temporal independiente, dos pruebas de red real y el benchmark visual opcional; no se repitió recepción física.
+
+Las pruebas nuevas verifican importación/exportación SigMF sin alterar el original, conservación de anotaciones y muestras, papelera/restauración, SHA-512 y rollback al fallar, rechazo de enlaces y diseños no admitidos, índice corrupto preservado y preparación SatDump sin iniciar proceso. La comparación A/B sobre el mismo AX.25 recupera una trama con el centro correcto y ninguna con el incorrecto; también cubre cancelación y modos excluidos. La configuración de actualización rechaza HTTP, credenciales en URL y claves inválidas.
+
+El canal inicial Sparkle 2.10.0 está publicado por HTTPS en la rama `updates`. Se descargó, comparó con el original y verificó su firma; una copia alterada fue rechazada. El canal no ofrece paquetes y no se presenta como validada una actualización entre dos versiones publicadas. La clave privada permanece fuera de Git y del bundle.
+
+ZIP 0.15.0/build 31 extraído: integridad y firma estricta correctas, **18 objetos Mach-O con arm64** (13 propios arm64 y cinco componentes universales de Sparkle), sin dependencias del checkout/Homebrew/Testing ni rutas del compilador; **78 WAV idénticos** a los fixtures. SHA-256: `a3da7731ecc7cf7fd6e7f7b4cdfbf27b0174e5202b0cc68b25fd0c23eb49d8c6`.
+
+Se sustituyó `/Applications/RadioWorkbench.app` y se compararon los archivos con el paquete verificado. **2.258 archivos existentes de datos y preferencias conservaron su contenido durante la copia**. Se conserva la entrega actual y el ZIP previo 0.14.0.
+
+**Interfaz parcial:** se observó la app instalada, el paso de fuente/perfil del asistente, la biblioteca de audio y la sección SigMF. Al abrir el taller se cerró la conexión de la herramienta de pantalla; reconectar y reiniciar su sesión no la recuperó. RadioWorkbench siguió activa y no apareció un informe nuevo de cierre. No se observaron el resultado A/B ni el diálogo Sparkle; no se inició micrófono ni reproducción. Sus pruebas de código no sustituyen esa comprobación visual pendiente.
+
+El README principal contiene español e inglés, el botón Ko-fi y el agradecimiento solicitado a G4ZJH. La traducción completa de la interfaz continúa pendiente. Las tres skills instaladas pasaron la validación de estructura y se retiró una copia anidada duplicada de Swift Testing Pro.
+
+[Resumen único](validation/release-0.15.0.json) · [Uso y límites](RELEASE-0.15.0.md).
+
+# Validación de RadioWorkbench 0.14.0
+
+Suite Release arm64: **273 funciones registradas, 267 aprobadas, seis opcionales
+omitidas y cero fallos**, 7,802 s después de compilar; además, 21 controles C HF.
+Las omisiones corresponden al corpus temporal DMR independiente, red real de
+satélites/terreno y benchmark visual opcional. No se repitió recepción física.
+
+SITOR-A y DGPS pasan por el worker normal de WAV, entrada abierta y selección
+de canal estéreo a 48 kHz. SITOR-A verifica cadencia, retorno, retransmisiones,
+alfabeto, ruido y rechazos. DGPS recupera 131 tramas del vector GPSD independiente
+con ambas polaridades y contrasta sus correcciones; audio sintético a
+8/44,1/48/96 kHz y WAV con ruido/deriva/paridad dañada. FLEX verifica cuatro
+variantes, fases, polaridad, corrección/rechazo, JSON y publicación antes de EOF.
+Los generadores, manifiestos y licencias están junto a las pruebas.
+
+La suite detectó y permitió corregir la retención del último texto cuando una
+entrada abierta pausa el audio antes del siguiente refresco. También cubre la
+frecuencia de audio residual en modos de discriminador, regreso a NXDN48,
+conservación de fase/retardo del FIR vectorizado, muestras no finitas, copia
+atómica de grabaciones y cierre del proceso propio si ignora SIGTERM. Se
+conservan las regresiones CW, imágenes/SSTV, HF, terreno, biblioteca y TCP.
+
+El ZIP 0.14.0/build 30 extraído pasó integridad y firma estricta: **13 objetos
+Mach-O arm64**, sin enlaces al checkout/Homebrew/Testing, y **78 WAV idénticos** a
+los fixtures. SHA-256: `8af1234af3d92a4a3b2657b7ef870e5c1a6579cc6ac02cfeeb09abcea5e9fb99`.
+Se sustituyó `/Applications/RadioWorkbench.app`, verificando hashes y firma;
+367 archivos existentes de preferencias/datos conservaron su contenido durante
+la copia. Se conserva el ZIP anterior 0.13.0 junto a la entrega actual; se retiraron la caché de compilación y las extracciones temporales.
+
+**Interfaz pendiente:** el Mac estaba bloqueado en ambas comprobaciones; no se
+presenta como observada la ejecución visual de los nuevos modos. No se inició
+micrófono, reproducción, SDR ni sintonía. SITOR-A/FLEX necesitan una grabación
+RF independiente y DGPS no se ha probado con una baliza real. LORAN-C y Globe
+Wireless siguen deshabilitados.
+
+[Resumen único de entrega](validation/release-0.14.0.json) · [Uso y fuentes](RELEASE-0.14.0.md).
+
+# Validación de RadioWorkbench 0.13.0
+
+Suite Release arm64: **240 funciones registradas, 234 aprobadas y seis opcionales
+omitidas, cero fallos**, 7,795 s después de compilar. Pasaron además 21 controles C
+HF. Las omisiones son tres pruebas con corpus DMR independiente temporal, dos
+pruebas con red (satélites/terreno) y el benchmark visual optativo. No se repitió
+la evaluación de voz DMR independiente de 0.12 ni la recepción física.
+
+La ampliación comprueba migración del índice v1 con copia única del original y
+conservación del audio/SHA, anotaciones sin audio, actualizaciones inválidas,
+papelera, filtros de medianoche y zona horaria, geodésicas por el Pacífico,
+parámetros separados RX/TX y enlace bilateral, copia del regreso y utilitarias
+sin ancho conocido. También prueba límites AOS/LOS, Doppler/bajadas publicadas,
+reportes vencidos offline, perfiles de voz por protocolo, las 74 referencias y
+sus ajustes, espectrograma acotado, canal/fase, cancelación y números extremos.
+Se conservan las regresiones CW, SSTV, POCSAG, TCP, Rigctl, ITM y grafo de voz offline.
+
+El paquete ZIP extraído pasó firma estricta y 13 objetos Mach-O arm64; sus 75
+WAV coinciden con los fixtures del proyecto. El 25 de octubre se instaló en
+`/Applications/RadioWorkbench.app` (0.13.0/build 29), con verificación de firma y
+hashes y sin alterar las preferencias/recepciones existentes antes de abrir.
+Se observó la app instalada, SSTV con inspector, la guía, la ficha BBC 9410 kHz
+y el formulario de escucha con audio opcional; se canceló sin guardar.
+
+Al abrir HF falló la conexión de Sky Computer Use; RadioWorkbench continuó activa.
+El recorrido visual de HF, DMR, pases y taller/mapa queda parcial. EiBi conservó
+A26 tras un error de actualización, con aviso de temporada visible; HFCC B26 sí
+estaba disponible. No se iniciaron micrófono, SDR ni reproducción. Se conservaron
+solo la entrega actual y el ZIP anterior y se retiró la caché temporal de compilación.
+
+[Resumen de entrega](validation/release-0.13.0.json) · [Uso y límites](RELEASE-0.13.0.md).
+
+# Validación de RadioWorkbench 0.12.1
+
+Suite Release arm64: **218 funciones registradas, 216 aprobadas, dos opcionales
+omitidas y cero fallos**, 14,531 s una vez compilada. Se habilitó la medición de
+entrada sintética; las omisiones siguen siendo satélites y terreno con red.
+Se conservan las comprobaciones DMR independientes y del grafo de salida offline.
+
+La regresión visual verifica historial de 2048 muestras con paquetes pequeños,
+sondeos vacíos, pausas/reinicio, límite de frecuencia, cola con el cuadro más
+reciente, rechazo de una sesión anterior, colores/orden del raster y snapshots
+inmutables. La comparación aislada de entrada DMR sintética a velocidad real
+pasó de 10 a 59 cuadros en 3,072 s (3,26 → 19,21 actualizaciones/s), sin pérdida
+de muestras. El raster pasó de 104 a 4,7 µs de media. No mide FPS de pantalla,
+latencia RF a voz ni la recepción física del usuario. La captura del proceso
+existente estaba inactiva y no se usa como perfil de carga en vivo.
+
+[Suite](validation/release-0.12.1-tests.txt) ·
+[Resumen](validation/tests-0.12.1-summary.json) ·
+[Mediciones y reproducción](RELEASE-0.12.1.md).
+
+El ZIP 0.12.1/build 28 extraído pasó integridad y firma estricta; los 13 binarios
+son arm64, sin dependencias del checkout o Homebrew. La app se abrió por separado
+en CW; tras desplazar la barra lateral, captura y lectura de interfaz fallaron
+por timeout. Su proceso continuó activo. La presentación del waterfall con la
+entrada real sigue pendiente. [Paquete](validation/package-0.12.1.json) ·
+[Revisión visual parcial](validation/ui-0.12.1.json).
+
+# Validación de RadioWorkbench 0.12.0
+
+Suite Release arm64: **212 funciones registradas, 210 aprobadas, dos opcionales
+omitidas y cero fallos**, 13,572 s una vez compilada. Esta pasada sí incluye el
+runtime oficial DSD-neo y el corpus independiente DMR; se omiten descarga de
+satélites en vivo y benchmark de terreno en red. Se conservan los casos HF,
+relieve, biblioteca, DSC, imágenes, TCP y Rigctl de la versión anterior.
+
+DMR verifica PCM estéreo fragmentado, perfiles anteriores, máscara de síntesis
+TS1/TS2, parser con ANSI y errores, voz antes de EOF, cierre de entrada y WAV,
+cancelación sin EOF y cierre forzado de un proceso propio que ignora SIGTERM.
+El grafo AVAudioEngine se renderiza offline y se comprueba su límite de audio
+pendiente sin usar altavoces ni micrófono. Se corrigió una espera repetida al
+finalizar el motor y la espera del cierre queda fuera de la interfaz.
+
+El corpus externo confirma TS1, emisor 3025209, destino 9990 y llamada privada.
+CC7 es una observación del motor, sin oráculo independiente para ese campo.
+No se verificaron dos conversaciones simultáneas ni calidad perceptual. El
+audio externo se mantiene temporalmente y no se incluye en Git o en el paquete.
+
+Guía → HF: selección, ficha y botón de envío observados en 0.11; el usuario
+confirmó posteriormente BBC, 9,410 MHz y dirección Escucha. Esta confirmación
+es del usuario y no una captura de pantalla automatizada. La revisión visual
+de los otros flujos se registra por separado, sin sustituirla por los tests.
+
+[Suite completa](validation/release-0.12.0-tests.txt) ·
+[Resumen](validation/tests-0.12.0-summary.json) ·
+[Contrato independiente](validation/dmr-0.12-contract.md) · [Uso DMR](DMR-0.12.md).
+
+El paquete 0.12.0/build 27 extraído pasó integridad ZIP y firma ad hoc estricta;
+sus ejecutables son arm64, sin dependencias Homebrew o del checkout. La nueva
+app abrió en CW. SkyComputerUseService volvió a cerrarse al intentar cambiar
+a DSC y al reconectar; RadioWorkbench permaneció activa, sin un nuevo informe
+de cierre. El panel DMR y los otros flujos no se presentan como observados en
+la interfaz por esta pasada. [Verificación de paquete](validation/package-0.12.0.json) ·
+[Límite de revisión visual](validation/ui-0.12.0.json).
+
 # Validación de RadioWorkbench 0.11.0
 
 Suite Release arm64: **202 funciones registradas, 198 aprobadas y cuatro opcionales omitidas**, cero fallos, 7,438 s una vez compilada. Las omisiones son dos pruebas que requieren el runtime DSD instalado, descarga satelital en vivo y el benchmark de terreno en red. No se inició micrófono, SDR++ ni sintonía del receptor físico.

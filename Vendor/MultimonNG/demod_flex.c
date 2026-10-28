@@ -323,6 +323,13 @@ static int bch3121_fix_errors(struct Flex * flex, uint32_t * data_to_fix, char P
 
   /*Decode successful?*/
   if (result >= 0) {
+    /* The transmitted FLEX word has overall even parity in bit 31. A BCH
+     * repair of two bits plus bad overall parity needs at least three repairs,
+     * exceeding this decoder's bounded two-bit correction contract. */
+    if (result == 2 && (count_bits(flex, data | (*data_to_fix & 0x80000000u)) & 1)) {
+      verbprintf(3, "FLEX: Extended parity exceeds two-bit correction limit\n");
+      return 1;
+    }
     /*Count the number of fixed errors*/
     if (result > 0) {
       verbprintf(3, "FLEX: Phase %c Fixed %i errors @ 0x%08x  (0x%08x -> 0x%08x)\n", PhaseNo, result, original ^ data, original, data );
@@ -704,6 +711,8 @@ static void parse_alphanumeric(struct Flex * flex, unsigned int * phaseptr, char
           verbprintf(0, "%s\n", pt_out);
         }
         else {
+            char fragment_buffer[2] = { frag_flag, '\0' };
+            cJSON_AddStringToObject(json_output, "fragment_flag", fragment_buffer);
             cJSON_AddStringToObject(json_output, "demod_name", "flex_alphanumeric");
             cJSON_AddStringToObject(json_output, "message", message);
             addJsonTimestamp(json_output);

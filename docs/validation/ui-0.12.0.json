@@ -1,0 +1,39 @@
+{
+  "version": "0.12.0",
+  "date": "2026-10-18",
+  "status": "partial",
+  "observed": [
+    "New 0.12.0 bundle opened to CW with input selector, sidebar destinations and toolbar visible."
+  ],
+  "user_confirmed_in_0_11": {
+    "action": "Enviar al Planificador HF from BBC at 9410 kHz",
+    "result": "BBC, 9.410 MHz, direction Escucha",
+    "evidence_type": "Direct human confirmation, not an automated screenshot"
+  },
+  "not_verified_in_ui": [
+    "DMR controls and panel in the packaged app",
+    "DSC example and library save/reopen flow",
+    "Maps and the remaining LRPT, Rigctl, external event and workshop flows"
+  ],
+  "blocker": {
+    "service": "SkyComputerUseService",
+    "error": "Sky Computer Use native pipe closed before response",
+    "action": "Changing to DSC; failed again when reconnecting to the app",
+    "reports": [
+      "SkyComputerUseService-2026-10-18-203524.ips",
+      "SkyComputerUseService-2026-10-18-203542.ips"
+    ],
+    "exception": "EXC_BREAKPOINT",
+    "application_process_alive_after_tool_failure": true,
+    "new_application_crash_report_found": false,
+    "additional_observation": "Repeated read-only inspection showed idle CW rather than the user-reported DMR window. Raising the window was rejected as stale state. No active-audio profile can be inferred from this inspection."
+  },
+  "microphone_started": false,
+  "physical_sdr_connection_started": false,
+  "speaker_playback_started": false,
+  "user_confirmed_in_0_12": {
+    "action": "Leave the application open in digital voice / DMR",
+    "result": "User confirmed it was open in DMR; then reported slow waterfall during live audio.",
+    "evidence_type": "Direct human confirmation; automated inspection continued to show an idle CW window."
+  }
+}

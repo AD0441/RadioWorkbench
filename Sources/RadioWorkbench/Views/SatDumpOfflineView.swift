@@ -11,8 +11,8 @@ struct SatDumpOfflineView: View {
                 HStack { Button("Elegir SatDump.app…") { store.chooseApplication() }.disabled(store.busy); Text(store.application?.lastPathComponent ?? "Sin aplicación") }
                 HStack { Button("Elegir I/Q…") { store.chooseInput() }.disabled(store.busy); Text(store.inputURL?.lastPathComponent ?? "Sin grabación") }
                 HStack {
-                    Picker("Señal", selection: $store.pipeline) { ForEach(LRPTPipeline.allCases) { Text($0.title).tag($0) } }.frame(width: 340).disabled(store.busy)
-                    Picker("Formato I/Q", selection: $store.format) { ForEach(IQSampleFormat.allCases) { Text($0.rawValue).tag($0) } }.frame(width: 190).disabled(store.busy)
+                    Picker("Señal", selection: $store.pipeline) { ForEach(LRPTPipeline.allCases) { Text(AppLocalization.text($0.title)).tag($0) } }.frame(width: 340).disabled(store.busy)
+                    Picker("Formato I/Q", selection: $store.format) { ForEach(IQSampleFormat.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) } }.frame(width: 190).disabled(store.busy)
                 }
                 HStack {
                     Text("Muestras/s")
@@ -30,8 +30,8 @@ struct SatDumpOfflineView: View {
                     if store.busy { ProgressView().controlSize(.small) }
                 }
                 if let value = store.stagePercent, store.busy { ProgressView("Etapa informada por SatDump: \(value.formatted(.number.precision(.fractionLength(1)))) %", value: value, total: 100) }
-                Text(store.status).textSelection(.enabled)
-                if let error = store.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+                Text(AppLocalization.text(store.status)).textSelection(.enabled)
+                if let error = store.error { Text(AppLocalization.text(error)).foregroundStyle(.red).textSelection(.enabled) }
                 if let result = store.result {
                     ForEach(Array(result.images.prefix(12)), id: \.path) { file in
                         if let image = NSImage(contentsOf: file) {

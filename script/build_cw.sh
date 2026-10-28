@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 RADIO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CW_BUILD="$RADIO_ROOT/.build/cw-engine"
+CW_BUILD="${RADIO_BUILD_PATH:-$RADIO_ROOT/.build}/cw-engine"
 export CLANG_MODULE_CACHE_PATH="$CW_BUILD/ModuleCache"
 export SWIFTPM_MODULECACHE_OVERRIDE="$CW_BUILD/ModuleCache"
 mkdir -p "$CW_BUILD/ModuleCache"

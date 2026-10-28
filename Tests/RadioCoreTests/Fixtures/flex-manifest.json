@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "license": "MIT",
+  "generatedLocally": true,
+  "noRFTransmission": true,
+  "description": "Synthetic discriminator PCM; independently constructed BCH polynomial division. Not an over-the-air corpus.",
+  "generator": "script/validation/flex_fixture.py",
+  "layoutReference": "https://github.com/EliasOenal/multimon-ng/blob/3d8e925782b389ec16e3d48dd8b6d94fbb132197/gen_flex.c",
+  "fixtures": [
+    {
+      "file": "flex_22050_mono_alpha.wav",
+      "sha256": "3c45963928d02893069ac363b7935b5909bcfd1d31cf988141c91074b0fcf2a1",
+      "sampleRate": 22050,
+      "channels": 1,
+      "frames": 99998,
+      "expectedCapcode": 1234567,
+      "expectedText": "CQ RADIOWORKBENCH FLEX TEST",
+      "kind": "alpha",
+      "symbolRate": 1600,
+      "levels": 2,
+      "cycle": 2,
+      "frame": 42,
+      "phase": "A"
+    },
+    {
+      "file": "flex_22050_mono_numeric.wav",
+      "sha256": "745064ebc9af948d7795781a9047adafb1ee1e4c8ea10dac5204ba2356f7f657",
+      "sampleRate": 22050,
+      "channels": 1,
+      "frames": 99998,
+      "expectedCapcode": 1234567,
+      "expectedText": "1234567890",
+      "kind": "numeric",
+      "symbolRate": 1600,
+      "levels": 2,
+      "cycle": 2,
+      "frame": 42,
+      "phase": "A"
+    }
+  ]
+}

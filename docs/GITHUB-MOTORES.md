@@ -1,5 +1,6 @@
 # Motores y complementos encontrados en GitHub
 
+> Estado 0.14.0: SITOR-A y DGPS tienen motores propios basados en normas; FLEX usa el multimon-ng incluido. Las comparaciones históricas no sustituyen las [pruebas y límites actuales](RELEASE-0.14.0.md).
 **Actualización 0.10.0:** se incorporan MT63 en seis variantes mediante el DSP de fldigi y ALE 2G mediante el decodificador standalone de KiwiSDR. [Uso, revisiones fijadas y límites](INTEGRATIONS-0.10.md). Se revisaron las cinco copias locales indicadas con REA: [hallazgos y mejoras propuestas](REVISION-APPS-0.10.md). Las tablas históricas de candidatos de abajo no sustituyen el estado de la integración actual.
 
 **Actualización 0.9.0:** SatelliteKit, ft8_lib, CWKit y libacars están integrados; DSD-neo dispone de descarga oficial verificada y recepción PCM. Requisitos, validación y límites en [INTEGRATIONS-0.9.md](INTEGRATIONS-0.9.md). La investigación histórica de otros motores se conserva abajo.

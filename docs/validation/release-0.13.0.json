@@ -1,0 +1,269 @@
+{
+  "version": "0.13.0",
+  "build": "29",
+  "date": "2026-10-24",
+  "tests": {
+    "registered": 240,
+    "passed": 234,
+    "skipped": [
+      "satelliteLiveDownloadFromOfficialProviders()",
+      "liveVisualizationBenchmark()",
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:)",
+      "terrainRealSantiagoBenchmark()",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF()",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF()"
+    ],
+    "failed": 0,
+    "seconds": 7.795,
+    "c_hf_checks": 21,
+    "c_hf_failures": 0,
+    "log_sha256": "d1b070f912c2cafc9ee13fa353f4030e68022b2765a449bde7d67f620ea6f5ea",
+    "command": "RADIO_BUILD_PATH=<temporary build> DSD_NEO_PATH=<official installed runtime> bash script/test.sh -c release",
+    "physical_audio_started": false
+  },
+  "package": {
+    "source_commit": "fec31d67d19ffeeb5032df4acf4402a2d419f464",
+    "zip": "RadioWorkbench-0.13.0-macos-arm64.zip",
+    "bytes": 191321120,
+    "sha256": "a76c85cc289d55092326633f50fd7b2af227d9c2cd4f0d5cf1816cdcbeb8f57b",
+    "zip_integrity": true,
+    "extracted_strict_signature": true,
+    "version": "0.13.0",
+    "build": "29",
+    "minimum_macos": "14.0",
+    "signing": "local ad hoc; not notarized",
+    "mach_o": [
+      {
+        "path": "Contents/MacOS/mt63-helper",
+        "architecture": "arm64",
+        "sha256": "596a049e87c870ad9826385d6fbcaa7bce417b95eaf37f52f8da50cc75198d3d",
+        "libraries": [
+          "/usr/lib/libc++.1.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/dsc-helper",
+        "architecture": "arm64",
+        "sha256": "856131e362bcc063589268b106e48f1c9e0fe780a6fc58432bf111dbfe55d537",
+        "libraries": [
+          "/usr/lib/libc++.1.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/libp372.dylib",
+        "architecture": "arm64",
+        "sha256": "10d31435c4e842a3e4fe5d16f614b5cd3967c09952d23b12d5ed8119c996f5d0",
+        "libraries": [
+          "@rpath/libp372.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/propagation-helper",
+        "architecture": "arm64",
+        "sha256": "d39c4fc78f4128d22c59419f2318fb29062738b4034ea1b995fd91321ef6db66",
+        "libraries": [
+          "@rpath/libp533.dylib",
+          "@rpath/libp372.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/multimon-helper",
+        "architecture": "arm64",
+        "sha256": "cece5cb5bb6c0edfae83b74cb457351c0f6110d31b4c35c77b9f25c6342d5a9a",
+        "libraries": [
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/RadioWorkbench",
+        "architecture": "arm64",
+        "sha256": "a84a3f8a3500adf53ed049a76aadb009a52136c10b440315db71a0210760355e",
+        "libraries": [
+          "/System/Library/Frameworks/Network.framework/Versions/A/Network",
+          "/System/Library/Frameworks/PDFKit.framework/Versions/A/PDFKit",
+          "/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate",
+          "/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation",
+          "/usr/lib/libSystem.B.dylib",
+          "/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio",
+          "/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit",
+          "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+          "/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork",
+          "/System/Library/Frameworks/Charts.framework/Versions/A/Charts",
+          "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+          "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+          "/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics",
+          "/System/Library/Frameworks/CryptoKit.framework/Versions/A/CryptoKit",
+          "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+          "/System/Library/Frameworks/ImageIO.framework/Versions/A/ImageIO",
+          "/System/Library/Frameworks/MapKit.framework/Versions/A/MapKit",
+          "/System/Library/Frameworks/SwiftUI.framework/Versions/A/SwiftUI",
+          "/System/Library/Frameworks/UserNotifications.framework/Versions/A/UserNotifications",
+          "/System/Library/Frameworks/_MapKit_SwiftUI.framework/Versions/A/_MapKit_SwiftUI",
+          "/usr/lib/libobjc.A.dylib",
+          "/usr/lib/swift/libswiftAVFoundation.dylib",
+          "/usr/lib/swift/libswiftAccelerate.dylib",
+          "/usr/lib/swift/libswiftCore.dylib",
+          "/usr/lib/swift/libswiftCoreAudio.dylib",
+          "/usr/lib/swift/libswiftCoreFoundation.dylib",
+          "/usr/lib/swift/libswiftCoreImage.dylib",
+          "/usr/lib/swift/libswiftCoreLocation.dylib",
+          "/usr/lib/swift/libswiftCoreMIDI.dylib",
+          "/usr/lib/swift/libswiftDarwin.dylib",
+          "/usr/lib/swift/libswiftDispatch.dylib",
+          "/usr/lib/swift/libswiftIOKit.dylib",
+          "/usr/lib/swift/libswiftMetal.dylib",
+          "/usr/lib/swift/libswiftOSLog.dylib",
+          "/usr/lib/swift/libswiftObjectiveC.dylib",
+          "/usr/lib/swift/libswiftObservation.dylib",
+          "/usr/lib/swift/libswiftQuartzCore.dylib",
+          "/usr/lib/swift/libswiftRegexBuilder.dylib",
+          "/usr/lib/swift/libswiftSpatial.dylib",
+          "/usr/lib/swift/libswiftUniformTypeIdentifiers.dylib",
+          "/usr/lib/swift/libswiftXPC.dylib",
+          "/usr/lib/swift/libswift_Concurrency.dylib",
+          "/usr/lib/swift/libswiftos.dylib",
+          "/usr/lib/swift/libswiftsimd.dylib",
+          "/usr/lib/swift/libswiftCoreGraphics.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/libitm.dylib",
+        "architecture": "arm64",
+        "sha256": "84a18f1a135800a8c4afd5a2367ada73e1945a50ac68ec8df06bd66e7e7adb56",
+        "libraries": [
+          "@rpath/libitm.dylib",
+          "/usr/lib/libc++.1.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/ale-helper",
+        "architecture": "arm64",
+        "sha256": "281fc11f6427b76f0a1e27ee8c8e27d0972718e91b9b569de42e594e51080c80",
+        "libraries": [
+          "/usr/lib/libc++.1.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/itm-helper",
+        "architecture": "arm64",
+        "sha256": "b8ee2bc40ec90eb9971064490c3ca78694607bb84a65db9bb65d5ce767d2063f",
+        "libraries": [
+          "/usr/lib/libc++.1.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/ftx-helper",
+        "architecture": "arm64",
+        "sha256": "1acdb6e398282e86594f4bc54e384854f1c21296cd1f1fc503c5bdcd46a98ac3",
+        "libraries": [
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/libp533.dylib",
+        "architecture": "arm64",
+        "sha256": "8632613c8594588c69a76026acdee2c1a6edbd6a8323781a4d1c548b66ebb0c3",
+        "libraries": [
+          "@rpath/libp533.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/acars-helper",
+        "architecture": "arm64",
+        "sha256": "e22cab62b8fca487ace8918e21c5a4a856b2b172d86352cde17cd06bc1449fff",
+        "libraries": [
+          "/usr/lib/libSystem.B.dylib",
+          "/usr/lib/libz.1.dylib"
+        ]
+      },
+      {
+        "path": "Contents/MacOS/cw-helper",
+        "architecture": "arm64",
+        "sha256": "f6dd83e154c8ce0d1b42b908eded40299cd94ae2be71a2f9c953f71551cddcaa",
+        "libraries": [
+          "/usr/lib/libSystem.B.dylib",
+          "/System/Library/Frameworks/AVFAudio.framework/Versions/A/AVFAudio",
+          "/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate",
+          "/System/Library/Frameworks/CoreML.framework/Versions/A/CoreML",
+          "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+          "/usr/lib/libobjc.A.dylib",
+          "/usr/lib/swift/libswiftAVFoundation.dylib",
+          "/usr/lib/swift/libswiftAccelerate.dylib",
+          "/usr/lib/swift/libswiftCore.dylib",
+          "/usr/lib/swift/libswiftCoreAudio.dylib",
+          "/usr/lib/swift/libswiftCoreFoundation.dylib",
+          "/usr/lib/swift/libswiftCoreImage.dylib",
+          "/usr/lib/swift/libswiftCoreMIDI.dylib",
+          "/usr/lib/swift/libswiftDispatch.dylib",
+          "/usr/lib/swift/libswiftIOKit.dylib",
+          "/usr/lib/swift/libswiftMetal.dylib",
+          "/usr/lib/swift/libswiftObjectiveC.dylib",
+          "/usr/lib/swift/libswiftQuartzCore.dylib",
+          "/usr/lib/swift/libswiftUniformTypeIdentifiers.dylib",
+          "/usr/lib/swift/libswiftXPC.dylib",
+          "/usr/lib/swift/libswift_Builtin_float.dylib",
+          "/usr/lib/swift/libswift_Concurrency.dylib",
+          "/usr/lib/swift/libswiftos.dylib",
+          "/usr/lib/swift/libswiftsimd.dylib",
+          "/usr/lib/swift/libswift_stdio.dylib"
+        ]
+      }
+    ],
+    "bundled_wav_matches_fixtures": 75,
+    "artemis_media_copied": false
+  },
+  "installation": {
+    "path": "/Applications/RadioWorkbench.app",
+    "version": "0.13.0",
+    "build": "29",
+    "bundle_identifier": "cl.sebastian.RadioWorkbench",
+    "installed_on": "2026-10-25",
+    "strict_signature": true,
+    "all_mach_o_hashes_match_tested_package": true,
+    "protected_existing_files": 2,
+    "protected_files_unchanged_before_first_launch": true,
+    "preexisting_bundle_at_destination": false,
+    "user_data_removed": false
+  },
+  "ui": {
+    "checked_on": "2026-10-25",
+    "installed_bundle_opened": true,
+    "observed": [
+      "SSTV screen and common SDR inspector",
+      "Radio guide with explicit recording and planning buttons",
+      "BBC 9410 kHz detail",
+      "Listening form prefilled with station, frequency, historic RX snapshot and optional audio",
+      "UTC display confirmed by screenshot; form cancelled without saving"
+    ],
+    "not_completed": [
+      "HF view after navigation",
+      "Digital voice screen",
+      "Next-hour satellite results",
+      "Full workshop and reception-map interaction"
+    ],
+    "blocker": "Sky Computer Use native pipe closed before response when opening HF; installed app process remained running",
+    "app_process_path": "/Applications/RadioWorkbench.app/Contents/MacOS/RadioWorkbench",
+    "physical_audio_started": false,
+    "test_observations_saved": false,
+    "source_notice": "EiBi update returned NSURLErrorDomain -1011; UI retained cached A26 and showed its season warning. HFCC B26 was available."
+  },
+  "retention": {
+    "current": "0.13.0",
+    "previous_zip": "0.12.1",
+    "dist_files": [
+      "RadioWorkbench-0.12.1-macos-arm64.zip",
+      "RadioWorkbench-0.13.0-macos-arm64.zip",
+      "RadioWorkbench-0.13.0.app"
+    ],
+    "temporary_build_removed": true,
+    "project_build_cache_removed": true
+  }
+}

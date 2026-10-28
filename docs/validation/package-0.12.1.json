@@ -1,0 +1,68 @@
+{
+  "version": "0.12.1",
+  "build": 28,
+  "zip": "RadioWorkbench-0.12.1-macos-arm64.zip",
+  "bytes": 190850497,
+  "sha256": "10de07232e616eafeea551b93c8cb9371951c78feaa528f8cfe2154b68ec92ae",
+  "zip_integrity": true,
+  "extracted_codesign_deep_strict": true,
+  "signature": "ad hoc, not notarized",
+  "minimum_macos": "14.0",
+  "binaries": [
+    {
+      "file": "RadioWorkbench",
+      "architecture": "arm64"
+    },
+    {
+      "file": "acars-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "ale-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "cw-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "dsc-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "ftx-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "itm-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libitm.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libp372.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "libp533.dylib",
+      "architecture": "arm64"
+    },
+    {
+      "file": "mt63-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "multimon-helper",
+      "architecture": "arm64"
+    },
+    {
+      "file": "propagation-helper",
+      "architecture": "arm64"
+    }
+  ],
+  "dmr_document_matches": true,
+  "external_dmr_audio_in_package": false,
+  "source_commit": "426d26970deb95e43b0d2524f1045295654d0139"
+}

@@ -4,6 +4,7 @@ import RadioCore
 struct BroadcastGuideView: View {
     @Bindable var guide: BroadcastStore
     let onPlanHF: (BroadcastEntry) -> Void
+    let onRecord: (BroadcastEntry) -> Void
     var body: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let rows = guide.results(at: context.date)
@@ -12,15 +13,15 @@ struct BroadcastGuideView: View {
                 header(at: context.date)
                 filters
                 if guide.invalidFrequency { Text("Introduce una frecuencia positiva en kHz, por ejemplo 9710.").font(.caption).foregroundStyle(.red) }
-                Text(guide.status).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
-                Text(guide.alertStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(guide.status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                Text(AppLocalization.text(guide.alertStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let snapshot = guide.snapshot {
                     HStack {
                         Text("EiBi · \(snapshot.season.uppercased()) · \(rows.count) de \(snapshot.entries.count) registros")
                         Spacer()
                         Text("Descarga: \(snapshot.fetchedAt.formatted(date: .abbreviated, time: .shortened))")
                     }.font(.caption).foregroundStyle(.secondary)
-                    Text(guide.hfccStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(guide.hfccStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                     if snapshot.season != BroadcastCalendar.season(at: context.date) {
                         Label("La copia corresponde a otra temporada o a una importación. Comprueba su vigencia.", systemImage: "calendar.badge.exclamationmark").font(.caption).foregroundStyle(.orange)
                     }
@@ -55,13 +56,14 @@ struct BroadcastGuideView: View {
                         if let id = ids.first, let e = rows.first(where: { $0.id == id }) {
                             Button(guide.favorites.contains(id) ? "Quitar de favoritos" : "Guardar favorito") { guide.toggleFavorite(e) }
                             Button("Copiar frecuencia") { copyFrequency(e) }
-                            Button("Enviar al Planificador HF") { onPlanHF(e) }
+                            Button("Planificar escucha") { onPlanHF(e) }
+                            Button("Registrar escucha en biblioteca…") { onRecord(e) }
                         }
                     }
                     .frame(minHeight: 180)
                 }
                 if let e = guide.selectedEntry {
-                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide, onPlanHF: onPlanHF)
+                    BroadcastDetailView(entry: e, hfcc: guide.hfccMatch(for: e), guide: guide, onPlanHF: onPlanHF, onRecord: onRecord)
                         .frame(maxHeight: 300)
                 }
                 HStack {
@@ -82,7 +84,7 @@ struct BroadcastGuideView: View {
             Spacer()
             VStack(alignment: .trailing) {
                 Text(date.formatted(Date.FormatStyle(date: .omitted, time: .shortened, locale: Locale(identifier: "en_GB"), timeZone: TimeZone(secondsFromGMT: 0)!)) + " UTC").monospacedDigit()
-                Text("Consulta automática cada 6 h").font(.caption).foregroundStyle(.secondary)
+                Text(guide.autoRefreshEnabled ? AppLocalization.text("Actualización automática cada {0} h").replacingOccurrences(of: "{0}", with: String(guide.autoRefreshHours)) : AppLocalization.text("Actualización manual")).font(.caption).foregroundStyle(.secondary)
             }
             Button { Task { await guide.refresh() } } label: { Label("Actualizar", systemImage: "arrow.clockwise") }.disabled(guide.busy)
             if guide.busy { ProgressView().controlSize(.small) }
@@ -94,9 +96,9 @@ struct BroadcastGuideView: View {
             HStack {
                 TextField("Buscar emisora, país o idioma", text: $guide.search).textFieldStyle(.roundedBorder)
                 Picker("Banda", selection: $guide.band) {
-                    ForEach(["Todas","OL","OM","OC"] + BroadcastEntry.bands.map(\.0), id: \.self) { Text($0).tag($0) }
+                    ForEach(["Todas","OL","OM","OC"] + BroadcastEntry.bands.map(\.0), id: \.self) { Text(AppLocalization.text($0)).tag($0) }
                 }.frame(width: 165)
-                Picker("Tipo", selection: $guide.category) { ForEach(["Todas","Radiodifusión","Utilitarias"], id: \.self) { Text($0) } }.frame(width: 190)
+                Picker("Tipo", selection: $guide.category) { ForEach(["Todas","Radiodifusión","Utilitarias"], id: \.self) { Text(AppLocalization.text($0)) } }.frame(width: 190)
             }
             HStack {
                 TextField("Frecuencia kHz", text: $guide.frequency).textFieldStyle(.roundedBorder).frame(width: 125)
@@ -121,6 +123,7 @@ struct BroadcastDetailView: View {
     let hfcc: HFCCTransmission?
     @Bindable var guide: BroadcastStore
     let onPlanHF: (BroadcastEntry) -> Void
+    let onRecord: (BroadcastEntry) -> Void
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
@@ -144,7 +147,8 @@ struct BroadcastDetailView: View {
                 }
                 let ref = guide.snapshot?.reference ?? BroadcastReference()
                 HStack {
-                    Button("Enviar al Planificador HF", systemImage: "arrow.up.right.square") { onPlanHF(entry) }
+                    Button("Registrar escucha en biblioteca…", systemImage: "books.vertical") { onRecord(entry) }.buttonStyle(.borderedProminent)
+                    Button("Planificar escucha", systemImage: "arrow.up.right.square") { onPlanHF(entry) }
                     Button("Copiar ficha") {
                         let site = ref.site(for: entry)
                         let text = "\(entry.station)\n\(entry.frequencyKHz) kHz · \(entry.modulation)\n\(entry.time) UTC · días \(entry.days)\nSitio: \(site?.name ?? entry.site)\n" + (site.map { "Coordenadas EiBi: \($0.latitude), \($0.longitude)\n" } ?? "Coordenadas: pendientes\n") + "Potencia HFCC candidata: \(hfcc?.powerKW.map { "\($0) kW" } ?? "sin dato") · sitio \(hfcc?.siteCode ?? "sin verificar")\nFuente: EiBi · \(guide.snapshot?.season ?? "")"

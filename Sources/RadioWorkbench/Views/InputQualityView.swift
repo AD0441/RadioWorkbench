@@ -16,11 +16,15 @@ struct InputQualityView: View {
                     if findings.isEmpty { Label("Sin problemas de nivel o formato detectados en este bloque.", systemImage: "checkmark.circle") }
                     ForEach(findings) { finding in
                         VStack(alignment: .leading, spacing: 3) {
-                            Label(finding.observation, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
-                            Text(finding.action).foregroundStyle(.secondary)
+                            Label(AppLocalization.text(finding.observation), systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
+                            Text(AppLocalization.text(finding.action)).foregroundStyle(.secondary)
                         }
                     }
-                    Text(integrity).textSelection(.enabled)
+                    if let metrics = receiver.integrity {
+                        Text("\(metrics.check): \(metrics.accepted) \(metrics.unit) aceptados" + (metrics.rejected.map { " · \($0) rechazados" } ?? "")).fontWeight(.semibold)
+                        if let sync = metrics.synchronized { Text(sync ? "Sincronía adquirida" : "Buscando sincronía") }
+                        Text(metrics.note + " Contadores desde el último reinicio del decodificador.").foregroundStyle(.secondary)
+                    } else { Text(AppLocalization.text(integrity)).textSelection(.enabled) }
                     Text("El nivel se mide en audio digital. No estima potencia RF, SNR de radio ni porcentaje de mensajes perdidos. Sin sincronía no se puede conocer cuántos paquetes se transmitieron. La saturación y el DC describen solo el bloque visible; las muestras descartadas corresponden a la sesión.")
                         .foregroundStyle(.secondary)
                 } else {
@@ -35,6 +39,7 @@ struct InputQualityView: View {
         case .acars: "\(receiver.acarsMessages.count) mensajes visibles con CRC del motor ACARS válido; \(receiver.acarsMessages.reduce(0) { $0 + $1.parityCorrections }) correcciones de paridad en esos mensajes. Retención limitada a 200."
         case .ft8, .ft4: "\(receiver.engineRecords.count) mensajes visibles con LDPC y CRC verificados. Retención limitada a 200; el motor no publica el total de transmisiones intentadas."
         case .pocsag: "POCSAG usa BCH/paridad y sincronismo periódico; el límite de corrección elegido es \(receiver.settings.pagerCorrectionBits) bits. Los \(receiver.multimonRecords.count) eventos visibles no representan una tasa de error."
+        case .flex: "FLEX: \(receiver.multimonRecords.count) eventos visibles (máximo 200). BCH por palabra; la cantidad corregida y la tasa de mensajes perdidos no están disponibles. Los fragmentos se muestran por separado."
         case .gmdss: "DSC: \(receiver.engineRecords.count) tramas visibles con ECC aceptado. La diversidad y la paridad de símbolos no autentican el mensaje; las discrepancias no equivalen a BER ni a símbolos corregidos."
         case .navtex: "NAVTEX: redundancia FEC de caracteres; no dispone de CRC global que certifique el texto completo."
         case .mt63: "MT63: sincronía y FEC del motor, sin CRC global de mensaje ni SNR calibrado."

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generator": "script/generate_sitora_fixtures.py",
+  "source": "https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.476-5-199510-I!!PDF-E.pdf",
+  "source_sections": "Annex 1 Tables 1/2 and 3.1.1\u20133.1.6",
+  "provenance": "Own mathematical waveform from literal ITU B/Y strings, not receiver bytes",
+  "file": "sitora_8000_arq.wav",
+  "sha256": "779a9dd3712a7c704c2545558fa3faef5e11d04edbf2b697b92fbd54a7058771",
+  "sample_rate_hz": 8000,
+  "duration_seconds": 4.15,
+  "expected_text": "TEST SITOR A123\n",
+  "requested_retransmissions": 1,
+  "baud": 100,
+  "shift_hz": 170,
+  "center_hz": 1700,
+  "cycle_ms": 450,
+  "information_burst_ms": 210,
+  "control_burst_ms": 70,
+  "limitations": [
+    "Synthetic, not off-air",
+    "No ARQ transmission",
+    "A valid 4/7 word is not a CRC or proof of error-free reception"
+  ]
+}

@@ -3,7 +3,7 @@ set -euo pipefail
 RADIO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ACARS_OUTPUT="${1:-$RADIO_ROOT/.build/acars-helper}"
 mkdir -p "$(dirname "$ACARS_OUTPUT")"
-LIBACARS_BUILD="$RADIO_ROOT/.build/libacars"
+LIBACARS_BUILD="${RADIO_BUILD_PATH:-$RADIO_ROOT/.build}/libacars"
 cmake -S "$RADIO_ROOT/Vendor/LibACARS" -B "$LIBACARS_BUILD" -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DLIBXML2=OFF -DJANSSON=OFF >/dev/null
 cmake --build "$LIBACARS_BUILD" --target acars_static -j 4 >/dev/null
 /usr/bin/clang -arch arm64 -O2 -std=gnu11 -mmacosx-version-min=14.0 \

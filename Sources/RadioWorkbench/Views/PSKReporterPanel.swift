@@ -20,7 +20,7 @@ struct PSKReporterPanel: View {
                     Text("Compartir una cuadrícula Maidenhead aproximada (4 caracteres, ~100 km) para consultar spots cercanos")
                 }
                 HStack {
-                    Text(store.pskStatus).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                    Text(AppLocalization.text(store.pskStatus)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                     Spacer()
                     if store.pskBusy { ProgressView().controlSize(.small) }
                     Button("Consultar ahora") { Task { await store.refreshReceptionSpots(location: location) } }

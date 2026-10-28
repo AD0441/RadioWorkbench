@@ -38,7 +38,7 @@ actor SatelliteCatalogService {
     }
     private func fetch(_ url: URL, maximumBytes: Int, rawGitHub: Bool = false) async throws -> Data {
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
-        request.setValue("RadioWorkbench/0.11.0 (receive-only satellite planning)", forHTTPHeaderField: "User-Agent")
+        request.setValue("RadioWorkbench/0.12.0 (receive-only satellite planning)", forHTTPHeaderField: "User-Agent")
         if rawGitHub { request.setValue("application/vnd.github.raw+json", forHTTPHeaderField: "Accept") }
         let (data, response) = try await transport(request)
         guard response.statusCode == 200 else { throw CatalogError.http(url.host ?? "fuente", response.statusCode) }
@@ -117,6 +117,9 @@ actor SatelliteCatalogService {
             try encoder.encode(result).write(to: cacheURL, options: .atomic)
         } catch { errors["Caché local"] = error.localizedDescription }
         return errors == result.sourceErrors ? result : snapshot(errors)
+    }
+    nonisolated static func recentReports(_ reports: [SatelliteStatusReport], now: Date) -> [SatelliteStatusReport] {
+        reports.filter { (-300...72 * 3_600).contains(now.timeIntervalSince($0.reportedAt)) }
     }
     static func parseReports(_ data: Data, now: Date) throws -> [SatelliteStatusReport] {
         guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any], let rows = root["data"] as? [[String: Any]] else { throw CatalogError.invalidResponse("reportes AMSAT") }

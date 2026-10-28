@@ -4,17 +4,18 @@ import RadioCore
 struct ReceiverView: View {
     @Bindable var receiver: ReceiverStore
     private var spectrum: some View {
-        SpectrumView(frame: receiver.frame, waterfall: receiver.waterfall, frequency: receiver.settings.frequency, shift: receiver.mode == .navtex ? 170 : receiver.mode == .rtty ? receiver.settings.shift : 0) { value in
-            if !receiver.busy && ![.selectiveTones, .acars, .ale].contains(receiver.mode) { receiver.settings.frequency = value }
-        }
+        ReceiverSpectrumView(receiver: receiver)
     }
     var body: some View {
+        if receiver.mode == .digitalVoice {
+            DigitalVoiceView(receiver: receiver)
+        } else {
         ScrollView {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(receiver.mode.title).font(.largeTitle.weight(.semibold))
-                    Text(receiver.mode.summary).font(.subheadline).foregroundStyle(.secondary)
+                    Text(AppLocalization.text(receiver.mode.title)).font(.largeTitle.weight(.semibold))
+                    Text(AppLocalization.text(receiver.mode.summary)).font(.subheadline).foregroundStyle(.secondary)
                 }
                 Spacer()
                 Label(receiver.live ? "EN VIVO" : receiver.busy ? "PROCESANDO" : "LISTO", systemImage: receiver.live ? "record.circle" : "circle.fill")
@@ -30,15 +31,12 @@ struct ReceiverView: View {
             HStack {
                 Label(receiver.source, systemImage: receiver.live ? "mic" : "waveform")
                 Spacer()
-                if let frame = receiver.frame {
-                    Text("\(frame.levelDB, specifier: "%.1f") dBFS").monospacedDigit()
-                    if frame.clipped { Label("Saturación", systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
-                }
+                ReceiverLevelView(visualization: receiver.visualization)
             }.font(.caption).foregroundStyle(.secondary)
             if receiver.busy && !receiver.live { ProgressView(value: receiver.progress) }
-            Text(receiver.detail).font(.caption).foregroundStyle(.secondary)
-            if let error = receiver.error { Label(error, systemImage: "exclamationmark.triangle").font(.callout).foregroundStyle(.red).textSelection(.enabled) }
-            if receiver.dropped > 0 { Text("Se perdieron \(receiver.dropped) muestras; se reinició la sincronización.").font(.caption).foregroundStyle(.orange) }
+            Text(AppLocalization.text(receiver.detail)).font(.caption).foregroundStyle(.secondary)
+            if let error = receiver.error { Label(AppLocalization.text(error), systemImage: "exclamationmark.triangle").font(.callout).foregroundStyle(.red).textSelection(.enabled) }
+            if receiver.dropped > 0 && receiver.warnDroppedSamples { Text("Se perdieron \(receiver.dropped) muestras; se reinició la sincronización.").font(.caption).foregroundStyle(.orange) }
             HStack {
                 Text("TEXTO RECIBIDO").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                 Spacer()
@@ -67,22 +65,34 @@ struct ReceiverView: View {
                     Table(receiver.multimonRecords) {
                         TableColumn("Formato", value: \.decoder)
                         TableColumn("Capcode") { record in Text(record.address.map(String.init) ?? "—") }
-                        TableColumn("Función") { record in Text(record.function.map(String.init) ?? "—") }
+                        TableColumn("Fase / función") { record in
+                            Text(record.flex.map { "\($0.phase) · \($0.cycle).\($0.frame)" } ?? record.function.map(String.init) ?? "—")
+                        }
                         TableColumn("Tipo", value: \.kind)
                         TableColumn("Contenido", value: \.body)
                     }.frame(minHeight: 200)
                 }
             }
-            else { ScrollView {
+            else { VStack(alignment: .leading, spacing: 8) {
+                if receiver.mode == .dgps {
+                    HStack {
+                        Text("RTCM 2 · paridad válida · últimas \(receiver.dgpsReceptions.count) tramas").font(.caption).foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Guardar RTCM en JSON…") { receiver.exportDGPSJSON() }.disabled(receiver.dgpsReceptions.isEmpty)
+                    }
+                }
+                ScrollView {
                 Text(receiver.text.isEmpty ? "El texto decodificado aparecerá aquí." : receiver.text)
                     .font(.system(.body, design: .monospaced)).foregroundStyle(receiver.text.isEmpty ? .secondary : .primary)
                     .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .topLeading).padding(16)
             }.frame(height: 170).background(.background, in: RoundedRectangle(cornerRadius: 10))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
+                }
             }
             Text("Decodificadores experimentales: verifica la sintonía y contrasta señales difíciles. CWKit estima tono y velocidad; el motor Manual conserva sus ajustes. PSK31 requiere frecuencia estable.")
                 .font(.caption).foregroundStyle(.secondary)
         }.padding(24)
+        }
         }
     }
 }
@@ -102,21 +112,31 @@ struct DecoderControls: View {
             }
             if receiver.mode == .rtty {
                 Picker("Código", selection: $receiver.settings.rttyEncoding) {
-                    ForEach(RTTYEncoding.allCases) { Text($0.rawValue).tag($0) }
+                    ForEach(RTTYEncoding.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                 }.frame(width: 200)
             }
             if receiver.mode == .pocsag {
                 Picker("Velocidad", selection: $receiver.settings.pagerRate) {
-                    ForEach(PagerRate.allCases) { Text($0.title).tag($0) }
+                    ForEach(PagerRate.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
                 }.frame(width: 235)
                 Picker("BCH", selection: $receiver.settings.pagerCorrectionBits) {
                     ForEach(0...2, id: \.self) { Text("\($0) bits corregibles").tag($0) }
                 }.frame(width: 165)
                 Toggle("Avisos sin texto", isOn: $receiver.settings.pagerShowEmpty)
             }
+            if receiver.mode == .flex {
+                Text("Velocidad y fases automáticas · direcciones cortas · BCH hasta 2 bits/palabra")
+                    .font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+            }
+            if receiver.mode == .dgps {
+                Picker("Tasa MSK", selection: $receiver.settings.dgpsRate) {
+                    ForEach(DGPSRate.allCases) { Text(AppLocalization.text($0.title)).tag($0) }
+                }.frame(width: 235)
+                Text("Polaridad automática · paridad RTCM 2").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+            }
             if receiver.mode == .fiveTones {
                 Picker("Estándar", selection: $receiver.settings.fiveToneStandard) {
-                    ForEach(FiveToneStandard.allCases) { Text($0.rawValue).tag($0) }
+                    ForEach(FiveToneStandard.allCases) { Text(AppLocalization.text($0.rawValue)).tag($0) }
                 }.frame(width: 200)
                 Text("E/F: códigos especiales sin reinterpretación").font(.caption).foregroundStyle(.secondary)
             }
@@ -128,16 +148,20 @@ struct DecoderControls: View {
                 Text("100 baud · shift 170 Hz · FEC").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
                 Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
             }
+            if receiver.mode == .sitorA {
+                Text("100 baud · shift 170 Hz · ARQ pasivo").font(.caption).foregroundStyle(.secondary).padding(.bottom, 5)
+                Toggle("Invertir", isOn: $receiver.settings.inverted).toggleStyle(.checkbox).padding(.bottom, 5)
+            }
             Spacer(minLength: 0)
             if receiver.mode != .acars && !receiver.mode.isMultimon && ![.ft8, .ft4, .digitalVoice, .ale, .mt63, .gmdss].contains(receiver.mode) && !(receiver.mode == .morse && receiver.settings.cwEngine != .manual) { VStack(alignment: .leading, spacing: 6) {
-                Text("Umbral \(Int(receiver.settings.threshold * 100)) %").font(.caption).foregroundStyle(.secondary)
-                Slider(value: $receiver.settings.threshold, in: 0.01...0.5).frame(width: 150)
+                Text("Umbral \((receiver.settings.threshold * 100).formatted(.number.precision(.fractionLength(0...1)))) %").font(.caption).foregroundStyle(.secondary)
+                Slider(value: $receiver.settings.threshold, in: 0.001...0.5).frame(width: 150)
             } }
         }.disabled(receiver.busy)
     }
     private func number(_ title: String, value: Binding<Double>, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
             TextField(title, value: value, format: .number.precision(.fractionLength(0...2)))
                 .textFieldStyle(.roundedBorder).frame(width: width)
         }

@@ -1,10 +1,12 @@
 import Foundation
+import Accelerate
 
 // Windowed Hilbert FIR: construct analytic audio without assuming RF modulation.
 // Its causal delay is subtracted from timestamps used by the image decoders.
 struct AnalyticAudio {
     private var history: [Double]
-    private let taps: [(Int, Double)]
+    private let coefficients: [Double]
+    private let maximumLag: Int
     private let length: Int
     private let delay: Int
     private var write = 0, samples = 0
@@ -15,24 +17,31 @@ struct AnalyticAudio {
         let tapLength = min(257, max(63, Int(sampleRate * 0.004) | 1))
         length = tapLength
         delay = (tapLength - 1) / 2
-        history = Array(repeating: 0, count: tapLength)
+        // Mirroring the ring makes every nonzero FIR tap a strided contiguous
+        // read, so Accelerate can vectorize it without a wrap branch per tap.
+        history = Array(repeating: 0, count: tapLength * 2)
         let center = (tapLength - 1) / 2
-        taps = (0..<tapLength).compactMap { index in
+        let taps: [(Int, Double)] = (0..<tapLength).compactMap { index in
             let n = index - center
             guard n != 0 && abs(n) % 2 == 1 else { return nil }
             let window = 0.54 - 0.46 * cos(2 * .pi * Double(index) / Double(tapLength - 1))
             return (index, 2 * window / (.pi * Double(n)))
         }
+        maximumLag = taps.last!.0
+        coefficients = taps.reversed().map(\.1)
     }
     mutating func push(_ sample: Float) -> (frequency: Double, amplitude: Double, time: Double, real: Double, imaginary: Double)? {
-        history[write] = Double(sample)
+        let value = sample.isFinite ? Double(sample) : 0
+        history[write] = value
+        history[write + length] = value
         var q = 0.0
-        for (lag, coefficient) in taps {
-            let index = write - lag
-            q += history[index < 0 ? index + length : index] * coefficient
+        history.withUnsafeBufferPointer { signal in
+            coefficients.withUnsafeBufferPointer { taps in
+                vDSP_dotprD(signal.baseAddress! + write + length - maximumLag, 2,
+                            taps.baseAddress!, 1, &q, vDSP_Length(taps.count))
+            }
         }
-        let index = write - delay
-        let i = history[index < 0 ? index + length : index]
+        let i = history[write + length - delay]
         write += 1; if write == length { write = 0 }
         samples += 1
         let cross = previousI * q - previousQ * i
