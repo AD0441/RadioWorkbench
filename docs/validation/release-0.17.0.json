@@ -1,0 +1,220 @@
+{
+  "product": "RAZIEL",
+  "previousName": "RadioWorkbench",
+  "version": "0.17.0",
+  "build": 33,
+  "date": "2026-10-28",
+  "status": "verified-for-release",
+  "internalBundleIdentityPreserved": true,
+  "repositoryURLPreserved": true,
+  "tests": {
+    "registered": 297,
+    "passed": 289,
+    "skipped": 8,
+    "skippedNames": [
+      "dmrIndependentReferenceMatchesKnownCallAndSlotSynthesis(_:)",
+      "satelliteLiveDownloadFromOfficialProviders()",
+      "integratedDSDVoiceProducesPlayableWAV()",
+      "dmrLiveWorkerDrainsPCMAndPublishesKnownCallAtNetworkEOF()",
+      "terrainRealSantiagoBenchmark()",
+      "dmrLiveWorkerCancellationFinalizesVoiceWithoutAnInputEOF()",
+      "integratedDSDReceivesM17PacketThroughPCMAndRejectsSilence()",
+      "liveVisualizationBenchmark()"
+    ],
+    "failures": 0,
+    "seconds": 9.396,
+    "hfCChecks": 21,
+    "physicalReceptionRepeated": false,
+    "scope": "Full suite before final view-only footer/localization polish; core code unchanged afterwards.",
+    "finalLocalizationRegression": {
+      "passed": 2,
+      "failures": 0,
+      "seconds": 0.045,
+      "mode": "Project runner, arm64, skip-build; final resource catalogs checked."
+    }
+  },
+  "package": {
+    "name": "RAZIEL-0.17.0-macos-arm64.zip",
+    "bytes": 194565002,
+    "sha256": "2ac928d7541c3082bd0ad3ebe8fae3b86396505baa1abcfa7e7b8775df24f8a7",
+    "strictSignature": true,
+    "zipIntegrity": true,
+    "macho": [
+      {
+        "path": "Contents/MacOS/RAZIEL",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/mt63-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/dsc-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libp372.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/propagation-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/multimon-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libitm.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/ale-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/itm-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/ftx-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/libp533.dylib",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/acars-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/MacOS/cw-helper",
+        "architectures": "arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader",
+        "architectures": "x86_64 arm64"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer",
+        "architectures": "x86_64 arm64"
+      }
+    ],
+    "identicalWAVs": 78,
+    "translationCount": 1709,
+    "iconPackaged": true,
+    "developerID": false,
+    "notarized": false
+  },
+  "interface": {
+    "leftFooterObserved": true,
+    "footerSettingsLinkOpenedSettings": true,
+    "spanishAndEnglishOptionsObserved": true,
+    "switchEnglishToSpanishObserved": true,
+    "fourPaletteChoicesObserved": true,
+    "petroleumAccentObserved": true,
+    "restoredPalette": "graphite",
+    "finalPolishConfirmation": "Final package compiled and verified; main RAZIEL window and Spanish sidebar footer observed in the confirmation round. No microphone or playback started.",
+    "spanishFooterObserved": true,
+    "newFooterStructure": [
+      "brand symbol and RAZIEL",
+      "local audio/data caption",
+      "native Settings link",
+      "creator credit"
+    ]
+  },
+  "performance": {
+    "spectrumBefore": {
+      "checksum": 7424742.500287359,
+      "iterations": 5000,
+      "median_us": 13.291661161929369,
+      "p95_us": 20.37500962615013,
+      "scope": "CPU spectrum analysis, 2048 samples at 48 kHz; excludes UI, RF and audio-device latency"
+    },
+    "spectrumAfter": {
+      "checksum": 7424742.500287359,
+      "iterations": 5000,
+      "median_us": 12.708333088085055,
+      "p95_us": 19.54165054485202,
+      "scope": "CPU spectrum analysis, 2048 samples at 48 kHz; excludes UI, RF and audio-device latency"
+    },
+    "rasterBaseline": {
+      "checksum": 480000,
+      "incremental": {
+        "iterations": 3000,
+        "mean_us": 5.911124831375976,
+        "median_us": 5.916663212701678,
+        "p95_us": 6.2083418015390635
+      },
+      "previous": {
+        "iterations": 3000,
+        "mean_us": 116.41604137063648,
+        "median_us": 110.12499453499913,
+        "p95_us": 173.12500858679414
+      },
+      "scope": "CPU raster construction, 256x80 RGBA; excludes SwiftUI layout and display presentation"
+    },
+    "paletteContrast": {
+      "graphite": {
+        "lightOnWhite": 8.869377822581628,
+        "darkOnSystemSurface": 11.718064857049809
+      },
+      "petroleum": {
+        "lightOnWhite": 6.283449056789086,
+        "darkOnSystemSurface": 9.835215168366252
+      },
+      "forest": {
+        "lightOnWhite": 6.34725363597517,
+        "darkOnSystemSurface": 9.464478375514132
+      },
+      "amber": {
+        "lightOnWhite": 5.904504339009314,
+        "darkOnSystemSurface": 9.79299450126838
+      }
+    },
+    "instrumentsAvailable": false,
+    "broadSpeedupClaim": false,
+    "machineArchitecture": "arm64"
+  },
+  "delivery": {
+    "installedInApplications": true,
+    "publishedOnGitHub": false,
+    "newReleaseCreated": false,
+    "feedChanged": false,
+    "blocker": null,
+    "temporaryApprovalLimitResolved": true,
+    "publicationState": "Package verified and installed; publication will be recorded after upload."
+  },
+  "modelUse": {
+    "codeAndTechnicalReview": "parent model",
+    "simpleReadmeAndBrandCopy": "gpt-6-luna",
+    "delegatedGitHubWrites": false
+  },
+  "buildScript": {
+    "globalProcessNameKillRemoved": true,
+    "restartScope": "Only executable path of requested output bundle",
+    "normalRestartExercised": false,
+    "buildOnlyPackagingVerified": true
+  },
+  "installation": {
+    "path": "/Applications/RAZIEL.app",
+    "strictSignature": true,
+    "regularFilesMatchVerifiedPackage": 247,
+    "existingDataFilesUnchangedDuringCopy": 2362,
+    "preferencesUnchangedDuringCopy": true,
+    "legacyBundleRemovedIfPresent": true
+  }
+}

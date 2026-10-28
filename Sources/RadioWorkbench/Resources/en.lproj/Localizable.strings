@@ -122,10 +122,13 @@
 "APT · laboratorio histórico · 24 líneas" = "APT · historical laboratory sample · 24 lines";
 "APT · límite de 4096 líneas" = "APT · 4096-line limit";
 "ARCHIVO EN PROCESO" = "PROCESSING FILE";
+"Abre Ko-fi en tu navegador. La donación es voluntaria." = "Opens Ko-fi in your browser. Donations are voluntary.";
 "Abre audio o selecciona una entrada para recibir." = "Open audio or select an input to receive.";
 "Abre audio para explorar la señal" = "Open audio to explore the signal";
+"Abre un archivo de audio o inicia la entrada del sistema." = "Open an audio file or start the system input.";
 "Abre un audio o inicia la entrada elegida para medir nivel, saturación y formato. No se inicia el micrófono desde este diagnóstico." = "Open audio or start the selected input to measure level, clipping and format. This diagnostic does not start the microphone.";
 "Abrir" = "Open";
+"Abrir Ajustes: idioma, audio, apariencia y biblioteca." = "Open Settings: language, audio, appearance and library.";
 "Abrir SDRangel" = "Open SDRangel";
 "Abrir SUBTEL" = "Open SUBTEL";
 "Abrir audio" = "Open audio";
@@ -163,6 +166,7 @@
 "Ajusta el texto base y la escala de lectura. Las etiquetas técnicas conservan su jerarquía visual." = "Adjust base text and reading scale. Technical labels retain their visual hierarchy.";
 "Ajusta esos valores manualmente en el SDR. Desactiva de-emphasis, squelch, pasa-altos, reducción de ruido y filtros de voz. La voz ya decodificada y el I/Q no son esta entrada PCM." = "Set these values manually in the SDR. Disable de-emphasis, squelch, high-pass, noise reduction and voice filters. Already decoded voice and I/Q are not this PCM input.";
 "Ajusta los parámetros o usa una fuente con tasa suficiente antes de repetir la decodificación." = "Adjust settings or use a source with a sufficient sample rate before decoding again.";
+"Ajustes" = "Settings";
 "Ajustes actuales" = "Current settings";
 "Ajustes: %@ · %@ · %@ Hz RF" = "Settings: %@ · %@ · %@ Hz RF";
 "Al abrir se recupera la configuración completa del decodificador. La demodulación y la frecuencia RF describen la grabación; no sintonizan SDR++." = "Opening restores the full decoder configuration. Demodulation and RF frequency describe the recording; they do not tune SDR++.";
@@ -192,7 +196,9 @@
 "Antes de habilitarlo: integrar el motor, comprobar entrada de audio o I/Q, validar grabaciones y revisar su licencia." = "Before enabling: integrate the engine, check audio or I/Q input, validate recordings and review its license.";
 "Anticipación" = "Advance notice";
 "Análisis FSK" = "FSK analysis";
+"Apagón R1–R2: %@" = "R1–R2 blackout: %@";
 "Apagón R1–R2: %lld%%" = "R1–R2 blackout: %lld%%";
+"Apagón R3+: %@" = "R3+ blackout: %@";
 "Apagón R3+: %lld%%" = "R3+ blackout: %lld%%";
 "Apariencia" = "Appearance";
 "Apariencia y rendimiento" = "Appearance and performance";
@@ -202,6 +208,7 @@
 "Aplicar perfil" = "Apply profile";
 "Aplicar perfil en la app" = "Apply profile in the app";
 "Aplicar predeterminados a recepción" = "Apply defaults to reception";
+"Apoyar en Ko-fi" = "Support on Ko-fi";
 "Apple Maps con relieve · cobertura por celda" = "Apple Maps terrain · coverage per cell";
 "Apple Silicon" = "Apple Silicon";
 "Archivo en proceso" = "Processing file";
@@ -220,6 +227,7 @@
 "Audio existente · opcional" = "Existing audio · optional";
 "Audio para el decodificador" = "Decoder audio";
 "Audio que debe llegar" = "Required audio";
+"Audio y datos en tu Mac" = "Audio and data on your Mac";
 "Audio y escuchas" = "Audio and listening logs";
 "Audio · disponible" = "Audio · available";
 "Audio: %@ s. El tiempo depende del equipo y la carga; no es una medida de calidad." = "Audio: %@ s. Processing time depends on hardware and load; it is not a quality measure.";
@@ -244,6 +252,7 @@
 "BPSK31 alrededor de 1500 Hz" = "BPSK31 around 1500 Hz";
 "BT.601 · limitado" = "BT.601 · limited";
 "BUENO" = "GOOD";
+"Baja" = "Poor";
 "Baja la ganancia antes de grabar o enviar el audio. Reducir volumen aquí no recupera los picos recortados." = "Lower gain before recording or sending audio. Reducing volume here does not recover clipped peaks.";
 "Bajada publicada" = "Published downlink";
 "Bajo umbral RX" = "Below RX threshold";
@@ -257,6 +266,7 @@
 "Biblioteca" = "Library";
 "Biblioteca I/Q · SigMF" = "I/Q library · SigMF";
 "Biblioteca de recepciones" = "Reception library";
+"Bosque" = "Forest";
 "Brown → Network Sink TCP: el formato, la tasa y los canales de ambos extremos deben coincidir. Aplicar la guía RF no modifica esa conexión." = "Brown → TCP Network Sink: format, rate and channels must match at both ends. Applying the RF guide does not change that connection.";
 "Brown: Network Sink → TCP → 127.0.0.1:7355, PCM 16 bits, mono y 48000 Hz. Elige aquí exactamente el formato configurado. Para DMR usa discriminador NFM; la voz ya decodificada no conserva los datos DMR." = "Brown: Network Sink → TCP → 127.0.0.1:7355, 16-bit PCM, mono, 48000 Hz. Select exactly the configured format here. DMR needs an NFM discriminator; already decoded voice does not retain DMR data.";
 "Buena" = "Good";
@@ -279,6 +289,7 @@
 "CRC ACARS verificado; posición ADS-C interpretada por libacars; no confirma identidad ni fecha de captura del archivo." = "ACARS CRC verified; ADS-C position interpreted by libacars; does not confirm identity or file capture time.";
 "CSV importado. Actualizar consultará la temporada vigente en EiBi." = "CSV imported. Refresh queries the current EiBi season.";
 "CTCSS %.1f Hz · fin confirmado %.2f s · duración confirmada %.2f s\n" = "CTCSS %.1f Hz · confirmed end %.2f s · confirmed duration %.2f s\n";
+"CTCSS / tonos" = "CTCSS / tones";
 "CTCSS · 51 tonos · búsqueda automática" = "CTCSS · 51 tones · automatic search";
 "CTCSS: búsqueda automática de 51 tonos subaudio, confianza y duración. Cinco tonos en su apartado; DCS pendiente." = "CTCSS: automatic search for 51 subaudio tones, confidence and duration. Five-tone decoding has its own section; DCS pending.";
 "CW manual o CWKit automático/neuronal (macOS 15+), con tono y velocidad estimados." = "Manual CW or automatic/neural CWKit (macOS 15+), with estimated tone and speed.";
@@ -345,6 +356,7 @@
 "Centro de audio Hz" = "Audio center Hz";
 "Cercano" = "Nearby";
 "Cerrar" = "Close";
+"Cinco tonos / Selcall" = "Five tones / Selcall";
 "Ciudad" = "City";
 "Claro" = "Light";
 "Clase" = "Class";
@@ -437,6 +449,7 @@
 "Copias de seguridad y espacio" = "Backups and storage";
 "Corredor Fresnel 1 · 60%" = "First Fresnel zone · 60%";
 "Corte topográfico del enlace" = "Link terrain profile";
+"Creado por Sebastián Pastén F." = "Created by Sebastián Pastén F.";
 "Crear copia de seguridad ZIP…" = "Create ZIP backup…";
 "Crepúsculo" = "Twilight";
 "Cresta" = "Ridge";
@@ -497,6 +510,7 @@
 "Después podrás revisar las frecuencias publicadas y abrir el análisis de relieve del enlace." = "You can then review published frequencies and open the link terrain analysis.";
 "Destino" = "Destination";
 "Destino RX" = "RX destination";
+"Destino del enlace" = "Link destination";
 "Destino del modelo" = "Model destination";
 "Destino · RX" = "Destination · RX";
 "Destino · receptor RX" = "Destination · RX receiver";
@@ -611,6 +625,7 @@
 "Elevación máxima mínima" = "Minimum peak elevation";
 "Elige antes de iniciar. Con monitor activo, la voz usa la salida del sistema y los archivos avanzan a velocidad de reproducción." = "Choose before starting. With monitoring enabled, voice uses system output and files advance at playback speed.";
 "Elige audio de hasta diez minutos y 1 GB para esta comparación." = "Choose audio up to ten minutes and 1 GB for this comparison.";
+"Elige el destino. Se copiarán las bibliotecas a una carpeta RAZIELLibrary nueva; la copia anterior se conserva." = "Choose a destination. Libraries are copied to a new RAZIELLibrary folder; the previous copy is retained.";
 "Elige el destino. Se copiarán las bibliotecas a una carpeta RadioWorkbenchLibrary nueva; la copia anterior se conserva." = "Choose a destination. Libraries are copied to a new RadioWorkbenchLibrary folder; the previous copy is retained.";
 "Elige la grabación que quieres comparar con la referencia." = "Choose the recording to compare with the reference.";
 "Elige una fila en la Guía de radios o pulsa Enviar al Planificador HF en su detalle." = "Select a row in Radio guide or click Send to HF planner in its details.";
@@ -653,6 +668,7 @@
 "Escucha" = "Listening";
 "Escucha de emisoras · RX" = "Broadcast listening · RX";
 "Escucha y compara espectro y waterfall de audio. El catálogo incluye los 41 formatos SSTV y las variantes disponibles de los demás ejemplos." = "Listen and compare audio spectra and waterfalls. The catalog includes all 41 SSTV formats and the available variants of the other examples.";
+"Escucha, decodifica y explora señales de radio." = "Listen, decode and explore radio signals.";
 "Escuchada" = "Heard";
 "Escuchadas" = "Heard";
 "Escuchar" = "Listen";
@@ -684,11 +700,14 @@
 "Estado calculado desde el horario UTC; la recepción se confirma escuchando la señal." = "Status is calculated from the UTC schedule; reception is confirmed by listening to the signal.";
 "Estado reportado · 72 h" = "Reported status · 72 h";
 "Estados orientativos de N0NBH/HamQSL, como los mostrados por W5MMW. Son una perspectiva general por día/noche; la predicción de tu enlace depende de ubicación, rumbo, potencia, antenas y ruido." = "Indicative N0NBH/HamQSL conditions, like those shown by W5MMW. They provide a general day/night outlook; your link prediction depends on location, bearing, power, antennas and noise.";
+"Este modo forma parte del alcance de RAZIEL. Todavía no decodifica señales en esta versión." = "This mode is within RAZIEL's scope. It does not decode signals in this version yet.";
 "Este modo forma parte del alcance de RadioWorkbench. Todavía no decodifica señales en esta versión." = "This mode is within RadioWorkbench's scope. It does not decode signals in this version yet.";
 "Este modo necesita un motor adicional. Consulta su ficha de integración." = "This mode needs an additional engine. See its integration details.";
 "Este modo no expone un contador de paquetes verificados. El espectro por sí solo no confirma decodificación correcta." = "This mode does not expose a verified-packet counter. The spectrum alone does not confirm correct decoding.";
 "Este motor no expone todos los contadores. Comprueba su resultado y los avisos de integridad; no se calcula un porcentaje de éxito a partir del aspecto del espectro." = "This engine does not expose every counter. Check its results and integrity warnings; no success percentage is derived from the spectrum's appearance.";
+"Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RAZIEL." = "This package does not include the POCSAG/FLEX/tone engine. Open the packaged RAZIEL app.";
 "Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RadioWorkbench." = "This package does not include the POCSAG/FLEX/tone engine. Open the packaged RadioWorkbench app.";
+"Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RAZIEL." = "This package does not include the local ACARS engine. Open the packaged RAZIEL release.";
 "Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RadioWorkbench." = "This package does not include the local ACARS engine. Open the packaged RadioWorkbench release.";
 "Estimación mensual · " = "Monthly estimate · ";
 "Estimar recepción P.533" = "Estimate P.533 reception";
@@ -697,6 +716,9 @@
 "Estándar" = "Standard";
 "Etapa informada por SatDump: %@ %%" = "Stage reported by SatDump: %@ %%";
 "Etiqueta" = "Label";
+"Europa" = "Europe";
+"Europa · 4 m" = "Europe · 4 m";
+"Europa · 6 m" = "Europe · 6 m";
 "Evento vinculado" = "Linked event";
 "Eventos" = "Events";
 "Eventos de otros decodificadores" = "Events from other decoders";
@@ -782,6 +804,7 @@
 "Grabaciones y biblioteca I/Q" = "Recordings and I/Q library";
 "Grabación / fecha conocida" = "Recording / known date";
 "Grados" = "Degrees";
+"Grafito" = "Graphite";
 "Guarda coordenadas válidas para calcular una cuadrícula local." = "Save valid coordinates to calculate a local grid.";
 "Guarda la emisora y activa Avisarme para recibir una notificación antes de su próxima emisión prevista." = "Save the station and enable Notify me to receive a notification before its next scheduled broadcast.";
 "Guarda la ubicación antes de calcular." = "Save the location before calculating.";
@@ -825,6 +848,7 @@
 "Hay fuentes sin actualizar. Se conservan las fechas; NOAA reintenta en 3 min y Band Info en 1 h." = "Some sources were not updated. Timestamps are retained; NOAA retries in three minutes and Band Info hourly.";
 "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes." = "Pulsed Hell: double-trace image, no OCR or header. Select the transmitter's variant and adjust center/clock if text slants. FSK Hell and Hell 80 pending.";
 "Hellschreiber por pulsos: Feld, Slow y X5/X9. Raster visual continuo y exportación PNG; sin OCR." = "Pulsed Hellschreiber: Feld, Slow and X5/X9. Continuous visual raster and PNG export; no OCR.";
+"Hemisferio norte" = "Northern hemisphere";
 "Historial por hora y rumbo" = "History by hour and bearing";
 "Hora" = "Time";
 "Hora UTC" = "UTC time";
@@ -919,6 +943,7 @@
 "La conexión APRS-IS" = "The APRS-IS connection";
 "La conexión TCP dejó de entregar audio. Revisa el emisor y vuelve a conectar." = "TCP stopped delivering audio. Check the sender and reconnect.";
 "La conexión de audio TCP terminó." = "TCP audio connection ended.";
+"La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RAZIEL." = "The query covers amateur allocations published by SUBTEL; it does not characterize other services or replace license rules. Tune RF manually in SDR++ and send its audio to the input selected in RAZIEL.";
 "La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench." = "The query covers amateur allocations published by SUBTEL; it does not characterize other services or replace license rules. Tune RF manually in SDR++ and send its audio to the input selected in RadioWorkbench.";
 "La copia corresponde a otra temporada o a una importación. Comprueba su vigencia." = "The copy belongs to another season or an import. Check its validity.";
 "La descarga de DSD-neo no es válida." = "The DSD-neo download is invalid.";
@@ -934,6 +959,7 @@
 "La iluminación es geometría solar aproximada; no mide apertura de banda." = "Illumination is approximate solar geometry; it does not measure a band opening.";
 "La muestra no está disponible en este paquete." = "The sample is not available in this package.";
 "La operación no quedó confirmada." = "The operation was not confirmed.";
+"La paleta cambia los acentos de los controles. El icono permanece en blanco y negro; los avisos conservan sus colores de estado." = "The palette changes control accents. The icon stays black and white; warnings retain their status colors.";
 "La papelera conserva el audio y sus ajustes. No se elimina permanentemente desde esta pantalla." = "Trash keeps audio and settings. This screen does not permanently delete them.";
 "La papelera está vacía." = "The trash is empty.";
 "La papelera interna conserva archivos para restaurarlos. Usa la carpeta y la copia de seguridad para administrar el espacio; no hay borrado automático de recepciones." = "Internal trash keeps recoverable files. Use the folder and backup to manage storage; receptions are not automatically deleted.";
@@ -1144,6 +1170,7 @@
 "PSK Reporter permite consultar como máximo una vez cada cinco minutos." = "PSK Reporter allows at most one query every five minutes.";
 "PSK Reporter · API y límites" = "PSK Reporter · API and limits";
 "Packet/APRS AFSK 1200: Bell 202, NRZI, HDLC y tramas AX.25 con CRC verificado." = "Packet/APRS AFSK 1200: Bell 202, NRZI, HDLC and AX.25 frames with verified CRC.";
+"Paleta de la aplicación" = "Application palette";
 "Papelera" = "Trash";
 "Papelera (%lld)" = "Trash (%lld)";
 "Paquete M17 sintético; no contiene una conversación DMR ni voz de referencia" = "Synthetic M17 packet; not a DMR conversation or reference voice";
@@ -1182,6 +1209,7 @@
 "Permite el acceso al micrófono en Ajustes del Sistema → Privacidad y seguridad." = "Allow microphone access in System Settings → Privacy & Security.";
 "Permitir avisos de favoritas" = "Allow favorite station alerts";
 "Perspectiva general favorable: " = "Generally favorable outlook: ";
+"Petróleo" = "Petroleum";
 "Planificador HF" = "HF planner";
 "Planificar escucha" = "Plan listening";
 "Planificar escucha de emisora seleccionada" = "Plan listening for selected station";
@@ -1206,6 +1234,7 @@
 "Potencia remota · W" = "Remote power · W";
 "Predeterminada del sistema" = "System default";
 "Predeterminado de macOS" = "macOS default";
+"Prepara los ajustes de RAZIEL. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl." = "Prepares RAZIEL settings. Tune frequency, mode and bandwidth manually in SDR++, or use the optional Rigctl action.";
 "Prepara los ajustes de RadioWorkbench. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl." = "Prepares RadioWorkbench settings. Tune frequency, mode and bandwidth manually in SDR++, or use the optional Rigctl action.";
 "Preparada escucha de emisora: nombre, frecuencia y sintonía. " = "Station listening prepared: name, frequency and tuning. ";
 "Preparado para recibir" = "Ready to receive";
@@ -1233,6 +1262,7 @@
 "Protocolo" = "Protocol";
 "Protocolo no identificado" = "Protocol unidentified";
 "Provisional: " = "Provisional: ";
+"Proyecto en GitHub" = "Project on GitHub";
 "Publicaciones en GitHub" = "GitHub releases";
 "Puedes guardar sin sitio TX. No se atribuye una posición a partir del país." = "You can save without a TX site. No position is inferred from the country.";
 "Puerto" = "Port";
@@ -1245,7 +1275,9 @@
 "Qué contactos podrían ser posibles · por banda y rumbo" = "Potential contacts · by band and bearing";
 "R%@ · S%@ · G%@" = "R%@ · S%@ · G%@";
 "R12 mensual · compartido" = "Monthly R12 · shared";
+"RAZIEL · proyecto y apoyo" = "RAZIEL · project and support";
 "RBN aún no ha enviado spots para estos filtros." = "RBN has not sent spots for these filters yet.";
+"RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RAZIEL conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio." = "RBN is a network of volunteer receivers detecting heard stations, not a propagation forecast. Relays do not filter: RAZIEL keeps up to 1,000 spots and filters locally. Only a callsign or alias is sent for login; the app does not transmit over radio.";
 "RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RadioWorkbench conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio." = "RBN is a network of volunteer receivers detecting heard stations, not a propagation forecast. Relays do not filter: RadioWorkbench keeps up to 1,000 spots and filters locally. Only a callsign or alias is sent for login; the app does not transmit over radio.";
 "RBN · actividad global recibida en la última hora:" = "RBN · global activity received in the last hour:";
 "RBN · servidores y puertos" = "RBN · servers and ports";
@@ -1385,6 +1417,7 @@
 "Satélite / APT" = "Satellite / APT";
 "Satélites" = "Satellites";
 "Satélites con radioafición" = "Amateur radio satellites";
+"Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RAZIEL." = "Opens as a separate application; audio and results are not exchanged with RAZIEL yet.";
 "Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RadioWorkbench." = "Opens as a separate application; audio and results are not exchanged with RadioWorkbench yet.";
 "Se aceptan tramas completas con ECC válido y diversidad temporal. Se muestran identidades, símbolos y algunos canales; la interpretación es parcial. ECC no autentica al emisor. No genera avisos de rescate ni transmite." = "Complete frames with valid ECC and time diversity are accepted. Displays identities, symbols and some channels; interpretation is partial. ECC does not authenticate the sender. No rescue alerts or transmissions are generated.";
 "Se agenda una notificación macOS para la próxima emisión prevista de esta emisora, según su horario UTC." = "Schedules a macOS notification for this station's next planned broadcast according to its UTC schedule.";
@@ -1393,6 +1426,7 @@
 "Se guarda una copia local del archivo, hasta 1 GB. La fecha de importación se registra aparte: si no conoces cuándo se grabó, la captura queda sin fecha. Las entradas en vivo deben guardarse primero como archivo de audio." = "Stores a local file copy, up to 1 GB. Import date is recorded separately: if recording time is unknown, capture time stays unset. Save live input as an audio file first.";
 "Se perdieron %llu muestras; se reinició la sincronización." = "%llu samples were dropped; sync restarted.";
 "Se recuperan modo, parámetros, entrada y canal. La captura, reproducción y las conexiones requieren una acción explícita." = "Restores mode, parameters, input and channel. Capture, playback and connections require an explicit action.";
+"Se requiere RAZIEL Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB." = "RAZIEL Events v1 required: JSON with up to 5,000 events and a 10 MB maximum.";
 "Se requiere RadioWorkbench Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB." = "RadioWorkbench Events v1 required: JSON with up to 5,000 events and a 10 MB maximum.";
 "Secuencia de tonos selectivos" = "Selective tone sequence";
 "Segundos" = "Seconds";
@@ -1430,6 +1464,7 @@
 "Sin actividad interpretada" = "No interpreted activity";
 "Sin anotar" = "Not recorded";
 "Sin análisis" = "No analysis";
+"Sin apertura reportada" = "No opening reported";
 "Sin aplicación" = "No application";
 "Sin audio adjunto" = "No attached audio";
 "Sin bajada publicada; compatibilidad desconocida" = "No published downlink; compatibility unknown";
@@ -1487,6 +1522,8 @@
 "Soporte SigMF 1.0–1.2 para muestras crudas reales o complejas. No inicia un SDR ni convierte una grabación de audio en I/Q. La integración con SatDump no verifica por sí sola que el archivo contenga LRPT." = "SigMF 1.0–1.2 support for real or complex raw samples. Starts no SDR and does not turn audio into I/Q. SatDump integration alone does not verify that samples contain LRPT.";
 "Stop VIS inválido; buscando cabecera" = "Invalid VIS stop; searching for header";
 "Subida publicada" = "Published uplink";
+"Subportadora AM 2400 Hz en audio FM" = "2400 Hz AM subcarrier in FM audio";
+"Subportadora AM 2400 Hz; preservar audio hasta unos 4,5 kHz" = "2400 Hz AM subcarrier; preserve audio up to approximately 4.5 kHz";
 "Subportadora AM de 2400 Hz obtenida de FM. Muestra histórica y sintética: los NOAA-15/18/19 ya no son objetivos APT activos." = "2400 Hz AM subcarrier recovered from FM. Historical synthetic sample: NOAA-15/18/19 are no longer active APT targets.";
 "Subtropical continental" = "Continental subtropical";
 "Subtropical marítimo" = "Maritime subtropical";
@@ -1526,6 +1563,7 @@
 "Tono" = "Tone";
 "Tono CW alrededor de 700 Hz" = "CW tone around 700 Hz";
 "Tonos selectivos aproximadamente 500–2800 Hz según estándar" = "Selective tones around 500–2800 Hz depending on standard";
+"Tormenta solar S1+: %@" = "S1+ solar radiation storm: %@";
 "Tormenta solar S1+: %lld%%" = "S1+ solar radiation storm: %lld%%";
 "Trabajo cancelado. Los archivos parciales se conservan en la carpeta del trabajo; no se presentan como productos completos." = "Job canceled. Partial files remain in the job folder; they are not presented as complete products.";
 "Trama AX.25 UI con CRC verificado; hora de captura desconocida para archivos." = "AX.25 UI frame with verified CRC; file capture time unknown.";
@@ -1533,6 +1571,7 @@
 "Transmisor · opcional" = "Transmitter · optional";
 "Trayectoria de azimut y elevación del pase; norte arriba, este a la derecha" = "Pass azimuth/elevation track; north up, east right";
 "Trayectos TX → RX de tu biblioteca. Cada ficha conserva la posición, receptor y antena del momento; WebSDR se filtra aparte." = "TX → RX paths from your library. Each record keeps its original position, receiver and antenna; WebSDR is filtered separately.";
+"Tu apoyo ayuda a mantener el desarrollo y las pruebas. También puedes contribuir con ideas, traducciones e informes de errores." = "Your support helps maintain development and testing. Ideas, translations and bug reports are welcome too.";
 "Tu grabación" = "Your recording";
 "Tu indicativo" = "Your callsign";
 "Tu ubicación" = "Your location";
@@ -1600,6 +1639,7 @@
 "Volver a decodificar" = "Decode again";
 "Volver a procesar este archivo" = "Process this file again";
 "Voz digital" = "Digital voice";
+"Voz digital / DSD" = "Digital voice / DSD";
 "Vuelo" = "Flight";
 "WAV de laboratorio generado con el transmisor de referencia fldigi; fuentes y licencia incluidas en la app." = "Laboratory WAV generated with fldigi's reference transmitter; sources and license included in the app.";
 "WPM" = "WPM";

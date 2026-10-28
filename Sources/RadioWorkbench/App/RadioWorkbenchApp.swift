@@ -16,11 +16,12 @@ struct RadioWorkbenchApp: App {
     private let satellites = SatelliteConsultationStore()
     init() { applyPreferences() }
     var body: some Scene {
-        WindowGroup("RadioWorkbench") {
+        WindowGroup("RAZIEL") {
             ContentView(receiver: receiver, broadcasts: broadcasts, propagation: propagation, rbnStore: rbnStore,
                         consultations: consultations, aprs: aprs, satellites: satellites)
                 .environment(preferences)
                 .environment(\.locale, Locale(identifier: preferences.values.language))
+                .tint(preferences.colorPalette.color)
                 .preferredColorScheme(preferences.values.appearance == "system" ? nil : preferences.values.appearance == "dark" ? .dark : .light)
                 .font(.system(size: CGFloat(preferences.values.textSize)))
                 .environment(\.dynamicTypeSize, preferences.values.textSize >= 16 ? .xxxLarge : .large)
@@ -47,7 +48,7 @@ struct RadioWorkbenchApp: App {
                 Button(AppLocalization.text("Buscar actualizaciones…")) { updates.check() }.disabled(updates.configuration == nil || updates.checking || receiver.busy)
             }
             CommandGroup(replacing: .newItem) {
-                Button(AppLocalization.text("Abrir audio…")) { receiver.openAudio() }.keyboardShortcut("o").disabled(!receiver.mode.isAudioAvailable || !receiver.isDecoderSelected)
+                Button(AppLocalization.text("Abrir audio…")) { receiver.openAudio() }.keyboardShortcut("o").disabled(receiver.busy || !receiver.mode.isAudioAvailable || !receiver.isDecoderSelected)
                 Button(AppLocalization.text("Exportar texto…")) { receiver.exportText() }.keyboardShortcut("s").disabled(receiver.text.isEmpty || !receiver.isDecoderSelected)
             }
             CommandMenu(AppLocalization.text("Recepción")) {
@@ -59,6 +60,7 @@ struct RadioWorkbenchApp: App {
         Settings {
             PreferencesView(preferences: preferences, updates: updates, receiver: receiver, broadcasts: broadcasts, propagation: propagation, satellites: satellites)
                 .environment(\.locale, Locale(identifier: preferences.values.language))
+                .tint(preferences.colorPalette.color)
                 .preferredColorScheme(preferences.values.appearance == "system" ? nil : preferences.values.appearance == "dark" ? .dark : .light)
                 .font(.system(size: CGFloat(preferences.values.textSize)))
         }

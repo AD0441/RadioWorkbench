@@ -126,7 +126,7 @@ struct PropagationView: View {
                 Button("Planificar escucha de emisora seleccionada") { store.useSelectedStation(guide) }.disabled(guide.selectedEntry == nil)
                 Button("Abrir guía") { onOpenGuide() }
             }
-            if !store.stationTransferNotice.isEmpty && store.listening { Text(store.stationTransferNotice).font(.caption).textSelection(.enabled) }
+            if !store.stationTransferNotice.isEmpty && store.listening { Text(AppLocalization.text(store.stationTransferNotice)).font(.caption).textSelection(.enabled) }
             if store.listening && !store.stationSites.isEmpty {
                 HStack {
                     Picker("Sitio TX", selection: $store.selectedStationSite) {
@@ -227,7 +227,7 @@ struct PropagationView: View {
     private func field(_ title: String, text: Binding<String>, hint: String, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(AppLocalization.text(title)).font(.caption).foregroundStyle(.secondary)
-            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(title)
+            TextField(hint, text: text).textFieldStyle(.roundedBorder).accessibilityLabel(Text(AppLocalization.text(title)))
         }.frame(width: width)
     }
 }

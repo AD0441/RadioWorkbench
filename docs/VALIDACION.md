@@ -1,3 +1,27 @@
+# RAZIEL 0.17.0 · estabilización
+
+La revisión aplicó las skills de SwiftUI, Swift Testing, Swift moderno, Apple Silicon, diseño de Emil Kowalski, Impeccable y calidad de RadioWorkbench. La identidad elegida es RAZIEL, con icono monocromo siguiendo la familia de METATRON. La redacción sencilla de README/BRAND se delegó explícitamente a un modelo ligero; el código y la verificación técnica permanecieron en el modelo principal.
+
+**Suite Release: 297 funciones registradas, 289 aprobadas, ocho opcionales omitidas, cero fallos**, 9,396 s tras compilar; además, 21 controles C HF. Se omiten tres funciones con corpus DMR temporal, dos de red real, dos integraciones con DSD externo no configurado en esta ejecución y el benchmark visual opcional. No hubo recepción física. Las cinco funciones nuevas cubren tasas inválidas, probabilidades ausentes, idioma/UTC, preferencias heredadas y tablas Kp incompletas. La suite precedió al ajuste final de vistas, pie e idioma; el núcleo no cambió después. Se repitieron dos regresiones de localización sobre los recursos finales: ambas aprobadas en 0,045 s usando el runner del proyecto y arquitectura arm64.
+
+| Antes | Después | Motivo |
+|---|---|---|
+| Nombre genérico y pie diferente | RAZIEL, símbolo, Ajustes y crédito en el pie izquierdo | Coherencia con METATRON |
+| Una sola apariencia de acento | Grafito, Petróleo, Bosque y Ámbar | Elección persistente y compatible |
+| Fecha NOAA fijada a español | Idioma activo con fecha UTC | Consistencia ES/EN |
+| Datos incompletos como cero | Desconocidos y validación de porcentajes | Evitar conclusiones falsas |
+| Tasas inválidas alcanzaban conversión a entero | Espectro vacío seguro | Evitar cierres por metadatos inválidos |
+
+Se observó RAZIEL en ejecución desde el proyecto: el pie izquierdo, su botón Ajustes, crédito, General en ambos idiomas, enlace Ko-fi (sin abrirlo), las cuatro opciones y el acento Petróleo. Se volvió a Grafito y se confirmó el pie en español. No se recorrieron todas las pantallas en ambos idiomas ni todos los sistemas macOS admitidos.
+
+El ZIP final pasa integridad y firma estricta: 18 Mach-O con arm64, sin dependencias temporales/Homebrew/Testing, 78 WAV idénticos a fixtures, icono ICNS y catálogos ES/EN incluidos. SHA-256 y tamaño en el resumen. Firma ad hoc; sin Developer ID ni notarización.
+
+El microbenchmark del espectro conservó el mismo checksum: mediana 13,29 → 12,71 µs en 5.000 análisis de 2.048 muestras/48 kHz. La diferencia pequeña no demuestra una mejora global. El raster incremental de referencia mide 5,92 µs de mediana para 256×80. No son FPS de pantalla, latencia RF ni consumo de batería; no se utilizó Instruments porque xctrace no está disponible. Los acentos calculados superan 5,9:1 en blanco y 9,4:1 en la superficie oscura ensayada.
+
+**Instalación:** se copió el paquete verificado a `/Applications/RAZIEL.app`, conservando el identificador anterior y comprobando igualdad de archivos, firma y contenido de datos/preferencias durante la copia. El número de archivos conservados está en el resumen. La limitación temporal de revisión de permisos se resolvió antes de la instalación; no se eludió el control. La comprobación de publicación y descarga se registra después de subir el artefacto. No se ha ensayado una actualización completa entre versiones a través de Sparkle.
+
+[Resumen único](validation/release-0.17.0.json) · [Notas ES/EN](RELEASE-0.17.0.md) · [Identidad](BRAND.md).
+
 # Validación de RadioWorkbench 0.16.0
 
 Suite Release arm64: **292 funciones registradas, 286 aprobadas, seis opcionales omitidas y cero fallos**, 7,449 s después de compilar, más **21 controles C HF**. Las omisiones corresponden al corpus DMR temporal independiente, dos pruebas de red real y el benchmark visual opcional. No se repitió recepción física.

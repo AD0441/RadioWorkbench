@@ -43,12 +43,9 @@ struct ContentView: View {
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle("RadioWorkbench")
+            .navigationTitle("RAZIEL")
             .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 300)
-            VStack(alignment: .leading, spacing: 4) {
-                Label("Apple Silicon", systemImage: "cpu").font(.caption.weight(.medium))
-                Text("Recepción local · arm64").font(.caption).foregroundStyle(.secondary)
-            }.padding()
+            SidebarBrandFooter()
         } detail: {
             if receiver.destination == .broadcasts {
                 BroadcastGuideView(guide: broadcasts, onPlanHF: { entry in
@@ -63,7 +60,7 @@ struct ContentView: View {
                 ReceptionLibraryView(store: receiver.receptionLibrary, onRecord: { startObservation(entry: nil) }, currentAudioURL: receiver.lastURL,
                     mode: receiver.mode, settings: receiver.settings,
                     rf: ReceptionRFMetadata(modulation: receiver.rfModulation, bandwidthHz: receiver.rfBandwidth,
-                        sourceDescription: receiver.source, engineVersion: "RadioWorkbench " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "desarrollo")), onPrepareIQ: { recording in
+                        sourceDescription: receiver.source, engineVersion: "RAZIEL " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "desarrollo")), onPrepareIQ: { recording in
                             receiver.satDumpOffline.prepareSigMF(recording); receiver.destination = .satDump
                         }) {
                     item, url in receiver.openReception(item, url: url)

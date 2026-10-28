@@ -37,10 +37,13 @@ struct ImageReceiverView: View {
                         .frame(maxWidth: .infinity, minHeight: 140, maxHeight: 420)
                         .background(.black.opacity(0.8), in: RoundedRectangle(cornerRadius: 8))
                 } else {
-                    ContentUnavailableView("Esperando imagen", systemImage: "photo", description: Text(receiver.text.isEmpty ? "Abre audio o selecciona una entrada para recibir." : receiver.text))
+                    ContentUnavailableView("Esperando imagen", systemImage: "photo", description: receiver.text.isEmpty ? Text("Abre audio o selecciona una entrada para recibir.") : Text(verbatim: receiver.text))
                         .frame(height: 180)
                 }
-                Text(AppLocalization.text(receiver.imageCaption.isEmpty ? receiver.text : receiver.imageCaption)).font(.caption).foregroundStyle(.secondary)
+                Group {
+                    if receiver.imageCaption.isEmpty { Text(verbatim: receiver.text) }
+                    else { Text(AppLocalization.text(receiver.imageCaption)) }
+                }.font(.caption).foregroundStyle(.secondary)
                 Text(receiver.mode == .hell ? "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes." : "Recepción experimental. Para fax, inicio manual: indica el segundo de comienzo de imagen en un archivo. APT muestra A/B sin calibración radiométrica ni georreferenciación.")
                     .font(.caption).foregroundStyle(.secondary)
             }.padding(24)

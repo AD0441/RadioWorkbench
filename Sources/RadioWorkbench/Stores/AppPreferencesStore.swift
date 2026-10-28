@@ -5,6 +5,7 @@ import RadioCore
 @MainActor @Observable final class AppPreferencesStore {
     static let shared = AppPreferencesStore()
     var values: WorkbenchPreferences { didSet { persist() } }
+    var colorPalette: AppPalette { didSet { defaults.set(colorPalette.rawValue, forKey: "Workbench.colorPalette.v1") } }
     var connections: [ConnectionPreset] = []
     var connectionName = ""
     var selectedConnection: UUID?
@@ -15,6 +16,7 @@ import RadioCore
     @ObservationIgnored private var sessionSave: Task<Void, Never>?
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
+        colorPalette = AppPalette(rawValue: defaults.string(forKey: "Workbench.colorPalette.v1") ?? "") ?? .graphite
         if let data = defaults.data(forKey: "Workbench.preferences.v1"), let decoded = try? JSONDecoder().decode(WorkbenchPreferences.self, from: data), let valid = try? decoded.validated() { values = valid }
         else { values = WorkbenchPreferences() }
         if let data = defaults.data(forKey: "Workbench.connections.v1"), let stored = try? JSONDecoder().decode([ConnectionPreset].self, from: data), stored.count <= 64, Set(stored.map(\.id)).count == stored.count, stored.allSatisfy({ (try? $0.validated()) != nil }) { connections = stored }
@@ -90,7 +92,7 @@ import RadioCore
         guard !busy, !receiver.busy, !receiver.receptionLibrary.busy, !receiver.receptionLibrary.sigMF.busy else { return }
         let panel = NSSavePanel(); panel.allowedContentTypes = [.zip]; panel.nameFieldStringValue = "RadioWorkbench-Backup-" + ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-") + ".zip"
         guard panel.runModal() == .OK, let destination = panel.url else { return }
-        let root = libraryRoot, settings = (try? JSONEncoder().encode(PreferencesBackupDocument(preferences: values, connections: connections))) ?? Data()
+        let root = libraryRoot, settings = (try? JSONEncoder().encode(PreferencesBackupDocument(preferences: values, connections: connections, colorPalette: colorPalette.rawValue))) ?? Data()
         busy = true; receiver.receptionLibrary.busy = true; receiver.receptionLibrary.sigMF.busy = true
         Task {
             defer { busy = false; receiver.receptionLibrary.busy = false; receiver.receptionLibrary.sigMF.busy = false }
@@ -130,4 +132,5 @@ struct ReceiverSessionSnapshot: Codable, Sendable {
 struct PreferencesBackupDocument: Codable {
     let preferences: WorkbenchPreferences
     let connections: [ConnectionPreset]
+    let colorPalette: String
 }

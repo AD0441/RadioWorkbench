@@ -43,7 +43,7 @@ struct ReceptionInspectorView: View {
                 } else { field("Canal elegido", settings.audioChannel.label) }
                 if let onApply {
                     Button("Aplicar perfil en la app") { onApply(profile) }.buttonStyle(.borderedProminent).disabled(!canApply)
-                    Text("Prepara los ajustes de RadioWorkbench. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl.")
+                    Text("Prepara los ajustes de RAZIEL. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl.")
                         .foregroundStyle(.secondary)
                 }
                 Divider()

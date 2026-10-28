@@ -1,5 +1,7 @@
 # Historial de RadioWorkbench
 
+**RAZIEL 0.17.0:** nuevo nombre e icono blanco/negro; pie inferior izquierdo unificado con METATRON, acceso a Ajustes y crédito; cuatro paletas e idioma ES/EN; Ko-fi en General. Protección de tasas del espectro, correcciones NOAA y traducciones. Se conservan identificador y datos. [Notas](RELEASE-0.17.0.md) · [Evidencia](validation/release-0.17.0.json).
+
 **0.16.0:** interfaz español/inglés y seis secciones de Ajustes; persistencia de sesión sin autoarranque, valores de audio, tema/texto/waterfall y menor consumo; biblioteca reubicable con copia verificada y respaldo ZIP manual; políticas de datos/avisos, perfiles TCP/Rigctl e inventario/diagnóstico. Publicación preliminar y paquete firmado para el canal Sparkle. Gracias a G4ZJH por su aporte e idea bilingüe. [Uso y límites / English](RELEASE-0.16.0.md) · [Textos para compartir](SOCIAL-0.16.0.md).
 
 **0.15.0:** biblioteca I/Q SigMF con importación/exportación y SHA-512; preparación SatDump desde metadatos; asistente de conexión, contadores específicos de integridad y comparación A/B del mismo WAV. Sparkle 2.10.0 con clave pública y canal firmado inicial sin actualizaciones descargables. Skills de SwiftUI, pruebas y calidad instaladas para el desarrollo. [Uso y límites](RELEASE-0.15.0.md).

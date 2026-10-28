@@ -122,10 +122,13 @@
 "APT · laboratorio histórico · 24 líneas" = "APT · laboratorio histórico · 24 líneas";
 "APT · límite de 4096 líneas" = "APT · límite de 4096 líneas";
 "ARCHIVO EN PROCESO" = "ARCHIVO EN PROCESO";
+"Abre Ko-fi en tu navegador. La donación es voluntaria." = "Abre Ko-fi en tu navegador. La donación es voluntaria.";
 "Abre audio o selecciona una entrada para recibir." = "Abre audio o selecciona una entrada para recibir.";
 "Abre audio para explorar la señal" = "Abre audio para explorar la señal";
+"Abre un archivo de audio o inicia la entrada del sistema." = "Abre un archivo de audio o inicia la entrada del sistema.";
 "Abre un audio o inicia la entrada elegida para medir nivel, saturación y formato. No se inicia el micrófono desde este diagnóstico." = "Abre un audio o inicia la entrada elegida para medir nivel, saturación y formato. No se inicia el micrófono desde este diagnóstico.";
 "Abrir" = "Abrir";
+"Abrir Ajustes: idioma, audio, apariencia y biblioteca." = "Abrir Ajustes: idioma, audio, apariencia y biblioteca.";
 "Abrir SDRangel" = "Abrir SDRangel";
 "Abrir SUBTEL" = "Abrir SUBTEL";
 "Abrir audio" = "Abrir audio";
@@ -163,6 +166,7 @@
 "Ajusta el texto base y la escala de lectura. Las etiquetas técnicas conservan su jerarquía visual." = "Ajusta el texto base y la escala de lectura. Las etiquetas técnicas conservan su jerarquía visual.";
 "Ajusta esos valores manualmente en el SDR. Desactiva de-emphasis, squelch, pasa-altos, reducción de ruido y filtros de voz. La voz ya decodificada y el I/Q no son esta entrada PCM." = "Ajusta esos valores manualmente en el SDR. Desactiva de-emphasis, squelch, pasa-altos, reducción de ruido y filtros de voz. La voz ya decodificada y el I/Q no son esta entrada PCM.";
 "Ajusta los parámetros o usa una fuente con tasa suficiente antes de repetir la decodificación." = "Ajusta los parámetros o usa una fuente con tasa suficiente antes de repetir la decodificación.";
+"Ajustes" = "Ajustes";
 "Ajustes actuales" = "Ajustes actuales";
 "Ajustes: %@ · %@ · %@ Hz RF" = "Ajustes: %@ · %@ · %@ Hz RF";
 "Al abrir se recupera la configuración completa del decodificador. La demodulación y la frecuencia RF describen la grabación; no sintonizan SDR++." = "Al abrir se recupera la configuración completa del decodificador. La demodulación y la frecuencia RF describen la grabación; no sintonizan SDR++.";
@@ -192,7 +196,9 @@
 "Antes de habilitarlo: integrar el motor, comprobar entrada de audio o I/Q, validar grabaciones y revisar su licencia." = "Antes de habilitarlo: integrar el motor, comprobar entrada de audio o I/Q, validar grabaciones y revisar su licencia.";
 "Anticipación" = "Anticipación";
 "Análisis FSK" = "Análisis FSK";
+"Apagón R1–R2: %@" = "Apagón R1–R2: %@";
 "Apagón R1–R2: %lld%%" = "Apagón R1–R2: %lld%%";
+"Apagón R3+: %@" = "Apagón R3+: %@";
 "Apagón R3+: %lld%%" = "Apagón R3+: %lld%%";
 "Apariencia" = "Apariencia";
 "Apariencia y rendimiento" = "Apariencia y rendimiento";
@@ -202,6 +208,7 @@
 "Aplicar perfil" = "Aplicar perfil";
 "Aplicar perfil en la app" = "Aplicar perfil en la app";
 "Aplicar predeterminados a recepción" = "Aplicar predeterminados a recepción";
+"Apoyar en Ko-fi" = "Apoyar en Ko-fi";
 "Apple Maps con relieve · cobertura por celda" = "Apple Maps con relieve · cobertura por celda";
 "Apple Silicon" = "Apple Silicon";
 "Archivo en proceso" = "Archivo en proceso";
@@ -220,6 +227,7 @@
 "Audio existente · opcional" = "Audio existente · opcional";
 "Audio para el decodificador" = "Audio para el decodificador";
 "Audio que debe llegar" = "Audio que debe llegar";
+"Audio y datos en tu Mac" = "Audio y datos en tu Mac";
 "Audio y escuchas" = "Audio y escuchas";
 "Audio · disponible" = "Audio · disponible";
 "Audio: %@ s. El tiempo depende del equipo y la carga; no es una medida de calidad." = "Audio: %@ s. El tiempo depende del equipo y la carga; no es una medida de calidad.";
@@ -244,6 +252,7 @@
 "BPSK31 alrededor de 1500 Hz" = "BPSK31 alrededor de 1500 Hz";
 "BT.601 · limitado" = "BT.601 · limitado";
 "BUENO" = "BUENO";
+"Baja" = "Baja";
 "Baja la ganancia antes de grabar o enviar el audio. Reducir volumen aquí no recupera los picos recortados." = "Baja la ganancia antes de grabar o enviar el audio. Reducir volumen aquí no recupera los picos recortados.";
 "Bajada publicada" = "Bajada publicada";
 "Bajo umbral RX" = "Bajo umbral RX";
@@ -257,6 +266,7 @@
 "Biblioteca" = "Biblioteca";
 "Biblioteca I/Q · SigMF" = "Biblioteca I/Q · SigMF";
 "Biblioteca de recepciones" = "Biblioteca de recepciones";
+"Bosque" = "Bosque";
 "Brown → Network Sink TCP: el formato, la tasa y los canales de ambos extremos deben coincidir. Aplicar la guía RF no modifica esa conexión." = "Brown → Network Sink TCP: el formato, la tasa y los canales de ambos extremos deben coincidir. Aplicar la guía RF no modifica esa conexión.";
 "Brown: Network Sink → TCP → 127.0.0.1:7355, PCM 16 bits, mono y 48000 Hz. Elige aquí exactamente el formato configurado. Para DMR usa discriminador NFM; la voz ya decodificada no conserva los datos DMR." = "Brown: Network Sink → TCP → 127.0.0.1:7355, PCM 16 bits, mono y 48000 Hz. Elige aquí exactamente el formato configurado. Para DMR usa discriminador NFM; la voz ya decodificada no conserva los datos DMR.";
 "Buena" = "Buena";
@@ -279,6 +289,7 @@
 "CRC ACARS verificado; posición ADS-C interpretada por libacars; no confirma identidad ni fecha de captura del archivo." = "CRC ACARS verificado; posición ADS-C interpretada por libacars; no confirma identidad ni fecha de captura del archivo.";
 "CSV importado. Actualizar consultará la temporada vigente en EiBi." = "CSV importado. Actualizar consultará la temporada vigente en EiBi.";
 "CTCSS %.1f Hz · fin confirmado %.2f s · duración confirmada %.2f s\n" = "CTCSS %.1f Hz · fin confirmado %.2f s · duración confirmada %.2f s\n";
+"CTCSS / tonos" = "CTCSS / tonos";
 "CTCSS · 51 tonos · búsqueda automática" = "CTCSS · 51 tonos · búsqueda automática";
 "CTCSS: búsqueda automática de 51 tonos subaudio, confianza y duración. Cinco tonos en su apartado; DCS pendiente." = "CTCSS: búsqueda automática de 51 tonos subaudio, confianza y duración. Cinco tonos en su apartado; DCS pendiente.";
 "CW manual o CWKit automático/neuronal (macOS 15+), con tono y velocidad estimados." = "CW manual o CWKit automático/neuronal (macOS 15+), con tono y velocidad estimados.";
@@ -345,6 +356,7 @@
 "Centro de audio Hz" = "Centro de audio Hz";
 "Cercano" = "Cercano";
 "Cerrar" = "Cerrar";
+"Cinco tonos / Selcall" = "Cinco tonos / Selcall";
 "Ciudad" = "Ciudad";
 "Claro" = "Claro";
 "Clase" = "Clase";
@@ -437,6 +449,7 @@
 "Copias de seguridad y espacio" = "Copias de seguridad y espacio";
 "Corredor Fresnel 1 · 60%" = "Corredor Fresnel 1 · 60%";
 "Corte topográfico del enlace" = "Corte topográfico del enlace";
+"Creado por Sebastián Pastén F." = "Creado por Sebastián Pastén F.";
 "Crear copia de seguridad ZIP…" = "Crear copia de seguridad ZIP…";
 "Crepúsculo" = "Crepúsculo";
 "Cresta" = "Cresta";
@@ -497,6 +510,7 @@
 "Después podrás revisar las frecuencias publicadas y abrir el análisis de relieve del enlace." = "Después podrás revisar las frecuencias publicadas y abrir el análisis de relieve del enlace.";
 "Destino" = "Destino";
 "Destino RX" = "Destino RX";
+"Destino del enlace" = "Destino del enlace";
 "Destino del modelo" = "Destino del modelo";
 "Destino · RX" = "Destino · RX";
 "Destino · receptor RX" = "Destino · receptor RX";
@@ -611,6 +625,7 @@
 "Elevación máxima mínima" = "Elevación máxima mínima";
 "Elige antes de iniciar. Con monitor activo, la voz usa la salida del sistema y los archivos avanzan a velocidad de reproducción." = "Elige antes de iniciar. Con monitor activo, la voz usa la salida del sistema y los archivos avanzan a velocidad de reproducción.";
 "Elige audio de hasta diez minutos y 1 GB para esta comparación." = "Elige audio de hasta diez minutos y 1 GB para esta comparación.";
+"Elige el destino. Se copiarán las bibliotecas a una carpeta RAZIELLibrary nueva; la copia anterior se conserva." = "Elige el destino. Se copiarán las bibliotecas a una carpeta RAZIELLibrary nueva; la copia anterior se conserva.";
 "Elige el destino. Se copiarán las bibliotecas a una carpeta RadioWorkbenchLibrary nueva; la copia anterior se conserva." = "Elige el destino. Se copiarán las bibliotecas a una carpeta RadioWorkbenchLibrary nueva; la copia anterior se conserva.";
 "Elige la grabación que quieres comparar con la referencia." = "Elige la grabación que quieres comparar con la referencia.";
 "Elige una fila en la Guía de radios o pulsa Enviar al Planificador HF en su detalle." = "Elige una fila en la Guía de radios o pulsa Enviar al Planificador HF en su detalle.";
@@ -653,6 +668,7 @@
 "Escucha" = "Escucha";
 "Escucha de emisoras · RX" = "Escucha de emisoras · RX";
 "Escucha y compara espectro y waterfall de audio. El catálogo incluye los 41 formatos SSTV y las variantes disponibles de los demás ejemplos." = "Escucha y compara espectro y waterfall de audio. El catálogo incluye los 41 formatos SSTV y las variantes disponibles de los demás ejemplos.";
+"Escucha, decodifica y explora señales de radio." = "Escucha, decodifica y explora señales de radio.";
 "Escuchada" = "Escuchada";
 "Escuchadas" = "Escuchadas";
 "Escuchar" = "Escuchar";
@@ -684,11 +700,14 @@
 "Estado calculado desde el horario UTC; la recepción se confirma escuchando la señal." = "Estado calculado desde el horario UTC; la recepción se confirma escuchando la señal.";
 "Estado reportado · 72 h" = "Estado reportado · 72 h";
 "Estados orientativos de N0NBH/HamQSL, como los mostrados por W5MMW. Son una perspectiva general por día/noche; la predicción de tu enlace depende de ubicación, rumbo, potencia, antenas y ruido." = "Estados orientativos de N0NBH/HamQSL, como los mostrados por W5MMW. Son una perspectiva general por día/noche; la predicción de tu enlace depende de ubicación, rumbo, potencia, antenas y ruido.";
+"Este modo forma parte del alcance de RAZIEL. Todavía no decodifica señales en esta versión." = "Este modo forma parte del alcance de RAZIEL. Todavía no decodifica señales en esta versión.";
 "Este modo forma parte del alcance de RadioWorkbench. Todavía no decodifica señales en esta versión." = "Este modo forma parte del alcance de RadioWorkbench. Todavía no decodifica señales en esta versión.";
 "Este modo necesita un motor adicional. Consulta su ficha de integración." = "Este modo necesita un motor adicional. Consulta su ficha de integración.";
 "Este modo no expone un contador de paquetes verificados. El espectro por sí solo no confirma decodificación correcta." = "Este modo no expone un contador de paquetes verificados. El espectro por sí solo no confirma decodificación correcta.";
 "Este motor no expone todos los contadores. Comprueba su resultado y los avisos de integridad; no se calcula un porcentaje de éxito a partir del aspecto del espectro." = "Este motor no expone todos los contadores. Comprueba su resultado y los avisos de integridad; no se calcula un porcentaje de éxito a partir del aspecto del espectro.";
+"Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RAZIEL." = "Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RAZIEL.";
 "Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RadioWorkbench." = "Este paquete no incluye el motor POCSAG/FLEX/tonos. Abre la app empaquetada de RadioWorkbench.";
+"Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RAZIEL." = "Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RAZIEL.";
 "Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RadioWorkbench." = "Este paquete no incluye el motor local ACARS. Abre la versión empaquetada de RadioWorkbench.";
 "Estimación mensual · " = "Estimación mensual · ";
 "Estimar recepción P.533" = "Estimar recepción P.533";
@@ -697,6 +716,9 @@
 "Estándar" = "Estándar";
 "Etapa informada por SatDump: %@ %%" = "Etapa informada por SatDump: %@ %%";
 "Etiqueta" = "Etiqueta";
+"Europa" = "Europa";
+"Europa · 4 m" = "Europa · 4 m";
+"Europa · 6 m" = "Europa · 6 m";
 "Evento vinculado" = "Evento vinculado";
 "Eventos" = "Eventos";
 "Eventos de otros decodificadores" = "Eventos de otros decodificadores";
@@ -782,6 +804,7 @@
 "Grabaciones y biblioteca I/Q" = "Grabaciones y biblioteca I/Q";
 "Grabación / fecha conocida" = "Grabación / fecha conocida";
 "Grados" = "Grados";
+"Grafito" = "Grafito";
 "Guarda coordenadas válidas para calcular una cuadrícula local." = "Guarda coordenadas válidas para calcular una cuadrícula local.";
 "Guarda la emisora y activa Avisarme para recibir una notificación antes de su próxima emisión prevista." = "Guarda la emisora y activa Avisarme para recibir una notificación antes de su próxima emisión prevista.";
 "Guarda la ubicación antes de calcular." = "Guarda la ubicación antes de calcular.";
@@ -825,6 +848,7 @@
 "Hay fuentes sin actualizar. Se conservan las fechas; NOAA reintenta en 3 min y Band Info en 1 h." = "Hay fuentes sin actualizar. Se conservan las fechas; NOAA reintenta en 3 min y Band Info en 1 h.";
 "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes." = "Hell por pulsos: imagen de doble traza, sin OCR ni cabecera. Elige la variante del transmisor y ajusta centro/reloj si la escritura se inclina. FSK Hell y Hell 80 pendientes.";
 "Hellschreiber por pulsos: Feld, Slow y X5/X9. Raster visual continuo y exportación PNG; sin OCR." = "Hellschreiber por pulsos: Feld, Slow y X5/X9. Raster visual continuo y exportación PNG; sin OCR.";
+"Hemisferio norte" = "Hemisferio norte";
 "Historial por hora y rumbo" = "Historial por hora y rumbo";
 "Hora" = "Hora";
 "Hora UTC" = "Hora UTC";
@@ -919,6 +943,7 @@
 "La conexión APRS-IS" = "La conexión APRS-IS";
 "La conexión TCP dejó de entregar audio. Revisa el emisor y vuelve a conectar." = "La conexión TCP dejó de entregar audio. Revisa el emisor y vuelve a conectar.";
 "La conexión de audio TCP terminó." = "La conexión de audio TCP terminó.";
+"La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RAZIEL." = "La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RAZIEL.";
 "La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench." = "La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench.";
 "La copia corresponde a otra temporada o a una importación. Comprueba su vigencia." = "La copia corresponde a otra temporada o a una importación. Comprueba su vigencia.";
 "La descarga de DSD-neo no es válida." = "La descarga de DSD-neo no es válida.";
@@ -934,6 +959,7 @@
 "La iluminación es geometría solar aproximada; no mide apertura de banda." = "La iluminación es geometría solar aproximada; no mide apertura de banda.";
 "La muestra no está disponible en este paquete." = "La muestra no está disponible en este paquete.";
 "La operación no quedó confirmada." = "La operación no quedó confirmada.";
+"La paleta cambia los acentos de los controles. El icono permanece en blanco y negro; los avisos conservan sus colores de estado." = "La paleta cambia los acentos de los controles. El icono permanece en blanco y negro; los avisos conservan sus colores de estado.";
 "La papelera conserva el audio y sus ajustes. No se elimina permanentemente desde esta pantalla." = "La papelera conserva el audio y sus ajustes. No se elimina permanentemente desde esta pantalla.";
 "La papelera está vacía." = "La papelera está vacía.";
 "La papelera interna conserva archivos para restaurarlos. Usa la carpeta y la copia de seguridad para administrar el espacio; no hay borrado automático de recepciones." = "La papelera interna conserva archivos para restaurarlos. Usa la carpeta y la copia de seguridad para administrar el espacio; no hay borrado automático de recepciones.";
@@ -1144,6 +1170,7 @@
 "PSK Reporter permite consultar como máximo una vez cada cinco minutos." = "PSK Reporter permite consultar como máximo una vez cada cinco minutos.";
 "PSK Reporter · API y límites" = "PSK Reporter · API y límites";
 "Packet/APRS AFSK 1200: Bell 202, NRZI, HDLC y tramas AX.25 con CRC verificado." = "Packet/APRS AFSK 1200: Bell 202, NRZI, HDLC y tramas AX.25 con CRC verificado.";
+"Paleta de la aplicación" = "Paleta de la aplicación";
 "Papelera" = "Papelera";
 "Papelera (%lld)" = "Papelera (%lld)";
 "Paquete M17 sintético; no contiene una conversación DMR ni voz de referencia" = "Paquete M17 sintético; no contiene una conversación DMR ni voz de referencia";
@@ -1182,6 +1209,7 @@
 "Permite el acceso al micrófono en Ajustes del Sistema → Privacidad y seguridad." = "Permite el acceso al micrófono en Ajustes del Sistema → Privacidad y seguridad.";
 "Permitir avisos de favoritas" = "Permitir avisos de favoritas";
 "Perspectiva general favorable: " = "Perspectiva general favorable: ";
+"Petróleo" = "Petróleo";
 "Planificador HF" = "Planificador HF";
 "Planificar escucha" = "Planificar escucha";
 "Planificar escucha de emisora seleccionada" = "Planificar escucha de emisora seleccionada";
@@ -1206,6 +1234,7 @@
 "Potencia remota · W" = "Potencia remota · W";
 "Predeterminada del sistema" = "Predeterminada del sistema";
 "Predeterminado de macOS" = "Predeterminado de macOS";
+"Prepara los ajustes de RAZIEL. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl." = "Prepara los ajustes de RAZIEL. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl.";
 "Prepara los ajustes de RadioWorkbench. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl." = "Prepara los ajustes de RadioWorkbench. Sintoniza frecuencia, modo y ancho en SDR++ manualmente o usa la acción optativa de Rigctl.";
 "Preparada escucha de emisora: nombre, frecuencia y sintonía. " = "Preparada escucha de emisora: nombre, frecuencia y sintonía. ";
 "Preparado para recibir" = "Preparado para recibir";
@@ -1233,6 +1262,7 @@
 "Protocolo" = "Protocolo";
 "Protocolo no identificado" = "Protocolo no identificado";
 "Provisional: " = "Provisional: ";
+"Proyecto en GitHub" = "Proyecto en GitHub";
 "Publicaciones en GitHub" = "Publicaciones en GitHub";
 "Puedes guardar sin sitio TX. No se atribuye una posición a partir del país." = "Puedes guardar sin sitio TX. No se atribuye una posición a partir del país.";
 "Puerto" = "Puerto";
@@ -1245,7 +1275,9 @@
 "Qué contactos podrían ser posibles · por banda y rumbo" = "Qué contactos podrían ser posibles · por banda y rumbo";
 "R%@ · S%@ · G%@" = "R%@ · S%@ · G%@";
 "R12 mensual · compartido" = "R12 mensual · compartido";
+"RAZIEL · proyecto y apoyo" = "RAZIEL · proyecto y apoyo";
 "RBN aún no ha enviado spots para estos filtros." = "RBN aún no ha enviado spots para estos filtros.";
+"RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RAZIEL conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio." = "RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RAZIEL conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio.";
 "RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RadioWorkbench conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio." = "RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RadioWorkbench conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio.";
 "RBN · actividad global recibida en la última hora:" = "RBN · actividad global recibida en la última hora:";
 "RBN · servidores y puertos" = "RBN · servidores y puertos";
@@ -1385,6 +1417,7 @@
 "Satélite / APT" = "Satélite / APT";
 "Satélites" = "Satélites";
 "Satélites con radioafición" = "Satélites con radioafición";
+"Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RAZIEL." = "Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RAZIEL.";
 "Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RadioWorkbench." = "Se abre como aplicación independiente; el audio y los resultados todavía no se intercambian con RadioWorkbench.";
 "Se aceptan tramas completas con ECC válido y diversidad temporal. Se muestran identidades, símbolos y algunos canales; la interpretación es parcial. ECC no autentica al emisor. No genera avisos de rescate ni transmite." = "Se aceptan tramas completas con ECC válido y diversidad temporal. Se muestran identidades, símbolos y algunos canales; la interpretación es parcial. ECC no autentica al emisor. No genera avisos de rescate ni transmite.";
 "Se agenda una notificación macOS para la próxima emisión prevista de esta emisora, según su horario UTC." = "Se agenda una notificación macOS para la próxima emisión prevista de esta emisora, según su horario UTC.";
@@ -1393,6 +1426,7 @@
 "Se guarda una copia local del archivo, hasta 1 GB. La fecha de importación se registra aparte: si no conoces cuándo se grabó, la captura queda sin fecha. Las entradas en vivo deben guardarse primero como archivo de audio." = "Se guarda una copia local del archivo, hasta 1 GB. La fecha de importación se registra aparte: si no conoces cuándo se grabó, la captura queda sin fecha. Las entradas en vivo deben guardarse primero como archivo de audio.";
 "Se perdieron %llu muestras; se reinició la sincronización." = "Se perdieron %llu muestras; se reinició la sincronización.";
 "Se recuperan modo, parámetros, entrada y canal. La captura, reproducción y las conexiones requieren una acción explícita." = "Se recuperan modo, parámetros, entrada y canal. La captura, reproducción y las conexiones requieren una acción explícita.";
+"Se requiere RAZIEL Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB." = "Se requiere RAZIEL Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB.";
 "Se requiere RadioWorkbench Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB." = "Se requiere RadioWorkbench Events v1: un documento JSON con hasta 5.000 eventos y un máximo de 10 MB.";
 "Secuencia de tonos selectivos" = "Secuencia de tonos selectivos";
 "Segundos" = "Segundos";
@@ -1430,6 +1464,7 @@
 "Sin actividad interpretada" = "Sin actividad interpretada";
 "Sin anotar" = "Sin anotar";
 "Sin análisis" = "Sin análisis";
+"Sin apertura reportada" = "Sin apertura reportada";
 "Sin aplicación" = "Sin aplicación";
 "Sin audio adjunto" = "Sin audio adjunto";
 "Sin bajada publicada; compatibilidad desconocida" = "Sin bajada publicada; compatibilidad desconocida";
@@ -1487,6 +1522,8 @@
 "Soporte SigMF 1.0–1.2 para muestras crudas reales o complejas. No inicia un SDR ni convierte una grabación de audio en I/Q. La integración con SatDump no verifica por sí sola que el archivo contenga LRPT." = "Soporte SigMF 1.0–1.2 para muestras crudas reales o complejas. No inicia un SDR ni convierte una grabación de audio en I/Q. La integración con SatDump no verifica por sí sola que el archivo contenga LRPT.";
 "Stop VIS inválido; buscando cabecera" = "Stop VIS inválido; buscando cabecera";
 "Subida publicada" = "Subida publicada";
+"Subportadora AM 2400 Hz en audio FM" = "Subportadora AM 2400 Hz en audio FM";
+"Subportadora AM 2400 Hz; preservar audio hasta unos 4,5 kHz" = "Subportadora AM 2400 Hz; preservar audio hasta unos 4,5 kHz";
 "Subportadora AM de 2400 Hz obtenida de FM. Muestra histórica y sintética: los NOAA-15/18/19 ya no son objetivos APT activos." = "Subportadora AM de 2400 Hz obtenida de FM. Muestra histórica y sintética: los NOAA-15/18/19 ya no son objetivos APT activos.";
 "Subtropical continental" = "Subtropical continental";
 "Subtropical marítimo" = "Subtropical marítimo";
@@ -1526,6 +1563,7 @@
 "Tono" = "Tono";
 "Tono CW alrededor de 700 Hz" = "Tono CW alrededor de 700 Hz";
 "Tonos selectivos aproximadamente 500–2800 Hz según estándar" = "Tonos selectivos aproximadamente 500–2800 Hz según estándar";
+"Tormenta solar S1+: %@" = "Tormenta solar S1+: %@";
 "Tormenta solar S1+: %lld%%" = "Tormenta solar S1+: %lld%%";
 "Trabajo cancelado. Los archivos parciales se conservan en la carpeta del trabajo; no se presentan como productos completos." = "Trabajo cancelado. Los archivos parciales se conservan en la carpeta del trabajo; no se presentan como productos completos.";
 "Trama AX.25 UI con CRC verificado; hora de captura desconocida para archivos." = "Trama AX.25 UI con CRC verificado; hora de captura desconocida para archivos.";
@@ -1533,6 +1571,7 @@
 "Transmisor · opcional" = "Transmisor · opcional";
 "Trayectoria de azimut y elevación del pase; norte arriba, este a la derecha" = "Trayectoria de azimut y elevación del pase; norte arriba, este a la derecha";
 "Trayectos TX → RX de tu biblioteca. Cada ficha conserva la posición, receptor y antena del momento; WebSDR se filtra aparte." = "Trayectos TX → RX de tu biblioteca. Cada ficha conserva la posición, receptor y antena del momento; WebSDR se filtra aparte.";
+"Tu apoyo ayuda a mantener el desarrollo y las pruebas. También puedes contribuir con ideas, traducciones e informes de errores." = "Tu apoyo ayuda a mantener el desarrollo y las pruebas. También puedes contribuir con ideas, traducciones e informes de errores.";
 "Tu grabación" = "Tu grabación";
 "Tu indicativo" = "Tu indicativo";
 "Tu ubicación" = "Tu ubicación";
@@ -1600,6 +1639,7 @@
 "Volver a decodificar" = "Volver a decodificar";
 "Volver a procesar este archivo" = "Volver a procesar este archivo";
 "Voz digital" = "Voz digital";
+"Voz digital / DSD" = "Voz digital / DSD";
 "Vuelo" = "Vuelo";
 "WAV de laboratorio generado con el transmisor de referencia fldigi; fuentes y licencia incluidas en la app." = "WAV de laboratorio generado con el transmisor de referencia fldigi; fuentes y licencia incluidas en la app.";
 "WPM" = "WPM";

@@ -43,10 +43,14 @@ struct SpectrumView: View {
     let shift: Double
     var showsTuningMarker = true
     var tune: (Double) -> Void
+    private var upperFrequency: Double {
+        guard let value = frame?.upperFrequency, value.isFinite, value > 0, value <= 384000 else { return 4000 }
+        return value
+    }
     var body: some View {
         VStack(spacing: 0) {
             Canvas { context, size in
-                let upper = frame?.upperFrequency ?? 4000
+                let upper = upperFrequency
                 for i in 1...4 {
                     let y = size.height * Double(i) / 5
                     var grid = Path(); grid.move(to: CGPoint(x: 0, y: y)); grid.addLine(to: CGPoint(x: size.width, y: y))
@@ -75,13 +79,13 @@ struct SpectrumView: View {
                 Rectangle().fill(.clear).frame(height: 100).overlay(Text("Abre audio para explorar la señal").font(.caption).foregroundStyle(.white.opacity(0.5)))
             }
             HStack {
-                Text("0 Hz"); Spacer(); Text("\(Int((frame?.upperFrequency ?? 4000) / 2)) Hz"); Spacer(); Text("\(Int(frame?.upperFrequency ?? 4000)) Hz")
+                Text("0 Hz"); Spacer(); Text("\(Int(upperFrequency / 2)) Hz"); Spacer(); Text("\(Int(upperFrequency)) Hz")
             }.font(.caption2.monospacedDigit()).foregroundStyle(.white.opacity(0.6)).padding(.horizontal, 10).padding(.vertical, 6)
         }.background(Color(red: 0.035, green: 0.055, blue: 0.08), in: RoundedRectangle(cornerRadius: 10)).clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay {
                 GeometryReader { geometry in
                     Color.clear.contentShape(Rectangle()).onTapGesture { location in
-                        tune(max(100, min(5900, location.x / geometry.size.width * (frame?.upperFrequency ?? 4000))))
+                        tune(max(100, min(5900, location.x / geometry.size.width * upperFrequency)))
                     }
                 }
                 .allowsHitTesting(showsTuningMarker)

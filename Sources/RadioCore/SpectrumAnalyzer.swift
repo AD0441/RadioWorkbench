@@ -28,14 +28,18 @@ public final class SpectrumAnalyzer {
         let quality = AudioBlockQuality(samples: samples)
         let samples = quality.invalidCount == 0 && quality.peak <= 1 ? samples : samples.map { $0.isFinite ? min(1, max(-1, $0)) : 0 }
         let n = min(size, samples.count)
-        var rms: Float = 0
-        if !samples.isEmpty { vDSP_rmsqv(samples, 1, &rms, vDSP_Length(samples.count)) }
+        // Invalid input metadata must not reach Float-to-Int conversion or Canvas.
+        guard sampleRate.isFinite, (1...384000).contains(sampleRate) else {
+            return SpectrumFrame(sampleRate: 0, quality: quality, bins: [], upperFrequency: 0,
+                                 levelDB: 20 * log10(max(0.00001, quality.rms)), peakFrequency: 0,
+                                 clipped: quality.peak >= 0.999)
+        }
         real.withUnsafeMutableBufferPointer { dest in
             for i in 0..<size { dest[i] = i < n ? samples[samples.count - n + i] * window[i] : 0 }
         }
         vDSP_DFT_Execute(setup, real, imaginary, &outputReal, &outputImaginary)
         let binHz = sampleRate / Double(size)
-        let count = min(size / 2, max(2, Int(6000 / binHz)))
+        let count = Int(min(Double(size / 2), max(2, 6000 / binHz)))
         var bins = [Float](repeating: 0, count: count)
         var peak = 1
         for i in 1..<count {

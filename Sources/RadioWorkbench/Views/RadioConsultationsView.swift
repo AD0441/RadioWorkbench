@@ -99,7 +99,7 @@ struct RadioConsultationsView: View {
                         GridRow { Text("Centro de audio").foregroundStyle(.secondary); Text("\(Int(store.selectedProfile.center)) Hz") }
                     }
                     Text(AppLocalization.text(store.selectedProfile.note)).font(.caption).foregroundStyle(.secondary)
-                    Text("La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RadioWorkbench.")
+                    Text("La consulta aplica a las asignaciones de radioaficionado publicadas por SUBTEL; no caracteriza otros servicios ni reemplaza las reglas de la licencia. Sintoniza la frecuencia RF manualmente en SDR++ y envía su audio a la entrada seleccionada en RAZIEL.")
                         .font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading).padding(8)
             }

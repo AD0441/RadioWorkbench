@@ -44,7 +44,7 @@ struct AudioRoutingView: View {
                 Text("Hz · SDR++ a 48 kHz").foregroundStyle(.secondary)
                 Spacer()
             }.font(.caption)
-            Text(receiver.mode.receptionProfile(settings: receiver.settings).audioBand + ". " + receiver.mode.receptionProfile(settings: receiver.settings).note)
+            Text(AppLocalization.text(receiver.mode.receptionProfile(settings: receiver.settings).audioBand) + ". " + AppLocalization.text(receiver.mode.receptionProfile(settings: receiver.settings).note))
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             Button("Asistente de conexión…", systemImage: "checklist") { showsAssistant = true }
             InputQualityView(receiver: receiver)

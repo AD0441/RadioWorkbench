@@ -2,6 +2,7 @@ import SwiftUI
 import RadioCore
 
 struct NoaaThreeDayForecastPanel: View {
+    @Environment(\.locale) private var locale
     let forecast: NoaaThreeDayForecast?
     let status: String
 
@@ -11,14 +12,14 @@ struct NoaaThreeDayForecastPanel: View {
                 Text(AppLocalization.text(status)).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 if let forecast {
                     HStack(alignment: .top, spacing: 10) {
-                        ForEach(Array(forecast.datesUTC.enumerated()), id: \.offset) { index, date in
+                        ForEach(Array(zip(forecast.datesUTC.indices, forecast.datesUTC)), id: \.1) { index, date in
                             VStack(alignment: .leading, spacing: 6) {
-                                Text(date.formatted(Date.FormatStyle(date: .complete, time: .omitted, locale: Locale(identifier: "es_CL"), timeZone: TimeZone(secondsFromGMT: 0)!)))
+                                Text(WorkbenchFormatting.utcDay(date, locale: locale))
                                     .font(.headline)
                                 Label("Kp máx. \(forecast.dailyMaximumKp.indices.contains(index) ? forecast.dailyMaximumKp[index].formatted(.number.precision(.fractionLength(0...2))) : "—")", systemImage: "globe.americas")
-                                Text("Tormenta solar S1+: \(forecast.s1OrGreaterProbability.indices.contains(index) ? forecast.s1OrGreaterProbability[index] : 0)%")
-                                Text("Apagón R1–R2: \(forecast.r1ToR2Probability.indices.contains(index) ? forecast.r1ToR2Probability[index] : 0)%")
-                                Text("Apagón R3+: \(forecast.r3OrGreaterProbability.indices.contains(index) ? forecast.r3OrGreaterProbability[index] : 0)%")
+                                Text("Tormenta solar S1+: \(WorkbenchFormatting.probability(forecast.s1OrGreaterProbability.indices.contains(index) ? forecast.s1OrGreaterProbability[index] : nil, locale: locale))")
+                                Text("Apagón R1–R2: \(WorkbenchFormatting.probability(forecast.r1ToR2Probability.indices.contains(index) ? forecast.r1ToR2Probability[index] : nil, locale: locale))")
+                                Text("Apagón R3+: \(WorkbenchFormatting.probability(forecast.r3OrGreaterProbability.indices.contains(index) ? forecast.r3OrGreaterProbability[index] : nil, locale: locale))")
                             }
                             .font(.caption)
                             .frame(maxWidth: .infinity, alignment: .leading)

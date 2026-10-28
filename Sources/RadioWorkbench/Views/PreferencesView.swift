@@ -38,6 +38,7 @@ struct PreferencesView: View {
     }
     private var general: some View {
         Group {
+            Section("RAZIEL · proyecto y apoyo") { ProjectSupportView() }
             Section("General e idioma") {
                 Picker("Idioma", selection: $preferences.values.language) {
                     Text(verbatim: "Español").tag("es"); Text(verbatim: "English").tag("en")
@@ -87,6 +88,10 @@ struct PreferencesView: View {
         Group {
             Section("Apariencia") {
                 Picker("Tema", selection: $preferences.values.appearance) { Text("Sistema").tag("system"); Text("Claro").tag("light"); Text("Oscuro").tag("dark") }
+                Picker("Paleta de la aplicación", selection: $preferences.colorPalette) {
+                    ForEach(AppPalette.allCases) { palette in Text(AppLocalization.text(palette.title)).tag(palette) }
+                }
+                Text("La paleta cambia los acentos de los controles. El icono permanece en blanco y negro; los avisos conservan sus colores de estado.").font(.caption)
                 Stepper("Tamaño de texto: \(preferences.values.textSize) pt", value: $preferences.values.textSize, in: 11...20)
                 Text("Ajusta el texto base y la escala de lectura. Las etiquetas técnicas conservan su jerarquía visual.").font(.caption)
             }

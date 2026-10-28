@@ -50,7 +50,7 @@ struct RBNPanel: View {
                         TableColumn("Comentario") { spot in Text(spot.comment.isEmpty ? "—" : spot.comment) }.width(min: 85, ideal: 150)
                     }.frame(minHeight: 120, maxHeight: 280)
                 }
-                Text("RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RadioWorkbench conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio.")
+                Text("RBN es una red de receptores voluntarios que detectan estaciones escuchadas, no una predicción de propagación. Los relés no filtran: RAZIEL conserva hasta 1.000 spots y aplica filtros localmente. Solo se envía el indicativo o alias para iniciar sesión; la app no transmite por radio.")
                     .font(.caption2).foregroundStyle(.secondary)
                 Link("RBN · servidores y puertos", destination: URL(string: "https://beta.reversebeacon.net/pages/Telnet%2Bservers%2B30")!).font(.caption)
             }.padding(7)

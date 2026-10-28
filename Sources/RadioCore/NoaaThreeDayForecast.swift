@@ -14,8 +14,8 @@ public struct NoaaThreeDayForecast: Codable, Sendable {
     public let blackoutRationale: String
 
     public var dailyMaximumKp: [Double] {
-        guard kpByThreeHour.count == 8 else { return [] }
-        return (0..<3).map { day in kpByThreeHour.compactMap { $0.indices.contains(day) ? $0[day] : nil }.max() ?? 0 }
+        guard kpByThreeHour.count == 8, kpByThreeHour.allSatisfy({ $0.count == 3 && $0.allSatisfy { $0.isFinite && (0...9).contains($0) } }) else { return [] }
+        return (0..<3).map { day in kpByThreeHour.reduce(0) { max($0, $1[day]) } }
     }
 }
 
@@ -88,7 +88,8 @@ public enum NoaaThreeDayForecastParser {
             guard token.hasSuffix("%") else { return nil }
             return Int(token.dropLast())
         }
-        return values.count >= 3 ? Array(values.suffix(3)) : nil
+        guard values.count >= 3, values.suffix(3).allSatisfy({ (0...100).contains($0) }) else { return nil }
+        return Array(values.suffix(3))
     }
 
     private static func rationale(after heading: String, in lines: [String]) -> String {
